@@ -1,0 +1,40 @@
+{
+    "scripts": {
+        "dev": "concurrently 'PORT=11237 nodemon -r dotenv/config ./dist' 'tsc -W'",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@tsconfig/node16": "^1.0.2",
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/koa": "^2.13.4",
+        "@types/koa__cors": "^3.1.1",
+        "@types/koa-bodyparser": "^4.3.5",
+        "@types/koa-json": "^2.0.20",
+        "@types/koa-router": "^7.4.4",
+        "@types/mjml": "^4.7.0",
+        "@types/node": "^17.0.14",
+        "@types/node-fetch": "^2",
+        "@types/nodemailer": "^6.4.4",
+        "concurrently": "^7.0.0",
+        "nodemon": "^2.0.15"
+    },
+    "volta": {
+        "node": "16.14.2"
+    },
+    "dependencies": {
+        "@crystallize/js-api-client": "^0.3.1",
+        "@koa/cors": "^3.3.0",
+        "dotenv": "^16.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "koa": "^2.13.4",
+        "koa-bodyparser": "^4.3.0",
+        "koa-json": "^2.0.2",
+        "koa-router": "^10.1.1",
+        "mjml": "^4.12.0",
+        "node-fetch": "^2",
+        "nodemailer": "^6.7.3",
+        "typescript": "^4.5.5",
+        "zod": "^3.11.6"
+    },
+    "license": "MIT"
+}

@@ -1,4 +1,4 @@
-import { HeadersFunction } from "remix";
+import { HeadersFunction } from "@remix-run/node";
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
 
 export const headers: HeadersFunction = () => {

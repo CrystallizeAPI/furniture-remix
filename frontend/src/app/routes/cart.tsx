@@ -1,4 +1,5 @@
-import { HeadersFunction } from 'remix';
+
+import { HeadersFunction } from '@remix-run/node';
 import { HydratedBasket } from '~/core/components/Bastket';
 import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 

@@ -1,7 +1,8 @@
-import { HeadersFunction, json, LoaderFunction, useLoaderData } from "remix";
 import { fetchProduct } from "~/core/UseCases";
 import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/Http-Cache-Tagger";
 import { useLocalBasket } from "~/core/hooks/useLocalBasket";
+import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const path = `/shop/${params.folder}/${params.product}`;

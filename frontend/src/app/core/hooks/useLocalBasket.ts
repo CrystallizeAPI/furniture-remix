@@ -11,6 +11,12 @@ export function useLocalBasket() {
 
     return {
         basket,
+        emptyBasket: () => {
+            update({
+                ...basket,
+                items: {}
+            });
+        },
         addToBasket: (variant: any) => {
             if (basket.items[variant.sku]) {
                 basket.items[variant.sku].quantity++;

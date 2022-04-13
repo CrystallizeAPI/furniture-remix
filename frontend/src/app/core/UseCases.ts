@@ -1,14 +1,51 @@
-import { createNavigationByFoldersFetcher, createCatalogueFetcher, createClient, catalogueFetcherGraphqlBuilder } from '@crystallize/js-api-client';
+import { createNavigationFetcher, createCatalogueFetcher, createClient, catalogueFetcherGraphqlBuilder } from '@crystallize/js-api-client';
 
 const apiClient = createClient({
     tenantIdentifier: 'furniture'
 });
 
+export async function fetchOrder(orderId: string) {
+    //@ts-ignore
+    const response = await fetch(window.ENV.SERVICE_API_URL + '/order/' + orderId, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            Accept: 'application/json'
+        }
+    });
 
-export async function sendOrder() {
+    if (!response.ok) {
+        throw new Error(`Could not fetch order ${orderId}`);
+    }
+    const json = await response.json();
+    if (json.errors) {
+        throw new Error(`Could not fetch order ${orderId}`);
+    }
 
+    return json;
 
-    //@have a look at koa jwt middle or something
+}
+
+// in real life that would not be that simple and the paid acknoledgement would be a separate service and/or call by the payment provider
+export async function sendPaidOrder(basket: any, userInfos: any) {
+    //@ts-ignore
+    const response = await fetch(window.ENV.SERVICE_API_URL + '/order', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify({
+            locale: 'en',
+            items: Object.values(basket.items)
+        })
+    });
+    if (!response.ok) {
+        alert("An error occured while pushing the cart for paid.");
+    }
+    return await response.json();
 }
 
 export async function registerAndSendMagickLink(userInfos: any) {
@@ -47,7 +84,7 @@ export async function fetchHydratedBasket(basket: any) {
 }
 
 export async function fetchNavigation() {
-    return await createNavigationByFoldersFetcher(apiClient)('/shop', 'en', 2);
+    return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 2);
 }
 
 export async function fetchProducts(path: string) {

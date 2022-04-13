@@ -1,7 +1,7 @@
 import { PassThrough } from "stream";
 import { renderToPipeableStream } from "react-dom/server";
-import { RemixServer } from "remix";
-import type { EntryContext } from "remix";
+import { RemixServer } from '@remix-run/react';
+import type { EntryContext } from '@remix-run/node';
 import { Response, Headers } from "@remix-run/node";
 import isbot from "isbot";
 

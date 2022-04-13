@@ -1,8 +1,6 @@
 import {
-    json,
     Links,
     LiveReload,
-    LoaderFunction,
     Meta,
     Outlet,
     Scripts,
@@ -10,13 +8,15 @@ import {
     useCatch,
     useLoaderData,
     Link
-} from "remix";
+} from '@remix-run/react';
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
 import { useLocation } from 'react-router-dom';
-import type { MetaFunction, ErrorBoundaryComponent } from "remix";
+import { ErrorBoundaryComponent, json, LoaderFunction, MetaFunction } from '@remix-run/node';
+
 import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import { fetchNavigation } from "~/core/UseCases";
 import { Basket } from "~/core/components/Bastket";
+import React from 'react';
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -37,7 +37,7 @@ export let loader: LoaderFunction = async () => {
     );
 };
 
-const Document: React.FC<{}> = ({ children }) => (
+const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <html lang="en">
         <head>
             <Meta />
@@ -53,7 +53,7 @@ const Document: React.FC<{}> = ({ children }) => (
 );
 
 
-const Layout: React.FC<{}> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { navigation, ENV } = useLoaderData();
     const location = useLocation();
     return (<>
@@ -83,7 +83,7 @@ const Layout: React.FC<{}> = ({ children }) => {
     );
 }
 
-const App: React.FC<{}> = ({ children }) => (
+const App: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Document>
         <Layout>
             <Outlet />

@@ -1,4 +1,60 @@
-import parse from 'parse-duration';
+
+// From https://github.com/jkroso/parse-duration that we cannot installed on Remix
+const parse = (duration: string, format: string): number => {
+    const durationRegexp = /(-?(?:\d+\.?\d*|\d*\.?\d+)(?:e[-+]?\d+)?)\s*([\p{L}]*)/uig;
+    const ms = 1;
+    const sec = 1000 * ms;
+    const min = 60 * sec;
+    const hour = 60 * min;
+    const day = 24 * hour;
+    const week = 7 * day;
+    const month = (365.25 / 12) * day;
+    const year = 365.25 * day;
+    const ratios = {
+        nanosecond: ms / 1e6,
+        ns: ms / 1e6,
+        'µs': ms / 1e3,
+        us: ms / 1e3,
+        microsecond: ms / 1e3,
+        millisecond: ms,
+        ms: ms,
+        second: sec,
+        sec: sec,
+        s: sec,
+        minute: min,
+        min: min,
+        m: min,
+        hour: hour,
+        hr: hour,
+        h: hour,
+        day: day,
+        d: day,
+        week: week,
+        wk: week,
+        w: week,
+        month: month,
+        b: month,
+        year: year,
+        yr: year,
+        y: year
+    };
+
+    function unit(str: keyof typeof ratios): number | null {
+        return ratios[str] || ratios[str.toLowerCase().replace(/s$/, '') as keyof typeof ratios] || null;
+    }
+    let result = 0.0;
+    const str = duration
+        .replace(/(\d)[,_](\d)/g, '$1$2')
+        .replace(durationRegexp, (_, n: string, units: string): string => {
+            const convertedUnits = unit(units as keyof typeof ratios);
+            if (convertedUnits) {
+                result = (result || 0) + parseFloat(n) * convertedUnits;
+            }
+            return '';
+        });
+    return result && (result / (unit(format as keyof typeof ratios) || 1))
+}
+
 
 export type HttpCacheHeaders = {
     headers: {

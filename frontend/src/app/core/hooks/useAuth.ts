@@ -35,7 +35,8 @@ export function useAuth() {
     let isAuthenticated = false;
     try {
         const decoded = jwtDecode<any>(token);
-        if (decoded) {
+        console.log(decoded);
+        if (decoded && decoded.exp > Date.now() / 1000) {
             isAuthenticated = true;
             userInfos = {
                 email: decoded.email,

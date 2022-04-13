@@ -1,5 +1,6 @@
+import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { Link } from "react-router-dom";
-import { HeadersFunction, json, LoaderFunction, useLoaderData } from "remix";
 import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/Http-Cache-Tagger";
 import { fetchProducts } from "~/core/UseCases";
 

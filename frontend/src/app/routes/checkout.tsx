@@ -1,11 +1,12 @@
 import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { HydratedBasket } from '~/core/components/Bastket';
-import { registerAndSendMagickLink } from '~/core/UseCases';
+import { registerAndSendMagickLink, sendPaidOrder } from '~/core/UseCases';
 import { useAuth } from '~/core/hooks/useAuth';
 import { ClientOnly } from '~/core/hooks/useHydrated';
 import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { HeadersFunction } from 'remix';
-
+import { useLocalBasket } from '~/core/hooks/useLocalBasket';
+import { useNavigate } from "react-router-dom";
+import { HeadersFunction } from '@remix-run/node';
 
 export const headers: HeadersFunction = () => {
     return HttpCacheHeaderTagger("1m", "1w", ["checkout"]).headers;
@@ -13,6 +14,9 @@ export const headers: HeadersFunction = () => {
 
 export default function Checkout() {
     const { isAuthenticated, userInfos } = useAuth();
+    const { basket, emptyBasket } = useLocalBasket();
+    const navigate = useNavigate();
+    const [paying, setPaying] = useState(false);
     return (
         <div>
             <h1>Checkout</h1>
@@ -23,8 +27,11 @@ export default function Checkout() {
                     }
                     return <>
                         <p>{userInfos.firstname} {userInfos.lastname}</p>
-                        <button onClick={() => {
-
+                        <button disabled={paying} onClick={async () => {
+                            setPaying(true);
+                            const orderConfirmation = await sendPaidOrder(basket, userInfos);
+                            emptyBasket();
+                            navigate(`/order/${orderConfirmation.order.id}`, { replace: true });
                         }}>Pay by Cash</button>
                     </>
                 })()}</ClientOnly>

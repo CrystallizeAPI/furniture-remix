@@ -1,4 +1,4 @@
-import { handleCartRequest, Cart, CartItem, cartRequest, MagickLinkUserInfosRequest, magickLinkUserInfosRequest, handleOrderConfirmationRequest, handleMagickLinkConfirmationRequest, handleMagickLinkRegisterRequest, CartRequest } from '@crystallize/node-service-api-request-handlers';
+import { handleCartRequest, Cart, CartItem, cartRequest, MagickLinkUserInfosRequest, magickLinkUserInfosRequest, handleOrderRequest, handleMagickLinkConfirmationRequest, handleMagickLinkRegisterRequest, CartRequest, handleOrdersRequest } from '@crystallize/node-service-api-request-handlers';
 import { createServiceApiApp, validateRequest, ValidatingRequestRouting, StandardRouting, authenticatedMiddleware } from '@crystallize/node-service-api-router';
 import { CrystallizeOrderPusher } from '@crystallize/js-api-client';
 import Koa from 'koa';
@@ -204,11 +204,18 @@ const bodyConvertedRoutes: ValidatingRequestRouting = {
             }
         }
     },
+    "/orders": {
+        get: {
+            schema: null,
+            authenticated: true,
+            handler: handleOrdersRequest
+        }
+    },
     "/order/:id": {
         get: {
             schema: null,
             authenticated: true,
-            handler: handleOrderConfirmationRequest
+            handler: handleOrderRequest
         }
     },
 }

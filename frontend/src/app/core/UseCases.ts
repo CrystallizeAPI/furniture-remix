@@ -1,86 +1,73 @@
-import { createNavigationFetcher, createCatalogueFetcher, createClient, catalogueFetcherGraphqlBuilder } from '@crystallize/js-api-client';
+import { createNavigationFetcher, createCatalogueFetcher, createClient, catalogueFetcherGraphqlBuilder } from 'node_modules/@crystallize/js-api-client';
 
 const apiClient = createClient({
     tenantIdentifier: 'furniture'
 });
 
-export async function fetchOrder(orderId: string) {
-    //@ts-ignore
-    const response = await fetch(window.ENV.SERVICE_API_URL + '/order/' + orderId, {
-        method: 'GET',
+
+async function innerFetch(url: string, options: any): Promise<any> {
+    const response = await fetch(url, {
         credentials: 'include',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
             Accept: 'application/json'
-        }
+        },
+        ...options
     });
-
     if (!response.ok) {
-        throw new Error(`Could not fetch order ${orderId}`);
+        throw new Error(`Could not fetch ${url}. Response NOT OK.`);
     }
     const json = await response.json();
     if (json.errors) {
-        throw new Error(`Could not fetch order ${orderId}`);
+        throw new Error(`Could not fetch ${url}. Response contains errors.`);
     }
-
     return json;
+}
 
+
+export async function fetchOrders() {
+    //@ts-ignore
+    return await innerFetch(window.ENV.SERVICE_API_URL + '/orders', {
+        method: 'GET'
+    });
+}
+
+export async function fetchOrder(orderId: string) {
+    //@ts-ignore
+    return await innerFetch(window.ENV.SERVICE_API_URL + '/order/' + orderId, {
+        method: 'GET'
+    });
 }
 
 // in real life that would not be that simple and the paid acknoledgement would be a separate service and/or call by the payment provider
 export async function sendPaidOrder(basket: any, userInfos: any) {
     //@ts-ignore
-    const response = await fetch(window.ENV.SERVICE_API_URL + '/order', {
+    return await innerFetch(window.ENV.SERVICE_API_URL + '/order', {
         method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            Accept: 'application/json'
-        },
         body: JSON.stringify({
             locale: 'en',
             items: Object.values(basket.items)
         })
     });
-    if (!response.ok) {
-        alert("An error occured while pushing the cart for paid.");
-    }
-    return await response.json();
 }
 
 export async function registerAndSendMagickLink(userInfos: any) {
     //@ts-ignore
-    const response = await fetch(window.ENV.SERVICE_API_URL + '/register/email/magicklink', {
+    return await innerFetch(window.ENV.SERVICE_API_URL + '/register/email/magicklink', {
         method: 'POST',
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            Accept: 'application/json'
-        },
         body: JSON.stringify(userInfos)
     });
-    if (!response.ok) {
-        alert("An error occured while hydrating the basket.");
-    }
-    return await response.json();
 }
 
 export async function fetchHydratedBasket(basket: any) {
     //@ts-ignore
-    const response = await fetch(window.ENV.SERVICE_API_URL + '/cart', {
+    return await innerFetch(window.ENV.SERVICE_API_URL + '/cart', {
         method: 'POST',
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            Accept: 'application/json'
-        },
         body: JSON.stringify({
             locale: 'en',
             items: Object.values(basket.items)
         })
     });
-    if (!response.ok) {
-        alert("An error occured while hydrating the basket.");
-    }
-    return await response.json();
 }
 
 export async function fetchNavigation() {

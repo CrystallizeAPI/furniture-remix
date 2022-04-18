@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'remix';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
 import { ClientOnly } from '../hooks/useHydrated';
@@ -18,7 +18,10 @@ export const Basket: React.FC = () => {
     return <div style={styles}>
         <ClientOnly>{(() => {
             if (isAuthenticated) {
-                return <p>Hello {userInfos.firstname} {userInfos.lastname}</p>;
+                return <>
+                    <p>Hello {userInfos.firstname} {userInfos.lastname}</p>
+                    <p><Link to='/orders'>My Orders</Link></p>
+                </>;
             }
             return <></>;
         })()}</ClientOnly>

@@ -1,7 +1,7 @@
 service-api.app.crystal {
     tls ./provisioning/dev/certs/domains.pem ./provisioning/dev/certs/key.pem
     
-    reverse_proxy 127.0.0.1:11237 {
+    reverse_proxy 127.0.0.1:3020 {
         header_up Host                {host}
         header_up X-Real-IP           {remote}
         header_up X-Forwarded-Host    {host}
@@ -19,9 +19,9 @@ frontend.app.crystal {
         header Connection *Upgrade*
         header Upgrade websocket
     }
-    reverse_proxy @websockets localhost:11236
+    reverse_proxy @websockets localhost:3019
     
-    reverse_proxy 127.0.0.1:11235 {
+    reverse_proxy 127.0.0.1:3018 {
         header_up Host                {host}
         header_up X-Real-IP           {remote}
         header_up X-Forwarded-Host    {host}

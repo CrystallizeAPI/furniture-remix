@@ -6,7 +6,7 @@
     "sideEffects": false,
     "scripts": {
         "build": "remix build",
-        "dev": "PORT=11235 remix dev",
+        "dev": "PORT=3018 remix dev",
         "postinstall": "remix setup node",
         "start": "remix-serve build"
     },

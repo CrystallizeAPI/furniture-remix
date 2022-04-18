@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "dev": "tsc && concurrently 'PORT=11237 nodemon -r dotenv/config ./dist' 'tsc -W'",
+        "dev": "tsc && concurrently 'PORT=3020 nodemon -r dotenv/config ./dist' 'tsc -W'",
         "build": "tsc"
     },
     "devDependencies": {

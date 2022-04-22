@@ -1,5 +1,5 @@
-import { handleCartRequest, Cart, CartItem, cartRequest, MagickLinkUserInfosRequest, magickLinkUserInfosRequest, handleOrderRequest, handleMagickLinkConfirmationRequest, handleMagickLinkRegisterRequest, CartRequest, handleOrdersRequest } from '@crystallize/node-service-api-request-handlers';
-import { createServiceApiApp, validateRequest, ValidatingRequestRouting, StandardRouting, authenticatedMiddleware } from '@crystallize/node-service-api-router';
+import { handleCartRequestPayload, Cart, CartItem, cartPayload, MagickLinkUserInfosPayload, magickLinkUserInfosPayload, handleOrderRequestPayload, handleMagickLinkConfirmationRequestPayload, handleMagickLinkRegisterPayload, CartPayload, handleOrdersRequestPayload, CartHydraterArguments, MagickLinkRegisterArguments, MagickLinkConfirmArguments, OrderArguments, OrdersArguments } from '@crystallize/node-service-api-request-handlers';
+import { createServiceApiApp, validatePayload, ValidatingRequestRouting, StandardRouting, authenticatedMiddleware } from '@crystallize/node-service-api-router';
 import { CrystallizeOrderPusher } from '@crystallize/js-api-client';
 import Koa from 'koa';
 import mjml2html from 'mjml';
@@ -12,14 +12,14 @@ const routes: StandardRouting = {
     '/': {
         get: {
             handler: async (ctx: Koa.Context) => {
-                ctx.body = { msg: `Crystallize Service API - Tenant ${process.env.CRYSTALLIZE_TENANT_IDENTIFIER}` };
+                ctx.response.body = { msg: `Crystallize Service API - Tenant ${process.env.CRYSTALLIZE_TENANT_IDENTIFIER}` };
             }
         },
     },
     '/echo': {
         post: {
             handler: async (ctx: Koa.Context) => {
-                ctx.body = {
+                ctx.response.body = {
                     echoed: ctx.request.body
                 }
             }
@@ -30,7 +30,7 @@ const routes: StandardRouting = {
             authenticated: true,
             handler: async (ctx: Koa.Context) => {
                 console.log("Authenticated echo Handler");
-                ctx.body = {
+                ctx.response.body = {
                     echoed: ctx.request.body,
                     user: ctx.user
                 }
@@ -41,7 +41,7 @@ const routes: StandardRouting = {
         get: {
             handler: async (ctx: Koa.Context) => {
                 ctx.cookies.set('jwt', '', { httpOnly: true, secure: ctx.secure });
-                ctx.body = {
+                ctx.response.body = {
                     message: "Logged out"
                 }
             }
@@ -51,8 +51,8 @@ const routes: StandardRouting = {
     "/cart": {
         post: {
             handler: async (ctx: Koa.Context) => {
-                const cart = ctx.body as Cart;
-                ctx.body = {
+                const cart = ctx.response.body as Cart;
+                ctx.response.body = {
                     ...cart,
                     hello: "world"
                 }
@@ -65,8 +65,8 @@ const routes: StandardRouting = {
             authenticated: true,
             handler: async (ctx: Koa.Context) => {
                 try {
-                    const request = validateRequest<CartRequest>(cartRequest, ctx.request.body);
-                    const response = await handleCartRequest(request, ctx);
+                    const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
+                    const response = await handleCartRequestPayload(request, {});
                     const orderCreatedConfirmation = await CrystallizeOrderPusher({
                         customer: {
                             firstName: 'William',
@@ -117,7 +117,7 @@ const routes: StandardRouting = {
                             },
                         ]
                     });
-                    ctx.body = {
+                    ctx.response.body = {
                         order: orderCreatedConfirmation,
                     }
                 } catch (exception) {
@@ -135,7 +135,7 @@ const routes: StandardRouting = {
     "/webhook/order/created": {
         post: {
             handler: async (ctx: Koa.Context) => {
-                ctx.body = {
+                ctx.response.body = {
                     message: "Order Created Webhook received",
                     payload: ctx.request.body
                 }
@@ -145,10 +145,17 @@ const routes: StandardRouting = {
     "/webhook/order/pipeline/stage/changed": {
         post: {
             handler: async (ctx: Koa.Context) => {
-                ctx.body = {
+                ctx.response.body = {
                     message: "Order Pipleline Stage Change Webhook received",
                     payload: ctx.request.body
                 }
+            }
+        }
+    },
+    "/confirm/email/magicklink/:token": {
+        get: {
+            handler: async (ctx: Koa.Context) => {
+                ctx.response.redirect(ctx.response.body as string);
             }
         }
     }
@@ -158,12 +165,14 @@ const routes: StandardRouting = {
 const bodyConvertedRoutes: ValidatingRequestRouting = {
     '/cart': {
         post: {
-            schema: cartRequest,
-            handler: handleCartRequest,
-            args: { // CartHydraterArguments
-                perVariant: () => {
-                    return {
-                        id: true
+            schema: cartPayload,
+            handler: handleCartRequestPayload,
+            args: (context: Koa.Context): CartHydraterArguments => {
+                return {
+                    perVariant: () => {
+                        return {
+                            id: true
+                        }
                     }
                 }
             }
@@ -171,16 +180,17 @@ const bodyConvertedRoutes: ValidatingRequestRouting = {
     },
     '/register/email/magicklink': {
         post: {
-            schema: magickLinkUserInfosRequest,
-            handler: handleMagickLinkRegisterRequest,
-            args: { // MagickLinkRegisterArguments
-                mailer: createMailer(`${process.env.MAILER_DSN}`),
-                jwtSecret: `${process.env.JWT_SECRET}`,
-                confirmLinkPath: '/confirm/email/magicklink/:token',
-                subject: "[Crystallize - Boilerplate] - Magic link login",
-                from: "hello@crystallize.com",
-                buildHtml: (request: MagickLinkUserInfosRequest, link: string) => mjml2html(
-                    `<mjml>
+            schema: magickLinkUserInfosPayload,
+            handler: handleMagickLinkRegisterPayload,
+            args: (context: Koa.Context): MagickLinkRegisterArguments => {
+                return {
+                    mailer: createMailer(`${process.env.MAILER_DSN}`),
+                    jwtSecret: `${process.env.JWT_SECRET}`,
+                    confirmLinkUrl: `http${context.secure ? 's' : ''}://${context.request.host}/confirm/email/magicklink/:token`,
+                    subject: "[Crystallize - Boilerplate] - Magic link login",
+                    from: "hello@crystallize.com",
+                    buildHtml: (request: MagickLinkUserInfosPayload, link: string) => mjml2html(
+                        `<mjml>
                         <mj-body>
                         <mj-section>
                             <mj-column>
@@ -190,35 +200,53 @@ const bodyConvertedRoutes: ValidatingRequestRouting = {
                         </mj-section>
                         </mj-body>
                     </mjml>`
-                ).html
+                    ).html,
+                    host: context.request.host
+                }
             }
         }
     },
     "/confirm/email/magicklink/:token": {
         get: {
             schema: null,
-            handler: handleMagickLinkConfirmationRequest,
-            args: { // MagickLinkConfirmArguments
-                jwtSecret: `${process.env.JWT_SECRET}`,
-                backLinkPath: 'https://frontend.app.crystal/checkout?token=:token'
+            handler: handleMagickLinkConfirmationRequestPayload,
+            args: (context: Koa.Context): MagickLinkConfirmArguments => {
+                return {
+                    token: context.params.token,
+                    host: context.request.host,
+                    jwtSecret: `${process.env.JWT_SECRET}`,
+                    backLinkPath: 'https://frontend.app.crystal/checkout?token=:token',
+                    setCookie: (name: string, value: string) => {
+                        context.cookies.set(name, value, { httpOnly: false, secure: context.secure });
+                    }
+                }
             }
-        }
+        },
     },
     "/orders": {
         get: {
-            schema: null,
             authenticated: true,
-            handler: handleOrdersRequest
+            handler: handleOrdersRequestPayload,
+            args: (context: Koa.Context): OrdersArguments => {
+                return {
+                    user: context.user
+                }
+            }
         }
     },
     "/order/:id": {
         get: {
-            schema: null,
             authenticated: true,
-            handler: handleOrderRequest
+            handler: handleOrderRequestPayload,
+            args: (context: Koa.Context): OrderArguments => {
+                return {
+                    user: context.user,
+                    orderId: context.params.id
+                };
+            }
         }
     },
-}
+};
 
 // Create the service api, you can destruct the router and/or app if needed.
 const { run, router } = createServiceApiApp(bodyConvertedRoutes, routes, authenticatedMiddleware(`${process.env.JWT_SECRET}`));

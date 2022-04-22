@@ -17,9 +17,9 @@
         "node": "16.14.2"
     },
     "dependencies": {
-        "@crystallize/js-api-client": "^0.5.0",
-        "@crystallize/node-service-api-request-handlers": "^0.2.0",
-        "@crystallize/node-service-api-router": "^0.2.0",
+        "@crystallize/js-api-client": "^0.6.0",
+        "@crystallize/node-service-api-request-handlers": "^0.3.0",
+        "@crystallize/node-service-api-router": "^0.3.0",
         "dotenv": "^8.2.0",
         "koa": "^2.13.4",
         "koa-bodyparser": "^4.3.0",

@@ -225,6 +225,7 @@ const bodyConvertedRoutes: ValidatingRequestRouting = {
     },
     "/orders": {
         get: {
+            schema: null,
             authenticated: true,
             handler: handleOrdersRequestPayload,
             args: (context: Koa.Context): OrdersArguments => {
@@ -236,6 +237,7 @@ const bodyConvertedRoutes: ValidatingRequestRouting = {
     },
     "/order/:id": {
         get: {
+            schema: null,
             authenticated: true,
             handler: handleOrderRequestPayload,
             args: (context: Koa.Context): OrderArguments => {

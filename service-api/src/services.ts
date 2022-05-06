@@ -21,7 +21,7 @@ export function createMailer(dsn: string) {
     }
 }
 
-export function createRedisClient(): BackendStorage {
+function createRedisClient(): BackendStorage {
     const client = redis.createClient({
         url: `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`
     });

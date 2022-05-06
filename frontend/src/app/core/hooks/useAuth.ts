@@ -1,9 +1,7 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
+import { useLocation, useNavigate, useSearchParams } from '@remix-run/react';
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import { useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
-
 export function useAuth() {
     const [token] = useLocalStorage<string>('jwt', '');
     const [searchParams] = useSearchParams();
@@ -35,7 +33,6 @@ export function useAuth() {
     let isAuthenticated = false;
     try {
         const decoded = jwtDecode<any>(token);
-        console.log(decoded);
         if (decoded && decoded.exp > Date.now() / 1000) {
             isAuthenticated = true;
             userInfos = {

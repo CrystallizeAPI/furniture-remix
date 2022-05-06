@@ -23,7 +23,7 @@ export default function Order() {
             try {
                 setOrder(await fetchOrder(orderId));
             } catch (exception) {
-                timeout = setTimeout(() => { setTryCount(tryCount + 1) }, 1000 * tryCount);
+                timeout = setTimeout(() => { setTryCount(tryCount + 1) }, 500 * tryCount);
             }
         })();
         return () => clearTimeout(timeout);

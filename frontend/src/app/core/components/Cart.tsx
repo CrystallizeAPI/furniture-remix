@@ -1,8 +1,8 @@
-import { Link } from 'remix';
+import { Link } from '@remix-run/react';
 import { useAuth } from '../hooks/useAuth';
-import { useCart } from '../hooks/useCart';
-import { ClientOnly } from '../hooks/useHydrated';
-import { useLocalBasket } from '../hooks/useLocalBasket';
+import { useRemoteCart } from '../hooks/useRemoteCart';
+import { ClientOnly } from '@crystallize/reactjs-hooks';
+import { useLocalCart } from '../hooks/useLocalCart';
 
 const styles: React.CSSProperties = {
     position: 'absolute',
@@ -13,24 +13,28 @@ const styles: React.CSSProperties = {
 }
 
 export const Basket: React.FC = () => {
-    const { basket } = useLocalBasket();
+    const { isEmpty, cart } = useLocalCart();
     const { isAuthenticated, userInfos } = useAuth();
     return <div style={styles}>
-        <ClientOnly>{(() => {
-            if (isAuthenticated) {
-                return <>
-                    <p>Hello {userInfos.firstname} {userInfos.lastname}</p>
-                    <p><Link to='/orders'>My Orders</Link></p>
-                </>;
-            }
-            return <></>;
-        })()}</ClientOnly>
-        <h5>Basket</h5>
-        <ClientOnly fallback={<p>Your basket is empty.</p>}><InnerBasket basket={basket} /></ClientOnly>
-        <p>
-            <Link to={'/cart'}>See the cart</Link><br />
-            <Link to={'/checkout'}>Place the order</Link>
-        </p>
+        <ClientOnly fallback={<p>Your basket is empty.</p>}><>
+            {(() => {
+                if (isAuthenticated) {
+                    return <>
+                        <p>Hello {userInfos.firstname} {userInfos.lastname}</p>
+                        <p><Link to='/orders'>My Orders</Link></p>
+                    </>;
+                }
+                return <></>;
+            })()}
+            {!isEmpty() && (<>
+                <h5>Basket (Id:{cart.cartId}, State: {cart.state})</h5>
+                <InnerBasket basket={cart} />
+                <p>
+                    <Link to={'/cart'}>See the cart</Link><br />
+                    <Link to={'/checkout'}>Place the order</Link>
+                </p>
+            </>)}</>
+        </ClientOnly>
     </div>
 };
 
@@ -43,14 +47,18 @@ const InnerBasket: React.FC<{ basket: any }> = ({ basket }) => {
     </ul>
 }
 
-
 export const HydratedBasket: React.FC = () => {
-    const { cart, loading } = useCart();
-    const { addToBasket, removeFromBasket } = useLocalBasket();
+    const { remoteCart, loading } = useRemoteCart();
+    const { isImmutable, cart: localCart, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
+    const { cart, total } = remoteCart || { cart: null, total: null };
 
-    return <div style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
+    if (isEmpty()) {
+        return null;
+    }
+
+    return <ClientOnly><div style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
         {loading && <p>Loading...</p>}
-        <h2>Details</h2>
+        <h2>Details (Id:{localCart.cartId}, State: {localCart.state})</h2>
         <table>
             <thead>
                 <tr>
@@ -73,9 +81,9 @@ export const HydratedBasket: React.FC = () => {
                         <td>{item.variant.name}</td>
                         <td>{item.product.name}</td>
                         <td>
-                            <button onClick={() => { removeFromBasket(item.variant); }}> - </button>
+                            {!isImmutable() && <button onClick={() => { removeFromCart(item.variant); }}> - </button>}
                             {item.quantity}
-                            <button onClick={() => { addToBasket(item.variant) }}> + </button>
+                            {!isImmutable() && <button onClick={() => { addToCart(item.variant) }}> + </button>}
                         </td>
                         <td>{item.price.gross}</td>
                         <td>{item.price.net}</td>
@@ -83,16 +91,15 @@ export const HydratedBasket: React.FC = () => {
                     </tr>;
                 })}
             </tbody>
-            {cart && <tfoot>
+            {total && <tfoot>
                 <tr>
                     <th colSpan={3}>Total</th>
-                    <td>{cart.total.gross}</td>
-                    <td>{cart.total.net}</td>
-                    <td>{cart.total.taxAmount}</td>
+                    <td>{total.gross}</td>
+                    <td>{total.net}</td>
+                    <td>{total.taxAmount}</td>
                 </tr>
             </tfoot>}
         </table>
-
-
     </div>
+    </ClientOnly>
 };

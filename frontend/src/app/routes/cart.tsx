@@ -1,6 +1,6 @@
 
 import { HeadersFunction } from '@remix-run/node';
-import { HydratedBasket } from '~/core/components/Bastket';
+import { HydratedBasket } from '~/core/components/Cart';
 import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 
 export const headers: HeadersFunction = () => {

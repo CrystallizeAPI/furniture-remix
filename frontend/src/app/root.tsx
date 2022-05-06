@@ -7,15 +7,15 @@ import {
     ScrollRestoration,
     useCatch,
     useLoaderData,
-    Link
+    Link,
+    useLocation
 } from '@remix-run/react';
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
-import { useLocation } from 'react-router-dom';
 import { ErrorBoundaryComponent, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 
 import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import { fetchNavigation } from "~/core/UseCases";
-import { Basket } from "~/core/components/Bastket";
+import { Basket } from "~/core/components/Cart";
 import React from 'react';
 
 export const meta: MetaFunction = () => ({
@@ -30,7 +30,8 @@ export let loader: LoaderFunction = async () => {
         {
             navigation: await fetchNavigation(),
             ENV: {
-                SERVICE_API_URL: process.env.SERVICE_API_URL
+                SERVICE_API_URL: process.env.SERVICE_API_URL,
+                STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
             }
         }
         , HttpCacheHeaderTagger('30s', '1w', ['shop'])
@@ -77,7 +78,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div>
             <div>{children}</div>
         </div>
-        <hr />
+        <hr style={{ clear: 'both' }} />
         <footer>&lt;/&gt; with &lt;3 by Crystallize</footer>
     </>
     );

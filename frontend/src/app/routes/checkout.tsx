@@ -1,22 +1,20 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
-import { HydratedBasket } from '~/core/components/Bastket';
-import { registerAndSendMagickLink, sendPaidOrder } from '~/core/UseCases';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { HydratedBasket } from '~/core/components/Cart';
+import { registerAndSendMagickLink } from '~/core/UseCases';
 import { useAuth } from '~/core/hooks/useAuth';
-import { ClientOnly } from '~/core/hooks/useHydrated';
+import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { useLocalBasket } from '~/core/hooks/useLocalBasket';
-import { useNavigate } from "react-router-dom";
 import { HeadersFunction } from '@remix-run/node';
+import { Payments } from '~/core/components/Payments';
+import { useLocalCart } from '~/core/hooks/useLocalCart';
 
 export const headers: HeadersFunction = () => {
     return HttpCacheHeaderTagger("1m", "1w", ["checkout"]).headers;
 }
 
 export default function Checkout() {
-    const { isAuthenticated, userInfos } = useAuth();
-    const { basket, emptyBasket } = useLocalBasket();
-    const navigate = useNavigate();
-    const [paying, setPaying] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const { cart } = useLocalCart();
     return (
         <div>
             <h1>Checkout</h1>
@@ -25,15 +23,10 @@ export default function Checkout() {
                     if (!isAuthenticated) {
                         return <Form />
                     }
-                    return <>
-                        <p>{userInfos.firstname} {userInfos.lastname}</p>
-                        <button disabled={paying} onClick={async () => {
-                            setPaying(true);
-                            const orderConfirmation = await sendPaidOrder(basket, userInfos);
-                            emptyBasket();
-                            navigate(`/order/${orderConfirmation.order.id}`, { replace: true });
-                        }}>Pay by Cash</button>
-                    </>
+                    if (cart.cartId !== '') {
+                        return <Payments />
+                    }
+                    return <></>;
                 })()}</ClientOnly>
             </div>
             <div style={{ width: '50%', float: 'left' }}>
@@ -43,7 +36,6 @@ export default function Checkout() {
         </div >
     );
 }
-
 
 export const Form: React.FC = () => {
     const [formData, updateFormData] = useState({

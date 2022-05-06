@@ -1,6 +1,6 @@
 import { HeadersFunction } from "@remix-run/node";
+import { Link } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { Link } from "remix";
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
 import { fetchOrders } from "~/core/UseCases";
 

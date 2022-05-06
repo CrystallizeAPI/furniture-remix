@@ -4,3 +4,7 @@ services:
     ports:
       - '11025:1025'
       - '11080:1080'
+  redis:
+    image: 'redis:7'
+    ports:
+      - '11379:6379'

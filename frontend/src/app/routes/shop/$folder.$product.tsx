@@ -1,6 +1,6 @@
 import { fetchProduct } from "~/core/UseCases";
 import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/Http-Cache-Tagger";
-import { useLocalBasket } from "~/core/hooks/useLocalBasket";
+import { useLocalCart } from "~/core/hooks/useLocalCart";
 import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
@@ -18,21 +18,21 @@ export default function ProductPage() {
     return (
         <div>
             <h1>{product.name}</h1>
-            {product.variants.map((variant: any) => <Variant key={variant.name} variant={variant} />)}
+            {product.variants.map((variant: any, index: number) => <Variant key={variant.id} variant={variant} />)}
         </div>
     );
 }
 
 const Variant: React.FC<{ variant: any }> = ({ variant }) => {
 
-    const { basket, addToBasket } = useLocalBasket();
+    const { add: addToCart } = useLocalCart();
 
     return <div>
         <h2>{variant.name}</h2>
         ${variant.price}
         <p>Sku: {variant.sku}</p>
         <button onClick={() => {
-            addToBasket(variant);
+            addToCart(variant);
         }}>Add to cart</button>
 
     </div >

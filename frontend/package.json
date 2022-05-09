@@ -5,8 +5,10 @@
     "license": "MIT",
     "sideEffects": false,
     "scripts": {
-        "build": "remix build",
-        "dev": "PORT=3018 remix dev",
+        "build": "npm run build:css && remix build",
+        "build:css": "tailwindcss -m -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.css",
+        "dev": "PORT=3018 concurrently \"npm run dev:css\" \"remix dev\"",
+        "dev:css": "tailwindcss -w -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.css",
         "start": "remix-serve build"
     },
     "dependencies": {
@@ -17,6 +19,7 @@
         "@remix-run/node": "^1.4.3",
         "@remix-run/react": "^1.4.3",
         "@remix-run/serve": "^1.4.3",
+        "@splidejs/react-splide": "^0.7.5",
         "@stripe/react-stripe-js": "^1.7.2",
         "@stripe/stripe-js": "^1.29.0",
         "jwt-decode": "^3.1.2",
@@ -27,6 +30,10 @@
         "@remix-run/dev": "^1.4.3",
         "@types/react": "^17",
         "@types/react-dom": "^17",
+        "autoprefixer": "^10.4.6",
+        "concurrently": "^7.1.0",
+        "postcss": "^8.4.13",
+        "tailwindcss": "^3.0.24",
         "typescript": "^4.5.5"
     },
     "engines": {

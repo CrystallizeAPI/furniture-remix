@@ -6,16 +6,22 @@ import {
     Scripts,
     ScrollRestoration,
     useCatch,
-    useLoaderData,
-    Link,
-    useLocation
+    useLoaderData
 } from '@remix-run/react';
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
 import { ErrorBoundaryComponent, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 
 import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import { fetchNavigation } from "~/core/UseCases";
-import { Basket } from "~/core/components/Cart";
+import { Cart } from "~/core/components/cart";
+import { Header } from "~/core/components/header";
+import { Footer } from "./core/components/footer";
+
+import tailwindStyles from "./styles/tailwind.css";
+
+export function links() {
+    return [{ rel: "stylesheet", href: tailwindStyles }];
+}
 import React from 'react';
 
 export const meta: MetaFunction = () => ({
@@ -24,12 +30,12 @@ export const meta: MetaFunction = () => ({
     viewport: "width=device-width,initial-scale=1",
 });
 
-
 export let loader: LoaderFunction = async () => {
     return json(
         {
             navigation: await fetchNavigation(),
             ENV: {
+                CRYSTALLIZE_TENANT_IDENTIFIER: process.env.CRYSTALLIZE_TENANT_IDENTIFIER,
                 SERVICE_API_URL: process.env.SERVICE_API_URL,
                 STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
             }
@@ -56,30 +62,20 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { navigation, ENV } = useLoaderData();
-    const location = useLocation();
     return (<>
-        <header>
+        <header className="lg:w-content w-full mx-auto p-8 sm:px-6">
             <script
                 dangerouslySetInnerHTML={{
                     __html: `window.ENV = ${JSON.stringify(ENV)}`,
                 }}
             ></script>
-            <Basket />
-            <p>Nav: {navigation.tree.name}</p>
-            <ul>
-                {navigation.tree.children.map((child: any) => {
-                    return <li key={child.path}>
-                        <Link to={child.path}>{child.name}</Link> {location.pathname.substring(0, child.path.length) === child.path && ' - active'}
-                    </li>
-                })}
-            </ul>
+            <Cart />
+            <Header navigation={navigation} />
         </header>
-        <hr />
         <div>
             <div>{children}</div>
         </div>
-        <hr style={{ clear: 'both' }} />
-        <footer>&lt;/&gt; with &lt;3 by Crystallize</footer>
+        <Footer />
     </>
     );
 }

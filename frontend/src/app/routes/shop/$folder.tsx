@@ -1,12 +1,15 @@
 import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/Http-Cache-Tagger";
-import { fetchProducts } from "~/core/UseCases";
+import { fetchFolder, fetchProducts } from "~/core/UseCases";
+import { Image } from "@crystallize/reactjs-components/dist/image";
+import { Filter } from "~/core/components/filter";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const path = `/shop/${params.folder}`;
+    const folder = await fetchFolder(path);
     const products = await fetchProducts(path);
-    return json({ products }, HttpCacheHeaderTagger('30s', '1w', [path]));
+    return json({ products, folder }, HttpCacheHeaderTagger('30s', '1w', [path]));
 };
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -14,24 +17,31 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 }
 
 export default function FolderPage() {
-    const { products } = useLoaderData();
+    const { products, folder } = useLoaderData();
+    let title = folder.components.find((component: any) => component.type === "singleLine")?.content?.text;
+    let description = folder.components.find((component: any) => component.type === "richText")?.content?.plainText;
+
     return (
-        <div>
-            <h1>Folder Page</h1>
-            <p>Should list the Product</p>
-            <ul>
+        <div className="lg:w-content mx-auto w-full">
+            <h1 className="text-3xl font-bold mt-10 mb-4">{title}</h1>
+            <p className="w-3/5 mb-10">{description}</p>
+            <Filter />
+            <div className="flex gap-5">
                 {products.map((product: any) => {
-                    return <li key={product.path}>
-                        <p><Link to={product.path}>{product.name}</Link></p>
-                        <img src={product.defaultVariant.firstImage.variants[2].url} alt={product.defaultVariant.firstImage.altText || product.name} />
-
-                        <p>Price: {product.defaultVariant.price}</p>
-
-                        {product.topics && <p>Topics:{product.topics.map((topic: any, index: number) => <span key={topic.path + index}><Link to={`/todo/topic${topic.path}`}>{topic.name}</Link>, </span>)} </p>}
-                    </li>
+                    return (
+                        <div key={product.path} className="category-container">
+                            <Image
+                                {...product.defaultVariant.firstImage}
+                                sizes="500px"
+                            />
+                            <p className="mt-5">
+                                <Link to={product.path}>{product.name}</Link>
+                            </p>
+                            <p className="font-bold">${product.defaultVariant.price}</p>
+                        </div>
+                    );
                 })}
-            </ul>
-
-        </div >
+            </div>
+        </div>
     );
 }

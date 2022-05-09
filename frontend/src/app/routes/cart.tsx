@@ -1,6 +1,6 @@
 
 import { HeadersFunction } from '@remix-run/node';
-import { HydratedBasket } from '~/core/components/Cart';
+import { HydratedCart } from '~/core/components/cart';
 import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 
 export const headers: HeadersFunction = () => {
@@ -10,9 +10,8 @@ export const headers: HeadersFunction = () => {
 export default function Cart() {
 
     return (
-        <div>
-            <h1>CART</h1>
-            <HydratedBasket />
+        <div className="lg:w-content mx-auto w-full">
+            <HydratedCart />
         </div >
     );
 }

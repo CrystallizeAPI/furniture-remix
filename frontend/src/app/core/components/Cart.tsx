@@ -6,13 +6,14 @@ import { useLocalCart } from '../hooks/useLocalCart';
 
 const styles: React.CSSProperties = {
     position: 'absolute',
-    top: 0,
+    bottom: 0,
     right: 0,
     border: '2px solid red',
     padding: '5px',
+    backgroundColor: '#fff',
 }
 
-export const Basket: React.FC = () => {
+export const Cart: React.FC = () => {
     const { isEmpty, cart } = useLocalCart();
     const { isAuthenticated, userInfos } = useAuth();
     return <div style={styles}>
@@ -28,7 +29,7 @@ export const Basket: React.FC = () => {
             })()}
             {!isEmpty() && (<>
                 <h5>Basket (Id:{cart.cartId}, State: {cart.state})</h5>
-                <InnerBasket basket={cart} />
+                <InnerCart basket={cart} />
                 <p>
                     <Link to={'/cart'}>See the cart</Link><br />
                     <Link to={'/checkout'}>Place the order</Link>
@@ -38,7 +39,7 @@ export const Basket: React.FC = () => {
     </div>
 };
 
-const InnerBasket: React.FC<{ basket: any }> = ({ basket }) => {
+const InnerCart: React.FC<{ basket: any }> = ({ basket }) => {
     return <ul>
         {basket && Object.keys(basket.items).map((key: string) => {
             const item: any = basket.items[key as keyof typeof basket.items];
@@ -47,7 +48,7 @@ const InnerBasket: React.FC<{ basket: any }> = ({ basket }) => {
     </ul>
 }
 
-export const HydratedBasket: React.FC = () => {
+export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { isImmutable, cart: localCart, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
     const { cart, total } = remoteCart || { cart: null, total: null };
@@ -56,50 +57,42 @@ export const HydratedBasket: React.FC = () => {
         return null;
     }
 
-    return <ClientOnly><div style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
-        {loading && <p>Loading...</p>}
-        <h2>Details (Id:{localCart.cartId}, State: {localCart.state})</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th colSpan={2}>Name</th>
-                    <th>Quantity</th>
-                    <th colSpan={3}>Price</th>
-                </tr>
-                <tr>
-                    <th>Variant Name</th>
-                    <th>Product Name</th>
-                    <th>&nbsp;</th>
-                    <th>Gross</th>
-                    <th>Net</th>
-                    <th>Tax</th>
-                </tr>
-            </thead>
-            <tbody>
-                {cart && cart.cart.items.map((item: any) => {
-                    return <tr key={item.variant.sku}>
-                        <td>{item.variant.name}</td>
-                        <td>{item.product.name}</td>
-                        <td>
-                            {!isImmutable() && <button onClick={() => { removeFromCart(item.variant); }}> - </button>}
-                            {item.quantity}
-                            {!isImmutable() && <button onClick={() => { addToCart(item.variant) }}> + </button>}
-                        </td>
-                        <td>{item.price.gross}</td>
-                        <td>{item.price.net}</td>
-                        <td>{item.price.taxAmount}</td>
-                    </tr>;
-                })}
-            </tbody>
-            {total && <tfoot>
-                <tr>
-                    <th colSpan={3}>Total</th>
-                    <td>{total.gross}</td>
-                    <td>{total.net}</td>
-                    <td>{total.taxAmount}</td>
-                </tr>
-            </tfoot>}
-        </table>
-    </div>
+    return <ClientOnly>
+        <div className="bg-grey mt-10 rounded p-10  mx-auto" style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
+            {loading && <p>Loading...</p>}
+            <h1 className="font-bold text-4xl mt-5 mb-10">Your cart<small>Details (Id:{localCart.cartId}, State: {localCart.state})</small></h1>
+            <div className="flex flex-col">
+                {cart &&
+                    cart.cart.items.map((item: any) => (
+                        <div key={item.id} className="flex justify-between">
+                            <div className="flex flex-col">
+                                <p className="text-xl">
+                                    {!isImmutable() && <button onClick={() => { removeFromCart(item.variant); }}> - </button>}
+                                    {item.product.name} ({item.variant.name}) × {item.quantity}
+                                    {!isImmutable() && <button onClick={() => { addToCart(item.variant) }}> + </button>}
+                                </p>
+                            </div>
+                            <p>${item.price.gross} (gross)</p>
+                            <p>${item.price.net} (net)</p>
+                            <p>${item.price.taxAmount} (taxAmount)</p>
+                        </div>
+                    ))}
+                {total && (
+                    <div className="flex justify-between items-center border-t-2 border-text pt-4">
+                        <p className="font-semibold text-xl">Total</p>
+                        <p>${total.gross} (gross)</p>
+                        <p>${total.net} (net)</p>
+                        <p>${total.taxAmount}(taxAmount)</p>
+
+                    </div>
+                )}
+                <Link
+                    to="/checkout"
+                    className="py-3 mt-10 rounded font-semibold bg-buttonBg text-buttonText w-auto text-center"
+                >
+                    Go to Checkout
+                </Link>
+            </div>
+        </div>
     </ClientOnly>
 };

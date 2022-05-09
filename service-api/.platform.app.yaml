@@ -1,6 +1,10 @@
 name: serviceapi
 type: "nodejs:16"
 
+dependencies:
+  nodejs:
+    pm2: "^4.5.0"
+
 build:
   flavor: default
 

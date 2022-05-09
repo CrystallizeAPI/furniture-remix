@@ -40,11 +40,13 @@ export const magickLinkBodyConvertedRoutes: ValidatingRequestRouting = {
             schema: null,
             handler: handleMagickLinkConfirmationRequestPayload,
             args: (context: Koa.Context): MagickLinkConfirmArguments => {
+                const config = require("platformsh-config").config();
+                const frontendURL = config.isValidPlatform() ? config.getRoute('frontapp').url.replace(/\/$/, '') : `${process.env.FRONTEND_URL}`;
                 return {
                     token: context.params.token,
                     host: context.request.host,
                     jwtSecret: `${process.env.JWT_SECRET}`,
-                    backLinkPath: `${process.env.FRONTEND_URL}/checkout?token=:token`,
+                    backLinkPath: `${frontendURL}/checkout?token=:token`,
                     setCookie: (name: string, value: string) => {
                         context.cookies.set(name, value, { httpOnly: false, secure: context.secure });
                     }

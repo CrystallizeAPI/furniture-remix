@@ -1,13 +1,15 @@
 "https://{default}/":
-    type: upstream
-    upstream: "frontapp:http"
-    cache:
-        # Cache is managed by Fastly
-        enabled: false
+  type: upstream
+  id: "frontapp"
+  upstream: "frontapp:http"
+  cache:
+    # Cache is managed by Fastly
+    enabled: false
 
 "https://serviceapi.{default}/":
-    type: upstream
-    upstream: "serviceapi:http"
-    cache:
-        # Cache is managed by Fastly
-        enabled: false
+  type: upstream
+  id: "serviceapi"
+  upstream: "serviceapi:http"
+  cache:
+    # Cache is managed by Fastly
+    enabled: false

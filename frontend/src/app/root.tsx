@@ -16,7 +16,6 @@ import { fetchNavigation } from "~/core/UseCases";
 import { Cart } from "~/core/components/cart";
 import { Header } from "~/core/components/header";
 import { Footer } from "./core/components/footer";
-
 import tailwindStyles from "./styles/tailwind.css";
 
 export function links() {
@@ -31,12 +30,13 @@ export const meta: MetaFunction = () => ({
 });
 
 export let loader: LoaderFunction = async () => {
+    const config = require("platformsh-config").config();
     return json(
         {
             navigation: await fetchNavigation(),
             ENV: {
                 CRYSTALLIZE_TENANT_IDENTIFIER: process.env.CRYSTALLIZE_TENANT_IDENTIFIER,
-                SERVICE_API_URL: process.env.SERVICE_API_URL,
+                SERVICE_API_URL: config.isValidPlatform() ? config.getRoute("serviceapi").url.replace(/\/$/, '') : process.env.SERVICE_API_URL,
                 STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
             }
         }

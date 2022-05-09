@@ -13,8 +13,8 @@
     },
     "dependencies": {
         "@crystallize/js-api-client": "^0.6.0",
-        "@crystallize/reactjs-hooks": "^0.7.0",
         "@crystallize/reactjs-components": "^0.1.0",
+        "@crystallize/reactjs-hooks": "^0.7.0",
         "@rehooks/local-storage": "^2.4.4",
         "@remix-run/node": "^1.4.3",
         "@remix-run/react": "^1.4.3",
@@ -23,6 +23,7 @@
         "@stripe/react-stripe-js": "^1.7.2",
         "@stripe/stripe-js": "^1.29.0",
         "jwt-decode": "^3.1.2",
+        "platformsh-config": "^2.4.1",
         "react": "^17",
         "react-dom": "^17"
     },

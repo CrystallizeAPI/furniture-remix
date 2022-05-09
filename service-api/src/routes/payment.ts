@@ -49,9 +49,9 @@ const pushOrderSubHandler = async (cartWrapper: CartWrapper, customer: CustomerI
 const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
     return {
         identifier: cartWrapper.customer.identifier,
-        firstName: "Stripe",
-        lastName: "Payment",
-        companyName: "Crystallize via Stripe Payment",
+        firstName: "William",
+        lastName: "Wallace",
+        companyName: "Freedom Inc.",
         addresses: [
             {
                 //@ts-ignore

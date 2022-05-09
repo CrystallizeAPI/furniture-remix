@@ -52,9 +52,13 @@ This will:
 
 > you can stop non stopped services with `make stop`
 
-Frontend: https://frontend.app.crystal
-Service API: https://service-api.app.crystal
-Mailcatcher: http://localhost:11080
+- Frontend: https://frontend.app.crystal
+- Service API: https://service-api.app.crystal
+- Mailcatcher - Web: http://localhost:3022
+- Mailcatcher SMTP: http://localhost:3021
+- Redis: http://localhost:3023
+
+> Note: to connect to Redis: `docker run --rm --net=host -it redis redis-cli -h 127.0.0.1 -p 3023`
 
 # Gotchas
 

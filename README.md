@@ -58,7 +58,7 @@ Mailcatcher: http://localhost:11080
 
 # Gotchas
 
-- Frontend run in HTTP on 11235
-- Frontend Live Reload WebScoket run in HTTP on 11236
-- Service API run in HTTP on 11237
+- Frontend run in HTTP on 3018
+- Frontend Live Reload WebScoket run in HTTP on 3019
+- Service API run in HTTP on 3020
 - Caddy enables HTTPS on top of them all

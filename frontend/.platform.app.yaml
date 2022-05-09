@@ -1,0 +1,21 @@
+name: frontapp
+type: "nodejs:16"
+
+build:
+  flavor: default
+
+relationships:
+  serviceapi: "serviceapi:http"
+
+web:
+  commands:
+    start: "npm run start"
+  locations:
+    "/public":
+      passthru: false
+      root: "public"
+
+hooks:
+  build: |
+    npm run build
+disk: 1024

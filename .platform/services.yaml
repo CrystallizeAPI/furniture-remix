@@ -1,0 +1,4 @@
+redis:
+  type: "redis:7"
+  configuration:
+    maxmemory_policy: volatile-lru

@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import ProductPage from "~/routes/shop/$folder.$product";
 import { useAuth } from "../hooks/useAuth";
 import { useCart } from "../hooks/useCart";
 import { ClientOnly } from "../hooks/useHydrated";
@@ -69,33 +68,62 @@ export const HydratedBasket: React.FC = () => {
   const { addToBasket, removeFromBasket } = useLocalBasket();
 
   return (
-    <div className="bg-grey mt-10 rounded p-10  mx-auto">
+    <div className="mt-10 rounded p-10  mx-auto">
       {loading && <p>Loading...</p>}
-      <h1 className="font-bold text-4xl mt-5 mb-10">Your cart</h1>
-      <div className="flex flex-col">
+      <h1 className="font-bold text-4xl mt-5 mb-10">Cart</h1>
+      <div className="flex flex-col gap-3">
         {cart &&
           cart.cart.items.map((item: any) => (
-            <div key={item.id} className="flex justify-between">
+            <div
+              key={item.id}
+              className="flex justify-between bg-grey2 py-5 px-10 items-center"
+            >
               <div className="flex flex-col">
-                <p className="text-xl">
+                <p className="text-xl font-semibold">
                   {item.product.name} × {item.quantity}
                 </p>
+                <p>${item.price.gross * item.quantity}</p>
               </div>
-              <p>${item.price.gross * item.quantity}</p>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    removeFromBasket(item.variant);
+                  }}
+                >
+                  -
+                </button>
+                <p>{item.quantity}</p>
+                <button onClick={() => addToBasket(item.variant)}>+</button>
+              </div>
             </div>
           ))}
         {cart && (
-          <div className="flex justify-between items-center border-t-2 border-text pt-4">
-            <p className="font-semibold text-xl">Total</p>
-            <p>${cart.total.gross}</p>
+          <div className="flex flex-col gap-4 border-b-2 border-grey4 py-4 items-end">
+            <div className="flex text-grey3 justify-between w-60">
+              <p>Net</p>
+              <p>€ {cart.total.net}</p>
+            </div>
+            <div className="flex text-grey3 justify-between w-60">
+              <p>Tax amount</p>
+              <p>€ {cart.total.taxAmount}</p>
+            </div>
+            <div className="flex font-bold text-xl justify-between w-60">
+              <p>To pay</p>
+              <p>€ {cart.total.gross}</p>
+            </div>
           </div>
         )}
-        <Link
-          to="/checkout"
-          className="py-3 mt-10 rounded font-semibold bg-buttonBg text-buttonText w-auto text-center"
-        >
-          Go to Checkout
-        </Link>
+        <div className="flex justify-between mt-10">
+          <Link to="/" className="bg-grey py-2 px-5 text-center font-semibold">
+            Back
+          </Link>
+          <Link
+            to="/checkout"
+            className="bg-buttonBg2 py-2 px-4 w-40 text-center font-bold"
+          >
+            Checkout
+          </Link>
+        </div>
       </div>
     </div>
   );

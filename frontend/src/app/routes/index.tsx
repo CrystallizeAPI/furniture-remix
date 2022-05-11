@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function HomePage() {
-  const { data, shop } = useLoaderData();
+  const { data } = useLoaderData();
   let grid = data?.component?.content?.grids[0];
 
   return (
@@ -36,21 +36,6 @@ export default function HomePage() {
         type={GridRenderingType.Div}
         cellComponent={({ cell }: { cell: any }) => <GridItem cell={cell} />}
       />
-      <div className="mt-20">
-        {shop?.children?.map((category: any) => {
-          return <CategoryList category={category} key={category.name}/>;
-        })}
-      </div>
-      <div className="mt-20">
-        {shop?.children?.map((category: any) => {
-          return <CategoryList category={category} key={category.name}/>;
-        })}
-      </div>
-      <div className="mt-20 bg-[#E2ECE9] px-10 py-1">
-        {shop?.children?.map((category: any) => {
-          return <CategoryList category={category} key={category.name}/>;
-        })}
-      </div>
     </div>
   );
 }

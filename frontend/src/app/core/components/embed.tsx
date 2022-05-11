@@ -23,8 +23,6 @@ export const Embed = ({ cell }: { cell: any }) => {
     (component: any) => component.id === "media"
   )?.content?.selectedComponent?.content
 
-  console.log(embedItem);
-
   return (
     <div
       className="h-[470px] max-w-[400px] flex flex-col justify-between"

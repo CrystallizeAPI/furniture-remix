@@ -1,14 +1,11 @@
 import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
-import { fetchCampaignPage, fetchShop } from "~/core/UseCases";
-import {
-  GridRenderer,
-  GridRenderingType,
-} from "@crystallize/reactjs-components/dist/grid";
 import { GridItem } from "~/core/components/grid-item";
 import splideStyles from "@splidejs/splide/dist/css/themes/splide-default.min.css";
-import { CategoryList } from "~/core/components/category-list";
+import { fetchCampaignPage, fetchShop } from "~/core/UseCases";
+import { GridRenderer, GridRenderingType } from '@crystallize/reactjs-components/dist/grid';
+
 
 export const headers: HeadersFunction = () => {
   return HttpCacheHeaderTagger("1m", "1w", ["home"]).headers;

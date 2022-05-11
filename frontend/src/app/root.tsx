@@ -1,34 +1,27 @@
 import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useCatch,
-  useLoaderData,
-  Link,
-} from "@remix-run/react";
+    Links,
+    LiveReload,
+    Meta,
+    Outlet,
+    Scripts,
+    ScrollRestoration,
+    useCatch,
+    useLoaderData
+} from '@remix-run/react';
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
-import { useLocation } from "react-router-dom";
-import {
-  ErrorBoundaryComponent,
-  json,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import { ErrorBoundaryComponent, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 
 import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import { fetchNavigation } from "~/core/UseCases";
-import { Basket } from "~/core/components/basket";
+import { Cart } from "~/core/components/cart";
 import { Header } from "~/core/components/header";
 import { Footer } from "./core/components/footer";
-
 import tailwindStyles from "./styles/tailwind.css";
 
 export function links() {
-  return [{ rel: "stylesheet", href: tailwindStyles }];
+    return [{ rel: "stylesheet", href: tailwindStyles }];
 }
+import React from 'react';
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -37,15 +30,18 @@ export const meta: MetaFunction = () => ({
 });
 
 export let loader: LoaderFunction = async () => {
-  return json(
-    {
-      navigation: await fetchNavigation(),
-      ENV: {
-        SERVICE_API_URL: process.env.SERVICE_API_URL,
-      },
-    },
-    HttpCacheHeaderTagger("30s", "1w", ["shop"])
-  );
+    const config = require("platformsh-config").config();
+    return json(
+        {
+            navigation: await fetchNavigation(),
+            ENV: {
+                CRYSTALLIZE_TENANT_IDENTIFIER: process.env.CRYSTALLIZE_TENANT_IDENTIFIER,
+                SERVICE_API_URL: config.isValidPlatform() ? config.getRoute("serviceapi").url.replace(/\/$/, '') : process.env.SERVICE_API_URL,
+                STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
+            }
+        }
+        , HttpCacheHeaderTagger('30s', '1w', ['shop'])
+    );
 };
 
 const Document: React.FC<{ children: React.ReactNode }> = ({
@@ -73,7 +69,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({
   children: any;
 }) => {
   const { navigation, ENV } = useLoaderData();
-  const location = useLocation();
   return (
     <>
       <header className="lg:w-content w-full mx-auto p-8 sm:px-6">

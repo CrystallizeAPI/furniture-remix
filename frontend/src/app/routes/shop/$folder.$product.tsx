@@ -3,7 +3,7 @@ import {
   HttpCacheHeaderTagger,
   HttpCacheHeaderTaggerFromLoader,
 } from "~/core/Http-Cache-Tagger";
-import { useLocalBasket } from "~/core/hooks/useLocalBasket";
+import { useLocalCart } from "~/core/hooks/useLocalCart";
 import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Image } from "@crystallize/reactjs-components/dist/image";
@@ -26,7 +26,7 @@ export default function ProductPage() {
   let description = product.components.find(
     (component: any) => component.type === "richText"
   )?.content?.plainText;
-  const { addToBasket } = useLocalBasket();
+  const { add } = useLocalCart();
   
   return (
     <div className="lg:w-content mx-auto w-full">
@@ -38,7 +38,7 @@ export default function ProductPage() {
           <div className="flex justify-between items-center">
             <p className="font-bold">${product.variants[0].price}</p>
             <button className="bg-buttonBg px-10 py-3 rounded font-buttonText" onClick={() => {
-                addToBasket(product.variants[0]);
+                add(product.variants[0]);
             }}>
               Add to Cart
             </button>
@@ -62,7 +62,7 @@ export default function ProductPage() {
 }
 
 const Variant: React.FC<{ variant: any }> = ({ variant }) => {
-  const { basket, addToBasket } = useLocalBasket();
+  const { add } = useLocalCart();
 
   return (
     <div>
@@ -70,7 +70,7 @@ const Variant: React.FC<{ variant: any }> = ({ variant }) => {
       <p>Sku: {variant.sku}</p>
       <button
         onClick={() => {
-          addToBasket(variant);
+          add(variant);
         }}
       >
         Add to cart
@@ -82,7 +82,7 @@ function addToCart(variant: any) {
     throw new Error("Function not implemented.");
 }
 
-function useLocalCart(): { add: any; } {
-    throw new Error("Function not implemented.");
-}
+// function useLocalCart(): { add: any; } {
+//     throw new Error("Function not implemented.");
+// }
 

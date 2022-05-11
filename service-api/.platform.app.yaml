@@ -1,0 +1,22 @@
+name: serviceapi
+type: "nodejs:16"
+
+dependencies:
+  nodejs:
+    pm2: "^4.5.0"
+
+build:
+  flavor: default
+
+relationships:
+  redis: "redis:redis"
+
+web:
+  commands:
+    start: node ./dist/index.js
+
+hooks:
+  build: |
+    npm run build
+
+disk: 1024

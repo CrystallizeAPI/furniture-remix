@@ -52,13 +52,17 @@ This will:
 
 > you can stop non stopped services with `make stop`
 
-Frontend: https://frontend.app.crystal
-Service API: https://service-api.app.crystal
-Mailcatcher: http://localhost:11080
+- Frontend: https://frontend.app.crystal
+- Service API: https://service-api.app.crystal
+- Mailcatcher - Web: http://localhost:3022
+- Mailcatcher SMTP: http://localhost:3021
+- Redis: http://localhost:3023
+
+> Note: to connect to Redis: `docker run --rm --net=host -it redis redis-cli -h 127.0.0.1 -p 3023`
 
 # Gotchas
 
-- Frontend run in HTTP on 11235
-- Frontend Live Reload WebScoket run in HTTP on 11236
-- Service API run in HTTP on 11237
+- Frontend run in HTTP on 3018
+- Frontend Live Reload WebScoket run in HTTP on 3019
+- Service API run in HTTP on 3020
 - Caddy enables HTTPS on top of them all

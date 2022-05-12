@@ -465,43 +465,6 @@ export async function fetchProduct(path: string) {
     })).catalogue
 }
 
-export async function fetchShop(path: string) {
-    return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
-    catalogue(language: $language, path: $path) {
-      children {
-        name
-        components {
-          type
-          content {
-            ...on SingleLineContent {
-              text
-            }
-            ...on RichTextContent {
-              plainText
-            }
-          }
-        }
-        children {
-          name
-          path
-          ...on Product {
-            defaultVariant {
-              price
-              firstImage {
-                url
-                altText
-              }
-            }
-          }
-        }
-      }
-    }
-  }`, {
-        language: 'en',
-        path
-    })).catalogue
-}
-
 export async function fetchFolder(path: string) {
     return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {

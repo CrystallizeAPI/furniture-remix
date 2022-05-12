@@ -58,19 +58,20 @@ export const HydratedCart: React.FC = () => {
     }
 
     return <ClientOnly>
-        <div className="bg-grey mt-10 rounded p-10  mx-auto" style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
+        <div className="mt-10 rounded p-10  mx-auto" style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
             {loading && <p>Loading...</p>}
-            <h1 className="font-bold text-4xl mt-5 mb-10">Your cart<small>Details (Id:{localCart.cartId}, State: {localCart.state})</small></h1>
-            <div className="flex flex-col">
+            <h1 className="font-bold text-4xl mt-5 mb-10">Cart<small>Details (Id:{localCart.cartId}, State: {localCart.state})</small></h1>
+            <div className="flex flex-col gap-3">
                 {cart &&
                     cart.cart.items.map((item: any) => (
-                        <div key={item.id} className="flex justify-between">
+                        <div key={item.id} className="flex justify-between bg-grey2 py-5 px-10 items-center">
                             <div className="flex flex-col">
-                                <p className="text-xl">
-                                    {!isImmutable() && <button onClick={() => { removeFromCart(item.variant); }}> - </button>}
-                                    {item.product.name} ({item.variant.name}) × {item.quantity}
-                                    {!isImmutable() && <button onClick={() => { addToCart(item.variant) }}> + </button>}
-                                </p>
+                                <p className="text-xl font-semibold">{item.product.name} ({item.variant.name})</p>
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                {!isImmutable() && <button onClick={() => { removeFromCart(item.variant); }}> - </button>}
+                                {item.product.name} ({item.variant.name}) × {item.quantity}
+                                {!isImmutable() && <button onClick={() => { addToCart(item.variant) }}> + </button>}
                             </div>
                             <p>${item.price.gross} (gross)</p>
                             <p>${item.price.net} (net)</p>
@@ -78,20 +79,25 @@ export const HydratedCart: React.FC = () => {
                         </div>
                     ))}
                 {total && (
-                    <div className="flex justify-between items-center border-t-2 border-text pt-4">
-                        <p className="font-semibold text-xl">Total</p>
-                        <p>${total.gross} (gross)</p>
-                        <p>${total.net} (net)</p>
-                        <p>${total.taxAmount}(taxAmount)</p>
-
+                    <div className="flex flex-col gap-4 border-b-2 border-grey4 py-4 items-end">
+                        <div className="flex text-grey3 justify-between w-60">
+                            <p>Net</p>
+                            <p>€ {total.net}</p>
+                        </div>
+                        <div className="flex text-grey3 justify-between w-60">
+                            <p>Tax amount</p>
+                            <p>€ {total.taxAmount}</p>
+                        </div>
+                        <div className="flex font-bold text-xl justify-between w-60">
+                            <p>To pay</p>
+                            <p>€ {total.gross}</p>
+                        </div>
                     </div>
                 )}
-                <Link
-                    to="/checkout"
-                    className="py-3 mt-10 rounded font-semibold bg-buttonBg text-buttonText w-auto text-center"
-                >
-                    Go to Checkout
-                </Link>
+                <div className="flex justify-between mt-10">
+                    <Link to="/" className="bg-grey py-2 px-5 text-center font-semibold">Back</Link>
+                    <Link to="/checkout" className="bg-buttonBg2 py-2 px-4 w-40 text-center font-bold">Checkout</Link>
+                </div>
             </div>
         </div>
     </ClientOnly>

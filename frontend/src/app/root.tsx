@@ -9,7 +9,7 @@ import {
     useLoaderData
 } from '@remix-run/react';
 import { HttpCacheHeaderTagger } from "~/core/Http-Cache-Tagger";
-import { ErrorBoundaryComponent, json, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { ErrorBoundaryComponent, HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 
 import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import { fetchNavigation } from "~/core/UseCases";
@@ -17,17 +17,23 @@ import { Cart } from "~/core/components/cart";
 import { Header } from "~/core/components/header";
 import { Footer } from "./core/components/footer";
 import tailwindStyles from "./styles/tailwind.css";
+import React from 'react';
 
 export function links() {
     return [{ rel: "stylesheet", href: tailwindStyles }];
 }
-import React from 'react';
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
     title: "Crystallize Furniture v2 Remix Boilerplate",
     viewport: "width=device-width,initial-scale=1",
 });
+
+export const headers: HeadersFunction = () => {
+    return {
+        "Link": `<${tailwindStyles}>; rel=preload; as=style`,
+    }
+}
 
 export let loader: LoaderFunction = async () => {
     const config = require("platformsh-config").config();

@@ -644,16 +644,16 @@ Ensure the default browser behavior of the `hidden` attribute.
     width: 50%;
 }
 
-.w-3\/4 {
-    width: 75%;
+.w-2\/5 {
+    width: 40%;
 }
 
 .w-60 {
     width: 15rem;
 }
 
-.w-2\/5 {
-    width: 40%;
+.w-3\/4 {
+    width: 75%;
 }
 
 .w-1\/3 {
@@ -674,10 +674,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[300px\] {
     width: 300px;
-}
-
-.max-w-full {
-    max-width: 100%;
 }
 
 .flex-1 {
@@ -826,9 +822,9 @@ Ensure the default browser behavior of the `hidden` attribute.
     background-color: rgb(249 249 249 / var(--tw-bg-opacity));
 }
 
-.bg-grey2 {
+.bg-ctaBlue {
     --tw-bg-opacity: 1;
-    background-color: rgb(249 249 249 / var(--tw-bg-opacity));
+    background-color: rgb(190 225 230 / var(--tw-bg-opacity));
 }
 
 .bg-grey {

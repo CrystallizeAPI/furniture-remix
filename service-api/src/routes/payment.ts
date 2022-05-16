@@ -1,4 +1,5 @@
 import {
+    createOrderPusher,
     CrystallizeOrderPusher,
     CustomerInputRequest,
     OrderCreatedConfirmation,
@@ -16,9 +17,11 @@ import {
 } from '@crystallize/node-service-api-request-handlers';
 import { StandardRouting, ValidatingRequestRouting } from '@crystallize/node-service-api-router';
 import Koa from 'koa';
+import { SuperFastClient, SuperFastConfig } from '../lib/superfast/SuperFast';
 import { cartWrapperRepository } from '../services';
 
 const pushOrderSubHandler = async (
+    superFast: SuperFastClient,
     cartWrapper: CartWrapper,
     customer: CustomerInputRequest,
     payment: PaymentInputRequest,
@@ -30,7 +33,8 @@ const pushOrderSubHandler = async (
             status: 403,
         };
     }
-    const orderCreatedConfirmation = await CrystallizeOrderPusher({
+    const pusher = createOrderPusher(superFast.apiClient);
+    const orderCreatedConfirmation = await pusher({
         customer,
         cart: cart.cart.items.map((item: CartItem) => {
             return {
@@ -65,7 +69,7 @@ const pushOrderSubHandler = async (
 
 const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
     return {
-        identifier: 'dhairya@crystallize.com',
+        identifier: cartWrapper.customer.identifier,
         firstName: 'William',
         lastName: 'Wallace',
         companyName: 'Freedom Inc.',
@@ -148,6 +152,7 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
                                     };
                                 }
                                 const orderCreatedConfirmation = await pushOrderSubHandler(
+                                    context.superFast,
                                     cartWrapper,
                                     buildCustomer(cartWrapper),
                                     {
@@ -186,22 +191,27 @@ export const paymentStandardRoutes: StandardRouting = {
                         status: 404,
                     };
                 }
-                const orderCreatedConfirmation = await pushOrderSubHandler(cartWrapper, buildCustomer(cartWrapper), {
-                    //@ts-ignore
-                    provider: 'custom',
-                    custom: {
-                        properties: [
-                            {
-                                property: 'payment_method',
-                                value: 'Crystallize Coin',
-                            },
-                            {
-                                property: 'amount',
-                                value: cartWrapper.cart.total.net.toFixed(2),
-                            },
-                        ],
+                const orderCreatedConfirmation = await pushOrderSubHandler(
+                    ctx.superFast,
+                    cartWrapper,
+                    buildCustomer(cartWrapper),
+                    {
+                        //@ts-ignore
+                        provider: 'custom',
+                        custom: {
+                            properties: [
+                                {
+                                    property: 'payment_method',
+                                    value: 'Crystallize Coin',
+                                },
+                                {
+                                    property: 'amount',
+                                    value: cartWrapper.cart.total.net.toFixed(2),
+                                },
+                            ],
+                        },
                     },
-                });
+                );
                 ctx.response.status = 201;
                 ctx.response.body = orderCreatedConfirmation;
             },

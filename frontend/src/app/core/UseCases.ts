@@ -1,21 +1,11 @@
 import {
     createNavigationFetcher,
     createCatalogueFetcher,
-    createClient,
     catalogueFetcherGraphqlBuilder,
+    ClientInterface,
 } from '@crystallize/js-api-client';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { LocalCart } from './hooks/useLocalCart';
-
-const apiClient = createClient({
-    //@ts-ignore
-    tenantIdentifier:
-        typeof window !== 'undefined'
-            ? window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER
-            : typeof process !== 'undefined'
-            ? process.env.CRYSTALLIZE_TENANT_IDENTIFIER
-            : window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER,
-});
 
 export let customer = (formData: any) => {
     return;
@@ -64,11 +54,11 @@ export async function fetchCart(cartId: string) {
     return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
 }
 
-export async function fetchNavigation() {
+export async function fetchNavigation(apiClient: ClientInterface) {
     return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
 }
 
-export async function fetchProducts(path: string) {
+export async function fetchProducts(apiClient: ClientInterface, path: string) {
     const fetch = createCatalogueFetcher(apiClient);
     const builder = catalogueFetcherGraphqlBuilder;
     const query = {
@@ -98,12 +88,11 @@ export async function fetchProducts(path: string) {
             },
         },
     };
-
     const response = await fetch<any>(query);
     return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
 }
 
-export async function fetchCampaignPage(path: string) {
+export async function fetchCampaignPage(apiClient: ClientInterface, path: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!) {
@@ -224,7 +213,7 @@ export async function fetchCampaignPage(path: string) {
     ).catalogue;
 }
 
-export async function fetchDocument(path: string) {
+export async function fetchDocument(apiClient: ClientInterface, path: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!) {
@@ -336,7 +325,7 @@ export async function fetchDocument(path: string) {
     ).catalogue;
 }
 
-export async function fetchProduct(path: string) {
+export async function fetchProduct(apiClient: ClientInterface, path: string) {
     //should be using the createCatalogueFetcher
     // just did this way to have everything for now
 
@@ -620,49 +609,7 @@ export async function fetchProduct(path: string) {
     ).catalogue;
 }
 
-export async function fetchShop(path: string) {
-    return (
-        await apiClient.catalogueApi(
-            `query ($language: String!, $path: String!) {
-    catalogue(language: $language, path: $path) {
-      children {
-        name
-        components {
-          type
-          content {
-            ...on SingleLineContent {
-              text
-            }
-            ...on RichTextContent {
-              plainText
-            }
-          }
-        }
-        children {
-          name
-          path
-          ...on Product {
-            defaultVariant {
-              price
-              firstImage {
-                url
-                altText
-              }
-            }
-          }
-        }
-      }
-    }
-  }`,
-            {
-                language: 'en',
-                path,
-            },
-        )
-    ).catalogue;
-}
-
-export async function fetchFolder(path: string) {
+export async function fetchFolder(apiClient: ClientInterface, path: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!) {

@@ -5,13 +5,22 @@ import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import StockIcon from '~/assets/stockIcon.svg';
+import { getSuperFast } from 'src/lib/superfast/SuperFast';
+import { fetchProduct } from '~/core/UseCases';
+import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { useLocalCart } from '~/core/hooks/useLocalCart';
+import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { Image } from '@crystallize/reactjs-components/dist/image';
+import StockIcon from '~/assets/stockIcon.svg';
 import { useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}/${params.product}`;
-    const product = await fetchProduct(path);
+    const superFast = await getSuperFast(request.headers.get('Host')!);
+    const product = await fetchProduct(superFast.apiClient, path);
     return json({ product }, HttpCacheHeaderTagger('30s', '1w', [path]));
 };
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -28,8 +37,6 @@ export default function ProductPage() {
     const { add } = useLocalCart();
 
     const onVariantChange = (variant) => setSelectedVariant(variant);
-
-    console.log(product);
 
     return (
         <div className="lg:w-content mx-auto w-full">

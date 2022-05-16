@@ -74,7 +74,7 @@ const InnerCart: React.FC<{ basket: any }> = ({ basket }) => {
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { isImmutable, cart: localCart, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
-    const { cart } = remoteCart || { cart: null, total: null };
+    const { cart, total } = remoteCart || { cart: null, total: null };
 
     if (isEmpty()) {
         return null;
@@ -82,9 +82,14 @@ export const HydratedCart: React.FC = () => {
 
     return (
         <ClientOnly>
-            <div className="mt-10 rounded p-10  mx-auto">
+            <div className="mt-10 rounded p-10  mx-auto" style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
                 {loading && <p>Loading...</p>}
-                <h1 className="font-bold text-4xl mt-5 mb-10">Cart</h1>
+                <h1 className="font-bold text-4xl mt-5 mb-10">
+                    Cart
+                    <small>
+                        Details (Id:{localCart.cartId}, State: {localCart.state})
+                    </small>
+                </h1>
                 <div className="flex flex-col gap-3">
                     {cart &&
                         cart.cart.items.map((item: any) => (
@@ -109,7 +114,7 @@ export const HydratedCart: React.FC = () => {
                                             -{' '}
                                         </button>
                                     )}
-                                    <p>{item.quantity}</p>
+                                    {item.product.name} ({item.variant.name}) × {item.quantity}
                                     {!isImmutable() && (
                                         <button
                                             onClick={() => {
@@ -121,21 +126,24 @@ export const HydratedCart: React.FC = () => {
                                         </button>
                                     )}
                                 </div>
+                                <p>${item.price.gross} (gross)</p>
+                                <p>${item.price.net} (net)</p>
+                                <p>${item.price.taxAmount} (taxAmount)</p>
                             </div>
                         ))}
-                    {cart && (
+                    {total && (
                         <div className="flex flex-col gap-4 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 justify-between w-60">
                                 <p>Net</p>
-                                <p>€ {cart.total.net}</p>
+                                <p>€ {total.net}</p>
                             </div>
                             <div className="flex text-grey3 justify-between w-60">
                                 <p>Tax amount</p>
-                                <p>€ {cart.total.taxAmount}</p>
+                                <p>€ {total.taxAmount}</p>
                             </div>
                             <div className="flex font-bold text-xl justify-between w-60">
                                 <p>To pay</p>
-                                <p>€ {cart.total.gross}</p>
+                                <p>€ {total.gross}</p>
                             </div>
                         </div>
                     )}

@@ -1,3 +1,4 @@
+import { createClient, createProductHydrater } from '@crystallize/js-api-client';
 import {
     Cart,
     CartHydraterArguments,
@@ -18,6 +19,7 @@ export const cartBodyConvertedRoutes: ValidatingRequestRouting = {
             handler: handleCartRequestPayload,
             args: (context: Koa.Context): CartHydraterArguments => {
                 return {
+                    hydraterBySkus: createProductHydrater(context.superFast.apiClient).bySkus,
                     perVariant: () => {
                         return {
                             id: true,
@@ -91,7 +93,9 @@ export const cartStandardRoutes: StandardRouting = {
             authenticated: true,
             handler: async (ctx: Koa.Context) => {
                 const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
-                const cart = await handleCartRequestPayload(request, {});
+                const cart = await handleCartRequestPayload(request, {
+                    hydraterBySkus: createProductHydrater(ctx.superFast.apiClient).bySkus,
+                });
                 ctx.body = await handleAndPlaceCart(cart, ctx.user, ctx.request.body.cartId as string);
             },
         },

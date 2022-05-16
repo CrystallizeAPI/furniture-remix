@@ -1,19 +1,14 @@
 import HamburgerIcon from '~/assets/hamburgerIcon.svg';
-import Logo from '~/assets/logo.svg';
 import SearchIcon from '~/assets/searchIcon.svg';
 import UserIcon from '~/assets/userIcon.svg';
 import BasketIcon from '~/assets/basketIcon.svg';
-import { Link } from '@remix-run/react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Link, useLocation } from '@remix-run/react';
+import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
 
-interface Props {
-    navItem: String;
-}
-
-export const Header: React.FC<Props> = ({ navItem }) => {
+export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
+    const { state: superFast } = useSuperFast();
     let paths = ['/cart', '/checkout', '/confirmation'];
     let location = useLocation();
-
     return (
         <>
             {paths.includes(location.pathname) ? (
@@ -21,7 +16,7 @@ export const Header: React.FC<Props> = ({ navItem }) => {
                     <div className="flex flex-auto justify-between items-center w-1/4">
                         <img src={`${HamburgerIcon}`} />
                         <Link to="/">
-                            <img src={`${Logo}`} />
+                            <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
                     </div>
                     <div className="flex w-3/4 gap-5">
@@ -68,13 +63,13 @@ export const Header: React.FC<Props> = ({ navItem }) => {
                     <div className="flex flex-auto justify-between items-center">
                         <img src={`${HamburgerIcon}`} />
                         <Link to="/">
-                            <img src={`${Logo}`} />
+                            <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
                         <div className="bg-grey w-60 p-2">
                             <img src={`${SearchIcon}`} />
                         </div>
                         <p>
-                            <Link to="/shop/plants">{navItem}</Link>
+                            <Link to="/shop/plants">{navigation.tree.name}</Link>
                         </p>
                         <p>
                             <Link to="/stories">Stories</Link>

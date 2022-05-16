@@ -1,4 +1,4 @@
-'https://{default}/':
+'https://*.{default}/':
     type: upstream
     id: 'frontapp'
     upstream: 'frontapp:http'
@@ -6,7 +6,7 @@
         # Cache is managed by Fastly
         enabled: false
 
-'https://serviceapi.{default}/':
+'https://*.sapi.{default}/':
     type: upstream
     id: 'serviceapi'
     upstream: 'serviceapi:http'

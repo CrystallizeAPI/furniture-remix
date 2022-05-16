@@ -1,35 +1,15 @@
-service-api.app.crystal {
-    tls ./provisioning/dev/certs/domains.pem ./provisioning/dev/certs/key.pem
-    
-    reverse_proxy 127.0.0.1:3020 {
-        header_up Host                {host}
-        header_up X-Real-IP           {remote}
-        header_up X-Forwarded-Host    {host}
-        header_up X-Forwarded-Server  {host}
-        header_up X-Forwarded-Port    {port}
-        header_up X-Forwarded-For     {remote}
-        header_up X-Forwarded-Scheme  {scheme}
-    }
+*.sapi.superfast.crystal {
+    tls ./provisioning/dev/certs/domains.pem ./provisioning/dev/certs/key.pem 
+    reverse_proxy 127.0.0.1:3020
 }
 
-frontend.app.crystal {
+*.superfast.crystal {
     tls ./provisioning/dev/certs/domains.pem ./provisioning/dev/certs/key.pem
-
     push
-    
     @websockets {
         header Connection *Upgrade*
         header Upgrade websocket
     }
     reverse_proxy @websockets localhost:3019
-    
-    reverse_proxy 127.0.0.1:3018 {
-        header_up Host                {host}
-        header_up X-Real-IP           {remote}
-        header_up X-Forwarded-Host    {host}
-        header_up X-Forwarded-Server  {host}
-        header_up X-Forwarded-Port    {port}
-        header_up X-Forwarded-For     {remote}
-        header_up X-Forwarded-Scheme  {scheme}
-    }
+    reverse_proxy 127.0.0.1:3018
 }

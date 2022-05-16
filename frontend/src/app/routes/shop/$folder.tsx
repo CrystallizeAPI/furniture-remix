@@ -1,15 +1,16 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from '@remix-run/react';
 import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
 import { fetchFolder, fetchProducts } from '~/core/UseCases';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Filter } from '~/core/components/filter';
+import { getSuperFast } from 'src/lib/superfast/SuperFast';
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}`;
-    const folder = await fetchFolder(path);
-    const products = await fetchProducts(path);
+    const superFast = await getSuperFast(request.headers.get('Host')!);
+    const folder = await fetchFolder(superFast.apiClient, path);
+    const products = await fetchProducts(superFast.apiClient, path);
     return json({ products, folder }, HttpCacheHeaderTagger('30s', '1w', [path]));
 };
 
@@ -19,9 +20,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export default function FolderPage() {
     const { products, folder } = useLoaderData();
-    console.log(folder);
     let title = folder.components.find((component: any) => component.type === 'singleLine')?.content?.text;
-
     let description = folder.components.find((component: any) => component.type === 'richText')?.content?.plainText;
 
     return (

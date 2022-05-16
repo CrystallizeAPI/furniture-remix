@@ -23,12 +23,15 @@
         "@stripe/react-stripe-js": "^1.7.2",
         "@stripe/stripe-js": "^1.29.0",
         "jwt-decode": "^3.1.2",
+        "lodash": "^4.17.21",
         "platformsh-config": "^2.4.1",
         "react": "^17",
-        "react-dom": "^17"
+        "react-dom": "^17",
+        "redis": "^4.1.0"
     },
     "devDependencies": {
         "@remix-run/dev": "^1.4.3",
+        "@types/lodash": "^4.14.182",
         "@types/react": "^17",
         "@types/react-dom": "^17",
         "autoprefixer": "^10.4.6",

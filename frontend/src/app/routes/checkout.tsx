@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { HydratedCart } from '~/core/components/cart';
 import { customer, registerAndSendMagickLink } from '~/core/UseCases';
 import { useAuth } from '~/core/hooks/useAuth';
 import { ClientOnly } from '@crystallize/reactjs-hooks';

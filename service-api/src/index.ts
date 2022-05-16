@@ -5,9 +5,11 @@ import { orderBodyConvertedRoutes } from './routes/order';
 import { cartBodyConvertedRoutes, cartStandardRoutes } from './routes/cart';
 import { paymentBodyConvertedRoutes, paymentStandardRoutes } from './routes/payment';
 import { webhookStandardRoutes } from './routes/webhook';
+import Koa from 'koa';
+import { getSuperFast } from './lib/superfast/SuperFast';
 
 // Create the service api, you can destruct the router and/or app if needed.
-const { run } = createServiceApiApp(
+const { run, app } = createServiceApiApp(
     {
         ...magickLinkBodyConvertedRoutes,
         ...orderBodyConvertedRoutes,
@@ -23,6 +25,14 @@ const { run } = createServiceApiApp(
     },
     authenticatedMiddleware(`${process.env.JWT_SECRET}`)
 );
+
+const superFastMiddleware: Koa.Middleware = async (ctx: Koa.Context, next: Koa.Next) => {
+    const superFast = await getSuperFast(ctx.request.host);
+    ctx.superFast = superFast;
+    await next();
+};
+
+app.use(superFastMiddleware);
 
 // run the app!
 run(process.env.PORT ? parseInt(process.env.PORT) : 3000);

@@ -37,7 +37,7 @@ install: install-certificates ## Install
 .PHONY: install-certificates
 install-certificates: ## Install the certificates
 	@$(MKCERT) -install
-	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.app.crystal"
+	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.sapi.superfast.crystal" "*.superfast.crystal"
 
 .PHONY: npmupdate
 npmupdate: ## npmupdate

@@ -1,10 +1,11 @@
-import { CrystallizeOrderPusher, CustomerInputRequest, OrderCreatedConfirmation, PaymentInputRequest } from "@crystallize/js-api-client";
+import { createOrderPusher, CrystallizeOrderPusher, CustomerInputRequest, OrderCreatedConfirmation, PaymentInputRequest } from "@crystallize/js-api-client";
 import { Cart, CartItem, stripePaymentIntentPayload, handleStripeCreatePaymentIntentRequestPayload, StripePaymentIntentArguments, StripePaymentIntentWebhookArguments, handleStripePaymentIntentWebhookRequestPayload, CartWrapper } from "@crystallize/node-service-api-request-handlers";
 import { StandardRouting, ValidatingRequestRouting } from "@crystallize/node-service-api-router";
 import Koa from 'koa';
+import { SuperFastClient, SuperFastConfig } from "../lib/superfast/SuperFast";
 import { cartWrapperRepository } from "../services";
 
-const pushOrderSubHandler = async (cartWrapper: CartWrapper, customer: CustomerInputRequest, payment: PaymentInputRequest): Promise<OrderCreatedConfirmation> => {
+const pushOrderSubHandler = async (superFast: SuperFastClient, cartWrapper: CartWrapper, customer: CustomerInputRequest, payment: PaymentInputRequest): Promise<OrderCreatedConfirmation> => {
     const cart = cartWrapper.cart;
     if (cartWrapper?.extra?.orderId) {
         throw {
@@ -12,7 +13,8 @@ const pushOrderSubHandler = async (cartWrapper: CartWrapper, customer: CustomerI
             status: 403
         }
     }
-    const orderCreatedConfirmation = await CrystallizeOrderPusher({
+    const pusher = createOrderPusher(superFast.apiClient);
+    const orderCreatedConfirmation = await pusher({
         customer,
         cart: cart.cart.items.map((item: CartItem) => {
             return {
@@ -131,6 +133,7 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
                                     };
                                 };
                                 const orderCreatedConfirmation = await pushOrderSubHandler(
+                                    context.superFast,
                                     cartWrapper,
                                     buildCustomer(cartWrapper),
                                     {
@@ -168,6 +171,7 @@ export const paymentStandardRoutes: StandardRouting = {
                     }
                 }
                 const orderCreatedConfirmation = await pushOrderSubHandler(
+                    ctx.superFast,
                     cartWrapper,
                     buildCustomer(cartWrapper),
                     {

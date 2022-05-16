@@ -4,11 +4,13 @@ import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/H
 import { fetchFolder, fetchProducts } from "~/core/UseCases";
 import { Image } from "@crystallize/reactjs-components/dist/image";
 import { Filter } from "~/core/components/filter";
+import { getSuperFast } from "src/lib/superfast/SuperFast";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}`;
-    const folder = await fetchFolder(path);
-    const products = await fetchProducts(path);
+    const superFast = await getSuperFast(request.headers.get("Host")!);
+    const folder = await fetchFolder(superFast.apiClient, path);
+    const products = await fetchProducts(superFast.apiClient, path);
     return json({ products, folder }, HttpCacheHeaderTagger('30s', '1w', [path]));
 };
 

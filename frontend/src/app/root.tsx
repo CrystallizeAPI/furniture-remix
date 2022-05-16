@@ -18,16 +18,20 @@ import { Header } from "~/core/components/header";
 import { Footer } from "./core/components/footer";
 import tailwindStyles from "./styles/tailwind.css";
 import React from 'react';
+import { getSuperFast, SuperFastConfig } from 'src/lib/superfast/SuperFast';
+import { SuperFastProvider } from 'src/lib/superfast/SuperFastProvider/Provider';
 
 export function links() {
     return [{ rel: "stylesheet", href: tailwindStyles }];
 }
 
-export const meta: MetaFunction = () => ({
-    charset: "utf-8",
-    title: "Crystallize Furniture v2 Remix Boilerplate",
-    viewport: "width=device-width,initial-scale=1",
-});
+export const meta: MetaFunction = ({ parentsData }) => {
+    return {
+        charset: "utf-8",
+        title: `Crystallize - Superfast`,
+        viewport: "width=device-width,initial-scale=1",
+    }
+};
 
 export const headers: HeadersFunction = () => {
     return {
@@ -35,14 +39,16 @@ export const headers: HeadersFunction = () => {
     }
 }
 
-export let loader: LoaderFunction = async () => {
+export let loader: LoaderFunction = async ({ request }) => {
     const config = require("platformsh-config").config();
+    const superFast = await getSuperFast(request.headers.get("Host")!);
     return json(
         {
-            navigation: await fetchNavigation(),
+            superFastConfig: superFast.config,
+            navigation: await fetchNavigation(superFast.apiClient),
             ENV: {
-                CRYSTALLIZE_TENANT_IDENTIFIER: process.env.CRYSTALLIZE_TENANT_IDENTIFIER,
-                SERVICE_API_URL: config.isValidPlatform() ? config.getRoute("serviceapi").url.replace(/\/$/, '') : process.env.SERVICE_API_URL,
+                CRYSTALLIZE_TENANT_IDENTIFIER: superFast.config.tenantIdentifier,
+                SERVICE_API_URL: config.isValidPlatform() ? config.getRoute("serviceapi").url.replace(/\/$/, '').replace('*', superFast.config.identifier) : (process.env.SERVICE_API_URL_PATTERN || '').replace('%s', superFast.config.identifier),
                 STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
             }
         }
@@ -67,8 +73,8 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { navigation, ENV } = useLoaderData();
-    return (<>
+    const { superFastConfig, navigation, ENV } = useLoaderData<{ ENV: any, navigation: any, superFastConfig: SuperFastConfig }>();
+    return (<SuperFastProvider config={superFastConfig}>
         <header className="lg:w-content w-full mx-auto p-8 sm:px-6">
             <script
                 dangerouslySetInnerHTML={{
@@ -78,11 +84,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Cart />
             <Header navigation={navigation} />
         </header>
-        <div>
+        <div style={{ backgroundColor: superFastConfig.theme === 'dark' ? '#000' : 'transparent' }}>
             <div>{children}</div>
         </div>
         <Footer />
-    </>
+    </SuperFastProvider>
     );
 }
 

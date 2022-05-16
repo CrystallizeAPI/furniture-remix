@@ -5,10 +5,12 @@ import { HeadersFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Image } from "@crystallize/reactjs-components/dist/image";
 import StockIcon from "~/assets/stockIcon.svg";
+import { getSuperFast } from "src/lib/superfast/SuperFast";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}/${params.product}`;
-    const product = await fetchProduct(path);
+    const superFast = await getSuperFast(request.headers.get("Host")!);
+    const product = await fetchProduct(superFast.apiClient, path);
     return json({ product }, HttpCacheHeaderTagger('30s', '1w', [path]));
 }
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

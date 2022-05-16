@@ -1,11 +1,6 @@
-import { createNavigationFetcher, createCatalogueFetcher, createClient, catalogueFetcherGraphqlBuilder } from '@crystallize/js-api-client';
+import { createNavigationFetcher, createCatalogueFetcher, catalogueFetcherGraphqlBuilder, ClientInterface } from '@crystallize/js-api-client';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { LocalCart } from './hooks/useLocalCart';
-
-const apiClient = createClient({
-    //@ts-ignore
-    tenantIdentifier: typeof window !== 'undefined' ? window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER : (typeof process !== 'undefined' ? process.env.CRYSTALLIZE_TENANT_IDENTIFIER : window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER)
-});
 
 export async function fetchPaymentIntent(cart: LocalCart): Promise<any> {
     //@ts-ignore
@@ -48,11 +43,11 @@ export async function fetchCart(cartId: string) {
     return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
 }
 
-export async function fetchNavigation() {
+export async function fetchNavigation(apiClient: ClientInterface) {
     return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
 }
 
-export async function fetchProducts(path: string) {
+export async function fetchProducts(apiClient: ClientInterface, path: string) {
     const fetch = createCatalogueFetcher(apiClient);
     const builder = catalogueFetcherGraphqlBuilder;
     const query = {
@@ -87,7 +82,7 @@ export async function fetchProducts(path: string) {
 }
 
 
-export async function fetchCampaignPage(path: string) {
+export async function fetchCampaignPage(apiClient: ClientInterface, path: string) {
     return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
     catalogue(path: $path, language: $language) {
       ... on Item {
@@ -200,7 +195,7 @@ export async function fetchCampaignPage(path: string) {
 }
 
 
-export async function fetchProduct(path: string) {
+export async function fetchProduct(apiClient: ClientInterface, path: string) {
     //should be using the createCatalogueFetcher
     // just did this way to have everything for now
 
@@ -465,7 +460,7 @@ export async function fetchProduct(path: string) {
     })).catalogue
 }
 
-export async function fetchFolder(path: string) {
+export async function fetchFolder(apiClient: ClientInterface, path: string) {
     return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {
         name

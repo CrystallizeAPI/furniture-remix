@@ -23,19 +23,23 @@ For a better experience and respect the [Twelve-Facter App](https://12factor.net
 Add an entry for the subdomains in your `/etc/host` file:
 
 ```
-127.0.0.1 service-api.app.crystal frontend.app.crystal
+127.0.0.1 furniture.superfast.crystal furniture.sapi.superfast.crystal
 ```
 
 ## Installation
+
 
 ```bash
 make install
 ```
 
+> Important!: You need to provide correct credentials in the `frontend/.env` and `service-api/.env`
+
+
 This will:
 
 -   install the Certificate Authority using `mkcert`
--   generate the certificates `mkcert` for `*.app.crystal`
+-   generate the certificates `mkcert` for `*.superfast.crystal`
 -   `npm install` the `front-end` folder and `service-api` folder
 
 ## Run the project
@@ -52,8 +56,8 @@ This will:
 
 > you can stop non stopped services with `make stop`
 
--   Frontend: https://frontend.app.crystal
--   Service API: https://service-api.app.crystal
+-   Frontend: https://furniture.superfast.crystal
+-   Service API: https://furniture.sapi.superfast.crystal
 -   Mailcatcher - Web: http://localhost:3022
 -   Mailcatcher SMTP: http://localhost:3021
 -   Redis: http://localhost:3023

@@ -29,6 +29,7 @@ clean: stop ## Clean non-essential files
 	
 .PHONY: install
 install: install-certificates ## Install
+	@$(NPM) install
 	@cd frontend && cp .env.dist .env && cd ..
 	@cd frontend && $(NPM) install && cd ..	
 	@cd service-api && cp .env.dist .env && cd ..

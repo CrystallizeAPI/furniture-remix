@@ -28,13 +28,11 @@ Add an entry for the subdomains in your `/etc/host` file:
 
 ## Installation
 
-
 ```bash
 make install
 ```
 
 > Important!: You need to provide correct credentials in the `frontend/.env` and `service-api/.env`
-
 
 This will:
 

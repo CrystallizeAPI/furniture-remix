@@ -42,7 +42,7 @@ export let loader: LoaderFunction = async ({ request }) => {
                 SERVICE_API_URL: config.isValidPlatform()
                     ? config.getRoute('serviceapi').url.replace(/\/$/, '').replace('*', superFast.config.identifier)
                     : (process.env.SERVICE_API_URL_PATTERN || '').replace('%s', superFast.config.identifier),
-                STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
+                STRIPE_PUBLIC_KEY: superFast.config.configuration.PUBLIC_KEY,
             },
         },
         HttpCacheHeaderTagger('30s', '1w', ['shop']),

@@ -6,6 +6,7 @@ build:
 
 relationships:
     serviceapi: 'serviceapi:http'
+    redis: 'redis:redis'
 
 web:
     commands:

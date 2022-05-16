@@ -1,9 +1,7 @@
-import { useAuth } from '../hooks/useAuth';
 import { CrystalCoin } from './payments/crystalcoin';
 import { Stripe } from './payments/stripe';
 
 export const Payments: React.FC = () => {
-    const { userInfos } = useAuth();
     return (
         <>
             <h1 className="font-bold text-xl mt-5">Success!</h1>
@@ -13,9 +11,9 @@ export const Payments: React.FC = () => {
                 <div className="payment-method">
                     <CrystalCoin />
                 </div>
-                {/* <div className="payment-method" style={{ minHeight: 200 }}>
+                <div className="payment-method" style={{ minHeight: 200 }}>
                     <Stripe />
-                </div> */}
+                </div>
             </div>
         </>
     );

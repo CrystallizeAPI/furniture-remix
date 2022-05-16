@@ -1,6 +1,5 @@
 import {
     createOrderPusher,
-    CrystallizeOrderPusher,
     CustomerInputRequest,
     OrderCreatedConfirmation,
     PaymentInputRequest,
@@ -17,7 +16,7 @@ import {
 } from '@crystallize/node-service-api-request-handlers';
 import { StandardRouting, ValidatingRequestRouting } from '@crystallize/node-service-api-router';
 import Koa from 'koa';
-import { SuperFastClient, SuperFastConfig } from '../lib/superfast/SuperFast';
+import { SuperFastClient } from '../lib/superfast/SuperFast';
 import { cartWrapperRepository } from '../services';
 
 const pushOrderSubHandler = async (
@@ -105,7 +104,7 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
             handler: handleStripeCreatePaymentIntentRequestPayload,
             args: (context: Koa.Context): StripePaymentIntentArguments => {
                 return {
-                    secret_key: `${process.env.STRIPE_SECRET_KEY}`,
+                    secret_key: context.superFast.config.configuration.SECRET_KEY,
                     fetchCart: async () => {
                         const cartId = context.request.body.cartId as string;
                         const cartWrapper = await cartWrapperRepository.find(cartId);
@@ -135,9 +134,11 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
         post: {
             handler: handleStripePaymentIntentWebhookRequestPayload,
             args: (context: Koa.Context): StripePaymentIntentWebhookArguments => {
+                console.log(context.superFast);
                 return {
-                    secret_key: `${process.env.STRIPE_SECRET_KEY}`,
-                    endpointSecret: `${process.env.STRIPE_SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET}`,
+                    secret_key: context.superFast.config.configuration.SECRET_KEY,
+                    endpointSecret:
+                        context.superFast.config.configuration.SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET,
                     signature: context.request.headers['stripe-signature'] as string,
                     rawBody: context.request.rawBody,
                     handleEvent: async (eventName: string, event: any) => {

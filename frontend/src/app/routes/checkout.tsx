@@ -214,12 +214,6 @@ export const CheckoutForm: React.FC = () => {
                         <label>Same as street address</label>
                     </div>
                 </div>
-                {/* <button
-                    type="submit"
-                    className="bg-[#000] text-[#fff] px-5 py-2 rounded mt-5 w-40"
-                >
-                    Pay using Stripe
-                </button> */}
             </form>
             <Payments />
         </div>
@@ -233,8 +227,8 @@ export const CheckoutCart: React.FC = () => {
         <div className="w-2/5">
             <h1 className="font-bold text-2xl mt-10 mb-5">Cart</h1>
             {cart &&
-                cart.cart.items.map((item: any) => (
-                    <div key={item.id} className="flex justify-between bg-grey2 p-5 items-center">
+                cart.cart.items.map((item: any, index: number) => (
+                    <div key={item.id + index} className="flex justify-between bg-grey2 p-5 items-center">
                         <div className="flex cart-item gap-3 items-center">
                             <Image {...item?.variant.images?.[0]} sizes="100px" />
                             <div className="flex flex-col">

@@ -5,21 +5,15 @@ import { useEffect, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { fetchPaymentIntent, placeCart } from '~/core/UseCases';
 
-//@ts-ignore
-const stripePromise = loadStripe(
-    typeof window !== 'undefined'
-        ? window.ENV.STRIPE_PUBLIC_KEY
-        : typeof process !== 'undefined'
-        ? process.env.STRIPE_PUBLIC_KEY
-        : window.ENV.STRIPE_PUBLIC_KEY,
-);
-
 export const Stripe: React.FC = () => {
+    //@ts-ignore
+    const stripePromise = loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
     const [clientSecret, setClientSecret] = useState<string>('');
     const { cart, isEmpty } = useLocalCart();
 
     useEffect(() => {
         (async () => {
+            console.log('PLOP');
             if (!isEmpty()) {
                 const data = await fetchPaymentIntent(cart);
                 setClientSecret(data.key);

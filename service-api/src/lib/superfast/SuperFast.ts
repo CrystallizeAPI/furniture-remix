@@ -1,4 +1,4 @@
-import { ClientInterface, createClient, CrystallizeClient } from "@crystallize/js-api-client";
+import { ClientInterface, createClient, CrystallizeClient } from '@crystallize/js-api-client';
 import * as redis from 'redis';
 import crypto from 'crypto';
 
@@ -12,7 +12,7 @@ export type SuperFastConfig = {
     configuration: {
         [key: string]: string;
     };
-}
+};
 
 export type SuperFastClient = {
     config: SuperFastConfig;
@@ -21,7 +21,7 @@ export type SuperFastClient = {
 
 function createStorage(ttlInSeconds: number) {
     let redisDSN = `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`;
-    const config = require("platformsh-config").config();
+    const config = require('platformsh-config').config();
     if (config.isValidPlatform()) {
         const credentials = config.credentials('redis');
         redisDSN = `redis://${credentials.host}:${credentials.port}`;
@@ -33,12 +33,11 @@ function createStorage(ttlInSeconds: number) {
         set: async (key: string, value: any) => {
             await client.set(`superfast-${key}`, value);
             client.expireAt(`superfast-${key}`, Math.floor(Date.now() / 1000) + ttlInSeconds);
-        }
-    }
+        },
+    };
 }
 
 async function fetchSuperFastConfig(domainkey: string): Promise<SuperFastConfig> {
-
     const query = `query {
   catalogue(path:"/tenants/${domainkey}") {
     name
@@ -78,23 +77,23 @@ async function fetchSuperFastConfig(domainkey: string): Promise<SuperFastConfig>
       }
     }
   }
-}`
+}`;
 
     const tenant = await CrystallizeClient.catalogueApi(query);
     const components = tenant.catalogue.components.reduce((result: any, component: any) => {
         function toString(component: any): string | boolean {
             switch (component?.content?.__typename) {
-                case "SingleLineContent":
+                case 'SingleLineContent':
                     return component.content.text;
-                case "RichTextContent":
-                    return component.content.html.join("")
-                case "SelectionContent":
+                case 'RichTextContent':
+                    return component.content.html.join('');
+                case 'SelectionContent':
                     return component.content.options[0].key;
-                case "BooleanContent":
-                    return component.content.value
-                case "ImageContent":
+                case 'BooleanContent':
+                    return component.content.value;
+                case 'ImageContent':
                     return component.content.firstImage.url;
-                case "PropertiesTableContent":
+                case 'PropertiesTableContent':
                     return component.content.sections.reduce((result: any, section: any) => {
                         section.properties.forEach((property: any) => {
                             result[property.key] = property.value;
@@ -107,8 +106,8 @@ async function fetchSuperFastConfig(domainkey: string): Promise<SuperFastConfig>
         }
         return {
             ...result,
-            [component.id]: toString(component)
-        }
+            [component.id]: toString(component),
+        };
     }, {});
     return {
         identifier: domainkey,
@@ -117,7 +116,7 @@ async function fetchSuperFastConfig(domainkey: string): Promise<SuperFastConfig>
         storefront: components['storefront'],
         logo: components['logos'],
         theme: components['theme'],
-        configuration: components['configuration']
+        configuration: components['configuration'],
     };
 }
 const storageClient = createStorage(30);
@@ -125,9 +124,9 @@ const storageClient = createStorage(30);
 export async function getSuperFast(hostname: string): Promise<SuperFastClient> {
     //@ts-ignore
     if (typeof window === 'object') {
-        throw new Error("fetchSuperFastConfig MUST not be called in the browser");
+        throw new Error('fetchSuperFastConfig MUST not be called in the browser');
     }
-    const domainkey = hostname.split(".")[0];
+    const domainkey = hostname.split('.')[0];
     const hit = await storageClient.get(domainkey);
     let config: SuperFastConfig | undefined = undefined;
 
@@ -145,33 +144,35 @@ export async function getSuperFast(hostname: string): Promise<SuperFastClient> {
             apiClient: createClient({
                 tenantIdentifier: config.tenantIdentifier,
                 accessTokenId: config.configuration.ACCESS_TOKEN_ID,
-                accessTokenSecret: config.configuration.ACCESS_TOKEN_SECRET
-            })
-        }
+                accessTokenSecret: config.configuration.ACCESS_TOKEN_SECRET,
+            }),
+        };
     }
-    throw new Error("Impossible to fetch SuperFast config");
+    throw new Error('Impossible to fetch SuperFast config');
 }
 
-const cypher = (secret: string): {
+const cypher = (
+    secret: string,
+): {
     encrypt: (text: string) => string;
     decrypt: (text: string) => string;
     decryptMap: (map: { [key: string]: string }) => { [key: string]: string };
 } => {
     const key = crypto.createHash('sha256').update(String(secret)).digest('base64').substring(0, 32);
-    const algorithm = "aes-256-cbc";
+    const algorithm = 'aes-256-cbc';
     function encrypt(value: string): string {
         const initVector = crypto.randomBytes(16);
         const cipher = crypto.createCipheriv(algorithm, key, initVector);
-        let encryptedData = cipher.update(value, "utf-8", "hex");
-        encryptedData += cipher.final("hex");
-        return `${initVector.toString("hex")}:${encryptedData}`;
+        let encryptedData = cipher.update(value, 'utf-8', 'hex');
+        encryptedData += cipher.final('hex');
+        return `${initVector.toString('hex')}:${encryptedData}`;
     }
 
     function decrypt(value: string): string {
-        const [initVector, encryptedData] = value.split(":");
-        const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(initVector, "hex"));
-        let decryptedData = decipher.update(encryptedData, "hex", "utf-8");
-        decryptedData += decipher.final("utf8");
+        const [initVector, encryptedData] = value.split(':');
+        const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(initVector, 'hex'));
+        let decryptedData = decipher.update(encryptedData, 'hex', 'utf-8');
+        decryptedData += decipher.final('utf8');
         return decryptedData;
     }
 
@@ -183,11 +184,10 @@ const cypher = (secret: string): {
             Object.keys(map).forEach((key: string) => {
                 result = {
                     ...result,
-                    [key]: decrypt(map[key])
-                }
+                    [key]: decrypt(map[key]),
+                };
             });
             return result;
-        }
-    }
-}
-
+        },
+    };
+};

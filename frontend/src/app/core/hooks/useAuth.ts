@@ -1,6 +1,6 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { useLocation, useNavigate, useSearchParams } from '@remix-run/react';
-import jwtDecode, { JwtPayload } from "jwt-decode";
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useEffect } from 'react';
 export function useAuth() {
     const [token] = useLocalStorage<string>('jwt', '');
@@ -23,11 +23,10 @@ export function useAuth() {
                 }
             } catch (exception) {
                 console.log(exception);
-            };
+            }
             navigate(location.pathname, { replace: true });
         }
     });
-
 
     let userInfos: any = {};
     let isAuthenticated = false;
@@ -39,9 +38,9 @@ export function useAuth() {
                 email: decoded.email,
                 firstname: decoded.firstname,
                 lastname: decoded.lastname,
-            }
+            };
         }
-    } catch (exception) { };
+    } catch (exception) {}
     return {
         login: (jwt: string) => {
             writeStorage('jwt', jwt);
@@ -50,7 +49,6 @@ export function useAuth() {
             writeStorage('jwt', '');
         },
         isAuthenticated,
-        userInfos
-    }
-
+        userInfos,
+    };
 }

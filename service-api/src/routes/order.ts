@@ -1,10 +1,15 @@
-import { createOrderFetcher } from "@crystallize/js-api-client";
-import { handleOrderRequestPayload, handleOrdersRequestPayload, OrderArguments, OrdersArguments } from "@crystallize/node-service-api-request-handlers";
-import { ValidatingRequestRouting } from "@crystallize/node-service-api-router";
+import { createOrderFetcher } from '@crystallize/js-api-client';
+import {
+    handleOrderRequestPayload,
+    handleOrdersRequestPayload,
+    OrderArguments,
+    OrdersArguments,
+} from '@crystallize/node-service-api-request-handlers';
+import { ValidatingRequestRouting } from '@crystallize/node-service-api-router';
 import Koa from 'koa';
 
 export const orderBodyConvertedRoutes: ValidatingRequestRouting = {
-    "/orders": {
+    '/orders': {
         get: {
             schema: null,
             authenticated: true,
@@ -12,12 +17,12 @@ export const orderBodyConvertedRoutes: ValidatingRequestRouting = {
             args: (context: Koa.Context): OrdersArguments => {
                 return {
                     fetcherByCustomerIdentifier: createOrderFetcher(context.superFast.apiClient).byCustomerIdentifier,
-                    user: context.user.aud
-                }
-            }
-        }
+                    user: context.user.aud,
+                };
+            },
+        },
     },
-    "/order/:id": {
+    '/order/:id': {
         get: {
             schema: null,
             authenticated: true,
@@ -26,9 +31,9 @@ export const orderBodyConvertedRoutes: ValidatingRequestRouting = {
                 return {
                     fetcherById: createOrderFetcher(context.superFast.apiClient).byId,
                     user: context.user.aud,
-                    orderId: context.params.id
+                    orderId: context.params.id,
                 };
-            }
-        }
-    }
+            },
+        },
+    },
 };

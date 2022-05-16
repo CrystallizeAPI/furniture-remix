@@ -14,16 +14,16 @@ const { run, app } = createServiceApiApp(
         ...magickLinkBodyConvertedRoutes,
         ...orderBodyConvertedRoutes,
         ...cartBodyConvertedRoutes,
-        ...paymentBodyConvertedRoutes
+        ...paymentBodyConvertedRoutes,
     },
     {
         ...routes,
         ...magickLinkStandardRoutes,
         ...cartStandardRoutes,
         ...paymentStandardRoutes,
-        ...webhookStandardRoutes
+        ...webhookStandardRoutes,
     },
-    authenticatedMiddleware(`${process.env.JWT_SECRET}`)
+    authenticatedMiddleware(`${process.env.JWT_SECRET}`),
 );
 
 const superFastMiddleware: Koa.Middleware = async (ctx: Koa.Context, next: Koa.Next) => {

@@ -1,8 +1,8 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { useEffect, useState } from "react";
-import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/Http-Cache-Tagger";
-import { fetchOrder } from "~/core/UseCases";
+import { useEffect, useState } from 'react';
+import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { fetchOrder } from '~/core/UseCases';
 
 export const loader: LoaderFunction = async ({ params }) => {
     return json({ orderId: params.id }, HttpCacheHeaderTagger('30s', '1w', ['order' + params.id]));
@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
-}
+};
 
 export default function Order() {
     const { orderId } = useLoaderData();
@@ -23,7 +23,9 @@ export default function Order() {
             try {
                 setOrder(await fetchOrder(orderId));
             } catch (exception) {
-                timeout = setTimeout(() => { setTryCount(tryCount + 1) }, 500 * tryCount);
+                timeout = setTimeout(() => {
+                    setTryCount(tryCount + 1);
+                }, 500 * tryCount);
             }
         })();
         return () => clearTimeout(timeout);
@@ -69,8 +71,6 @@ export default function Order() {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 }

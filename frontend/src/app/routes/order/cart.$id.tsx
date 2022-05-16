@@ -1,9 +1,9 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData, useNavigate } from '@remix-run/react';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from "~/core/Http-Cache-Tagger";
-import { fetchCart } from "~/core/UseCases";
+import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { fetchCart } from '~/core/UseCases';
 
 export const loader: LoaderFunction = async ({ params }) => {
     return json({ cartId: params.id }, HttpCacheHeaderTagger('30s', '1w', ['cart' + params.id]));
@@ -11,7 +11,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
-}
+};
 
 export default function CartPlaced() {
     const { cart: localCart, empty } = useLocalCart();
@@ -30,10 +30,14 @@ export default function CartPlaced() {
                 if (cart?.extra?.orderId) {
                     navigate('/order/' + cart.extra.orderId);
                 } else {
-                    timeout = setTimeout(() => { setTryCount(tryCount + 1) }, 500 * tryCount);
+                    timeout = setTimeout(() => {
+                        setTryCount(tryCount + 1);
+                    }, 500 * tryCount);
                 }
             } catch (exception) {
-                timeout = setTimeout(() => { setTryCount(tryCount + 1) }, 500 * tryCount);
+                timeout = setTimeout(() => {
+                    setTryCount(tryCount + 1);
+                }, 500 * tryCount);
             }
         })();
         return () => clearTimeout(timeout);

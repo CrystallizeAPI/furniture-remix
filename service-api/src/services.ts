@@ -1,13 +1,13 @@
-import { createRepository } from "@crystallize/node-service-api-request-handlers";
-import { BackendStorage } from "@crystallize/node-service-api-request-handlers/dist/core/type";
-import nodemailer from "nodemailer";
+import { createRepository } from '@crystallize/node-service-api-request-handlers';
+import { BackendStorage } from '@crystallize/node-service-api-request-handlers/dist/core/type';
+import nodemailer from 'nodemailer';
 import * as redis from 'redis';
 
 export function createMailer(dsn: string) {
     let realDSN = dsn;
-    const config = require("platformsh-config").config();
+    const config = require('platformsh-config').config();
     if (config.isValidPlatform()) {
-        realDSN = `smtp://${process.env.PLATFORM_SMTP_HOST}:25/?pool=true`
+        realDSN = `smtp://${process.env.PLATFORM_SMTP_HOST}:25/?pool=true`;
     }
 
     const transporter = nodemailer.createTransport(realDSN);
@@ -22,14 +22,14 @@ export function createMailer(dsn: string) {
             from,
             to,
             subject,
-            html
+            html,
         });
-    }
+    };
 }
 
 function createRedisClient(): BackendStorage {
     let redisDSN = `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`;
-    const config = require("platformsh-config").config();
+    const config = require('platformsh-config').config();
     if (config.isValidPlatform()) {
         const credentials = config.credentials('redis');
         redisDSN = `redis://${credentials.host}:${credentials.port}`;
@@ -40,8 +40,8 @@ function createRedisClient(): BackendStorage {
         get: async (key: string) => await client.get(key),
         set: async (key: string, value: any) => {
             await client.set(key, value);
-        }
-    }
+        },
+    };
 }
 
 export const cartWrapperRepository = createRepository(createRedisClient());

@@ -1,4 +1,9 @@
-import { createNavigationFetcher, createCatalogueFetcher, catalogueFetcherGraphqlBuilder, ClientInterface } from '@crystallize/js-api-client';
+import {
+    createNavigationFetcher,
+    createCatalogueFetcher,
+    catalogueFetcherGraphqlBuilder,
+    ClientInterface,
+} from '@crystallize/js-api-client';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { LocalCart } from './hooks/useLocalCart';
 
@@ -21,7 +26,9 @@ export async function fetchOrder(orderId: string) {
 export async function sendPaidOrder(cart: LocalCart) {
     const cartWrapper = await placeCart(cart);
     //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', { cartId: cartWrapper.cartId });
+    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
+        cartId: cartWrapper.cartId,
+    });
 }
 
 export async function placeCart(cart: LocalCart) {
@@ -29,7 +36,7 @@ export async function placeCart(cart: LocalCart) {
     return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
         cartId: cart.cartId,
         locale: 'en',
-        items: Object.values(cart.items)
+        items: Object.values(cart.items),
     });
 }
 
@@ -66,24 +73,25 @@ export async function fetchProducts(apiClient: ClientInterface, path: string) {
                                 altText: true,
                                 variants: {
                                     width: true,
-                                    url: true
-                                }
-                            }
-                        }
+                                    url: true,
+                                },
+                            },
+                        },
                     }),
                     builder.onDocument(),
-                    builder.onFolder()
-                ]
-            }
-        }
-    }
+                    builder.onFolder(),
+                ],
+            },
+        },
+    };
     const response = await fetch<any>(query);
     return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
 }
 
-
 export async function fetchCampaignPage(apiClient: ClientInterface, path: string) {
-    return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
+    return (
+        await apiClient.catalogueApi(
+            `query ($language: String!, $path: String!) {
     catalogue(path: $path, language: $language) {
       ... on Item {
         name
@@ -188,18 +196,22 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
         }
       }
     }
-  }`, {
-        language: 'en',
-        path
-    })).catalogue
+  }`,
+            {
+                language: 'en',
+                path,
+            },
+        )
+    ).catalogue;
 }
-
 
 export async function fetchProduct(apiClient: ClientInterface, path: string) {
     //should be using the createCatalogueFetcher
     // just did this way to have everything for now
 
-    return (await apiClient.catalogueApi(`
+    return (
+        await apiClient.catalogueApi(
+            `
     
   query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {
@@ -454,14 +466,19 @@ export async function fetchProduct(apiClient: ClientInterface, path: string) {
     }
   }  
 
-`, {
-        language: 'en',
-        path
-    })).catalogue
+`,
+            {
+                language: 'en',
+                path,
+            },
+        )
+    ).catalogue;
 }
 
 export async function fetchFolder(apiClient: ClientInterface, path: string) {
-    return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
+    return (
+        await apiClient.catalogueApi(
+            `query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {
         name
         components {
@@ -490,8 +507,11 @@ export async function fetchFolder(apiClient: ClientInterface, path: string) {
         }
       }
     }
-  `, {
-        language: 'en',
-        path
-    })).catalogue
+  `,
+            {
+                language: 'en',
+                path,
+            },
+        )
+    ).catalogue;
 }

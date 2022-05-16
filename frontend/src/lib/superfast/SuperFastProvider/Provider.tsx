@@ -8,7 +8,7 @@ const DispatchContext = React.createContext<Dispatch | undefined>(undefined);
 
 const initialState = (config: SuperFastConfig): State => {
     return {
-        config
+        config,
     };
 };
 
@@ -16,10 +16,7 @@ export const SuperFastProvider: FunctionComponent<{
     children: React.ReactNode;
     config: SuperFastConfig;
 }> = ({ config, children }) => {
-    const [state, dispatch] = React.useReducer(
-        Reducer,
-        initialState(config),
-    );
+    const [state, dispatch] = React.useReducer(Reducer, initialState(config));
     return (
         <StateContext.Provider value={state}>
             <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>
@@ -43,7 +40,7 @@ function useSuperFastDispatch() {
     return context;
 }
 
-export function useSuperFast(): { state: State; dispatch: Actions; } {
+export function useSuperFast(): { state: State; dispatch: Actions } {
     const actions = mapToReducerActions(useSuperFastDispatch());
     const state = useSuperFastState();
     return {

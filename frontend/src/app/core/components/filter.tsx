@@ -1,4 +1,4 @@
-import FilterIcon from "~/assets/filterIcon.svg";
+import FilterIcon from '~/assets/filterIcon.svg';
 
 export const Filter = () => {
     return (

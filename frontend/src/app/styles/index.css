@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 @layer components {
-  .test div {
-    gap: 10px;
-  }
-  .category-container img {
-    object-fit: cover;
-    width: 100%;
-  }
-  .embed-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+    .test div {
+        gap: 10px;
+    }
+    .category-container img {
+        object-fit: cover;
+        width: 100%;
+    }
+    .embed-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }

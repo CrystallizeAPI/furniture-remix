@@ -85,7 +85,7 @@ export const HydratedCart: React.FC = () => {
   if (isEmpty()) {
     return null;
   }
-  console.log(cart)
+  
   return (
     <ClientOnly>
       <div className="mt-10 rounded p-10  mx-auto">
@@ -146,6 +146,7 @@ export const HydratedCart: React.FC = () => {
                 <p>To pay</p>
                 <p>€ {cart.total.gross}</p>
               </div>
+
             </div>
           )}
           <div className="flex justify-between mt-10">

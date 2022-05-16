@@ -657,6 +657,7 @@ export async function fetchShop(path: string) {
   ).catalogue
 }
 
+
 export async function fetchFolder(path: string) {
   return (
     await apiClient.catalogueApi(

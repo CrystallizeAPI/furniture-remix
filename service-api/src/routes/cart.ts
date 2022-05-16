@@ -89,5 +89,3 @@ export const cartStandardRoutes: StandardRouting = {
         }
     }
 };
-
-

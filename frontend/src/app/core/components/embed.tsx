@@ -25,7 +25,7 @@ export const Embed = ({ cell }: { cell: any }) => {
 
   return (
     <div
-      className="h-[470px] max-w-[400px] flex flex-col justify-between"
+      className="h-[470px] flex flex-col justify-between overflow-hidden"
       style={{ background: color }}
     >
       <div className="px-10 pt-10">

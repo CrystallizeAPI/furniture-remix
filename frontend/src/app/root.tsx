@@ -77,7 +77,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
           }}
         ></script>
-        {/* <Basket /> */}
         <Header navItem={navigation.tree.name} />
       </header>
 

@@ -19,7 +19,8 @@ export function useRemoteCart(): { loading: boolean, remoteCart: any | null } {
             const cartWrapper = await post<any>(window.ENV.SERVICE_API_URL + '/cart', {
                 locale: 'en',
                 items: Object.values(cart.items),
-                cartId: cart.cartId
+                cartId: cart.cartId,
+                withImages: true
             });
             if ((cart.cartId !== cartWrapper.cartId) || (cart.state !== cartWrapper.state)) {
                 setWrappingData(cartWrapper.cartId, cartWrapper.state);

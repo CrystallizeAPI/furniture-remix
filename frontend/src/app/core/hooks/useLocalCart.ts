@@ -64,7 +64,7 @@ export function useLocalCart() {
                     sku: variant.sku,
                     name: variant.name,
                     price: variant.price,
-                    quantity: 1
+                    quantity: 1,
                 };
             }
             update(cart);

@@ -6,7 +6,8 @@ module.exports = {
       sm: "480px",
       md: "768px",
       lg: "976px",
-      xl: "1600px",
+      xl: "1400px",
+      "2xl": "1600px"
     },
     colors: {
      ctaBlue: "#BEE1E6",
@@ -14,6 +15,7 @@ module.exports = {
      grey2: "#F9F9F9",
      grey3: "#8F8F8F",
      grey4: "#DFDFDF",
+     grey5: "#BBBBBB",
      buttonBg1: "#FBDCCE",
      buttonBg2: "#FAD2E1",
      buttonText: "#9E8376",
@@ -31,7 +33,8 @@ module.exports = {
       max: "max-content",
       layout: "1600px",
       content: "1040px",
-      auth: "730px",
+      container: "1400px",
+      card: "730px",
     },
     extend: {
       spacing: {

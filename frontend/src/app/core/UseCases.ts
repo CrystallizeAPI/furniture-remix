@@ -1,60 +1,69 @@
-import { createNavigationFetcher, createCatalogueFetcher, createClient, catalogueFetcherGraphqlBuilder } from '@crystallize/js-api-client';
-import { getJson, postJson } from '@crystallize/reactjs-hooks';
-import { LocalCart } from './hooks/useLocalCart';
+import {
+  createNavigationFetcher,
+  createCatalogueFetcher,
+  createClient,
+  catalogueFetcherGraphqlBuilder,
+} from '@crystallize/js-api-client'
+import { getJson, postJson } from '@crystallize/reactjs-hooks'
+import { LocalCart } from './hooks/useLocalCart'
 
 const apiClient = createClient({
-    //@ts-ignore
-    tenantIdentifier: typeof window !== 'undefined' ? window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER : (typeof process !== 'undefined' ? process.env.CRYSTALLIZE_TENANT_IDENTIFIER : window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER)
+  //@ts-ignore
+  tenantIdentifier: typeof window !== 'undefined' ? window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER : (typeof process !== 'undefined' ? process.env.CRYSTALLIZE_TENANT_IDENTIFIER : window.ENV.CRYSTALLIZE_TENANT_IDENTIFIER)
 });
 
+export let customer = (formData: any) => {
+  return ;  
+}
+
 export async function fetchPaymentIntent(cart: LocalCart): Promise<any> {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/stripe/intent/create', { cartId: cart.cartId });
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/stripe/intent/create', { cartId: cart.cartId });
 }
 
 export async function fetchOrders() {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders');
+  //@ts-ignore
+  return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders');
 }
 
 export async function fetchOrder(orderId: string) {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/order/' + orderId);
+  //@ts-ignore
+  return await getJson<any>(window.ENV.SERVICE_API_URL + '/order/' + orderId);
 }
 
 // in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
 export async function sendPaidOrder(cart: LocalCart) {
-    const cartWrapper = await placeCart(cart);
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', { cartId: cartWrapper.cartId });
+  const cartWrapper = await placeCart(cart);
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', { cartId: cartWrapper.cartId });
 }
 
 export async function placeCart(cart: LocalCart) {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
-        cartId: cart.cartId,
-        locale: 'en',
-        items: Object.values(cart.items)
-    });
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
+    cartId: cart.cartId,
+    locale: 'en',
+    items: Object.values(cart.items)
+  });
 }
 
 export async function registerAndSendMagickLink(userInfos: any) {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
 }
 
 export async function fetchCart(cartId: string) {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
+  //@ts-ignore
+  return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
 }
 
 export async function fetchNavigation() {
-    return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
+  return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
 }
 
 export async function fetchProducts(path: string) {
-  const fetch = createCatalogueFetcher(apiClient);
-  const builder = catalogueFetcherGraphqlBuilder;
+  const fetch = createCatalogueFetcher(apiClient)
+  const builder = catalogueFetcherGraphqlBuilder
   const query = {
     catalogue: {
       __args: {
@@ -71,26 +80,28 @@ export async function fetchProducts(path: string) {
                 altText: true,
                 variants: {
                   width: true,
-                  url: true
-                }
-              }
-            }
+                  url: true,
+                },
+              },
+            },
           }),
           builder.onDocument(),
-          builder.onFolder()
-        ]
-      }
-    }
+          builder.onFolder(),
+        ],
+      },
+    },
   }
 
-  const response = await fetch<any>(query);
-  return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
+  const response = await fetch<any>(query)
+  return response.catalogue.children.filter(
+    (item: any) => item.__typename === 'Product'
+  )
 }
 
-
-
 export async function fetchCampaignPage(path: string) {
-  return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!) {
     catalogue(path: $path, language: $language) {
       ... on Item {
         name
@@ -112,6 +123,9 @@ export async function fetchCampaignPage(path: string) {
                         type
                         id
                         content {
+                          ...on BooleanContent{
+                            value
+                          }
                           ... on SingleLineContent {
                             text
                           }
@@ -134,6 +148,7 @@ export async function fetchCampaignPage(path: string) {
                                 ... on ItemRelationsContent {
                                   items {
                                     name
+                                    path
                                     components {
                                       id
                                       content {
@@ -195,131 +210,134 @@ export async function fetchCampaignPage(path: string) {
         }
       }
     }
-  }`, {
-    language: 'en',
-    path
-  })).catalogue
+  }`,
+      {
+        language: 'en',
+        path,
+      }
+    )
+  ).catalogue
 }
 
-
-// export async function fetchCampaignPage(path: string) {
-//     return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
-//     catalogue(path: $path, language: $language) {
-//       ... on Item {
-//         name
-//         path
-//         component(id: "grid") {
-//           content {
-//             ... on GridRelationsContent {
-//               grids {
-//                 rows {
-//                   columns {
-//                     layout {
-//                       rowspan
-//                       colspan
-//                     }
-//                     item {
-//                       name
-//                       path
-//                       components {
-//                         type
-//                         id
-//                         content {
-//                           ... on SingleLineContent {
-//                             text
-//                           }
-//                           ... on RichTextContent {
-//                             plainText
-//                           }
-//                           ... on ComponentChoiceContent {
-//                             selectedComponent {
-//                               name
-//                               content {
-//                                 ...on SingleLineContent {
-//                                   text
-//                                 }
-//                                 ... on ImageContent {
-//                                   images {
-//                                     url
-//                                     altText
-//                                   }
-//                                 }
-//                                 ... on ItemRelationsContent {
-//                                   items {
-//                                     name
-//                                     components {
-//                                       id
-//                                       content {
-//                                         ...on SingleLineContent {
-//                                           text
-//                                         }
-//                                         ...on RichTextContent {
-//                                           plainText
-//                                         }
-//                                         ...on ComponentChoiceContent {
-//                                           selectedComponent {
-//                                             content {
-//                                               ...on ImageContent {
-//                                                 firstImage {
-//                                                   url
-//                                                 }
-//                                               }
-//                                             }
-//                                           }
-//                                         }
-//                                       }
-//                                     }
-//                                     ...on Product {
-//                                       defaultVariant {
-//                                         price
-//                                         firstImage {
-//                                           url
-//                                         }
-//                                       }
-//                                     }
-//                                   }
-//                                 }
-//                               }
-//                             }
-//                           }
-//                           ... on ContentChunkContent {
-//                             chunks {
-//                               content {
-//                                 ... on SingleLineContent {
-//                                   text
-//                                 }
-//                               }
-//                             }
-//                           }
-//                           ... on SelectionContent {
-//                             options {
-//                               value
-//                               key
-//                             }
-//                           }
-//                         }
-//                       }
-//                     }
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }`, {
-//         language: 'en',
-//         path
-//     })).catalogue
-// }
-
+export async function fetchDocument(path: string) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!) {
+    catalogue(path: $path, language: $language) {
+      ... on Item {
+        name
+        path
+        components {
+          type
+          id
+          content {
+            ...on SingleLineContent {
+              text
+            }
+            ...on RichTextContent {
+              json
+            }
+            ...on ImageContent {
+              images {
+                variants {
+                  url
+                }
+              }
+            }
+            ...on PropertiesTableContent {
+              sections {
+                properties {
+                  key
+                  value
+                }
+              }
+            }
+            ...on ComponentChoiceContent {
+              selectedComponent {
+                id
+                content {
+                  ...on ImageContent {
+                    images {
+                      variants {
+                        url
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            ... on ItemRelationsContent {
+              items {
+                name
+                type
+                ...on Product {
+                  defaultVariant {
+                    images {
+                      variants {
+                        url
+                      }
+                    }
+                    price
+                  }
+                }
+                components {
+                  name
+                  content {
+                    ... on SingleLineContent {
+                      text
+                    }
+                     ...on ComponentChoiceContent {
+                      selectedComponent {
+                        content {
+                          ...on ImageContent {
+                            images {
+                              variants {
+                                url
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            ...on ParagraphCollectionContent {
+              paragraphs {
+                title {
+                  text
+                }
+                body {
+                  json
+                }
+                images {
+                  variants {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`,
+      {
+        language: 'en',
+        path,
+      }
+    )
+  ).catalogue
+}
 
 export async function fetchProduct(path: string) {
   //should be using the createCatalogueFetcher
   // just did this way to have everything for now
 
-  return (await apiClient.catalogueApi(`
+  return (
+    await apiClient.catalogueApi(
+      `
     
   query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {
@@ -395,6 +413,16 @@ export async function fetchProduct(path: string) {
       id
       name
       path
+      ...on Product {
+        defaultVariant {
+          price
+          images {
+            variants {
+              url
+            }
+          }
+        }
+      }
     }
   }
   
@@ -438,6 +466,10 @@ export async function fetchProduct(path: string) {
         name
         price
         currency
+      }
+      attributes {
+        value
+        attribute
       }
       stockLocations {
         identifier
@@ -574,14 +606,19 @@ export async function fetchProduct(path: string) {
     }
   }  
 
-`, {
-    language: 'en',
-    path
-  })).catalogue
+`,
+      {
+        language: 'en',
+        path,
+      }
+    )
+  ).catalogue
 }
 
-export async function fetchShop(path: string){
-  return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
+export async function fetchShop(path: string) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {
       children {
         name
@@ -611,14 +648,19 @@ export async function fetchShop(path: string){
         }
       }
     }
-  }`, {
-    language: 'en',
-    path
-  })).catalogue
+  }`,
+      {
+        language: 'en',
+        path,
+      }
+    )
+  ).catalogue
 }
 
-export async function fetchFolder(path: string){
-  return (await apiClient.catalogueApi(`query ($language: String!, $path: String!) {
+export async function fetchFolder(path: string) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!) {
     catalogue(language: $language, path: $path) {
         name
         components {
@@ -635,6 +677,36 @@ export async function fetchFolder(path: string){
         children {
           name
           path
+          ...on Document {
+            name
+            path
+            components {
+              id
+              type
+              content {
+                ...on SingleLineContent {
+                  text
+                }
+                ...on RichTextContent {
+                  plainText
+                }
+                ...on ComponentChoiceContent {
+                  selectedComponent {
+                    id
+                    content {
+                      ...on ImageContent {
+                        images {
+                          variants {
+                            url
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
           ...on Product {
             defaultVariant {
               price
@@ -647,8 +719,11 @@ export async function fetchFolder(path: string){
         }
       }
     }
-  `, {
-    language: 'en',
-    path
-  })).catalogue
+  `,
+      {
+        language: 'en',
+        path,
+      }
+    )
+  ).catalogue
 }

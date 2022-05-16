@@ -7,7 +7,5 @@
     },
     "main": "dist/index.js",
     "types": "dist/types/index.d.ts",
-    "include": [
-        "./src/**/*"
-    ]
+    "include": ["./src/**/*"]
 }

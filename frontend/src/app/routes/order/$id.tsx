@@ -1,71 +1,55 @@
-import { json, LoaderFunction, HeadersFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
-import { useEffect, useState } from 'react'
-import {
-    HttpCacheHeaderTagger,
-    HttpCacheHeaderTaggerFromLoader,
-} from '~/core/Http-Cache-Tagger'
-import { fetchOrder } from '~/core/UseCases'
+import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { useEffect, useState } from 'react';
+import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { fetchOrder } from '~/core/UseCases';
 
 export const loader: LoaderFunction = async ({ params }) => {
-    return json(
-        { orderId: params.id },
-        HttpCacheHeaderTagger('30s', '1w', ['order' + params.id])
-    )
-}
+    return json({ orderId: params.id }, HttpCacheHeaderTagger('30s', '1w', ['order' + params.id]));
+};
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
-    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers
-}
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
 
 export default function Order() {
-    const { orderId } = useLoaderData()
-    const [tryCount, setTryCount] = useState(0)
-    const [order, setOrder] = useState<any | null>(null)
+    const { orderId } = useLoaderData();
+    const [tryCount, setTryCount] = useState(0);
+    const [order, setOrder] = useState<any | null>(null);
 
     useEffect(() => {
-        let timeout: ReturnType<typeof setTimeout>
-        ;(async () => {
+        let timeout: ReturnType<typeof setTimeout>;
+        (async () => {
             try {
-                setOrder(await fetchOrder(orderId))
+                setOrder(await fetchOrder(orderId));
             } catch (exception) {
                 timeout = setTimeout(() => {
-                    setTryCount(tryCount + 1)
-                }, 500 * tryCount)
+                    setTryCount(tryCount + 1);
+                }, 500 * tryCount);
             }
-        })()
-        return () => clearTimeout(timeout)
-    }, [orderId, tryCount])
+        })();
+        return () => clearTimeout(timeout);
+    }, [orderId, tryCount]);
 
     return (
         <div className="lg:w-content mx-auto w-full">
             {order && (
-                <div className='w-2/4 mx-auto'>
+                <div className="w-2/4 mx-auto">
                     <div className="mt-10">
-                        <h1 className="font-bold text-3xl">
-                            Order Confirmation
-                        </h1>
-                        <p className="my-4">
-                            We've received your order. The order ID is: #
-                            {order.id}.
-                        </p>
+                        <h1 className="font-bold text-3xl">Order Confirmation</h1>
+                        <p className="my-4">We've received your order. The order ID is: #{order.id}.</p>
                         <div className="mt-2">
                             {order.cart.map((item: any, index: number) => {
                                 return (
-                                    <div
-                                        key={index}
-                                        className="bg-grey2 p-5 flex justify-between"
-                                    >
+                                    <div key={index} className="bg-grey2 p-5 flex justify-between">
                                         <div>
                                             <p className="font-semibold">
                                                 {item.name} x {item.quantity}
                                             </p>
                                         </div>
-                                        <p>
-                                            ${item.price.gross * item.quantity}
-                                        </p>
+                                        <p>${item.price.gross * item.quantity}</p>
                                     </div>
-                                )
+                                );
                             })}
                             <div className="flex flex-col gap-4 border-t-2 border-grey4 py-4 items-end px-4 mt-5">
                                 <div className="flex text-grey3 justify-between w-60">
@@ -86,5 +70,5 @@ export default function Order() {
                 </div>
             )}
         </div>
-    )
+    );
 }

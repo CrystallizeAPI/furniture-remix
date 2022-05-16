@@ -30,14 +30,14 @@ clean: stop ## Clean non-essential files
 .PHONY: install
 install: install-certificates ## Install
 	@cd frontend && cp .env.dist .env && cd ..
-	@cd frontend && $(NPM) install && cd ..
+	@cd frontend && $(NPM) install && cd ..	
 	@cd service-api && cp .env.dist .env && cd ..
 	@cd service-api && $(NPM) install && cd ..
 
 .PHONY: install-certificates
 install-certificates: ## Install the certificates
 	@$(MKCERT) -install
-	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.app.crystal"
+	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.sapi.superfast.crystal" "*.superfast.crystal"
 
 .PHONY: npmupdate
 npmupdate: ## npmupdate
@@ -63,3 +63,6 @@ serve: ## Run all the local services you need
 	@$(CADDY) start --config provisioning/dev/Caddyfile --pidfile provisioning/dev/caddy.dev.pid
 	@$(MAKE) -j 2 serve-front serve-service-api
 	
+.PHONY: codeclean
+codeclean: ## Code Clean
+	@npm run prettier

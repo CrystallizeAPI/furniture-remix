@@ -1,19 +1,19 @@
-import HamburgerIcon from '~/assets/hamburgerIcon.svg'
-import Logo from '~/assets/logo.svg'
-import SearchIcon from '~/assets/searchIcon.svg'
-import UserIcon from '~/assets/userIcon.svg'
-import BasketIcon from '~/assets/basketIcon.svg'
-import { Link } from '@remix-run/react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import HamburgerIcon from '~/assets/hamburgerIcon.svg';
+import Logo from '~/assets/logo.svg';
+import SearchIcon from '~/assets/searchIcon.svg';
+import UserIcon from '~/assets/userIcon.svg';
+import BasketIcon from '~/assets/basketIcon.svg';
+import { Link } from '@remix-run/react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 interface Props {
-    navItem: String
+    navItem: String;
 }
 
 export const Header: React.FC<Props> = ({ navItem }) => {
-    let paths = ['/cart', '/checkout', '/confirmation']
-    let location = useLocation()
-    
+    let paths = ['/cart', '/checkout', '/confirmation'];
+    let location = useLocation();
+
     return (
         <>
             {paths.includes(location.pathname) ? (
@@ -89,5 +89,5 @@ export const Header: React.FC<Props> = ({ navItem }) => {
                 </div>
             )}
         </>
-    )
-}
+    );
+};

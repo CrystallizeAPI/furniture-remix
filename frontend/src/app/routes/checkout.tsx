@@ -1,41 +1,42 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { HydratedCart } from '~/core/components/cart'
-import { customer, registerAndSendMagickLink } from '~/core/UseCases'
-import { useAuth } from '~/core/hooks/useAuth'
-import { ClientOnly } from '@crystallize/reactjs-hooks'
-import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger'
-import { HeadersFunction } from '@remix-run/node'
-import { Payments } from '~/core/components/payments'
-import { useLocalCart } from '~/core/hooks/useLocalCart'
-import { useRemoteCart } from '~/core/hooks/useRemoteCart'
-import { Image } from '@crystallize/reactjs-components/dist/image'
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { HydratedCart } from '~/core/components/cart';
+import { customer, registerAndSendMagickLink } from '~/core/UseCases';
+import { useAuth } from '~/core/hooks/useAuth';
+import { ClientOnly } from '@crystallize/reactjs-hooks';
+import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { HeadersFunction } from '@remix-run/node';
+import { Payments } from '~/core/components/payments';
+import { useLocalCart } from '~/core/hooks/useLocalCart';
+import { useRemoteCart } from '~/core/hooks/useRemoteCart';
+import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const headers: HeadersFunction = () => {
-    return HttpCacheHeaderTagger('1m', '1w', ['checkout']).headers
-}
+    return HttpCacheHeaderTagger('1m', '1w', ['checkout']).headers;
+};
 
 export default function Checkout() {
-    const { isAuthenticated } = useAuth()
-    const { cart } = useLocalCart()
+    const { isAuthenticated } = useAuth();
+    const { cart } = useLocalCart();
     return (
         <div className="lg:w-content mx-auto w-full">
             <div className="flex gap-20 w-full">
-                <CheckoutCart/>
-                <div className= "rounded pt-5 px-10 w-3/5">
-                    <ClientOnly fallback={<Form />}>{(() => {
-                        if (!isAuthenticated) {
-                            return <Form />
-                        }
-                        if (cart.cartId !== '') {
-                            return <Payments />
-                        }
-                        return <></>;
-                    })()}</ClientOnly>
+                <CheckoutCart />
+                <div className="rounded pt-5 px-10 w-3/5">
+                    <ClientOnly fallback={<Form />}>
+                        {(() => {
+                            if (!isAuthenticated) {
+                                return <Form />;
+                            }
+                            if (cart.cartId !== '') {
+                                return <Payments />;
+                            }
+                            return <></>;
+                        })()}
+                    </ClientOnly>
                 </div>
-            
             </div>
         </div>
-    )
+    );
 }
 
 export const Form: React.FC = () => {
@@ -43,27 +44,24 @@ export const Form: React.FC = () => {
         firstname: '',
         lastname: '',
         email: '',
-    })
+    });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateFormData({
             ...formData,
             [event.target.name]: event.target.value.trim(),
-        })
-    }
+        });
+    };
 
     return (
         <div className="flex flex-col gap-3 mt-3">
             <h1 className="font-bold text-2xl">Details</h1>
-            <p className="mb-5">
-                You need to register to place you order. We'll send you a magick
-                link.
-            </p>
+            <p className="mb-5">You need to register to place you order. We'll send you a magick link.</p>
             <form
                 onSubmit={async (event: FormEvent<HTMLFormElement>) => {
-                    event.preventDefault()
-                    await registerAndSendMagickLink(formData)
-                    alert('We sent you a magick link, check your email.')
+                    event.preventDefault();
+                    await registerAndSendMagickLink(formData);
+                    alert('We sent you a magick link, check your email.');
                 }}
             >
                 <input
@@ -109,16 +107,13 @@ export const Form: React.FC = () => {
                 />
                 <br />
 
-                <button
-                    type="submit"
-                    className="bg-[#000] text-[#fff] px-5 py-2 rounded mt-5 w-40"
-                >
+                <button type="submit" className="bg-[#000] text-[#fff] px-5 py-2 rounded mt-5 w-40">
                     Register
                 </button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export const CheckoutForm: React.FC = () => {
     const [formData, updateFormData] = useState({
@@ -129,22 +124,22 @@ export const CheckoutForm: React.FC = () => {
         city: '',
         zipCode: '',
         country: '',
-    })
+    });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateFormData({
             ...formData,
             [event.target.name]: event.target.value.trim(),
-        })
-    }
+        });
+    };
 
     return (
         <div className="flex flex-col gap-3 w-3/5 mt-3">
             <h1 className="font-bold text-2xl mt-5 mb-5">Details</h1>
             <form
                 onSubmit={async (event: FormEvent<HTMLFormElement>) => {
-                    event.preventDefault()
-                    await customer(formData)
+                    event.preventDefault();
+                    await customer(formData);
                 }}
             >
                 <div className="flex gap-3">
@@ -229,30 +224,22 @@ export const CheckoutForm: React.FC = () => {
             </form>
             <Payments />
         </div>
-    )
-}
+    );
+};
 
 export const CheckoutCart: React.FC = () => {
-    const { remoteCart, loading } = useRemoteCart()
-    const { cart } = remoteCart || { cart: null, total: null }
+    const { remoteCart, loading } = useRemoteCart();
+    const { cart } = remoteCart || { cart: null, total: null };
     return (
         <div className="w-2/5">
             <h1 className="font-bold text-2xl mt-10 mb-5">Cart</h1>
             {cart &&
                 cart.cart.items.map((item: any) => (
-                    <div
-                        key={item.id}
-                        className="flex justify-between bg-grey2 p-5 items-center"
-                    >
+                    <div key={item.id} className="flex justify-between bg-grey2 p-5 items-center">
                         <div className="flex cart-item gap-3 items-center">
-                            <Image
-                                {...item?.variant.images?.[0]}
-                                sizes="100px"
-                            />
+                            <Image {...item?.variant.images?.[0]} sizes="100px" />
                             <div className="flex flex-col">
-                                <p className="text-lg font-semibold w-full">
-                                    {item.product.name}
-                                </p>
+                                <p className="text-lg font-semibold w-full">{item.product.name}</p>
                             </div>
                         </div>
                     </div>
@@ -274,5 +261,5 @@ export const CheckoutCart: React.FC = () => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

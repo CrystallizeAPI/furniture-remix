@@ -7,7 +7,7 @@ export type LocalCart = {
             quantity: number;
             price: number;
             sku: string;
-        }
+        };
     };
     cartId: string;
     state: 'cart' | 'placed' | 'paid';
@@ -17,8 +17,8 @@ const InitializeEmptyLocalCart = (): LocalCart => {
     return {
         items: {},
         cartId: '',
-        state: 'cart'
-    }
+        state: 'cart',
+    };
 };
 
 export function useLocalCart() {
@@ -26,13 +26,13 @@ export function useLocalCart() {
 
     const update = (cart: LocalCart) => {
         writeStorage('cart', {
-            ...cart
+            ...cart,
         });
     };
 
     const isImmutable = () => {
         return cart.state === 'placed' || cart.state === 'paid';
-    }
+    };
 
     return {
         cart,
@@ -40,13 +40,13 @@ export function useLocalCart() {
             update({
                 ...cart,
                 cartId,
-                state: cartState as 'cart' | 'placed'
+                state: cartState as 'cart' | 'placed',
             });
         },
         empty: () => {
             update({
                 ...cart,
-                ...InitializeEmptyLocalCart()
+                ...InitializeEmptyLocalCart(),
             });
         },
         isImmutable,
@@ -87,9 +87,8 @@ export function useLocalCart() {
             }, {});
             update({
                 ...cart,
-                items: items
+                items: items,
             });
-        }
-    }
-
+        },
+    };
 }

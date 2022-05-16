@@ -1,10 +1,10 @@
 services:
-  mailcatcher:
-    image: schickling/mailcatcher
-    ports:
-      - '3021:1025'
-      - '3022:1080'
-  redis:
-    image: 'redis:7'
-    ports:
-      - '3023:6379'
+    mailcatcher:
+        image: schickling/mailcatcher
+        ports:
+            - '3021:1025'
+            - '3022:1080'
+    redis:
+        image: 'redis:7'
+        ports:
+            - '3023:6379'

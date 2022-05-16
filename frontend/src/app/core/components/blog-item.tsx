@@ -1,17 +1,12 @@
-import { Link } from '@remix-run/react'
-import { Image } from '@crystallize/reactjs-components/dist/image'
+import { Link } from '@remix-run/react';
+import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const BlogItem = ({ item }: { item: any }) => {
-    let title = item.components.find(
-        (component: any) => component.id === 'title'
-    )?.content?.text
-    let description = item.components.find(
-        (component: any) => component.id === 'description'
-    )?.content?.plainText?.[0]
-    let media = item?.components.find(
-        (component: any) => component.id === 'media'
-    )?.content?.selectedComponent?.content
-    
+    let title = item.components.find((component: any) => component.id === 'title')?.content?.text;
+    let description = item.components.find((component: any) => component.id === 'description')?.content?.plainText?.[0];
+    let media = item?.components.find((component: any) => component.id === 'media')?.content?.selectedComponent
+        ?.content;
+
     return (
         <div className="w-1/3 shadow-md rounded-lg overflow-hidden">
             <Link to={item.path}>
@@ -24,5 +19,5 @@ export const BlogItem = ({ item }: { item: any }) => {
                 </div>
             </Link>
         </div>
-    )
-}
+    );
+};

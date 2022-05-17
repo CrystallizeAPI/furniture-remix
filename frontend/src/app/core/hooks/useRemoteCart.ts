@@ -1,6 +1,6 @@
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useEffect, useState } from 'react';
-import { useFetchResult } from 'node_modules/@crystallize/reactjs-hooks';
+import { useFetchResult } from '@crystallize/reactjs-hooks';
 
 export function useRemoteCart(): { loading: boolean; remoteCart: any | null } {
     const { cart, setWrappingData } = useLocalCart();

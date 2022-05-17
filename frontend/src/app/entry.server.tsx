@@ -11,16 +11,15 @@ export default function handleRequest(
     let markup = renderToString(<RemixServer context={remixContext} url={request.url} />);
     responseHeaders.set('Content-Type', 'text/html');
 
-    let http2PushLinksHeaders = remixContext.matches.reduce((acc: string[], { route: { module, imports } }) => {
-        acc.push(module);
-        if (imports) {
-            acc.push(...imports);
-        }
-        return acc;
-    }, []);
-    http2PushLinksHeaders.push(
-        ...[remixContext.manifest.url, remixContext.manifest.entry.module, ...remixContext.manifest.entry.imports],
-    );
+    let http2PushLinksHeaders = remixContext.matches
+        .flatMap(({ route: { module, imports } }) => [module, ...(imports || [])])
+        .filter(Boolean)
+        .concat([
+            remixContext.manifest.url,
+            remixContext.manifest.entry.module,
+            ...remixContext.manifest.entry.imports,
+        ]);
+
     responseHeaders.set(
         'Link',
         (responseHeaders.has('Link') ? responseHeaders.get('Link') + ',' : '') +

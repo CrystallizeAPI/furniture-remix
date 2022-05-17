@@ -1,16 +1,21 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useState } from 'react';
+import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { SuperFastHttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
 import { fetchCart } from '~/core/UseCases';
-
-export const loader: LoaderFunction = async ({ params }) => {
-    return json({ cartId: params.id }, HttpCacheHeaderTagger('30s', '1w', ['cart' + params.id]));
-};
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+    const superFast = await getSuperFast(request.headers.get('Host')!);
+    return json(
+        { cartId: params.id },
+        SuperFastHttpCacheHeaderTagger('30s', '30s', ['cart' + params.id], superFast.config),
+    );
 };
 
 export default function CartPlaced() {

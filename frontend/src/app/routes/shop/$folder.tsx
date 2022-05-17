@@ -1,21 +1,21 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { fetchFolder, fetchProducts } from '~/core/UseCases';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Filter } from '~/core/components/filter';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
     const folder = await fetchFolder(superFast.apiClient, path);
     const products = await fetchProducts(superFast.apiClient, path);
-    return json({ products, folder }, HttpCacheHeaderTagger('30s', '1w', [path]));
-};
-
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+    return json({ products, folder }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 
 export default function FolderPage() {

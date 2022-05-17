@@ -2,15 +2,21 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { customer, registerAndSendMagickLink } from '~/core/UseCases';
 import { useAuth } from '~/core/hooks/useAuth';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
-import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { HeadersFunction } from '@remix-run/node';
+import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { Payments } from '~/core/components/payments';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useRemoteCart } from '~/core/hooks/useRemoteCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
+import { getSuperFast } from 'src/lib/superfast/SuperFast';
 
-export const headers: HeadersFunction = () => {
-    return HttpCacheHeaderTagger('1m', '1w', ['checkout']).headers;
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+    const superFast = await getSuperFast(request.headers.get('Host')!);
+    return json({}, SuperFastHttpCacheHeaderTagger('30s', '30s', ['checkout'], superFast.config));
 };
 
 export default function Checkout() {

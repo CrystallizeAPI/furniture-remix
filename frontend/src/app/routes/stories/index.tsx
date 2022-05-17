@@ -1,19 +1,19 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { fetchFolder } from '~/core/UseCases';
 import { BlogItem } from '~/core/components/blog-item';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
     const path = `/stories`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
     const folder = await fetchFolder(superFast.apiClient, path);
-    return json({ folder }, HttpCacheHeaderTagger('30s', '1w', [path]));
-};
-
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+    return json({ folder }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 
 export default function FolderPage() {

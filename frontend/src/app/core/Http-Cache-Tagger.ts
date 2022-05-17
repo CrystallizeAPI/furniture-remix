@@ -1,3 +1,5 @@
+import { SuperFastConfig } from 'src/lib/superfast/SuperFast';
+
 // From https://github.com/jkroso/parse-duration that we cannot installed on Remix
 const parse = (duration: string, format: string): number => {
     const durationRegexp = /(-?(?:\d+\.?\d*|\d*\.?\d+)(?:e[-+]?\d+)?)\s*([\p{L}]*)/giu;
@@ -81,7 +83,7 @@ export function HttpCacheHeaderTaggerFromLoader(
             headers: {
                 'Cache-Control': loader.get('Cache-Control') as string,
                 'Surrogate-Control': loader.get('Surrogate-Control') as string,
-                'Surrogate-Key': loader.get('Surrogate-Control') as string,
+                'Surrogate-Key': loader.get('Surrogate-Key') as string,
             },
         };
     }
@@ -162,4 +164,19 @@ export function HttpCacheHeaderTagger(
             )}, stale-while-revalidate=${parse(maxAge, 's')}`,
         },
     };
+}
+
+export function SuperFastHttpCacheHeaderTagger(
+    maxAge: string,
+    sharedMaxAge: string,
+    tags: string[],
+    superFastConfig: SuperFastConfig,
+): HttpCacheHeaders | VarnishHttpCacheHeaders | FastlyHttpCacheHeaders {
+    return HttpCacheHeaderTagger(
+        maxAge,
+        sharedMaxAge,
+        tags
+            .map((tag: string) => `${superFastConfig.identifier}-${tag}`)
+            .concat(superFastConfig.identifier, superFastConfig.tenantIdentifier),
+    );
 }

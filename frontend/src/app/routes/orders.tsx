@@ -1,11 +1,17 @@
-import { HeadersFunction } from '@remix-run/node';
+import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { HttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { getSuperFast } from 'src/lib/superfast/SuperFast';
+import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { fetchOrders } from '~/core/UseCases';
 
-export const headers: HeadersFunction = () => {
-    return HttpCacheHeaderTagger('1m', '1w', ['orders']).headers;
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+    const superFast = await getSuperFast(request.headers.get('Host')!);
+    return json({}, SuperFastHttpCacheHeaderTagger('30s', '30s', ['orders'], superFast.config));
 };
 
 export default function OrdersPage() {

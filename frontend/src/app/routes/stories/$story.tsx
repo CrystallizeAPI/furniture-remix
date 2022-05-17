@@ -1,5 +1,5 @@
 import { fetchDocument } from '~/core/UseCases';
-import { HttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { SuperFastHttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
@@ -8,14 +8,15 @@ import { RelatedProduct } from '~/core/components/related-items/related-product'
 import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
 
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
+
 export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/stories/${params.story}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
     const document = await fetchDocument(superFast.apiClient, path);
-    return json({ document }, HttpCacheHeaderTagger('30s', '1w', [path]));
-};
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+    return json({ document }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 
 export default function ProductPage() {

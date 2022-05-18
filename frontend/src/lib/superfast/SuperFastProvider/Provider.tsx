@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { State, Dispatch, Actions, Reducer, mapToReducerActions } from './Reducer';
 import { FunctionComponent } from 'react';
-import { SuperFastConfig } from '../getSuperFast';
+import { SuperFastConfig } from '../SuperFast';
 
 const StateContext = React.createContext<State | undefined>(undefined);
 const DispatchContext = React.createContext<Dispatch | undefined>(undefined);

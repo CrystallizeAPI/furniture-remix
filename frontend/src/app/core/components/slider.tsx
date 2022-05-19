@@ -30,19 +30,20 @@ export const Slider = ({ cell }: { cell: any }) => {
                         gap: '10px',
                     }}
                 >
-                    {items && items?.map((item: any) => {
-                        return (
-                            <SplideSlide key={item.name} className="slide">
-                                <Link to={item.path}>
-                                    <div className="flex flex-col gap-2">
-                                        <Image {...item.defaultVariant.firstImage} sizes="100vw" />
-                                        <p>${item.defaultVariant.price}</p>
-                                        <p className="text-sm">{item.name}</p>
-                                    </div>
-                                </Link>
-                            </SplideSlide>
-                        );
-                    })}
+                    {items &&
+                        items?.map((item: any) => {
+                            return (
+                                <SplideSlide key={item.name} className="slide">
+                                    <Link to={item.path}>
+                                        <div className="flex flex-col gap-2">
+                                            <Image {...item.defaultVariant.firstImage} sizes="100vw" />
+                                            <p>${item.defaultVariant.price}</p>
+                                            <p className="text-sm">{item.name}</p>
+                                        </div>
+                                    </Link>
+                                </SplideSlide>
+                            );
+                        })}
                 </Splide>
             </div>
         </div>

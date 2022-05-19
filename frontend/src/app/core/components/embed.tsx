@@ -1,8 +1,8 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const Embed = ({ cell }: { cell: any }) => {
-    let embedItem = cell?.item?.components.find((component: any) => component.id === 'media')?.content?.selectedComponent
-        ?.content?.items[0];
+    let embedItem = cell?.item?.components.find((component: any) => component.id === 'media')?.content
+        ?.selectedComponent?.content?.items[0];
     let title = embedItem?.components.find((component: any) => component.id === 'title')?.content?.text;
     let description = embedItem?.components.find((component: any) => component.id === 'description')?.content
         ?.plainText?.[0];

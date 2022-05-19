@@ -12,7 +12,6 @@ import { GridRenderer, GridRenderingType } from '@crystallize/reactjs-components
 
 import { useLoaderData } from '@remix-run/react';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
-import { version } from 'react';
 
 export const headers: HeadersFunction = ({ parentHeaders, loaderHeaders }) => {
     return {

@@ -12,6 +12,7 @@ import { GridRenderer, GridRenderingType } from '@crystallize/reactjs-components
 
 import { useLoaderData } from '@remix-run/react';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
+import { version } from 'react';
 
 export const headers: HeadersFunction = ({ parentHeaders, loaderHeaders }) => {
     return {
@@ -25,9 +26,12 @@ export function links() {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
+    const url = new URL(request.url);
     const superFast = await getSuperFast(request.headers.get('Host')!);
     const path = `/campaign`;
-    const data = await fetchCampaignPage(superFast.apiClient, path);
+    const preview = url.searchParams.get('preview');
+    const version = preview ? 'draft' : 'published';
+    const data = await fetchCampaignPage(superFast.apiClient, path, version);
     return json({ data }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 

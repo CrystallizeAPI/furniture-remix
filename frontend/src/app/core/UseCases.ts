@@ -1,102 +1,102 @@
 import {
-    createNavigationFetcher,
-    createCatalogueFetcher,
-    catalogueFetcherGraphqlBuilder,
-    ClientInterface,
+  createNavigationFetcher,
+  createCatalogueFetcher,
+  catalogueFetcherGraphqlBuilder,
+  ClientInterface,
 } from '@crystallize/js-api-client';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { LocalCart } from './hooks/useLocalCart';
 
 export let customer = (formData: any) => {
-    return;
+  return;
 };
 
 export async function fetchPaymentIntent(cart: LocalCart): Promise<any> {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/stripe/intent/create', { cartId: cart.cartId });
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/stripe/intent/create', { cartId: cart.cartId });
 }
 
 export async function fetchOrders() {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders');
+  //@ts-ignore
+  return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders');
 }
 
 export async function fetchOrder(orderId: string) {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/order/' + orderId);
+  //@ts-ignore
+  return await getJson<any>(window.ENV.SERVICE_API_URL + '/order/' + orderId);
 }
 
 // in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
 export async function sendPaidOrder(cart: LocalCart) {
-    const cartWrapper = await placeCart(cart);
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
-        cartId: cartWrapper.cartId,
-    });
+  const cartWrapper = await placeCart(cart);
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
+    cartId: cartWrapper.cartId,
+  });
 }
 
 export async function placeCart(cart: LocalCart) {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
-        cartId: cart.cartId,
-        locale: 'en',
-        items: Object.values(cart.items),
-    });
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
+    cartId: cart.cartId,
+    locale: 'en',
+    items: Object.values(cart.items),
+  });
 }
 
 export async function registerAndSendMagickLink(userInfos: any) {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
+  //@ts-ignore
+  return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
 }
 
 export async function fetchCart(cartId: string) {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
+  //@ts-ignore
+  return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
 }
 
 export async function fetchNavigation(apiClient: ClientInterface) {
-    return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
+  return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
 }
 
 export async function fetchProducts(apiClient: ClientInterface, path: string) {
-    const fetch = createCatalogueFetcher(apiClient);
-    const builder = catalogueFetcherGraphqlBuilder;
-    const query = {
-        catalogue: {
-            __args: {
-                path,
-                language: 'en',
+  const fetch = createCatalogueFetcher(apiClient);
+  const builder = catalogueFetcherGraphqlBuilder;
+  const query = {
+    catalogue: {
+      __args: {
+        path,
+        language: 'en'
+      },
+      children: {
+        __on: [
+          builder.onItem(),
+          builder.onProduct({
+            defaultVariant: {
+              price: true,
+              firstImage: {
+                altText: true,
+                variants: {
+                  width: true,
+                  url: true,
+                },
+              },
             },
-            children: {
-                __on: [
-                    builder.onItem(),
-                    builder.onProduct({
-                        defaultVariant: {
-                            price: true,
-                            firstImage: {
-                                altText: true,
-                                variants: {
-                                    width: true,
-                                    url: true,
-                                },
-                            },
-                        },
-                    }),
-                    builder.onDocument(),
-                    builder.onFolder(),
-                ],
-            },
-        },
-    };
-    const response = await fetch<any>(query);
-    return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
+          }),
+          builder.onDocument(),
+          builder.onFolder(),
+        ],
+      },
+    },
+  };
+  const response = await fetch<any>(query);
+  return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
 }
 
-export async function fetchCampaignPage(apiClient: ClientInterface, path: string) {
-    return (
-        await apiClient.catalogueApi(
-            `query ($language: String!, $path: String!) {
-    catalogue(path: $path, language: $language) {
+export async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!, $version: VersionLabel) {
+    catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
         path
@@ -205,19 +205,20 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
       }
     }
   }`,
-            {
-                language: 'en',
-                path,
-            },
-        )
-    ).catalogue;
+      {
+        language: 'en',
+        path,
+        version: version === "draft" ? "draft" : "published"
+      },
+    )
+  ).catalogue;
 }
 
-export async function fetchDocument(apiClient: ClientInterface, path: string) {
-    return (
-        await apiClient.catalogueApi(
-            `query ($language: String!, $path: String!) {
-    catalogue(path: $path, language: $language) {
+export async function fetchDocument(apiClient: ClientInterface, path: string, version: string) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!, $version: VersionLabel) {
+    catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
         path
@@ -317,24 +318,24 @@ export async function fetchDocument(apiClient: ClientInterface, path: string) {
       }
     }
   }`,
-            {
-                language: 'en',
-                path,
-            },
-        )
-    ).catalogue;
+      {
+        language: 'en',
+        path,
+        version: version === "draft" ? "draft" : "published"
+      },
+    )
+  ).catalogue;
 }
 
-export async function fetchProduct(apiClient: ClientInterface, path: string) {
-    //should be using the createCatalogueFetcher
-    // just did this way to have everything for now
+export async function fetchProduct(apiClient: ClientInterface, path: string, version: string) {
+  //should be using the createCatalogueFetcher
+  // just did this way to have everything for now
 
-    return (
-        await apiClient.catalogueApi(
-            `
-    
-  query ($language: String!, $path: String!) {
-    catalogue(language: $language, path: $path) {
+  return (
+    await apiClient.catalogueApi(
+      `
+      query ($language: String!, $path: String!, $version: VersionLabel!) {
+      catalogue(language: $language, path: $path, version: $version) {
       ...on Product {
         ...product
         topics {
@@ -601,19 +602,20 @@ export async function fetchProduct(apiClient: ClientInterface, path: string) {
   }  
 
 `,
-            {
-                language: 'en',
-                path,
-            },
-        )
-    ).catalogue;
+      {
+        language: 'en',
+        path,
+        version: version === "draft" ? "draft" : "published"
+      },
+    )
+  ).catalogue;
 }
 
-export async function fetchFolder(apiClient: ClientInterface, path: string) {
-    return (
-        await apiClient.catalogueApi(
-            `query ($language: String!, $path: String!) {
-    catalogue(language: $language, path: $path) {
+export async function fetchFolder(apiClient: ClientInterface, path: string, version: string) {
+  return (
+    await apiClient.catalogueApi(
+      `query ($language: String!, $path: String!, $version: VersionLabel) {
+    catalogue(language: $language, path: $path, version: $version) {
         name
         components {
           type
@@ -672,10 +674,11 @@ export async function fetchFolder(apiClient: ClientInterface, path: string) {
       }
     }
   `,
-            {
-                language: 'en',
-                path,
-            },
-        )
-    ).catalogue;
+      {
+        language: 'en',
+        path,
+        version: version === "draft" ? "draft" : "published"
+      },
+    )
+  ).catalogue;
 }

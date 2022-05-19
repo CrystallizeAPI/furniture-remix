@@ -11,17 +11,20 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+    const url = new URL(request.url);
+    const preview = url.searchParams.get('preview');
+    const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
-    const folder = await fetchFolder(superFast.apiClient, path);
+    const folder = await fetchFolder(superFast.apiClient, path, version);
     const products = await fetchProducts(superFast.apiClient, path);
     return json({ products, folder }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 
 export default function FolderPage() {
     const { products, folder } = useLoaderData();
-    let title = folder.components.find((component: any) => component.type === 'singleLine')?.content?.text;
-    let description = folder.components.find((component: any) => component.type === 'richText')?.content?.plainText;
+    let title = folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text;
+    let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
 
     return (
         <div className="lg:w-content mx-auto w-full">
@@ -29,7 +32,7 @@ export default function FolderPage() {
             <p className="w-3/5 mb-10">{description}</p>
             <Filter />
             <div className="flex gap-5">
-                {products.map((product: any) => {
+                {products?.map((product: any) => {
                     return (
                         <div key={product.path} className="category-container">
                             <Image {...product.defaultVariant.firstImage} sizes="500px" />

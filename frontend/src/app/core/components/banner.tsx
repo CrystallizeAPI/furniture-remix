@@ -1,16 +1,16 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const Banner = ({ cell }: { cell: any }) => {
-    let components = cell.item.components;
-    let title = components.find((component: any) => component.type === 'singleLine')?.content?.text;
-    let description = components.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
-    let image = components.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
+    let components = cell?.item?.components;
+    let title = components?.find((component: any) => component.type === 'singleLine')?.content?.text;
+    let description = components?.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
+    let image = components?.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
         ?.images?.[0];
-    let cta = components.find((component: any) => component.id === 'cta')?.content?.chunks?.[0];
+    let cta = components?.find((component: any) => component.id === 'cta')?.content?.chunks?.[0];
     let color = `#${
-        components.find((component: any) => component.id === 'background')?.content?.selectedComponent?.content?.text
+        components?.find((component: any) => component.id === 'background')?.content?.selectedComponent?.content?.text
     }`;
-    let isFullWidth = components.find((component: any) => component.id === 'fullwidth-tile')?.content?.value;
+    let isFullWidth = components?.find((component: any) => component.id === 'fullwidth-tile')?.content?.value;
 
     return (
         <div

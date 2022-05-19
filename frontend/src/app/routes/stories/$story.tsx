@@ -13,9 +13,12 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+    const url = new URL(request.url);
+    const preview = url.searchParams.get('preview');
+    const version = preview ? 'draft' : 'published';
     const path = `/stories/${params.story}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
-    const document = await fetchDocument(superFast.apiClient, path);
+    const document = await fetchDocument(superFast.apiClient, path, version);
     return json({ document }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 
@@ -45,7 +48,7 @@ export default function ProductPage() {
             <div>
                 <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
                 <div className="flex gap-5 overflow-x-scroll">
-                    {relatedArticles?.map((item: any, index: number) => (
+                    {relatedArticles && relatedArticles?.map((item: any, index: number) => (
                         <div key={index}>
                             <RelatedDocument document={item} />
                         </div>
@@ -55,7 +58,7 @@ export default function ProductPage() {
             <div className="w-full">
                 <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
                 <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
-                    {featuredProducts?.map((item: any, index: number) => (
+                    {featuredProducts && featuredProducts?.map((item: any, index: number) => (
                         <div key={index}>
                             <RelatedProduct product={item} />
                         </div>

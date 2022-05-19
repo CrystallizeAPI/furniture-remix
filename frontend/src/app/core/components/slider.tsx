@@ -3,16 +3,16 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 
 export const Slider = ({ cell }: { cell: any }) => {
-    let colspan = cell.layout.colspan;
-    let components = cell.item.components;
-    let title = components.find((component: any) => component.type === 'singleLine')?.content?.text;
-    let description = components.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
-    let items = components.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
+    let colspan = cell?.layout?.colspan;
+    let components = cell?.item?.components;
+    let title = components?.find((component: any) => component.type === 'singleLine')?.content?.text;
+    let description = components?.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
+    let items = components?.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
         ?.items;
     let color = `#${
-        components.find((component: any) => component.id === 'background')?.content?.selectedComponent?.content?.text
+        components?.find((component: any) => component.id === 'background')?.content?.selectedComponent?.content?.text
     }`;
-    let isFullWidth = components.find((component: any) => component.id === 'fullwidth-tile')?.content?.value;
+    let isFullWidth = components?.find((component: any) => component.id === 'fullwidth-tile')?.content?.value;
 
     return (
         <div className={`h-[470px] p-10 ${colspan === 3 ? 'mt-10' : ''}`} style={{ background: color }}>
@@ -30,7 +30,7 @@ export const Slider = ({ cell }: { cell: any }) => {
                         gap: '10px',
                     }}
                 >
-                    {items.map((item: any) => {
+                    {items && items?.map((item: any) => {
                         return (
                             <SplideSlide key={item.name} className="slide">
                                 <Link to={item.path}>

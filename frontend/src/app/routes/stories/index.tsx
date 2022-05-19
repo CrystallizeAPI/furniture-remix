@@ -4,7 +4,6 @@ import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from 
 import { fetchFolder } from '~/core/UseCases';
 import { BlogItem } from '~/core/components/blog-item';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
-import { version } from 'react';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

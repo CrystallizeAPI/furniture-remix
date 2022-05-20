@@ -9,21 +9,6 @@ module.exports = {
             xl: '1400px',
             '2xl': '1600px',
         },
-        colors: {
-            ctaBlue: '#BEE1E6',
-            grey: '#F5F5F5',
-            grey2: '#F9F9F9',
-            grey3: '#8F8F8F',
-            grey4: '#DFDFDF',
-            grey5: '#BBBBBB',
-            buttonBg1: '#FBDCCE',
-            buttonBg2: '#FAD2E1',
-            buttonText: '#9E8376',
-            green: '#DAF5CB',
-        },
-        fontFamily: {
-            text: ['Raleway', 'sans-serif'],
-        },
         spacing: {
             auto: 'auto',
             full: '100%',

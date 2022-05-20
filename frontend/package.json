@@ -5,10 +5,14 @@
     "license": "MIT",
     "sideEffects": false,
     "scripts": {
-        "build": "npm run build:css && remix build",
-        "build:css": "tailwindcss -m -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.css",
-        "dev": "PORT=3018 concurrently \"npm run dev:css\" \"remix dev\"",
-        "dev:css": "tailwindcss -w -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.css",
+        "build": "npm run build:css:default && npm run build:css:dark && npm run build:css:rainbow && remix build",
+        "build:css:default": "tailwindcss -c src/app/styles/tailwind/default.js -m -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.default.css",
+        "build:css:dark": "tailwindcss -c src/app/styles/tailwind/dark.js -m -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.dark.css",
+        "build:css:rainbow": "tailwindcss -c src/app/styles/tailwind/dark.js -m -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.rainbow.css",
+        "dev": "PORT=3018 concurrently \"npm run dev:css:default\" \"npm run dev:css:dark\" \"npm run dev:css:rainbow\" \"remix dev\"",
+        "dev:css:default": "tailwindcss -c src/app/styles/tailwind/default.js -w -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.default.css",
+        "dev:css:dark": "tailwindcss -c src/app/styles/tailwind/dark.js -w -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.dark.css",
+        "dev:css:rainbow": "tailwindcss -c src/app/styles/tailwind/dark.js -w -i ./src/app/styles/index.css -o ./src/app/styles/tailwind.rainbow.css",
         "start": "remix-serve build"
     },
     "dependencies": {

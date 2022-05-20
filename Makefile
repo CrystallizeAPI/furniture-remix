@@ -10,6 +10,7 @@ DOCKER_COMPOSE_ARGS := COMPOSE_PROJECT_NAME=furnituremix COMPOSE_FILE=provisioni
 DOCKER_COMPOSE := $(DOCKER_COMPOSE_ARGS) docker compose
 NPM := npm
 CADDY = caddy
+CADDY_PID_FILE := provisioning/dev/caddy.dev.pid
 MKCERT = mkcert
 
 .DEFAULT_GOAL := list
@@ -56,10 +57,15 @@ serve-service-api: ## Service the Service API
 .PHONY: stop
 stop: ## Stop all the local services you need
 	-@$(DOCKER_COMPOSE) stop > /dev/null 2>&1
-	-@$(CADDY) stop > /dev/null 2>&1
+	-@$(CADDY) stop > /dev/null 2>&1 &
+	-@if [ -f $(CADDY_PID_FILE) ]; then \
+		kill -9 `cat $(CADDY_PID_FILE)`; \
+		rm -f  $(CADDY_PID_FILE); \
+	fi
+
 
 .PHONY: serve
-serve: ## Run all the local services you need
+serve: stop ## Run all the local services you need
 	@$(DOCKER_COMPOSE) up -d
 	@$(CADDY) start --config provisioning/dev/Caddyfile --pidfile provisioning/dev/caddy.dev.pid
 	@$(MAKE) -j 2 serve-front serve-service-api

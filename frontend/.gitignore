@@ -4,4 +4,4 @@ node_modules
 /build
 /public/build
 .env
-/src/app/styles/tailwind.css
+/src/app/styles/tailwind.*.css

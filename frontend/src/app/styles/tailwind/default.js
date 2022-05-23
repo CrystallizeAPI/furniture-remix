@@ -12,6 +12,7 @@ module.exports = {
             buttonBg2: '#FAD2E1',
             buttonText: '#9E8376',
             green: '#DAF5CB',
+            textBlack: '#0E0E0E'
         },
         fontFamily: {
             text: ['Raleway', 'sans-serif'],

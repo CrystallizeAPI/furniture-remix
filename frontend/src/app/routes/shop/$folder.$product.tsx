@@ -9,6 +9,7 @@ import { fetchProduct } from '~/core/UseCases';
 import { useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
+import { Cart } from '~/core/components/cart';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -27,6 +28,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function ProductPage() {
     const { product } = useLoaderData();
     let [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
+    let [showCart, setShowCart] = useState(false);
 
     let title = product.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = product.components.find((component: any) => component.type === 'richText')?.content?.plainText;
@@ -35,11 +37,19 @@ export default function ProductPage() {
 
     const onVariantChange = (variant: any) => setSelectedVariant(variant);
 
+    const handleClick = () => {
+        add(selectedVariant);
+        setShowCart(true);
+    };
+
     return (
         <div className="lg:w-content mx-auto w-full">
-            <div className="flex gap-5">
-                <Image {...product.variants[0].images[0]} />
-                <div className="w-3/5 flex flex-col gap-5 mt-5">
+            {showCart ? <Cart /> : null}
+            <div className="flex gap-10">
+                <div className="w-2/4">
+                    <Image {...selectedVariant.images[0]} />
+                </div>
+                <div className="w-2/4 flex flex-col gap-5 mt-5">
                     <h1 className="font-bold text-4xl">{title}</h1>
                     <p>{description}</p>
                     <VariantSelector
@@ -52,7 +62,7 @@ export default function ProductPage() {
                         <button
                             className="bg-buttonBg2 px-10 py-3 rounded font-buttonText"
                             onClick={() => {
-                                add(selectedVariant);
+                                handleClick();
                             }}
                         >
                             Add to Cart

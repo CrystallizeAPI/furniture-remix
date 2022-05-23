@@ -5,23 +5,14 @@ import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 
-const styles: React.CSSProperties = {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    border: '2px solid red',
-    padding: '5px',
-    backgroundColor: '#fff',
-};
-
 export const Cart: React.FC = () => {
     const { isEmpty, cart } = useLocalCart();
     const { isAuthenticated, userInfos } = useAuth();
     return (
-        <div style={styles}>
+        <div className="absolute bottom-10 right-10 w-70 shadow-md py-4 px-6 border-2">
             <ClientOnly fallback={<p>Your basket is empty.</p>}>
                 <>
-                    {(() => {
+                    {/* {(() => {
                         if (isAuthenticated) {
                             return (
                                 <>
@@ -35,18 +26,20 @@ export const Cart: React.FC = () => {
                             );
                         }
                         return <></>;
-                    })()}
+                    })()} */}
                     {!isEmpty() && (
                         <>
-                            <h5>
-                                Basket (Id:{cart.cartId}, State: {cart.state})
-                            </h5>
-                            <InnerCart basket={cart} />
-                            <p>
-                                <Link to={'/cart'}>See the cart</Link>
-                                <br />
-                                <Link to={'/checkout'}>Place the order</Link>
-                            </p>
+                            <h5>Yay! Item added to cart 🎉</h5>
+
+                            <div className="flex gap-3 mt-3 items-center">
+                                <button className="bg-textBlack text-[#fff] py-2 px-4 rounded-md">
+                                    <Link to={'/cart'}>See the cart</Link>
+                                </button>
+                                <button className="underline">
+                                    {' '}
+                                    <Link to={'/checkout'}>Place the order</Link>
+                                </button>
+                            </div>
                         </>
                     )}
                 </>
@@ -75,21 +68,16 @@ export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { isImmutable, cart: localCart, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
     const { cart, total } = remoteCart || { cart: null, total: null };
-
+    console.log(remoteCart);
     if (isEmpty()) {
         return null;
     }
 
     return (
         <ClientOnly>
-            <div className="mt-10 rounded p-10  mx-auto" style={{ backgroundColor: loading ? '#ddd' : 'transparent' }}>
+            <div className="mt-10 rounded p-10  mx-auto">
                 {loading && <p>Loading...</p>}
-                <h1 className="font-bold text-4xl mt-5 mb-10">
-                    Cart
-                    <small>
-                        Details (Id:{localCart.cartId}, State: {localCart.state})
-                    </small>
-                </h1>
+                <h1 className="font-bold text-4xl mt-5 mb-10">Cart</h1>
                 <div className="flex flex-col gap-3">
                     {cart &&
                         cart.cart.items.map((item: any) => (
@@ -114,7 +102,7 @@ export const HydratedCart: React.FC = () => {
                                             -{' '}
                                         </button>
                                     )}
-                                    {item.product.name} ({item.variant.name}) × {item.quantity}
+                                    <p>{item.quantity}</p>
                                     {!isImmutable() && (
                                         <button
                                             onClick={() => {
@@ -126,24 +114,21 @@ export const HydratedCart: React.FC = () => {
                                         </button>
                                     )}
                                 </div>
-                                <p>${item.price.gross} (gross)</p>
-                                <p>${item.price.net} (net)</p>
-                                <p>${item.price.taxAmount} (taxAmount)</p>
                             </div>
                         ))}
-                    {total && (
+                    {cart && (
                         <div className="flex flex-col gap-4 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 justify-between w-60">
                                 <p>Net</p>
-                                <p>€ {total.net}</p>
+                                <p>€ {cart.total.net}</p>
                             </div>
                             <div className="flex text-grey3 justify-between w-60">
                                 <p>Tax amount</p>
-                                <p>€ {total.taxAmount}</p>
+                                <p>€ {cart.total.taxAmount}</p>
                             </div>
                             <div className="flex font-bold text-xl justify-between w-60">
                                 <p>To pay</p>
-                                <p>€ {total.gross}</p>
+                                <p>€ {cart.total.gross}</p>
                             </div>
                         </div>
                     )}

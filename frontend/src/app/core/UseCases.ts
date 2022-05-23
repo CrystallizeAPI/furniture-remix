@@ -682,3 +682,147 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
         )
     ).catalogue;
 }
+
+export async function searchOrderBy(
+    apiClient: ClientInterface,
+    path: string,
+    orderSearchParams?: any,
+    priceRangeParams?: any,
+) {
+    let field = orderSearchParams?.split('_')[0];
+    let direction = orderSearchParams?.split('_')[1];
+
+    console.log(field, direction);
+    return await apiClient.searchApi(
+        `query SEARCH_ORDERBY(
+        $path: [String!]
+        $field: OrderField!
+        $direction: OrderDirection!
+        $min: Float
+        $max: Float
+      ) {
+        search(
+          orderBy: { field: $field, direction: $direction }
+          filter: {
+            type: PRODUCT
+            productVariants: { isDefault: true, priceRange: { min: $min, max: $max } }
+            include: { paths: $path }
+          }
+        ) {
+          edges {
+            node {
+              name
+              path
+              ... on Product {
+                  matchingVariant {
+                  price
+                  images {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      `,
+        {
+            path,
+            field: field === 'NAME' ? 'ITEM_NAME' : field,
+            direction,
+            min: priceRangeParams.min ? parseFloat(priceRangeParams.min) : 0.0,
+            max: priceRangeParams.max ? parseFloat(priceRangeParams.max) : 0.0,
+        },
+    );
+}
+
+export async function orderByPriceRange(apiClient: ClientInterface, path: string, orderSearchParams: any) {
+    return await apiClient.searchApi(
+        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
+        search(
+          filter: {
+            type: PRODUCT
+            include: { paths: $path }
+            productVariants: { isDefault: true }
+          }
+        ) {
+          edges {
+            node {
+              name
+              path
+              ... on Product {
+                matchingVariant {
+                  price
+                  images {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`,
+        {
+            path,
+        },
+    );
+}
+
+export async function getPriceRange(apiClient: ClientInterface, path: string) {
+    return await apiClient.searchApi(
+        `query GET_PRICE_RANGE($path: [String!]) {
+        search(
+          filter: {
+            type: PRODUCT
+            include: { paths: $path }
+          }
+        ) {
+          aggregations {
+            price {
+              min
+              max
+            }
+          }
+        }
+      }
+      `,
+        {
+            path,
+        },
+    );
+}
+
+export async function filterByPriceRange(apiClient: ClientInterface, path: string, min: string, max: string) {
+    return await apiClient.searchApi(
+        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
+        search(
+          filter: {
+            type: PRODUCT
+            include: { paths: $path }
+            productVariants: { isDefault: true, priceRange: { min: $min, max: $max } }
+          }
+        ) {
+          edges {
+            node {
+              name
+              path
+              ... on Product {
+                matchingVariant {
+                  price
+                  images {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      `,
+        {
+            path,
+            min,
+            max,
+        },
+    );
+}

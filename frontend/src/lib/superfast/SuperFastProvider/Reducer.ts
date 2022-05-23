@@ -1,4 +1,4 @@
-import { SuperFastConfig } from '../getSuperFast';
+import { SuperFastConfig } from '../SuperFast';
 
 type Action = {};
 export type Actions = {};

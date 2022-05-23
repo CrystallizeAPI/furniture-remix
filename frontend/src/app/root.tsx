@@ -106,7 +106,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         __html: `window.ENV = ${JSON.stringify(ENV)}`,
                     }}
                 ></script>
-                <Cart />
+
                 <Header navigation={navigation} />
             </header>
             <div>

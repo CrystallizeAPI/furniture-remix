@@ -138,13 +138,13 @@ export async function getSuperFast(hostname: string): Promise<SuperFastClient> {
     }
 
     if (config !== undefined) {
-        config.configuration = cypher(`${process.env.ENCRYPTED_PARAMS_SECRET}`).decryptMap(config.configuration);
+        //config.configuration = cypher(`${process.env.ENCRYPTED_PARAMS_SECRET}`).decryptMap(config.configuration);
         return {
             config: config,
             apiClient: createClient({
                 tenantIdentifier: config.tenantIdentifier,
-                accessTokenId: config.configuration.ACCESS_TOKEN_ID,
-                accessTokenSecret: config.configuration.ACCESS_TOKEN_SECRET,
+                accessTokenId: process.env.CRYSTALLIZE_ACCESS_TOKEN_ID,
+                accessTokenSecret: process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET,
             }),
         };
     }

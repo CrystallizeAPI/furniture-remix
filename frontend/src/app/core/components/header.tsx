@@ -1,9 +1,9 @@
 import HamburgerIcon from '~/assets/hamburgerIcon.svg';
-import SearchIcon from '~/assets/searchIcon.svg';
 import UserIcon from '~/assets/userIcon.svg';
-import BasketIcon from '~/assets/basketIcon.svg';
 import { Link, useLocation } from '@remix-run/react';
 import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
+import { SearchBar } from './search';
+import { BasketButton } from './basket-button';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: superFast } = useSuperFast();
@@ -14,7 +14,6 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
             {paths.includes(location.pathname) ? (
                 <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center w-1/4">
-                        <img src={`${HamburgerIcon}`} />
                         <Link to="/">
                             <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
@@ -61,13 +60,11 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
             ) : (
                 <div className="flex flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center">
-                        <img src={`${HamburgerIcon}`} />
+                        {/* <img src={`${HamburgerIcon}`} /> */}
                         <Link to="/">
                             <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
-                        <div className="bg-grey w-60 p-2">
-                            <img src={`${SearchIcon}`} />
-                        </div>
+                        <SearchBar />
                         <p>
                             <Link to="/shop/plants">{navigation.tree.name}</Link>
                         </p>
@@ -77,9 +74,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </div>
                     <div className="flex flex-auto items-center justify-end gap-5">
                         <img src={`${UserIcon}`} />
-                        <Link to="/cart">
-                            <img src={`${BasketIcon}`} />
-                        </Link>
+                        <BasketButton />
                     </div>
                 </div>
             )}

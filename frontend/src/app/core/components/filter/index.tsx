@@ -1,6 +1,5 @@
 import { Form, useSearchParams, useSubmit } from '@remix-run/react';
 import React, { ChangeEventHandler } from 'react';
-import { FilteredProducts } from './filtered-products';
 import { PriceRangeFilter } from './price-range-filter';
 
 export const Filter = ({ products, priceRange }: { products?: any; priceRange: any }) => {
@@ -20,8 +19,12 @@ export const Filter = ({ products, priceRange }: { products?: any; priceRange: a
         <div className="flex gap-5 mb-5">
             <Form method="get">
                 <label>
-                    <select onChange={(e) => submitForm(e)} className="bg-grey py-2 px-4 hover:cursor-pointer w-60">
-                        <option disabled selected value="" className="text-textBlack">
+                    <select
+                        onChange={(e) => submitForm(e)}
+                        className="bg-grey py-2 px-4 hover:cursor-pointer w-60"
+                        defaultValue={''}
+                    >
+                        <option disabled value="" className="text-textBlack">
                             Sort
                         </option>
                         <option value="PRICE_ASC">Price: Low to high</option>

@@ -4,7 +4,7 @@ import SearchIcon from '~/assets/searchIcon.svg';
 import { useSearchInput } from '~/core/hooks/useSearchInput';
 
 export const SearchBar = ({}) => {
-    const search = useSearchInput('');
+    const { value, setValue, suggestions, setSuggestions, onChange } = useSearchInput('');
     const ref = useRef<HTMLDivElement>(null);
     const [show, setShow] = useState(true);
 
@@ -26,17 +26,21 @@ export const SearchBar = ({}) => {
         <div className="bg-grey w-60 p-2 relative">
             <div className="flex gap-2">
                 <img src={`${SearchIcon}`} />
-                <input {...search} className="bg-grey  focus:border-textBlack outline-none" />
+                <input
+                    defaultValue={value}
+                    className="bg-grey  focus:border-textBlack outline-none"
+                    onChange={onChange}
+                />
             </div>
-            {search.suggestions?.length > 0 && show ? (
+            {suggestions?.length > 0 && show ? (
                 <div ref={ref} className="absolute top-10 w-60 h-[200px] left-0 overflow-y-scroll shadow-sm">
-                    {search?.suggestions?.map((suggestion: any, index: number) => (
+                    {suggestions?.map((suggestion: any, index: number) => (
                         <div key={index}>
                             <Link
                                 to={suggestion?.node?.path}
                                 onClick={() => {
-                                    search.setValue('');
-                                    search.setSuggestions([]);
+                                    setValue('');
+                                    setSuggestions([]);
                                 }}
                             >
                                 <div className="p-4 bg-[#fff] hover:bg-grey2">{suggestion?.node?.name}</div>

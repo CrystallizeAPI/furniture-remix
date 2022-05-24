@@ -692,7 +692,6 @@ export async function searchOrderBy(
     let field = orderSearchParams?.split('_')[0];
     let direction = orderSearchParams?.split('_')[1];
 
-    console.log(field, direction);
     return await apiClient.searchApi(
         `query SEARCH_ORDERBY(
         $path: [String!]

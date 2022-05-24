@@ -1,19 +1,19 @@
+import { createClient } from '@crystallize/js-api-client';
 import { useState } from 'react';
+import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
 
 export const useSearchInput = (initialValue: string) => {
     const [value, setValue] = useState(initialValue);
     const [suggestions, setSuggestions] = useState([]);
+    const { state: superFastState } = useSuperFast();
+    const client = createClient({ tenantIdentifier: superFastState.config.tenantIdentifier });
 
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('PLOP');
         setValue(event.target.value);
         try {
-            const response = await fetch('https://api.crystallize.com/frntr/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: `
+            const data = await client.searchApi(
+                `
                     query Search ($searchTerm: String!){
                         search(language:"en", filter: { 
                             searchTerm: $searchTerm, 
@@ -28,13 +28,11 @@ export const useSearchInput = (initialValue: string) => {
                         }
                       }
             `,
-                    variables: {
-                        searchTerm: value,
-                    },
-                }),
-            });
-            const data = await response.json();
-            setSuggestions(data.data.search.edges);
+                {
+                    searchTerm: value,
+                },
+            );
+            setSuggestions(data.search.edges);
         } catch (error) {
             console.error(error);
         }

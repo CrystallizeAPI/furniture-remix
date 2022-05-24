@@ -8,17 +8,14 @@ export const PriceRangeFilter = ({ price }: { price: { min: number; max: number 
     const [priceValue, setPriceValue] = useState(price);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    useEffect(() => {
-        setPriceValue(price);
-    }, [price]);
-
     function onRangeChange(newValue: any) {
         setPriceValue({ min: newValue[0], max: newValue[1] });
+    }
+    function onRangeDone(newValue: any) {
         searchParams.set('min', newValue[0]);
         searchParams.set('max', newValue[1]);
         setSearchParams(searchParams);
     }
-
     return (
         <div className="relative bg-grey filter-container w-60 hover:cursor-pointer">
             <p onClick={() => setShowSlider(!showSlider)} className="text-textBlack px-4 py-2">
@@ -30,9 +27,10 @@ export const PriceRangeFilter = ({ price }: { price: { min: number; max: number 
                         range
                         min={price.min}
                         max={price.max}
-                        defaultValue={[price.min, price.max]}
+                        value={[priceValue.min, priceValue.max]}
                         allowCross={false}
                         onChange={onRangeChange}
+                        onAfterChange={onRangeDone}
                         marks={{}}
                         handleStyle={{
                             backgroundColor: '#000',

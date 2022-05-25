@@ -289,6 +289,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
               images {
                 variants {
                   url
+                  width
                 }
               }
             }
@@ -308,6 +309,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
                     images {
                       variants {
                         url
+                        width
                       }
                     }
                   }
@@ -323,6 +325,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
                     images {
                       variants {
                         url
+                        width
                       }
                     }
                     price
@@ -341,6 +344,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
                             images {
                               variants {
                                 url
+                                width
                               }
                             }
                           }
@@ -362,6 +366,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
                 images {
                   variants {
                     url
+                    width
                   }
                 }
               }

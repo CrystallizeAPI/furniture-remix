@@ -46,8 +46,7 @@ console.log(media)
             </div>
             </div>
             <div className="document-media-container mt-5 lg:w-[w-full] w-screen mx-auto">
-                <img src={media?.images?.[0]?.variants?.[8]?.url} />
-                {/* <Image {...media?.images?.[0]} /> */}
+                <Image {...media?.images?.[0]} sizes="100vw"/>
             </div>
             <div className="w-3/4 mx-auto">
                 <ParagraphCollection paragraphs={paragraphs} />

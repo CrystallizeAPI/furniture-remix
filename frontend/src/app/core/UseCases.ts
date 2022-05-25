@@ -273,6 +273,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
     catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
+        createdAt
         path
         components {
           type

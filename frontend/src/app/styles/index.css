@@ -9,6 +9,8 @@
     .category-container img {
         object-fit: cover;
         width: 100%;
+        max-height: 300px;
+        max-width: 250px;
     }
     .embed-text {
         display: -webkit-box;

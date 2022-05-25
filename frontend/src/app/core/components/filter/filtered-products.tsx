@@ -13,7 +13,7 @@ export const FilteredProducts = ({ products }: { products: any }) => {
                         <p className="mt-4">
                             <Link to={product?.node?.path}>{product?.node?.name}</Link>
                         </p>
-                        <p className="font-bold">${product?.node?.matchingVariant?.price}</p>
+                        <p className="font-bold">€{product?.node?.matchingVariant?.price}</p>
                     </div>
                 ))}
             </div>
@@ -31,7 +31,7 @@ export const ProductsList = ({ products }: { products: any }) => {
                         <p className="mt-5">
                             <Link to={product.path}>{product.name}</Link>
                         </p>
-                        <p className="font-bold">${product.defaultVariant.price}</p>
+                        <p className="font-bold">€{product.defaultVariant.price}</p>
                     </div>
                 );
             })}

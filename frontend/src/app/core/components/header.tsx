@@ -66,7 +66,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </Link>
                         <SearchBar />
                         <p>
-                            <Link to="/shop/plants">{navigation.tree.name}</Link>
+                            <Link to="/shop">{navigation.tree.name}</Link>
                         </p>
                         <p>
                             <Link to="/stories">Stories</Link>

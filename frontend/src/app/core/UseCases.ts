@@ -55,7 +55,59 @@ export async function fetchCart(cartId: string) {
 }
 
 export async function fetchNavigation(apiClient: ClientInterface) {
-    return await createNavigationFetcher(apiClient).byFolders('/shop', 'en', 3);
+    const fetch = createNavigationFetcher(apiClient).byFolders;
+    const builder = catalogueFetcherGraphqlBuilder;
+    const response = await fetch(
+        '/shop',
+        'en',
+        3,
+        {
+            tenant: {
+                __args: {
+                    language: 'en',
+                },
+                name: true,
+            },
+        },
+        (level) => {
+            switch (level) {
+                case 0:
+                    return {};
+                case 1:
+                    return {
+                        __on: [
+                            builder.onItem({
+                                ...builder.onComponent('description', 'RichText', {
+                                    json: true,
+                                }),
+                            }),
+                            builder.onFolder(),
+                        ],
+                    };
+                case 2:
+                    return {
+                        __on: [
+                            builder.onItem(),
+                            builder.onProduct({
+                                defaultVariant: {
+                                    price: true,
+                                    firstImage: {
+                                        altText: true,
+                                        variants: {
+                                            width: true,
+                                            url: true,
+                                        },
+                                    },
+                                },
+                            }),
+                        ],
+                    };
+                default:
+                    return {};
+            }
+        },
+    );
+    return response;
 }
 
 export async function fetchProducts(apiClient: ClientInterface, path: string) {
@@ -625,6 +677,39 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
             }
             ...on RichTextContent {
               plainText
+            }
+            ... on ComponentChoiceContent {
+              selectedComponent {
+                name
+                content {
+                  ... on ItemRelationsContent {
+                    items {
+                      name
+                      components {
+                        content {
+                          ... on SingleLineContent {
+                            text
+                          }
+                          ... on RichTextContent {
+                            plainText
+                          }
+                          ... on ComponentChoiceContent {
+                            selectedComponent {
+                              content {
+                                ... on ImageContent {
+                                  firstImage {
+                                    url
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }

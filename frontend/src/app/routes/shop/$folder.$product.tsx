@@ -58,7 +58,7 @@ export default function ProductPage() {
                         onVariantChange={onVariantChange}
                     />
                     <div className="flex justify-between items-center">
-                        <p className="font-bold">${selectedVariant.price}</p>
+                        <p className="font-bold">€{selectedVariant.price}</p>
                         <button
                             className="bg-buttonBg2 px-10 py-3 rounded font-buttonText"
                             onClick={() => {

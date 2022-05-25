@@ -31,6 +31,7 @@
         "platformsh-config": "^2.4.1",
         "rc-slider": "^10.0.0",
         "react": "^17",
+        "react-debounce-input": "^3.2.5",
         "react-dom": "^17",
         "redis": "^4.1.0"
     },

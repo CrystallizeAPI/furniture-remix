@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SearchIcon from '~/assets/searchIcon.svg';
 import { useSearchInput } from '~/core/hooks/useSearchInput';
+import { DebounceInput } from 'react-debounce-input';
 
 export const SearchBar = ({}) => {
     const { value, setValue, suggestions, setSuggestions, onChange } = useSearchInput('');
@@ -26,10 +27,12 @@ export const SearchBar = ({}) => {
         <div className="bg-grey w-60 p-2 relative">
             <div className="flex gap-2">
                 <img src={`${SearchIcon}`} />
-                <input
+                <DebounceInput
+                    minLength={2}
+                    debounceTimeout={300}
                     defaultValue={value}
-                    className="bg-grey  focus:border-textBlack outline-none"
                     onChange={onChange}
+                    className="bg-grey focus:border-textBlack outline-none"
                 />
             </div>
             {suggestions?.length > 0 && show ? (

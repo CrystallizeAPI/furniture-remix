@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 function reduceAttributes(variants: any) {
     return variants.reduce((acc: any, variant: any) => {
         const attrs = acc;
-        variant.attributes.forEach(({ attribute, value }: { attribute: string; value: string }) => {
+        variant?.attributes?.forEach(({ attribute, value }: { attribute: string; value: string }) => {
             const currentAttribute = attrs[attribute];
             if (!currentAttribute) {
                 attrs[attribute] = [value];
@@ -66,15 +66,15 @@ export const VariantSelector = ({
                 }
 
                 return (
-                    <div key={attribute} className="w-40">
+                    <div key={attribute} className="">
                         <p className="my-3 text-text font-semibold">{attribute}</p>
-                        <div className="flex justify-between mb-5">
+                        <div className="flex mb-5 flex-wrap gap-5">
                             {attr.map((value: string) => (
                                 <button
                                     key={value}
                                     onClick={(e) => onAttributeSelect({ attribute, value })}
                                     type="button"
-                                    className="shadow-sm w-30 px-3 py-2 rounded-sm text-text font-semibold"
+                                    className="shadow-sm w-auto px-3 py-2 rounded-sm text-text font-semibold"
                                     style={{
                                         border:
                                             value === selectedAttr.value ? '2px solid #000' : '3px solid transparent',

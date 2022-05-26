@@ -144,6 +144,28 @@ export async function fetchProducts(apiClient: ClientInterface, path: string) {
     return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
 }
 
+export async function search(apiClient: ClientInterface, value: string): Promise<any[]> {
+    const data = await apiClient.searchApi(
+        `query Search ($searchTerm: String!){
+                        search(language:"en", filter: { 
+                            searchTerm: $searchTerm, 
+                            type: PRODUCT, 
+                            productVariants: { isDefault: true }}){
+                          edges {
+                            node {
+                              name
+                              path
+                            }
+                          }
+                        }
+                      }
+            `,
+        {
+            searchTerm: value,
+        },
+    );
+    return data.search.edges;
+}
 export async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any) {
     return (
         await apiClient.catalogueApi(

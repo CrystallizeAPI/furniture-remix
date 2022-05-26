@@ -1,16 +1,8 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch, useLoaderData } from '@remix-run/react';
 import { SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import {
-    ErrorBoundaryComponent,
-    HeadersFunction,
-    json,
-    LinksFunction,
-    LoaderFunction,
-    MetaFunction,
-} from '@remix-run/node';
+import { ErrorBoundaryComponent, HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { CatchBoundaryComponent } from '@remix-run/react/routeModules';
 import { fetchNavigation } from '~/core/UseCases';
-import { Cart } from '~/core/components/cart';
 import { Header } from '~/core/components/header';
 import { Footer } from './core/components/footer';
 import tailwindDefaultTheme from './styles/tailwind.default.css';

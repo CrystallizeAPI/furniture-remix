@@ -60,7 +60,6 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
             ) : (
                 <div className="flex flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center">
-                        {/* <img src={`${HamburgerIcon}`} /> */}
                         <Link to="/">
                             <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>

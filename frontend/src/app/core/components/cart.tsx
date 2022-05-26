@@ -1,32 +1,15 @@
 import { Link } from '@remix-run/react';
-import { useAuth } from '../hooks/useAuth';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const Cart: React.FC = () => {
-    const { isEmpty, cart } = useLocalCart();
-    const { isAuthenticated, userInfos } = useAuth();
+    const { isEmpty } = useLocalCart();
     return (
         <div className="absolute bottom-10 right-10 w-70 shadow-md py-4 px-6 border-2">
             <ClientOnly fallback={<p>Your basket is empty.</p>}>
                 <>
-                    {/* {(() => {
-                        if (isAuthenticated) {
-                            return (
-                                <>
-                                    <p>
-                                        Hello {userInfos.firstname} {userInfos.lastname}
-                                    </p>
-                                    <p>
-                                        <Link to="/orders">My Orders</Link>
-                                    </p>
-                                </>
-                            );
-                        }
-                        return <></>;
-                    })()} */}
                     {!isEmpty() && (
                         <>
                             <h5>Yay! Item added to cart 🎉</h5>
@@ -66,9 +49,9 @@ const InnerCart: React.FC<{ basket: any }> = ({ basket }) => {
 
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
-    const { isImmutable, cart: localCart, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
+    const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
     const { cart, total } = remoteCart || { cart: null, total: null };
-    console.log(remoteCart);
+
     if (isEmpty()) {
         return null;
     }
@@ -116,19 +99,19 @@ export const HydratedCart: React.FC = () => {
                                 </div>
                             </div>
                         ))}
-                    {cart && (
+                    {total && (
                         <div className="flex flex-col gap-4 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 justify-between w-60">
                                 <p>Net</p>
-                                <p>€ {cart.total.net}</p>
+                                <p>€ {total.net}</p>
                             </div>
                             <div className="flex text-grey3 justify-between w-60">
                                 <p>Tax amount</p>
-                                <p>€ {cart.total.taxAmount}</p>
+                                <p>€ {total.taxAmount}</p>
                             </div>
                             <div className="flex font-bold text-xl justify-between w-60">
                                 <p>To pay</p>
-                                <p>€ {cart.total.gross}</p>
+                                <p>€ {total.gross}</p>
                             </div>
                         </div>
                     )}

@@ -35,23 +35,23 @@ export default function ProductPage() {
     let featuredProducts = document.components.find((component: any) => component.id === 'featured')?.content?.items;
     const date = new Date(document.createdAt);
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-console.log(media)
+
     return (
         <div className="">
             <div className="lg:w-content mx-auto w-full mt-10">
                 <h1 className="text-4xl font-semibold mb-5">{title}</h1>
                 <p className="mb-10">{creationDate}</p>
                 <div className="w-3/4 my-10 text-2xl leading-[2.3em]">
-                <ContentTransformer json={description} />
-            </div>
+                    <ContentTransformer json={description} />
+                </div>
             </div>
             <div className="document-media-container mt-5 lg:w-[w-full] w-screen mx-auto">
-                <Image {...media?.images?.[0]} sizes="100vw"/>
+                <Image {...media?.images?.[0]} sizes="100vw" />
             </div>
             <div className="w-3/4 mx-auto">
                 <ParagraphCollection paragraphs={paragraphs} />
             </div>
-            <div className='lg:w-content mx-auto w-full mt-10'>
+            <div className="lg:w-content mx-auto w-full mt-10">
                 <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
                 <div className="flex gap-5 overflow-x-scroll">
                     {relatedArticles &&

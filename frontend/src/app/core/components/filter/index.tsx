@@ -1,28 +1,27 @@
-import { Form, useSearchParams, useSubmit } from '@remix-run/react';
-import React, { ChangeEventHandler } from 'react';
+import { Form, useLocation, useNavigate, useSubmit, useTransition } from '@remix-run/react';
+import _ from 'lodash';
+import React, { useRef } from 'react';
 import { PriceRangeFilter } from './price-range-filter';
 
-export const Filter = ({ products, priceRange }: { products?: any; priceRange: any }) => {
-    let submit = useSubmit();
-    let [sort, setSort] = React.useState('');
-    const [searchParams, setSearchParams] = useSearchParams();
-    console.log(priceRange);
-    let price = priceRange.search.aggregations.price;
-
-    let submitForm: ChangeEventHandler<HTMLSelectElement> = (event) => {
-        submit((event.currentTarget || event.target).closest('form'));
-        searchParams.set('orderBy', event.target.value);
-        setSearchParams(searchParams);
-    };
-
+export const Filter: React.FC<{ priceRange: any }> = ({ priceRange }) => {
+    const submit = useSubmit();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const formRef = useRef(null);
+    const transition = useTransition();
+    const price = priceRange.search.aggregations.price;
+    function handleChange(event: any) {
+        submit(event.currentTarget, { replace: true });
+    }
     return (
         <div className="flex gap-5 mb-5">
-            <Form method="get">
+            <Form method="get" onChange={handleChange} ref={formRef}>
+                {transition.state === 'submitting' && <p>loading...</p>}
                 <label>
                     <select
-                        onChange={(e) => submitForm(e)}
+                        name="orderBy"
                         className="bg-grey py-2 px-4 hover:cursor-pointer w-60"
-                        defaultValue={''}
+                        defaultValue={'NAME_ASC'}
                     >
                         <option disabled value="" className="text-textBlack">
                             Sort
@@ -35,9 +34,9 @@ export const Filter = ({ products, priceRange }: { products?: any; priceRange: a
                         <option value="STOCK_DESC">Stock descending</option>
                     </select>
                 </label>
+                <PriceRangeFilter min={price.min} max={price.max} formRef={formRef} />
             </Form>
-            <PriceRangeFilter price={price} />
-            <button onClick={() => setSearchParams('')}>Remove all filters</button>
+            <button onClick={() => navigate(location.pathname)}>Remove all filters</button>
         </div>
     );
 };

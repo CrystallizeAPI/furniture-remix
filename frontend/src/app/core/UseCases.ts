@@ -796,16 +796,12 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
     ).catalogue;
 }
 
-export async function searchOrderBy(
-    apiClient: ClientInterface,
-    path: string,
-    orderSearchParams?: any,
-    priceRangeParams?: any,
-) {
-    let field = orderSearchParams?.split('_')[0];
-    let direction = orderSearchParams?.split('_')[1];
+export async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any) {
+    const field = orderBy?.split('_')[0];
+    const direction = orderBy?.split('_')[1];
+    const priceRangeParams = fitlers.price;
 
-    return await apiClient.searchApi(
+    const results = await apiClient.searchApi(
         `query SEARCH_ORDERBY(
         $path: [String!]
         $field: OrderField!
@@ -846,6 +842,8 @@ export async function searchOrderBy(
             max: priceRangeParams.max ? parseFloat(priceRangeParams.max) : 0.0,
         },
     );
+
+    return results?.search?.edges || [];
 }
 
 export async function orderByPriceRange(apiClient: ClientInterface, path: string, orderSearchParams: any) {

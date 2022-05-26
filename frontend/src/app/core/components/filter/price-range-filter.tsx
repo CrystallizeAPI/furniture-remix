@@ -1,23 +1,32 @@
-import { Form, useSearchParams } from '@remix-run/react';
-import { useEffect, useState } from 'react';
-
+import { useRef, useState } from 'react';
 import Slider from 'rc-slider';
+import { useSubmit } from '@remix-run/react';
 
-export const PriceRangeFilter = ({ price }: { price: { min: number; max: number } }) => {
+export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any | null }> = ({
+    min,
+    max,
+    formRef,
+}) => {
+    const submit = useSubmit();
     const [showSlider, setShowSlider] = useState(false);
-    const [priceValue, setPriceValue] = useState(price);
-    const [searchParams, setSearchParams] = useSearchParams();
-
+    const [priceValue, setPriceValue] = useState({ min, max });
     function onRangeChange(newValue: any) {
         setPriceValue({ min: newValue[0], max: newValue[1] });
     }
+    const minInput = useRef<HTMLInputElement>(null);
+    const maxInput = useRef<HTMLInputElement>(null);
+
     function onRangeDone(newValue: any) {
-        searchParams.set('min', newValue[0]);
-        searchParams.set('max', newValue[1]);
-        setSearchParams(searchParams);
+        minInput.current!.value = newValue[0];
+        maxInput.current!.value = newValue[1];
+        submit(formRef.current);
     }
+
     return (
         <div className="relative bg-grey filter-container w-60 hover:cursor-pointer">
+            <input type={'hidden'} name="min" defaultValue={min} ref={minInput} />
+            <input type={'hidden'} name="max" defaultValue={max} ref={maxInput} />
+
             <p onClick={() => setShowSlider(!showSlider)} className="text-textBlack px-4 py-2">
                 Price range
             </p>
@@ -25,9 +34,9 @@ export const PriceRangeFilter = ({ price }: { price: { min: number; max: number 
                 <div className="absolute w-full bg-grey  px-4 py-2">
                     <Slider
                         range
-                        min={price.min}
-                        max={price.max}
-                        value={[priceValue.min, priceValue.max]}
+                        min={min}
+                        max={max}
+                        defaultValue={[priceValue.min, priceValue.max]}
                         allowCross={false}
                         onChange={onRangeChange}
                         onAfterChange={onRangeDone}

@@ -21,25 +21,36 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
-    const folder = await fetchFolder(superFast.apiClient, path, version);
-    const products = await fetchProducts(superFast.apiClient, path);
-    let filteredProducts = [];
-    let orderSearchParams = url.searchParams.get('orderBy');
-    let priceSearchParams = { min: url.searchParams.get('min'), max: url.searchParams.get('max') };
-    filteredProducts = orderSearchParams
-        ? await searchOrderBy(superFast.apiClient, path, orderSearchParams, priceSearchParams)
-        : [];
 
-    const priceRange = await getPriceRange(superFast.apiClient, path);
+    const searchParams = {
+        orderBy: url.searchParams.get('orderBy'),
+        filters: {
+            price: {
+                min: url.searchParams.get('min'),
+                max: url.searchParams.get('max'),
+            },
+        },
+    };
+    const isFiltered = Array.from(url.searchParams).length > 0;
+
+    //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;)
+    // we can reduce to one call.
+    const [folder, products, priceRange] = await Promise.all([
+        fetchFolder(superFast.apiClient, path, version),
+        isFiltered
+            ? await searchOrderBy(superFast.apiClient, path, searchParams.orderBy, searchParams.filters)
+            : fetchProducts(superFast.apiClient, path),
+        getPriceRange(superFast.apiClient, path),
+    ]);
 
     return json(
-        { products, folder, filteredProducts, priceRange },
+        { products, folder, priceRange, isFiltered },
         SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config),
     );
 };
 
 export default function FolderPage() {
-    const { folder, products, filteredProducts, priceRange } = useLoaderData();
+    const { folder, products, priceRange, isFiltered } = useLoaderData();
     let title = folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
 
@@ -48,11 +59,7 @@ export default function FolderPage() {
             <h1 className="text-3xl font-bold mt-10 mb-4">{title}</h1>
             <p className="w-3/5 mb-10">{description}</p>
             <Filter priceRange={priceRange} />
-            {filteredProducts?.search?.edges.length > 0 ? (
-                <FilteredProducts products={filteredProducts?.search?.edges} />
-            ) : (
-                <ProductsList products={products} />
-            )}
+            {isFiltered ? <FilteredProducts products={products} /> : <ProductsList products={products} />}
         </div>
     );
 }

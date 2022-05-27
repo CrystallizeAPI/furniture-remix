@@ -35,7 +35,6 @@ export default function ProductPage() {
     let featuredProducts = document.components.find((component: any) => component.id === 'featured')?.content?.items;
     const date = new Date(document.createdAt);
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
     return (
         <div className="">
             <div className="lg:w-content mx-auto w-full mt-10">

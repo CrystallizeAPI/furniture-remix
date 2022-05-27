@@ -155,6 +155,14 @@ export async function search(apiClient: ClientInterface, value: string): Promise
                             node {
                               name
                               path
+                              ... on Product {
+                                matchingVariant {
+                                  price
+                                  images {
+                                    url
+                                  }
+                                }
+                              }
                             }
                           }
                         }

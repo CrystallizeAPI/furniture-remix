@@ -8,6 +8,7 @@ import { search } from '~/core/UseCases';
 
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const { state: superFastState } = useSuperFast();
@@ -28,6 +29,7 @@ export const SearchBar = () => {
 
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
+        setSearchTerm(value);
         const client = createClient({ tenantIdentifier: superFastState.config.tenantIdentifier });
         try {
             setSuggestions(await search(client, value));
@@ -38,14 +40,16 @@ export const SearchBar = () => {
 
     return (
         <div className="bg-grey w-60 p-2 relative">
-            <div className="flex gap-2">
-                <img src={`${SearchIcon}`} />
+            <div className="flex gap-2 items-center">
                 <DebounceInput
                     minLength={2}
                     debounceTimeout={300}
                     onChange={handleChange}
                     className="bg-grey focus:border-textBlack outline-none"
                 />
+                <Link to={`/search?q=${searchTerm}`} className="p-2 h-full text-[#fff] bg-textBlack">
+                    <img src={`${SearchIcon}`} />
+                </Link>
             </div>
             {suggestions.length > 0 && show ? (
                 <div ref={ref} className="absolute top-10 w-60 h-[200px] left-0 overflow-y-scroll shadow-sm">

@@ -43,7 +43,7 @@ export default function ProductPage() {
     };
 
     return (
-        <div className="lg:w-content mx-auto w-full">
+        <div className="lg:w-content mx-auto w-full mt-20">
             {showCart ? <Cart /> : null}
             <div className="flex gap-10">
                 <div className="w-2/4">
@@ -60,7 +60,7 @@ export default function ProductPage() {
                     <div className="flex justify-between items-center">
                         <p className="font-bold">€{selectedVariant.price}</p>
                         <button
-                            className="bg-buttonBg2 px-10 py-3 rounded font-buttonText"
+                            className="bg-buttonBg2 px-10 py-3 rounded font-buttonText hover:bg-pink"
                             onClick={() => {
                                 handleClick();
                             }}

@@ -116,12 +116,12 @@ export const HydratedCart: React.FC = () => {
                         </div>
                     )}
                     <div className="flex justify-between mt-10">
-                        <Link to="/" className="bg-grey py-2 px-5 text-center font-semibold">
-                            Back
-                        </Link>
-                        <Link to="/checkout" className="bg-buttonBg2 py-2 px-4 w-40 text-center font-bold">
-                            Checkout
-                        </Link>
+                        <button className="bg-grey py-2 px-5 text-center font-semibold">
+                            <Link to="/">Back</Link>
+                        </button>
+                        <button className="bg-buttonBg2 py-2 px-4 w-40 text-center font-bold hover:bg-pink">
+                            <Link to="/checkout">Checkout</Link>
+                        </button>
                     </div>
                 </div>
             </div>

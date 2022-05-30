@@ -4,14 +4,21 @@ import { Link, useLocation } from '@remix-run/react';
 import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
 import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
+import { TopicNavigation } from './topic-navigation';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: superFast } = useSuperFast();
-    let paths = ['/cart', '/checkout', '/confirmation'];
+    let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
     let location = useLocation();
+    let paths = [
+        { path: '/cart', name: 'Cart' },
+        { path: '/checkout', name: 'Checkout' },
+        { path: '/confirmation', name: 'Confirmation' },
+    ];
+
     return (
         <>
-            {paths.includes(location.pathname) ? (
+            {checkoutFlow.includes(location.pathname) ? (
                 <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center w-1/4">
                         <Link to="/">
@@ -19,55 +26,31 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </Link>
                     </div>
                     <div className="flex w-3/4 gap-5">
-                        <div
-                            className={`w-1/4 border-b-2 pb-2 ${
-                                location.pathname === '/cart'
-                                    ? 'border-b-[#000] text-[#000]'
-                                    : 'border-b-grey5 text-grey5'
-                            }`}
-                        >
-                            <Link to="/cart">Cart</Link>
-                        </div>
-                        <div
-                            className={`w-1/4 border-b-2 pb-2 ${
-                                location.pathname === '/checkout'
-                                    ? 'border-b-[#000] text-[#000]'
-                                    : 'border-b-grey5 text-grey5'
-                            }`}
-                        >
-                            Checkout
-                        </div>
-                        <div
-                            className={`w-1/4 border-b-2 pb-2 ${
-                                location.pathname === '/checkout'
-                                    ? 'border-b-[#000] text-[#000]'
-                                    : 'border-b-grey5 text-grey5'
-                            }`}
-                        >
-                            Details
-                        </div>
-                        <div
-                            className={`w-1/4 border-b-2 pb-2 ${
-                                location.pathname === '/confirmation'
-                                    ? 'border-b-[#000] text-[#000]'
-                                    : 'border-b-grey5 text-grey5'
-                            }`}
-                        >
-                            Confirmation
-                        </div>
+                        {paths.map((path) => (
+                            <div
+                                className={`w-1/4 border-b-2 pb-2 ${
+                                    location.pathname === path.path
+                                        ? 'border-b-[#000] text-[#000]'
+                                        : 'border-b-grey5 text-grey5'
+                                }`}
+                            >
+                                <Link to={path.path}>{path.name}</Link>
+                            </div>
+                        ))}
                     </div>
                 </div>
             ) : (
                 <div className="flex flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center">
+                        <TopicNavigation />
                         <Link to="/">
                             <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
                         <SearchBar />
-                        <p>
+                        <p className="hover:underline">
                             <Link to="/shop">{navigation.tree.name}</Link>
                         </p>
-                        <p>
+                        <p className="hover:underline">
                             <Link to="/stories">Stories</Link>
                         </p>
                     </div>

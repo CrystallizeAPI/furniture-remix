@@ -13,6 +13,7 @@ module.exports = {
             buttonText: '#9E8376',
             green: '#DAF5CB',
             textBlack: '#0E0E0E',
+            pink: '#FCE8F0',
         },
         fontFamily: {
             text: ['Raleway', 'sans-serif'],

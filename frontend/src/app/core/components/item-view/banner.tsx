@@ -1,7 +1,8 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Link } from '@remix-run/react';
 
-export const Banner = ({ cell }: { cell: any }) => {
-    let components = cell?.item?.components;
+export const Banner = ({ layout, item }: { layout: any; item: any }) => {
+    let components = item?.components;
     let title = components?.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = components?.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
     let image = components?.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
@@ -14,13 +15,17 @@ export const Banner = ({ cell }: { cell: any }) => {
 
     return (
         <div
-            className={`flex h-[470px] overflow-hidden ${cell.layout.colspan === 3 ? 'flex-row' : 'flex-col'}`}
+            className={`flex h-[500px] overflow-hidden ${layout.colspan === 3 ? 'flex-row' : 'flex-col'} items-center`}
             style={{ background: color }}
         >
-            <div className={`${cell.layout.colspan === 3 ? 'w-2/4' : 'w-5/5'} px-10 pt-10`}>
-                <h1 className={`${title === 'SALE' ? 'text-9xl' : 'text-2xl'} font-bold mb-3`}>{title}</h1>
-                <p className={`mt-5 mb-5 ${cell.layout.colspan === 3 ? 'w-3/4' : 'w-5/5'}`}>{description}</p>
-                {cta ? <button className="bg-ctaBlue px-5 py-2 rounded">{cta[1]?.content?.text}</button> : null}
+            <div className={`${layout.colspan === 3 ? 'w-2/4' : 'w-5/5'} px-40`}>
+                <h1 className={`${title === 'SALE' ? 'text-9xl' : 'text-5xl'} font-bold mb-3`}>{title}</h1>
+                <p className={`mt-5 mb-5 ${layout.colspan === 3 ? 'w-3/4' : 'w-5/5'} leading-[2.5em]`}>{description}</p>
+                {cta ? (
+                    <button className="bg-ctaBlue px-5 py-2 rounded">
+                        <Link to={cta?.[0]?.content?.text}>{cta[1]?.content?.text}</Link>
+                    </button>
+                ) : null}
             </div>
             <div className="self-end">
                 <Image {...image} sizes="100w, 700px" />

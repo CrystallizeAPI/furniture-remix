@@ -2,9 +2,9 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 
-export const Slider = ({ cell }: { cell: any }) => {
-    let colspan = cell?.layout?.colspan;
-    let components = cell?.item?.components;
+export const Slider = ({ layout, item }: { layout: any; item: any }) => {
+    let colspan = layout?.colspan;
+    let components = item?.components;
     let title = components?.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = components?.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
     let items = components?.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
@@ -15,13 +15,13 @@ export const Slider = ({ cell }: { cell: any }) => {
     let isFullWidth = components?.find((component: any) => component.id === 'fullwidth-tile')?.content?.value;
 
     return (
-        <div className={`h-[470px] p-10 ${colspan === 3 ? 'mt-10' : ''}`} style={{ background: color }}>
+        <div className={`h-[470px] p-10 ${colspan === 3 ? 'mt-10 mb-40' : ''} `} style={{ background: color }}>
             <div>
                 <h1 className="text-2xl font-bold">{title}</h1>
                 <p className={`my-5 ${colspan === 3 ? 'w-3/4' : 'w-5/5'}`}>{description}</p>
             </div>
 
-            <div>
+            <div className="">
                 <Splide
                     options={{
                         rewind: true,
@@ -29,6 +29,7 @@ export const Slider = ({ cell }: { cell: any }) => {
                         pagination: false,
                         gap: '10px',
                     }}
+                    className="splide"
                 >
                     {items &&
                         items?.map((item: any) => {

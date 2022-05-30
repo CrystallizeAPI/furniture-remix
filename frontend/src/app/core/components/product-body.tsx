@@ -17,16 +17,18 @@ export const ProductBody = ({ components }: { components: any }) => {
                 {paragraphs && <ParagraphCollection paragraphs={paragraphs} />}
             </div>
             <div>
-                <div className="w-full">
-                    <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                    <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
-                        {relatedProducts?.map((item: any, index: number) => (
-                            <div key={index}>
-                                <RelatedProduct product={item} />
-                            </div>
-                        ))}
+                {relatedProducts && (
+                    <div className="w-full">
+                        <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
+                        <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
+                            {relatedProducts?.map((item: any, index: number) => (
+                                <div key={index}>
+                                    <RelatedProduct product={item} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

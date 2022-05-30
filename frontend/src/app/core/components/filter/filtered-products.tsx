@@ -6,10 +6,12 @@ export const FilteredProducts = ({ products }: { products: any }) => {
         <div className="mt-10">
             <h2 className="font-bold text-lg mt-5">Found {products.length} products</h2>
 
-            <div className="flex gap-10 flex-wrap">
+            <div className="flex gap-20 flex-wrap">
                 {products.map((product: any, index: number) => (
                     <div key={index} className="category-container w-[200px] h-[300px] mt-5">
-                        <img src={product?.node?.matchingVariant?.images?.[0]?.url} className="w-60" />
+                        <div className="w-60">
+                            <Image {...product?.node?.matchingVariant?.images?.[0]} />
+                        </div>
                         <p className="mt-4">
                             <Link to={product?.node?.path}>{product?.node?.name}</Link>
                         </p>

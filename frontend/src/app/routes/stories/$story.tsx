@@ -13,6 +13,10 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
+type LoaderData = {
+    document: Awaited<ReturnType<typeof fetchDocument>>;
+};
+
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);
     const preview = url.searchParams.get('preview');
@@ -20,21 +24,26 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/stories/${params.story}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
     const document = await fetchDocument(superFast.apiClient, path, version);
-    return json({ document }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
+    return json<LoaderData>({ document }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
 };
 
 export default function ProductPage() {
-    const { document } = useLoaderData();
-    let title = document.components.find((component: any) => component.type === 'singleLine')?.content?.text;
-    let description = document.components.find((component: any) => component.type === 'richText')?.content?.json;
-    let media = document.components.find((component: any) => component.type === 'componentChoice')?.content
-        ?.selectedComponent?.content;
-    let paragraphs = document.components.find((component: any) => component.type === 'paragraphCollection')?.content
-        ?.paragraphs;
-    let relatedArticles = document.components.find((component: any) => component.id === 'up-next')?.content?.items;
-    let featuredProducts = document.components.find((component: any) => component.id === 'featured')?.content?.items;
+    const { document } = useLoaderData() as LoaderData;
+
+    let getComponentContent = (id: string) => {
+        let component = document.components.find((component: any) => component.id === id);
+        return component.content;
+    };
+
+    let title = getComponentContent('title')?.text;
+    let description = getComponentContent('description')?.json;
+    let media = getComponentContent('media')?.selectedComponent?.content;
+    let paragraphs = getComponentContent('body')?.paragraphs;
+    let relatedArticles = getComponentContent('up-next')?.items;
+    let featuredProducts = getComponentContent('featured')?.items;
     const date = new Date(document.createdAt);
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
     return (
         <div className="">
             <div className="lg:w-content mx-auto w-full mt-10">

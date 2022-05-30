@@ -110,6 +110,12 @@ export async function fetchNavigation(apiClient: ClientInterface) {
     return response;
 }
 
+export async function fetchTopicNavigation(apiClient: ClientInterface) {
+    const fetch = createNavigationFetcher(apiClient).byTopics;
+    const response = await fetch('/', 'en', 2);
+    return response;
+}
+
 export async function fetchProducts(apiClient: ClientInterface, path: string) {
     const fetch = createCatalogueFetcher(apiClient);
     const builder = catalogueFetcherGraphqlBuilder;
@@ -350,6 +356,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
               items {
                 name
                 type
+                path
                 ...on Product {
                   defaultVariant {
                     images {
@@ -707,6 +714,7 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
         name
         components {
           type
+          id
           content {
             ...on SingleLineContent {
               text
@@ -718,6 +726,108 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
               selectedComponent {
                 name
                 content {
+                  ... on GridRelationsContent {
+                    grids {
+                      rows {
+                        columns {
+                          layout {
+                            rowspan
+                            colspan
+                          }
+                          item {
+                            name
+                            path
+                            type
+                            ...on Product {
+                              defaultVariant {
+                                price
+                                images {
+                                  variants {
+                                    url
+                                    width
+                                  }
+                                }
+                              }
+                            }
+                            components {
+                              type
+                              id
+                              content {
+                                ... on BooleanContent {
+                                  value
+                                }
+                                ... on SingleLineContent {
+                                  text
+                                }
+                                ... on RichTextContent {
+                                  plainText
+                                }
+                                ... on ComponentChoiceContent {
+                                  selectedComponent {
+                                    name
+                                    content {
+                                      ... on SingleLineContent {
+                                        text
+                                      }
+                                      ... on ImageContent {
+                                        images {
+                                          url
+                                          altText
+                                        }
+                                      }
+                                      ... on ItemRelationsContent {
+                                        items {
+                                          name
+                                          path
+                                          components {
+                                            id
+                                            content {
+                                              ... on SingleLineContent {
+                                                text
+                                              }
+                                              ... on RichTextContent {
+                                                plainText
+                                              }
+                                              ... on ComponentChoiceContent {
+                                                selectedComponent {
+                                                  content {
+                                                    ... on ImageContent {
+                                                      firstImage {
+                                                        url
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                                ... on ContentChunkContent {
+                                  chunks {
+                                    content {
+                                      ... on SingleLineContent {
+                                        text
+                                      }
+                                    }
+                                  }
+                                }
+                                ... on SelectionContent {
+                                  options {
+                                    value
+                                    key
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                   ... on ItemRelationsContent {
                     items {
                       name
@@ -833,7 +943,10 @@ export async function searchOrderBy(apiClient: ClientInterface, path: string, or
                   matchingVariant {
                   price
                   images {
-                    url
+                    variants {
+                      url
+                      width
+                    }
                   }
                 }
               }
@@ -872,7 +985,10 @@ export async function orderByPriceRange(apiClient: ClientInterface, path: string
                 matchingVariant {
                   price
                   images {
-                    url
+                    variants {
+                      url
+                      width
+                    }
                   }
                 }
               }
@@ -928,7 +1044,10 @@ export async function filterByPriceRange(apiClient: ClientInterface, path: strin
                 matchingVariant {
                   price
                   images {
-                    url
+                    variants {
+                      url
+                      width
+                    }
                   }
                 }
               }
@@ -941,6 +1060,54 @@ export async function filterByPriceRange(apiClient: ClientInterface, path: strin
             path,
             min,
             max,
+        },
+    );
+}
+
+export async function searchByTopic(apiClient: ClientInterface, value: string) {
+    return await apiClient.searchApi(
+        `query SEARCH_BY_TOPIC($value: String!) {
+          search(
+            filter: {
+              type: PRODUCT
+              include: {
+                topicPaths: {
+                  sections: [
+                    { fields: { value: $value } }
+                  ]
+                }
+              }
+              productVariants: { isDefault: true }
+            }
+          ) {
+            edges {
+              node {
+                id
+                name
+                path
+                topics {
+                  name
+                  path
+                }
+                ... on Product {
+                  matchingVariant {
+                    price
+                    images {
+                      variants {
+                        url
+                        width
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+      `,
+        {
+            value,
         },
     );
 }

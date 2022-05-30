@@ -3,8 +3,17 @@
 @tailwind utilities;
 
 @layer components {
+    html,
+    body {
+        background: #fff;
+    }
+    button:hover {
+        transform: scale(1.02, 1.02);
+    }
     .test div {
         gap: 10px;
+    }
+    .test div:first-of-type h1:first-of-type {
     }
     .category-container img {
         object-fit: cover;

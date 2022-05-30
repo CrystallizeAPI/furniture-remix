@@ -39,15 +39,18 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className="bg-grey w-60 p-2 relative">
-            <div className="flex gap-2 items-center">
+        <div className="bg-grey w-60 relative">
+            <div className="flex items-center justify-between bg-grey h-10">
                 <DebounceInput
                     minLength={2}
                     debounceTimeout={300}
                     onChange={handleChange}
-                    className="bg-grey focus:border-textBlack outline-none"
+                    className="bg-grey focus:border-textBlack outline-none px-2"
                 />
-                <Link to={`/search?q=${searchTerm}`} className="p-2 h-full text-[#fff] bg-textBlack">
+                <Link
+                    to={`/search?q=${searchTerm}`}
+                    className="w-10 p-2 h-full text-[#fff] bg-textBlack flex justify-center items-center"
+                >
                     <img src={`${SearchIcon}`} />
                 </Link>
             </div>

@@ -39,7 +39,7 @@ export default function HomePage() {
     let grid = data?.component?.content?.grids[0];
 
     return (
-        <div className="lg:w-content mx-auto w-full test">
+        <div className="mx-auto w-full test">
             {grid && (
                 <GridRenderer
                     grid={grid}

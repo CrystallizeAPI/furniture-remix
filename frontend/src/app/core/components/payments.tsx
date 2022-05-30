@@ -11,9 +11,9 @@ export const Payments: React.FC = () => {
                 <div className="payment-method">
                     <CrystalCoin />
                 </div>
-                <div className="payment-method" style={{ minHeight: 200 }}>
+                {/* <div className="payment-method" style={{ minHeight: 200 }}>
                     <Stripe />
-                </div>
+                </div> */}
             </div>
         </>
     );

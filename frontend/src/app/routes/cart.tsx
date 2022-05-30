@@ -1,11 +1,7 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { HydratedCart } from '~/core/components/cart';
-import {
-    HttpCacheHeaderTagger,
-    HttpCacheHeaderTaggerFromLoader,
-    SuperFastHttpCacheHeaderTagger,
-} from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

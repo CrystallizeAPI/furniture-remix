@@ -9,13 +9,12 @@ export const BlogItem = ({ item }: { item: any }) => {
 
     return (
         <div className="w-1/3 shadow-md rounded-lg overflow-hidden">
-            <Link to={item.path}>
+            <Link to={item.path} prefetch="intent">
                 <div className="document-media-container h-[250px] overflow-hidden">
                     <img src={media?.images?.[0]?.variants?.[8]?.url} />
                 </div>
                 <div className="px-10 pt-7 pb-10">
                     <h2 className="font-bold text-lg">{title}</h2>
-                    <p className="embed-text text-sm">{description}</p>
                 </div>
             </Link>
         </div>

@@ -5,7 +5,7 @@ export const RelatedProduct = ({ product }: { product: any }) => {
     let price = product?.defaultVariant?.price;
     return (
         <div className="w-[300px] shadow-md pb-5 overflow-hidden">
-            <Link to={product.path}>
+            <Link to={product.path} prefetch="intent">
                 <img src={image?.[0]?.variants?.[8]?.url} />
                 <div className="px-10 py-5">
                     <h4>{product?.name}</h4>

@@ -21,7 +21,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
             {checkoutFlow.includes(location.pathname) ? (
                 <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center w-1/4">
-                        <Link to="/">
+                        <Link to="/" prefetch="intent">
                             <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
                     </div>
@@ -34,7 +34,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         : 'border-b-grey5 text-grey5'
                                 }`}
                             >
-                                <Link to={path.path}>{path.name}</Link>
+                                <Link to={path.path} prefetch="intent">
+                                    {path.name}
+                                </Link>
                             </div>
                         ))}
                     </div>
@@ -43,15 +45,19 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <div className="flex flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center">
                         <TopicNavigation />
-                        <Link to="/">
+                        <Link to="/" prefetch="intent">
                             <img src={superFast.config.logo} style={{ width: '200px' }} />
                         </Link>
                         <SearchBar />
                         <p className="hover:underline">
-                            <Link to="/shop">{navigation.tree.name}</Link>
+                            <Link to="/shop" prefetch="intent">
+                                {navigation.tree.name}
+                            </Link>
                         </p>
                         <p className="hover:underline">
-                            <Link to="/stories">Stories</Link>
+                            <Link to="/stories" prefetch="intent">
+                                Stories
+                            </Link>
                         </p>
                     </div>
                     <div className="flex flex-auto items-center justify-end gap-5">

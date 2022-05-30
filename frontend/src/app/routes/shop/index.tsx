@@ -29,9 +29,9 @@ export default function ShopPage() {
             <h1 className="font-bold text-2xl">{folder.name}</h1>
             <FolderHero component={hero} />
             <h2 className="mt-20 font-bold text-xl">Browse categories</h2>
-            <div className="flex flex-wrap gap-4 my-20">
+            <div className="flex flex-wrap gap-4 mt-5 mb-20">
                 {navigation?.tree?.children?.map((child: any) => (
-                    <Link to={child?.path}>
+                    <Link to={child?.path} prefetch="intent">
                         <div className="w-auto bg-grey py-2 px-6" key={child.name}>
                             {child.name}
                         </div>
@@ -46,8 +46,8 @@ export default function ShopPage() {
                                 <h2 className="font-bold text-xl mb-3">{child.name}</h2>
                                 <ContentTransformer json={child?.description?.content?.json} />
                             </div>
-                            <Link to={child.path} className="text-grey3 underline">
-                                View all
+                            <Link to={child.path} prefetch="intent" className="text-grey3 underline">
+                                View all {child.name.toLowerCase()}
                             </Link>
                         </div>
                         <div className="flex gap-5">

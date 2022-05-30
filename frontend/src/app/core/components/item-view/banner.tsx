@@ -23,7 +23,9 @@ export const Banner = ({ layout, item }: { layout: any; item: any }) => {
                 <p className={`mt-5 mb-5 ${layout.colspan === 3 ? 'w-3/4' : 'w-5/5'} leading-[2.5em]`}>{description}</p>
                 {cta ? (
                     <button className="bg-ctaBlue px-5 py-2 rounded">
-                        <Link to={cta?.[0]?.content?.text}>{cta[1]?.content?.text}</Link>
+                        <Link to={cta?.[0]?.content?.text} prefetch="intent">
+                            {cta[1]?.content?.text}
+                        </Link>
                     </button>
                 ) : null}
             </div>

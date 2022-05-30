@@ -12,7 +12,7 @@ export const CategoryList = ({ category }: { category: any }) => {
             <p className="w-3/5 mb-3 mt-2">{description}</p>
             <div className="flex gap-10">
                 {category?.children?.map((child: any) => (
-                    <Link to={child.path} className="" key={child.name}>
+                    <Link to={child.path} prefetch="intent" key={child.name}>
                         <div className="category-container">
                             <Image {...child.defaultVariant.firstImage} sizes="300px" />
                         </div>

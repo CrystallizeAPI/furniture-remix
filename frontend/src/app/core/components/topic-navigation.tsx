@@ -52,7 +52,7 @@ export const TopicNavigation = () => {
                             <div className="font-bold">{topic.name}</div>
                             <div>
                                 {topic.children?.map((child: any) => (
-                                    <Link to={child.path} onClick={() => setShowNaviagtion(false)}>
+                                    <Link to={child.path} onClick={() => setShowNaviagtion(false)} prefetch="intent">
                                         <div className="mt-3 hover:bg-grey py-2">{child.name}</div>
                                     </Link>
                                 ))}

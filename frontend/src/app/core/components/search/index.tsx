@@ -63,6 +63,7 @@ export const SearchBar = () => {
                                 onClick={() => {
                                     setSuggestions([]);
                                 }}
+                                prefetch="intent"
                             >
                                 <div className="p-4 bg-[#fff] hover:bg-grey2">{suggestion?.node?.name}</div>
                             </Link>

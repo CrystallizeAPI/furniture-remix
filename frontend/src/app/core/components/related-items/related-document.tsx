@@ -7,7 +7,7 @@ export const RelatedDocument = ({ document }: { document: any }) => {
 
     return (
         <div className="w-[300px] shadow-md pb-5">
-            <Link to={document.path}>
+            <Link to={document.path} prefetch="intent">
                 <div>
                     <img src={media?.images?.[0]?.variants?.[8]?.url} />
                 </div>

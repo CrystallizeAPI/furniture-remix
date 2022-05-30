@@ -35,7 +35,7 @@ export const Slider = ({ layout, item }: { layout: any; item: any }) => {
                         items?.map((item: any) => {
                             return (
                                 <SplideSlide key={item.name} className="slide">
-                                    <Link to={item.path}>
+                                    <Link to={item.path} prefetch="intent">
                                         <div className="flex flex-col gap-2">
                                             <Image {...item.defaultVariant.firstImage} sizes="100vw" />
                                             <p>${item.defaultVariant.price}</p>

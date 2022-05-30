@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 
 export const GridProduct = ({ item }: { item: any }) => {
     return (
-        <Link to={item.path}>
+        <Link to={item.path} prefetch="intent">
             <div className="flex flex-col h-full justify-between">
                 <div>
                     <Image {...item?.defaultVariant?.images?.[0]} />

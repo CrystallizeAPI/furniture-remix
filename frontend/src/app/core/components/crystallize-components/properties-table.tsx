@@ -1,6 +1,6 @@
 export const PropertiesTable = ({ table }: { table: any }) => {
     return (
-        <div className="w-2/4">
+        <div className="px-20 pt-20">
             <h2 className="text-2xl font-bold">{table?.title}</h2>
             <div>
                 {table?.properties?.map((property: any) => (

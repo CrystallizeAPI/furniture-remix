@@ -16,11 +16,11 @@ export const Filter: React.FC<{ priceRange: any }> = ({ priceRange }) => {
     return (
         <div className="flex gap-5 mb-20">
             <Form method="get" onChange={handleChange} ref={formRef} className="flex gap-4">
-                {transition.state === 'submitting' && <p>loading...</p>}
                 <label>
                     <select
                         name="orderBy"
-                        className="bg-grey py-2 px-4 hover:cursor-pointer w-60"
+                        // className="bg-grey py-2 px-4 hover:cursor-pointer w-60"
+                        className="w-60 bg-grey py-2 px-6 rounded-md text-md font-bold "
                         defaultValue={'NAME_ASC'}
                     >
                         <option disabled value="" className="text-textBlack">
@@ -36,7 +36,11 @@ export const Filter: React.FC<{ priceRange: any }> = ({ priceRange }) => {
                 </label>
                 <PriceRangeFilter min={price.min} max={price.max} formRef={formRef} />
             </Form>
-            <button onClick={() => navigate(location.pathname)}>Remove all filters</button>
+            {transition.state === 'submitting' ? (
+                <p>loading...</p>
+            ) : (
+                <button onClick={() => navigate(location.pathname)}>Remove all filters</button>
+            )}
         </div>
     );
 };

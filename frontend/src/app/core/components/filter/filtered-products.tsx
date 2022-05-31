@@ -6,10 +6,10 @@ export const FilteredProducts = ({ products }: { products: any }) => {
         <div className="mt-10">
             <h2 className="font-bold text-lg mt-5">Found {products.length} products</h2>
 
-            <div className="flex gap-20 flex-wrap">
+            <div className="grid grid-cols-5 gap-6 ">
                 {products.map((product: any, index: number) => (
                     <div key={index} className="category-container w-[200px] h-[300px] mt-5">
-                        <div className="w-60">
+                        <div className="img-container">
                             <Image {...product?.node?.matchingVariant?.images?.[0]} />
                         </div>
                         <p className="mt-4">
@@ -25,11 +25,13 @@ export const FilteredProducts = ({ products }: { products: any }) => {
 
 export const ProductsList = ({ products }: { products: any }) => {
     return (
-        <div className="flex flex-wrap w-full">
+        <div className="grid grid-cols-5 gap-6 w-full">
             {products?.map((product: any) => {
                 return (
-                    <div key={product.path} className="category-container w-1/3 mt-5">
-                        <Image {...product.defaultVariant.firstImage} sizes="500px" />
+                    <div key={product.path} className="mt-5">
+                        <div className="img-container">
+                            <Image {...product.defaultVariant.firstImage} sizes="500px" />
+                        </div>
                         <p className="mt-5">
                             <Link to={product.path}>{product.name}</Link>
                         </p>

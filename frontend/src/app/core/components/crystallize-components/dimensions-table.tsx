@@ -1,6 +1,6 @@
 export const DimensionsTable = ({ dimensions }: { dimensions: any }) => {
     return (
-        <div className="w-2/4 my-20">
+        <div className="my-20 px-20">
             <h2 className="text-2xl font-bold">Dimensions</h2>
             <div>
                 {dimensions?.map((dimension: any) => (

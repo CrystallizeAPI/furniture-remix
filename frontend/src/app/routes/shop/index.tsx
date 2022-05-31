@@ -7,6 +7,12 @@ import { FolderHero } from '~/core/components/folder-hero';
 import { SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { fetchFolder, fetchNavigation } from '~/core/UseCases';
 
+import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
+
+export function links() {
+    return [{ rel: 'stylesheet', href: splideStyles }];
+}
+
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);
     const preview = url.searchParams.get('preview');
@@ -25,37 +31,51 @@ export default function ShopPage() {
         ?.selectedComponent;
 
     return (
-        <div className="lg:w-content mx-auto w-full">
-            <h1 className="font-bold text-2xl">{folder.name}</h1>
+        <>
             <FolderHero component={hero} />
-            <h2 className="mt-20 font-bold text-xl">Browse categories</h2>
-            <div className="flex flex-wrap gap-4 mt-5 mb-20">
-                {navigation?.tree?.children?.map((child: any) => (
-                    <Link to={child?.path} prefetch="intent">
-                        <div className="w-auto bg-grey py-2 px-6" key={child.name}>
+            <div className="2xl  container mx-auto ">
+                {/* <h1 className="font-bold text-2xl">{folder.name}</h1> */}
+                <div className="flex flex-wrap gap-4 mt-20 pt-20 mb-20  items-center">
+                    <h2 className="font-medium text-md text-md w-full block">Browse categories</h2>
+                    {navigation?.tree?.children?.map((child: any) => (
+                        <Link
+                            to={child?.path}
+                            prefetch="intent"
+                            className="w-auto bg-grey py-2 px-6 rounded-md text-lg font-bold"
+                            key={child.name}
+                        >
                             {child.name}
-                        </div>
-                    </Link>
-                ))}
-            </div>
-            <div>
-                {navigation?.tree?.children?.map((child: any) => (
-                    <div>
-                        <div className="flex justify-between mt-10">
-                            <div className="w-2/4 leading-[2.5em]">
-                                <h2 className="font-bold text-xl mb-3">{child.name}</h2>
-                                <ContentTransformer json={child?.description?.content?.json} />
+                        </Link>
+                    ))}
+                </div>
+                <div>
+                    {navigation?.tree?.children?.map((child: any) => (
+                        <div className="border-t border-[#dfdfdf] py-20">
+                            <div className="flex items-center justify-between ">
+                                <div className="w-2/4 leading-[1.5em]">
+                                    <h2 className="font-bold text-2xl mb-3">{child.name}</h2>
+                                    <ContentTransformer
+                                        className="leading-1"
+                                        json={child?.description?.content?.json}
+                                    />
+                                </div>
+
+                                <Link
+                                    to={child?.path}
+                                    prefetch="intent"
+                                    className="w-auto bg-grey py-2 px-6 rounded-md text-md font-bold hover:bg-black hover:text-white"
+                                    key={child.name}
+                                >
+                                    View all {child.name.toLowerCase()}
+                                </Link>
                             </div>
-                            <Link to={child.path} prefetch="intent" className="text-grey3 underline">
-                                View all {child.name.toLowerCase()}
-                            </Link>
+                            <div className="grid grid-col-5 gap-5">
+                                <CategoryList category={child} />
+                            </div>
                         </div>
-                        <div className="flex gap-5">
-                            <CategoryList category={child} />
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

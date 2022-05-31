@@ -754,23 +754,11 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
                           item {
                             name
                             path
-                            type
-                            ...on Product {
-                              defaultVariant {
-                                price
-                                images {
-                                  variants {
-                                    url
-                                    width
-                                  }
-                                }
-                              }
-                            }
                             components {
                               type
                               id
                               content {
-                                ... on BooleanContent {
+                                ...on BooleanContent{
                                   value
                                 }
                                 ... on SingleLineContent {
@@ -783,13 +771,18 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
                                   selectedComponent {
                                     name
                                     content {
-                                      ... on SingleLineContent {
+                                      ...on SingleLineContent {
                                         text
                                       }
                                       ... on ImageContent {
                                         images {
                                           url
                                           altText
+                                          variants {
+                                            url
+                                            width
+                                            height
+                                          }
                                         }
                                       }
                                       ... on ItemRelationsContent {
@@ -799,21 +792,41 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
                                           components {
                                             id
                                             content {
-                                              ... on SingleLineContent {
+                                              ...on SingleLineContent {
                                                 text
                                               }
-                                              ... on RichTextContent {
+                                              ...on RichTextContent {
                                                 plainText
                                               }
-                                              ... on ComponentChoiceContent {
+                                              ...on ComponentChoiceContent {
                                                 selectedComponent {
                                                   content {
-                                                    ... on ImageContent {
+                                                    ...on ImageContent {
                                                       firstImage {
                                                         url
+                                                        altText
+                                                        variants {
+                                                          url
+                                                          width
+                                                          height
+                                                        }
                                                       }
                                                     }
                                                   }
+                                                }
+                                              }
+                                            }
+                                          }
+                                          ...on Product {
+                                            defaultVariant {
+                                              price
+                                              firstImage {
+                                                url
+                                                altText
+                                                variants {
+                                                  url
+                                                  width
+                                                  height
                                                 }
                                               }
                                             }

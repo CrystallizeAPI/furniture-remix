@@ -23,7 +23,7 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
     }
 
     return (
-        <div className="relative bg-grey filter-container w-60 hover:cursor-pointer">
+        <div className="relative bg-grey filter-container rounded-md text-md w-60 font-bold hover:cursor-pointer">
             <input type={'hidden'} name="min" defaultValue={min} ref={minInput} />
             <input type={'hidden'} name="max" defaultValue={max} ref={maxInput} />
 

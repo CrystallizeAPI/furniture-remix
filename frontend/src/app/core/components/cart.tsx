@@ -66,7 +66,7 @@ export const HydratedCart: React.FC = () => {
                         cart.cart.items.map((item: any) => (
                             <div key={item.id} className="flex justify-between bg-grey2 p-5 items-center">
                                 <div className="flex cart-item gap-3 items-center">
-                                    <Image {...item.variant.images?.[0]} sizes="100px" />
+                                    <Image {...item.variant.images?.[0]} sizes="100px" loading="lazy" />
                                     <div className="flex flex-col">
                                         <p className="text-xl font-semibold w-full">
                                             {item.product.name} × {item.quantity}

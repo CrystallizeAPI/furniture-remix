@@ -50,7 +50,7 @@ export default function ProductPage() {
             <div className="flex gap-20">
                 <div className="w-4/6 img-container">
                     <div className="img-container overflow-hidden rounded-md">
-                        <Image {...selectedVariant.images[0]} />
+                        <Image {...selectedVariant.images[0]} sizes="(max-width: 500px) 300px, 500px" />
                     </div>
                     <ProductBody components={product.components} />
                 </div>

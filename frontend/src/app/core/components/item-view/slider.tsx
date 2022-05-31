@@ -39,7 +39,11 @@ export const Slider = ({ layout, item }: { layout: any; item: any }) => {
                                     <Link to={item.path} prefetch="intent">
                                         <div className="flex flex-col gap-0">
                                             <div className="max-w-full img-container img-cover rounded-lg overflow-hidden">
-                                                <Image {...item.defaultVariant.firstImage} sizes="100vw" />
+                                                <Image
+                                                    {...item.defaultVariant.firstImage}
+                                                    sizes="200px"
+                                                    loading="lazy"
+                                                />
                                             </div>
                                             <p className="font-bold leading-1 mb-0 p-0">${item.defaultVariant.price}</p>
                                             <p className="text-sm leading-1">{item.name}</p>

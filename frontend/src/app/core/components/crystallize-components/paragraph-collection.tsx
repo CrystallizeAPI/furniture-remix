@@ -14,9 +14,9 @@ export const ParagraphCollection = ({ paragraphs }: { paragraphs: any }) => {
                         </div>
                     </div>
 
-                    {paragraph?.images?.map((img: Any) => (
+                    {paragraph?.images?.map((img: any) => (
                         <div className="img-container rounded-md overflow-hidden">
-                            <Image {...img} />
+                            <Image {...img} sizes="(max-width: 500px) 300px, 500px" loading="lazy" />
                         </div>
                     ))}
                 </>

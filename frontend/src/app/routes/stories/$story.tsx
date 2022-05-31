@@ -59,28 +59,30 @@ export default function ProductPage() {
             <div className="w-3/4 mx-auto">
                 <ParagraphCollection paragraphs={paragraphs} />
             </div>
-            <div className="lg:w-content mx-auto w-full mt-10">
-                <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
-                <div className="flex gap-5 overflow-x-scroll">
-                    {relatedArticles &&
-                        relatedArticles?.map((item: any, index: number) => (
+            {relatedArticles && (
+                <div className="lg:w-content mx-auto w-full mt-10">
+                    <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
+                    <div className="flex gap-5 overflow-x-scroll">
+                        {relatedArticles?.map((item: any, index: number) => (
                             <div key={index}>
                                 <RelatedDocument document={item} />
                             </div>
                         ))}
+                    </div>
                 </div>
-            </div>
-            <div className="lg:w-content mx-auto w-full mt-10">
-                <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
-                <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
-                    {featuredProducts &&
-                        featuredProducts?.map((item: any, index: number) => (
+            )}
+            {featuredProducts && (
+                <div className="lg:w-content mx-auto w-full mt-10">
+                    <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
+                    <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
+                        {featuredProducts?.map((item: any, index: number) => (
                             <div key={index}>
                                 <RelatedProduct product={item} />
                             </div>
                         ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

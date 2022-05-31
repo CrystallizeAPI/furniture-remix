@@ -59,7 +59,7 @@ export const TopicNavigation = () => {
                         className="hover:cursor-pointer my-5 absolute right-5 top-0"
                     />
                     {navigation?.tree?.map((topic: any) => (
-                        <div className="text">
+                        <div className="text mt-5">
                             <div className="font-bold">{topic.name}</div>
                             <div>
                                 {topic.children?.map((child: any) => (

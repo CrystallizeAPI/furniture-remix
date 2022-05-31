@@ -526,6 +526,7 @@ export async function fetchProduct(apiClient: ClientInterface, path: string, ver
           images {
             variants {
               url
+              width
             }
           }
         }
@@ -913,6 +914,7 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
                         images {
                           variants {
                             url
+                            width
                           }
                         }
                       }

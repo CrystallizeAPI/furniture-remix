@@ -100,7 +100,6 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
     '/payment/stripe/intent/create': {
         post: {
             schema: stripePaymentIntentPayload,
-            authenticated: true,
             handler: handleStripeCreatePaymentIntentRequestPayload,
             args: (context: Koa.Context): StripePaymentIntentArguments => {
                 return {
@@ -134,7 +133,6 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
         post: {
             handler: handleStripePaymentIntentWebhookRequestPayload,
             args: (context: Koa.Context): StripePaymentIntentWebhookArguments => {
-                console.log(context.superFast);
                 return {
                     secret_key: context.superFast.config.configuration.SECRET_KEY,
                     endpointSecret:

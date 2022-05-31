@@ -87,7 +87,11 @@ const StripCheckoutForm: React.FC<{ clientSecret: string }> = ({ clientSecret })
     return (
         <form id="stripe-payment-form" onSubmit={handleSubmit}>
             <PaymentElement id="payment-element" />
-            <button disabled={state.processing || !stripe || !elements} id="submit">
+            <button
+                disabled={state.processing || !stripe || !elements}
+                id="submit"
+                className="bg-buttonBg2 px-4 py-2 mt-5"
+            >
                 <span id="button-text">
                     {state.processing ? <div className="spinner" id="spinner"></div> : 'Place with Stripe'}
                 </span>

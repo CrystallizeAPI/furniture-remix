@@ -5,14 +5,16 @@ export const Payments: React.FC<{ isGuest: boolean }> = ({ isGuest }) => {
     return (
         <>
             <p>You can now proceed with the payment.</p>
-            <div className="payment-methods mt-5 w-full flex items-end justify-between">
-                <button className="bg-grey px-4 py-2">Back</button>
-                <div className="payment-method">
+            <div className="payment-methods mt-5 w-full flex-row items-end justify-between">
+                <div className="payment-method mb-4">
                     <CrystalCoin isGuest={isGuest} />
                 </div>
-                {/* <div className="payment-method" style={{ minHeight: 200 }}>
-                    <Stripe />
-                </div> */}
+                <hr />
+                {
+                    <div className="payment-method mt-4" style={{ minHeight: 200 }}>
+                        <Stripe />
+                    </div>
+                }
             </div>
         </>
     );

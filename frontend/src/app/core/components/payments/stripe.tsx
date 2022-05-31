@@ -13,7 +13,6 @@ export const Stripe: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            console.log('PLOP');
             if (!isEmpty()) {
                 const data = await fetchPaymentIntent(cart);
                 setClientSecret(data.key);

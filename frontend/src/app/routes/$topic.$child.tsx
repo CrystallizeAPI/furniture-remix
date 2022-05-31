@@ -5,7 +5,6 @@ import { FilteredProducts } from '~/core/components/filter/filtered-products';
 import { searchByTopic } from '~/core/UseCases';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    console.log(params);
     let value = `/${params.topic}/${params.child}`;
     const superFast = await getSuperFast(request.headers.get('Host')!);
     let data = await searchByTopic(superFast.apiClient, value);

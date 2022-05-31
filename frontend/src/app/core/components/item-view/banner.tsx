@@ -7,7 +7,6 @@ export const Banner = ({ layout, item }: { layout: any; item: any }) => {
     let description = components?.find((component: any) => component.type === 'richText')?.content?.plainText?.[0];
     let image = components?.find((component: any) => component.id === 'media')?.content?.selectedComponent?.content
         ?.images?.[0];
-    console.log({ components });
     let cta = components?.find((component: any) => component.id === 'cta')?.content?.chunks?.[0];
     let color = `#${
         components?.find((component: any) => component.id === 'background')?.content?.selectedComponent?.content?.text

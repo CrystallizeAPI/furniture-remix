@@ -63,8 +63,8 @@ export const HydratedCart: React.FC = () => {
                 <h1 className="font-bold text-4xl mt-5 mb-10">Cart</h1>
                 <div className="flex flex-col gap-3">
                     {cart &&
-                        cart.cart.items.map((item: any) => (
-                            <div key={item.id} className="flex justify-between bg-grey2 p-5 items-center">
+                        cart.cart.items.map((item: any, index: number) => (
+                            <div key={index} className="flex justify-between bg-grey2 p-5 items-center">
                                 <div className="flex cart-item gap-3 items-center">
                                     <Image {...item.variant.images?.[0]} sizes="100px" loading="lazy" />
                                     <div className="flex flex-col">

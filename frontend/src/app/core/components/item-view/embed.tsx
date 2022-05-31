@@ -12,7 +12,6 @@ export const Embed = ({ layout, item }: { layout: any; item: any }) => {
     let color = `#${getComponentContent('background').selectedComponent?.content?.text}`;
     let media = embedItem?.components.find((component: any) => component.id === 'media')?.content?.selectedComponent
         ?.content;
-    console.log(embedItem);
 
     return (
         <Link to={embedItem.path} prefetch="intent">

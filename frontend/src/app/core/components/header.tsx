@@ -1,4 +1,3 @@
-import HamburgerIcon from '~/assets/hamburgerIcon.svg';
 import UserIcon from '~/assets/userIcon.svg';
 import { Link, useLocation } from '@remix-run/react';
 import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
@@ -28,6 +27,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <div className="flex w-3/4 gap-5">
                         {paths.map((path) => (
                             <div
+                                key={path.path}
                                 className={`w-1/4 border-b-2 pb-2 ${
                                     location.pathname === path.path
                                         ? 'border-b-[#000] text-[#000]'

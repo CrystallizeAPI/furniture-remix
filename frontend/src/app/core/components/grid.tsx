@@ -1,17 +1,16 @@
 import { GridItem } from '~/core/components/grid-item';
 
-const getTotalGridDimensions = (rows) => {
-    const totalColSpan = rows[0].columns.reduce((acc, col) => acc + col.layout.colspan, 0);
+const getTotalGridDimensions = (rows: any) => {
+    const totalColSpan = rows[0].columns.reduce((acc: any, col: any) => acc + col.layout.colspan, 0);
 
     return totalColSpan;
 };
 
 export const Grid = ({ grid }: { grid: any }) => {
     const totalColSpan = getTotalGridDimensions(grid.rows);
-    console.log({ grid });
     return (
         <div className="frntr-grid auto-rows-auto gap-3">
-            {grid.rows.map((row) => {
+            {grid.rows.map((row: any, rowIndex: number) => {
                 let isFullWidth;
                 // A workaround to make the fullwidth tiles work properly
                 if (row.columns.length < 2) {
@@ -26,9 +25,10 @@ export const Grid = ({ grid }: { grid: any }) => {
                             gridColumnStart: isFullWidth ? 'span 3' : 2,
                             gridTemplateColumns: `repeat(${totalColSpan}, 1fr)`,
                         }}
+                        key={`grid-row-${rowIndex}`}
                     >
-                        {row.columns.map((cell) => (
-                            <GridItem cell={cell} />
+                        {row.columns.map((cell: any, cellIindex: number) => (
+                            <GridItem cell={cell} key={`grid-row-${rowIndex}-cell-${cellIindex}`} />
                         ))}
                     </div>
                 );

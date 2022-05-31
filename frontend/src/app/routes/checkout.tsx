@@ -234,7 +234,7 @@ export const CheckoutCart: React.FC = () => {
             <h1 className="font-bold text-2xl mt-10 mb-5">Cart</h1>
             {cart &&
                 cart.cart.items.map((item: any, index: number) => (
-                    <div key={item.id + index} className="flex justify-between bg-grey2 p-5 items-center">
+                    <div key={index} className="flex justify-between bg-grey2 p-5 items-center">
                         <div className="flex cart-item gap-3 items-center">
                             <Image {...item?.variant.images?.[0]} sizes="100px" />
                             <div className="flex flex-col">

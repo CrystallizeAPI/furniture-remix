@@ -1,11 +1,13 @@
+import useLocalStorage from '@rehooks/local-storage';
 import { useNavigate } from '@remix-run/react';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { fetchPaymentIntent, placeCart } from '~/core/UseCases';
+import { Guest } from '../checkout-forms/guest';
 
-export const Stripe: React.FC = () => {
+export const Stripe: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
     //@ts-ignore
     const stripePromise = loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
     const [clientSecret, setClientSecret] = useState<string>('');
@@ -25,12 +27,12 @@ export const Stripe: React.FC = () => {
     }
     return (
         <Elements options={{ clientSecret }} stripe={stripePromise}>
-            <StripCheckoutForm clientSecret={clientSecret} />
+            <StripCheckoutForm isGuest={isGuest} />
         </Elements>
     );
 };
 
-const StripCheckoutForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
+const StripCheckoutForm: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
     const { cart, empty } = useLocalCart();
     const stripe = useStripe();
     const elements = useElements();
@@ -40,6 +42,7 @@ const StripCheckoutForm: React.FC<{ clientSecret: string }> = ({ clientSecret })
         succeeded: boolean;
         processing: boolean;
     }>({ succeeded: false, error: null, processing: false });
+    const [customer] = useLocalStorage<Partial<Guest>>('customer', {});
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -53,7 +56,11 @@ const StripCheckoutForm: React.FC<{ clientSecret: string }> = ({ clientSecret })
 
         // before anything else we place the cart
         try {
-            await placeCart(cart);
+            if (!isGuest) {
+                await placeCart(cart);
+            } else {
+                await placeCart(cart, customer);
+            }
         } catch (exception) {
             console.log(exception);
         }

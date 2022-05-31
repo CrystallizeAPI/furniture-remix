@@ -12,7 +12,7 @@ export const Payments: React.FC<{ isGuest: boolean }> = ({ isGuest }) => {
                 <hr />
                 {
                     <div className="payment-method mt-4" style={{ minHeight: 200 }}>
-                        <Stripe />
+                        <Stripe isGuest={isGuest} />
                     </div>
                 }
             </div>

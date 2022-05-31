@@ -9,9 +9,20 @@ export const GridItem = ({ cell }: { cell: any }) => {
     let type = cell?.item?.type;
     let isFullWidth = cell?.item?.components?.find((component: any) => component?.id === 'fullwidth-tile')?.content
         ?.value;
-
+    let color = `#${
+        cell?.item?.components?.find((component: any) => component.id === 'background')?.content?.selectedComponent
+            ?.content?.text
+    }`;
+    console.log({ cell });
+    console.log({ isFullWidth });
     return (
-        <div className={`h-full ${cell.layout.rowspan === 1 && isFullWidth ? 'w-full' : 'mx-10'}`}>
+        <div
+            style={{
+                background: color,
+                gridColumnStart: `span ${cell.layout.colspan}`,
+            }}
+        >
+            {/* <div className={`${cell.layout.rowspan === 1 && isFullWidth ? 'w-full' : 'mx-10'}`}> */}
             {view === 'banner' && <Banner layout={cell.layout} item={cell.item} />}
             {view === 'slider' && <Slider layout={cell.layout} item={cell.item} />}
             {view === 'embed' && <Embed layout={cell.layout} item={cell.item} />}

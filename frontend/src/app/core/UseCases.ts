@@ -225,6 +225,11 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
                                   images {
                                     url
                                     altText
+                                    variants {
+                                      url
+                                      width
+                                      height
+                                    }
                                   }
                                 }
                                 ... on ItemRelationsContent {
@@ -246,6 +251,12 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
                                               ...on ImageContent {
                                                 firstImage {
                                                   url
+                                                  altText
+                                                  variants {
+                                                    url
+                                                    width
+                                                    height
+                                                  }
                                                 }
                                               }
                                             }
@@ -258,6 +269,12 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
                                         price
                                         firstImage {
                                           url
+                                          altText
+                                          variants {
+                                            url
+                                            width
+                                            height
+                                          }
                                         }
                                       }
                                     }

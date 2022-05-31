@@ -39,19 +39,20 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className="bg-grey w-60 relative">
+        <div className="bg-grey w-80  relative overflow-hidden rounded-full">
             <div className="flex items-center justify-between bg-grey h-10">
                 <DebounceInput
                     minLength={2}
+                    placeholder="Names, skus, categories"
                     debounceTimeout={300}
                     onChange={handleChange}
-                    className="bg-grey focus:border-textBlack outline-none px-2"
+                    className="bg-grey focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic"
                 />
                 <Link
                     to={`/search?q=${searchTerm}`}
-                    className="w-10 p-2 h-full text-[#fff] bg-textBlack flex justify-center items-center"
+                    className="w-10 p-4 h-full text-[#fff] flex justify-center items-center  rounded-full"
                 >
-                    <img src={`${SearchIcon}`} />
+                    <img src={`${SearchIcon}`} alt="search icon" width="15" height="15" />
                 </Link>
             </div>
             {suggestions.length > 0 && show ? (

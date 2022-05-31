@@ -42,13 +42,24 @@ export const TopicNavigation = () => {
     }
 
     return (
-        <div className="mt-1 relative">
-            <img src={`${HamburgerIcon}`} onClick={handleClick} className="hover:cursor-pointer" />
+        <div className="relative pl-2">
+            <img
+                src={`${HamburgerIcon}`}
+                onClick={handleClick}
+                className="hover:cursor-pointer"
+                width="24"
+                height="18"
+                alt="Menu icon"
+            />
             {showNavigation && (
-                <div ref={ref} className="absolute w-80  p-5 bg-[#fff] shadow-sm -top-10 -left-5">
-                    <img src={`${CloseIcon}`} onClick={handleClick} className="hover:cursor-pointer my-5" />
+                <div ref={ref} className="absolute w-80  p-5  bg-[#fff] shadow-sm -top-6 -right-5 rounded-md border">
+                    <img
+                        src={`${CloseIcon}`}
+                        onClick={handleClick}
+                        className="hover:cursor-pointer my-5 absolute right-5 top-0"
+                    />
                     {navigation?.tree?.map((topic: any) => (
-                        <div className="text-center">
+                        <div className="text">
                             <div className="font-bold">{topic.name}</div>
                             <div>
                                 {topic.children?.map((child: any) => (

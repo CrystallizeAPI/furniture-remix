@@ -7,12 +7,13 @@
     body {
         background: #fff;
     }
+    img {
+        max-width: none;
+    }
     button:hover {
         transform: scale(1.02, 1.02);
     }
-    .test div {
-        gap: 10px;
-    }
+
     .test div:first-of-type h1:first-of-type {
     }
     .category-container img {
@@ -67,5 +68,29 @@
         background-repeat: no-repeat, repeat;
         background-position: right 0.7em top 50%, 0 0;
         background-size: 0.65em auto, 100%;
+    }
+    .frntr-grid {
+        display: grid;
+        grid-template-columns: minmax(50px, 1fr) minmax(800px, 1600px) minmax(50px, 1fr);
+        grid-template-rows: auto;
+    }
+    .frntr-grid-row  {
+        display: grid;
+    }
+    .img-container img {
+        width: 100%;
+    }
+    .img-container.img-cover img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+    .img-container.img-cover figure {
+        height: 100%;
+        width: 100%;
+    }
+    .img-container.img-cover picture {
+        height: 100%;
+        width: 100%;
     }
 }

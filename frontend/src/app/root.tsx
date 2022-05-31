@@ -102,7 +102,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }>();
     return (
         <SuperFastProvider config={superFastConfig}>
-            <header className="lg:w-content w-full mx-auto p-8 sm:px-6">
+            <header className="container 2xl w-full mx-auto p-8 sm:px-6">
                 <script
                     dangerouslySetInnerHTML={{
                         __html: `window.ENV = ${JSON.stringify(ENV)}`,

@@ -1,11 +1,14 @@
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { sendPaidOrder } from '~/core/UseCases';
+import { sendAuthPaidOrder, sendGuestPaidOrder } from '~/core/UseCases';
 import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
+import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
+import { Guest } from '../checkout-forms/guest';
 
-export const CrystalCoin: React.FC = () => {
+export const CrystalCoin: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
     const { cart, isEmpty, empty } = useLocalCart();
     const [paying, setPaying] = useState(false);
+    const [customer] = useLocalStorage<Partial<Guest>>('customer', {});
     const navigate = useNavigate();
 
     if (isEmpty()) {
@@ -18,7 +21,11 @@ export const CrystalCoin: React.FC = () => {
             disabled={paying}
             onClick={async () => {
                 setPaying(true);
-                await sendPaidOrder(cart);
+                if (!isGuest) {
+                    await sendAuthPaidOrder(cart);
+                } else {
+                    await sendGuestPaidOrder(cart, customer);
+                }
                 empty();
                 navigate(`/order/cart/${cart.cartId}`, { replace: true });
             }}

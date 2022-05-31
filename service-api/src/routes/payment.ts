@@ -68,28 +68,28 @@ const pushOrderSubHandler = async (
 
 const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
     return {
-        identifier: cartWrapper.customer.identifier,
-        firstName: 'William',
-        lastName: 'Wallace',
-        companyName: 'Freedom Inc.',
+        identifier: cartWrapper?.customer?.identifier || '',
+        firstName: cartWrapper?.customer?.firstname || 'William',
+        lastName: cartWrapper?.customer?.lastname || 'Wallace',
+        companyName: cartWrapper?.customer?.company || 'Freedom Inc.',
         addresses: [
             {
                 //@ts-ignore
                 type: 'billing',
-                street: '845 Market St',
-                city: 'San Francisco',
+                street: cartWrapper?.customer?.streetAddress || '845 Market St',
+                city: cartWrapper?.customer?.city || 'San Francisco',
                 country: 'USA',
                 state: 'CA',
-                postalCode: '94103',
+                postalCode: cartWrapper?.customer?.zipCode || '94103',
             },
             {
                 //@ts-ignore
                 type: 'delivery',
-                street: '845 Market St',
-                city: 'San Francisco',
+                street: cartWrapper?.customer?.streetAddress || '845 Market St',
+                city: cartWrapper?.customer?.city || 'San Francisco',
                 country: 'USA',
                 state: 'CA',
-                postalCode: '94103',
+                postalCode: cartWrapper?.customer?.zipCode || '94103',
             },
         ],
     };
@@ -182,7 +182,6 @@ export const paymentStandardRoutes: StandardRouting = {
     // ONLY for DEMO PURPOSES!!!
     '/payment/crystalcoin/confirmed': {
         post: {
-            authenticated: true,
             handler: async (ctx: Koa.Context) => {
                 const cartId = ctx.request.body.cartId as string;
                 const cartWrapper = await cartWrapperRepository.find(cartId);

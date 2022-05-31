@@ -1,15 +1,14 @@
 import { CrystalCoin } from './payments/crystalcoin';
 import { Stripe } from './payments/stripe';
 
-export const Payments: React.FC = () => {
+export const Payments: React.FC<{ isGuest: boolean }> = ({ isGuest }) => {
     return (
         <>
-            <h1 className="font-bold text-xl mt-5">Success!</h1>
-            <p>Logged in successfully. You can now proceed with the payment.</p>
+            <p>You can now proceed with the payment.</p>
             <div className="payment-methods mt-5 w-full flex items-end justify-between">
                 <button className="bg-grey px-4 py-2">Back</button>
                 <div className="payment-method">
-                    <CrystalCoin />
+                    <CrystalCoin isGuest={isGuest} />
                 </div>
                 {/* <div className="payment-method" style={{ minHeight: 200 }}>
                     <Stripe />

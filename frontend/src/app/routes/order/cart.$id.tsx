@@ -24,6 +24,8 @@ export default function CartPlaced() {
     const [tryCount, setTryCount] = useState(0);
     const navigate = useNavigate();
 
+    const [orderGuestId, setOrderGuestId] = useState('');
+
     useEffect(() => {
         let timeout: ReturnType<typeof setTimeout>;
         (async () => {
@@ -33,7 +35,11 @@ export default function CartPlaced() {
                 }
                 const cart = await fetchCart(cartId);
                 if (cart?.extra?.orderId) {
-                    navigate('/order/' + cart.extra.orderId);
+                    if (cart?.customer?.isGuest === true) {
+                        setOrderGuestId(cart.extra.orderId);
+                    } else {
+                        navigate('/order/' + cart.extra.orderId);
+                    }
                 } else {
                     timeout = setTimeout(() => {
                         setTryCount(tryCount + 1);
@@ -48,14 +54,35 @@ export default function CartPlaced() {
         return () => clearTimeout(timeout);
     }, [cartId, tryCount]);
 
+    if (orderGuestId !== '') {
+        return (
+            <div className="lg:w-content mx-auto w-full">
+                <div className="w-2/4 mx-auto">
+                    <h1 className="font-bold text-3xl">Order Placed!</h1>
+                    <div>
+                        <div>
+                            <p>
+                                Your order has been placed successfully, as it is a Guest Order you won't see the
+                                details here.
+                            </p>
+                            <p>Order Id is #{orderGuestId}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div>
-            <h1>Cart #{cartId} Placed!</h1>
-            <div>
+        <div className="lg:w-content mx-auto w-full">
+            <div className="w-2/4 mx-auto">
+                <h1 className="font-bold text-3xl">Cart Placed!</h1>
                 <div>
-                    <h1>Cart</h1>
-                    <p>Your cart has been placed successfully, we're waiting for payment confirmation.</p>
-                    <p>Redirecting....</p>
+                    <div>
+                        <h2>Cart {cartId}</h2>
+                        <p>Your cart has been placed successfully, we're waiting for payment confirmation.</p>
+                        <p>Redirecting....</p>
+                    </div>
                 </div>
             </div>
         </div>

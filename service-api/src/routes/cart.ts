@@ -53,11 +53,9 @@ async function handleAndSaveCart(cart: Cart, providedCartId: string): Promise<Ca
     return cartWrapper;
 }
 
-async function handleAndPlaceCart(cart: Cart, user: any, providedCartId: string): Promise<CartWrapper> {
+async function handleAndPlaceCart(cart: Cart, customer: any, providedCartId: string): Promise<CartWrapper> {
     const cartWrapper = await handleAndSaveCart(cart, providedCartId);
-    cartWrapper.customer = {
-        identifier: user.aud,
-    };
+    cartWrapper.customer = customer;
     cartWrapperRepository.place(cartWrapper);
     return cartWrapper;
 }
@@ -96,7 +94,26 @@ export const cartStandardRoutes: StandardRouting = {
                 const cart = await handleCartRequestPayload(request, {
                     hydraterBySkus: createProductHydrater(ctx.superFast.apiClient).bySkus,
                 });
-                ctx.body = await handleAndPlaceCart(cart, ctx.user, ctx.request.body.cartId as string);
+                const customer = {
+                    identifier: ctx.user.aud,
+                };
+                ctx.body = await handleAndPlaceCart(cart, customer, ctx.request.body.cartId as string);
+            },
+        },
+    },
+    '/guest/cart/place': {
+        post: {
+            authenticated: false,
+            handler: async (ctx: Koa.Context) => {
+                const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
+                const cart = await handleCartRequestPayload(request, {
+                    hydraterBySkus: createProductHydrater(ctx.superFast.apiClient).bySkus,
+                });
+                const customer = {
+                    ...ctx.request.body.customer,
+                    isGuest: true,
+                };
+                ctx.body = await handleAndPlaceCart(cart, customer, ctx.request.body.cartId as string);
             },
         },
     },

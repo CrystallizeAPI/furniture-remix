@@ -5,11 +5,8 @@ import {
     ClientInterface,
 } from '@crystallize/js-api-client';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
+import { Guest } from './components/checkout-forms/guest';
 import { LocalCart } from './hooks/useLocalCart';
-
-export let customer = (formData: any) => {
-    return;
-};
 
 export async function fetchPaymentIntent(cart: LocalCart): Promise<any> {
     //@ts-ignore
@@ -27,7 +24,7 @@ export async function fetchOrder(orderId: string) {
 }
 
 // in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
-export async function sendPaidOrder(cart: LocalCart) {
+export async function sendAuthPaidOrder(cart: LocalCart) {
     const cartWrapper = await placeCart(cart);
     //@ts-ignore
     return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
@@ -35,12 +32,22 @@ export async function sendPaidOrder(cart: LocalCart) {
     });
 }
 
-export async function placeCart(cart: LocalCart) {
+// in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
+export async function sendGuestPaidOrder(cart: LocalCart, guest: Partial<Guest>) {
+    const cartWrapper = await placeCart(cart, guest);
     //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
+    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
+        cartId: cartWrapper.cartId,
+    });
+}
+
+export async function placeCart(cart: LocalCart, guest?: Partial<Guest>) {
+    //@ts-ignore
+    return await postJson<any>(window.ENV.SERVICE_API_URL + (guest ? '/guest' : '') + '/cart/place', {
         cartId: cart.cartId,
         locale: 'en',
         items: Object.values(cart.items),
+        guest,
     });
 }
 

@@ -7,7 +7,7 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
     return (
-        <div className="absolute rounded-md bottom-10 right-10 w-70 shadow-lg py-8 px-10 border border-[#dfdfdf]">
+        <div className="fixed rounded-md bottom-10 right-10 w-70 shadow-lg py-8 px-10 border border-[#dfdfdf]">
             <ClientOnly fallback={<p>Your basket is empty.</p>}>
                 <>
                     {!isEmpty() && (

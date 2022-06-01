@@ -5,7 +5,7 @@ export const ParagraphCollection = ({ paragraphs }: { paragraphs: any }) => {
         <>
             {paragraphs?.map((paragraph: any, index: number) => (
                 <>
-                    <div key={index} className="px-20 pt-10">
+                    <div key={index} className="px-20 pt-10 max-w-[1000px]">
                         <div className="my-10 mx-auto">
                             <h2 className="font-bold mt-10 text-2xl">{paragraph?.title?.text}</h2>
                             <div className="mb-5 mt-2 leading-[2.5em] text-xl">

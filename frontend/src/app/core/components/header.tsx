@@ -54,21 +54,22 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     style={{ width: '150px' }}
                                 />
                             </Link>
-                            <div className="flex gap-4 items-center">
+                            <div className="flex gap-10 items-center">
                                 <SearchBar />
+
                                 <Link to="/shop" prefetch="intent" className="hover:underline">
                                     {navigation.tree.name}
                                 </Link>
                                 <Link to="/stories" prefetch="intent" className="hover:underline">
                                     Stories
                                 </Link>
+                                <TopicNavigation />
                             </div>
                         </div>
                     </div>
                     <div className="flex flex-auto items-center justify-end gap-5">
                         <img src={`${UserIcon}`} />
                         <BasketButton />
-                        <TopicNavigation />
                     </div>
                 </div>
             )}

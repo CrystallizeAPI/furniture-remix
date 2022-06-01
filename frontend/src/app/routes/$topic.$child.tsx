@@ -16,7 +16,7 @@ export default function Topics() {
     let { data, params } = useLoaderData();
 
     return (
-        <div className="lg:w-content mx-auto w-full mt-10">
+        <div className="container 2xl mx-auto px-6 mt-10">
             <h1 className="capitalize font-bold text-4xl">{params.child}</h1>
             <FilteredProducts products={data?.search?.edges} />
         </div>

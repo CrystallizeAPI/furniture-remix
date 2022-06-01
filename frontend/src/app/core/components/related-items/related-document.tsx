@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react';
+import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const RelatedDocument = ({ document }: { document: any }) => {
     let title = document.components.find((component: any) => component.name === 'Title')?.content?.text;
@@ -6,12 +7,12 @@ export const RelatedDocument = ({ document }: { document: any }) => {
         ?.content;
 
     return (
-        <div className="w-[300px] shadow-md pb-5">
+        <div className="pb-5 img-cover-hover">
             <Link to={document.path} prefetch="intent">
-                <div>
-                    <img src={media?.images?.[0]?.variants?.[8]?.url} />
+                <div className="img-container img-cover rounded-md overflow-hidden">
+                    <Image {...media?.images?.[0]} />
                 </div>
-                <h4 className="text-center font-semibold mt-5">{title}</h4>
+                <h4 className="font-semibold mt-5">{title}</h4>
             </Link>
         </div>
     );

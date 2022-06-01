@@ -4,13 +4,13 @@ import { Image } from '@crystallize/reactjs-components';
 export const FilteredProducts = ({ products }: { products: any }) => {
     return (
         <div className="mt-10">
-            <h2 className="font-bold text-lg mt-5">Found {products.length} products</h2>
+            <h2 className="font-medium text-lg mt-5">Found {products.length} products</h2>
 
-            <div className="grid grid-cols-5 gap-6 ">
+            <div className="grid grid-cols-5 gap-5 ">
                 {products.map((product: any, index: number) => (
                     <Link key={index} to={product?.node?.path}>
-                        <div className="category-container w-[200px] h-[300px] mt-5">
-                            <div className="img-container">
+                        <div className="mt-5">
+                            <div className="img-container rounded-md overflow-hidden">
                                 <Image {...product?.node?.matchingVariant?.images?.[0]} sizes="300px" loading="lazy" />
                             </div>
                             <p className="mt-4">{product?.node?.name}</p>
@@ -30,7 +30,7 @@ export const ProductsList = ({ products }: { products: any }) => {
                 return (
                     <Link to={product.path} key={product.path}>
                         <div className="mt-5">
-                            <div className="img-container">
+                            <div className="img-container rounded-md overflow-hidden">
                                 <Image {...product.defaultVariant.firstImage} sizes="300px" loading="lazy" />
                             </div>
                             <p className="mt-5">{product.name}</p>

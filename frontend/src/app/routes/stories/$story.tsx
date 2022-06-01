@@ -8,6 +8,7 @@ import { RelatedProduct } from '~/core/components/related-items/related-product'
 import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { Image } from '@crystallize/reactjs-components/dist/image';
+import { BlogItem } from '~/core/components/blog-item';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -46,23 +47,25 @@ export default function ProductPage() {
 
     return (
         <div className="">
-            <div className="lg:w-content mx-auto w-full mt-10">
-                <h1 className="text-4xl font-semibold mb-5">{title}</h1>
-                <p className="mb-10">{creationDate}</p>
-                <div className="w-3/4 my-10 text-2xl leading-[2.3em]">
-                    <ContentTransformer json={description} />
+            <div className="2xl  container mx-auto mt-10">
+                <div className="px-6 max-w-[1000px]">
+                    <h1 className="text-4xl font-semibold mb-5">{title}</h1>
+                    <p className="mb-10">{creationDate}</p>
+                    <div className="w-3/4 my-10 text-2xl leading-[1.8em]">
+                        <ContentTransformer json={description} />
+                    </div>
                 </div>
             </div>
-            <div className="document-media-container mt-5 lg:w-[w-full] w-screen mx-auto">
+            <div className="container 2xl img-container overflow-hidden rounded-lg mt-5 w-screen mx-auto">
                 <Image {...media?.images?.[0]} sizes="100vw" />
             </div>
             <div className="w-3/4 mx-auto">
                 <ParagraphCollection paragraphs={paragraphs} />
             </div>
             {relatedArticles && (
-                <div className="lg:w-content mx-auto w-full mt-10">
+                <div className="2xl container px-6 mx-auto w-full mt-10">
                     <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
-                    <div className="flex gap-5 overflow-x-scroll">
+                    <div className="grid grid-cols-5 gap-5 overflow-x-scroll">
                         {relatedArticles?.map((item: any, index: number) => (
                             <div key={index}>
                                 <RelatedDocument document={item} />
@@ -72,7 +75,7 @@ export default function ProductPage() {
                 </div>
             )}
             {featuredProducts && (
-                <div className="lg:w-content mx-auto w-full mt-10">
+                <div className="2xl container px-6 mx-auto w-full mt-10">
                     <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
                     <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
                         {featuredProducts?.map((item: any, index: number) => (

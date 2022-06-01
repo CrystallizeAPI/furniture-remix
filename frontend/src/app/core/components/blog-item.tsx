@@ -3,17 +3,18 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 
 export const BlogItem = ({ item }: { item: any }) => {
     let title = item.components.find((component: any) => component.id === 'title')?.content?.text;
+    let description = item.components.find((component: any) => component.id === 'description')?.content?.plainText;
     let media = item?.components.find((component: any) => component.id === 'media')?.content?.selectedComponent
         ?.content;
-
     return (
-        <div className="w-1/3 shadow-md rounded-lg overflow-hidden">
+        <div className="rounded-lg overflow-hidden img-cover-hover">
             <Link to={item.path} prefetch="intent">
-                <div className="document-media-container h-[250px] overflow-hidden">
+                <div className="img-container img-cover aspect-square rounded-md overflow-hidden">
                     <Image {...media?.images?.[0]} sizes="300px" loading="lazy" />
                 </div>
-                <div className="px-10 pt-7 pb-10">
-                    <h2 className="font-bold text-lg">{title}</h2>
+                <div className="pt-7 pb-10">
+                    <h2 className="font-bold text-xl">{title}</h2>
+                    <div className="my-2 text-md leading-[1.8em] ">{description}</div>
                 </div>
             </Link>
         </div>

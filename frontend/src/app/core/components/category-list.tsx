@@ -13,7 +13,7 @@ export const CategoryList = ({ category }: { category: any }) => {
             <div className="grid grid-cols-5 gap-6">
                 {category?.children?.map((child: any) => (
                     <Link to={child.path} prefetch="intent" key={child.name}>
-                        <div className="img-container">
+                        <div className="img-container rounded-md overflow-hidden">
                             <Image {...child.defaultVariant.firstImage} sizes="300px" loading="lazy" />
                         </div>
                         <p className="mt-3 ">{child.name}</p>

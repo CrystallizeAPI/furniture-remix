@@ -7,7 +7,7 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
     return (
-        <div className="absolute bottom-10 right-10 w-70 shadow-md py-4 px-6 border-2">
+        <div className="absolute rounded-md bottom-10 right-10 w-70 shadow-lg py-8 px-10 border border-[#dfdfdf]">
             <ClientOnly fallback={<p>Your basket is empty.</p>}>
                 <>
                     {!isEmpty() && (
@@ -16,11 +16,11 @@ export const Cart: React.FC = () => {
 
                             <div className="flex gap-3 mt-3 items-center">
                                 <button className="bg-textBlack text-[#fff] py-2 px-4 rounded-md">
-                                    <Link to={'/cart'}>See the cart</Link>
+                                    <Link to={'/cart'}>Go to cart</Link>
                                 </button>
                                 <button className="underline">
                                     {' '}
-                                    <Link to={'/checkout'}>Place the order</Link>
+                                    <Link to={'/checkout'}>Continue to checkout</Link>
                                 </button>
                             </div>
                         </>
@@ -64,7 +64,7 @@ export const HydratedCart: React.FC = () => {
                 <div className="flex flex-col gap-3">
                     {cart &&
                         cart.cart.items.map((item: any, index: number) => (
-                            <div key={index} className="flex justify-between bg-grey2 p-5 items-center">
+                            <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center">
                                 <div className="flex cart-item gap-3 items-center">
                                     <Image {...item.variant.images?.[0]} sizes="100px" loading="lazy" />
                                     <div className="flex flex-col">
@@ -78,22 +78,23 @@ export const HydratedCart: React.FC = () => {
                                     {!isImmutable() && (
                                         <button
                                             onClick={() => {
-                                                removeFromCart(item.variant);
-                                            }}
-                                        >
-                                            {' '}
-                                            -{' '}
-                                        </button>
-                                    )}
-                                    <p>{item.quantity}</p>
-                                    {!isImmutable() && (
-                                        <button
-                                            onClick={() => {
                                                 addToCart(item.variant);
                                             }}
                                         >
                                             {' '}
                                             +{' '}
+                                        </button>
+                                    )}
+
+                                    <p>{item.quantity}</p>
+                                    {!isImmutable() && (
+                                        <button
+                                            onClick={() => {
+                                                removeFromCart(item.variant);
+                                            }}
+                                        >
+                                            {' '}
+                                            -{' '}
                                         </button>
                                     )}
                                 </div>
@@ -119,7 +120,7 @@ export const HydratedCart: React.FC = () => {
                         <button className="bg-grey py-2 px-5 text-center font-semibold">
                             <Link to="/">Back</Link>
                         </button>
-                        <button className="bg-buttonBg2 py-2 px-4 w-40 text-center font-bold hover:bg-pink">
+                        <button className="bg-buttonBg2 py-2 rounded-md py-4 px-4 w-40 text-center font-bold hover:bg-pink">
                             <Link to="/checkout">Checkout</Link>
                         </button>
                     </div>

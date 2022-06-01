@@ -24,7 +24,7 @@ export const GuestCheckoutForm: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col gap-3 w-3/5 mt-3">
+        <div className="flex flex-col gap-3 mt-3">
             <h1 className="font-bold text-2xl mt-5 mb-5">Guest Checkout</h1>
             <form>
                 <div className="flex gap-3">
@@ -34,11 +34,11 @@ export const GuestCheckoutForm: React.FC = () => {
                         placeholder={'Frodo'}
                         name="firstname"
                         required
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                        invalid:border-pink-500 invalid:text-pink-600
+                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                     <input
@@ -47,11 +47,11 @@ export const GuestCheckoutForm: React.FC = () => {
                         placeholder={'Baggins'}
                         name="lastname"
                         required
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                        invalid:border-pink-500 invalid:text-pink-600
+                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                 </div>
@@ -61,11 +61,11 @@ export const GuestCheckoutForm: React.FC = () => {
                     placeholder={'Frodo.ringmaster@shireclub.com'}
                     name="email"
                     required
-                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                    className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                    invalid:border-pink-500 invalid:text-pink-600
+                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                     onChange={handleChange}
                 />
                 <input
@@ -74,11 +74,11 @@ export const GuestCheckoutForm: React.FC = () => {
                     placeholder={'Shire'}
                     name="streetAddress"
                     required
-                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                    className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                    invalid:border-pink-500 invalid:text-pink-600
+                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                     onChange={handleChange}
                 />
                 <div className="flex gap-3">
@@ -88,11 +88,11 @@ export const GuestCheckoutForm: React.FC = () => {
                         placeholder={'Middle Earth'}
                         name="country"
                         required
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                        invalid:border-pink-500 invalid:text-pink-600
+                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                     <input
@@ -101,11 +101,11 @@ export const GuestCheckoutForm: React.FC = () => {
                         placeholder={'City'}
                         name="city"
                         required
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                        invalid:border-pink-500 invalid:text-pink-600
+                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                 </div>
@@ -116,11 +116,11 @@ export const GuestCheckoutForm: React.FC = () => {
                         placeholder={'3130'}
                         name="zipCode"
                         required
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-pink-500 invalid:text-pink-600
-          focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
+                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                        invalid:border-pink-500 invalid:text-pink-600
+                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                 </div>

@@ -23,9 +23,7 @@ export const TopicNavigation = () => {
     }, []);
 
     return (
-        <div className="relative">
-            {/* <img src={`${HamburgerIcon}`} className="hover:cursor-pointer" width="24" height="18" alt="Menu icon" /> */}
-
+        <>
             {navigation?.tree?.map((topic: any) => (
                 <span className="nav-anchor">
                     <span>{topic.name}</span> <span className="text-[0.6em] caret">▼</span>
@@ -38,6 +36,6 @@ export const TopicNavigation = () => {
                     </ul>
                 </span>
             ))}
-        </div>
+        </>
     );
 };

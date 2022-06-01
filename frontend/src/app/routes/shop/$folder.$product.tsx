@@ -46,7 +46,7 @@ export default function ProductPage() {
 
     return (
         <div className="container p-8 px-202xl mx-auto w-full ">
-            {showCart ? <Cart /> : null}
+            {!showCart ? <Cart /> : null}
             <div className="flex gap-20">
                 <div className="w-4/6 img-container">
                     <div className="img-container overflow-hidden rounded-md">

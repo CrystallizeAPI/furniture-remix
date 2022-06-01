@@ -24,7 +24,7 @@ export default function Checkout() {
     const { cart } = useLocalCart();
     const [isGuestCheckout, setIsGuestCheckout] = useState(false);
     return (
-        <div className="lg:w-content mx-auto w-full">
+        <div className="2xl container px-6 mx-auto w-full">
             <div className="flex gap-20 w-full">
                 <CheckoutCart />
                 <div className="rounded pt-5 px-10 w-3/5">

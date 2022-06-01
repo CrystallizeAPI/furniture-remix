@@ -132,6 +132,7 @@
         background: #fff;
         padding: 20px 0;
         top: 100%;
+        z-index: 99;
     }
     .nav-dropdown li {
         padding: 20px 30px;

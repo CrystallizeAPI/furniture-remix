@@ -2,8 +2,6 @@ import { createClient, createNavigationFetcher } from '@crystallize/js-api-clien
 import { Link } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
-import HamburgerIcon from '~/assets/hamburgerIcon.svg';
-import CloseIcon from '~/assets/closeIcon.svg';
 
 export const TopicNavigation = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -11,7 +9,6 @@ export const TopicNavigation = () => {
     const client = createClient({ tenantIdentifier: superFastState.config.tenantIdentifier });
     const [navigation, setNavigation] = useState<any>();
     const fetch = createNavigationFetcher(client).byTopics;
-    const [showNavigation, setShowNaviagtion] = useState(false);
 
     let fetchTopics = async () => {
         const response = await fetch('/', 'en', 2);

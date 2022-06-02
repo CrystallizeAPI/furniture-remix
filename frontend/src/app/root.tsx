@@ -7,6 +7,7 @@ import { Header } from '~/core/components/header';
 import { Footer } from './core/components/footer';
 import tailwindDefaultTheme from './styles/tailwind.default.css';
 import tailwindDarkTheme from './styles/tailwind.dark.css';
+import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
 import { getSuperFast, SuperFastConfig } from 'src/lib/superfast/SuperFast';
 import { SuperFastProvider } from 'src/lib/superfast/SuperFastProvider/Provider';
@@ -23,7 +24,8 @@ function getTailwindThemeForConfig(theme: string) {
     switch (theme) {
         case 'dark':
             return tailwindDarkTheme;
-
+        case 'rainbow':
+            return tailwindRaibowTheme;
         default:
             return tailwindDefaultTheme;
     }
@@ -119,13 +121,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     );
 };
 
-const App: React.FC<{ children: React.ReactNode }> = ({ children }: { children: any }) => (
-    <Document>
-        <Layout>
-            <Outlet />
-        </Layout>
-    </Document>
-);
+export default () => {
+    return (
+        <Document>
+            <Layout>
+                <Outlet />
+            </Layout>
+        </Document>
+    );
+};
 
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }: { error: any }) => {
     console.error(error);
@@ -163,5 +167,3 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
         </html>
     );
 };
-
-export default App;

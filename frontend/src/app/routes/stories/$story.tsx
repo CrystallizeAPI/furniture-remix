@@ -1,6 +1,6 @@
 import { fetchDocument } from '~/core/UseCases';
 import { SuperFastHttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
 import { RelatedDocument } from '~/core/components/related-items/related-document';
@@ -16,6 +16,16 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 type LoaderData = {
     document: Awaited<ReturnType<typeof fetchDocument>>;
+};
+
+export let meta: MetaFunction = ({ data }: { data: LoaderData }) => {
+    let metaData = data?.document?.meta?.content?.chunks?.[0];
+
+    return {
+        title: `${metaData?.[0]?.content?.text}`,
+        description: `${metaData?.[1]?.content?.plainText}`,
+        'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+    };
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {

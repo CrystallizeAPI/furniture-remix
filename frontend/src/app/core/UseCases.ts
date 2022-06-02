@@ -195,6 +195,27 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
       ... on Item {
         name
         path
+        meta: component(id:"meta"){
+          content {
+            ...on ContentChunkContent {
+              chunks {
+                content {
+                  ...on SingleLineContent {
+                    text
+                  }
+                  ...on RichTextContent {
+                    plainText
+                  }
+                  ...on ImageContent {
+                    firstImage {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         component(id: "grid") {
           content {
             ... on GridRelationsContent {
@@ -335,6 +356,27 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
         name
         createdAt
         path
+        meta: component(id:"meta"){
+          content {
+            ...on ContentChunkContent {
+              chunks {
+                content {
+                  ...on SingleLineContent {
+                    text
+                  }
+                  ...on RichTextContent {
+                    plainText
+                  }
+                  ...on ImageContent {
+                    firstImage {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         components {
           type
           id
@@ -455,6 +497,27 @@ export async function fetchProduct(apiClient: ClientInterface, path: string, ver
             `
       query ($language: String!, $path: String!, $version: VersionLabel!) {
       catalogue(language: $language, path: $path, version: $version) {
+        meta: component(id:"meta"){
+          content {
+            ...on ContentChunkContent {
+              chunks {
+                content {
+                  ...on SingleLineContent {
+                    text
+                  }
+                  ...on RichTextContent {
+                    plainText
+                  }
+                  ...on ImageContent {
+                    firstImage {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       ...on Product {
         ...product
         topics {
@@ -737,6 +800,27 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
             `query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(language: $language, path: $path, version: $version) {
         name
+        meta: component(id:"meta"){
+          content {
+            ...on ContentChunkContent {
+              chunks {
+                content {
+                  ...on SingleLineContent {
+                    text
+                  }
+                  ...on RichTextContent {
+                    plainText
+                  }
+                  ...on ImageContent {
+                    firstImage {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         components {
           type
           id

@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node';
+import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { FilteredProducts } from '~/core/components/filter/filtered-products';

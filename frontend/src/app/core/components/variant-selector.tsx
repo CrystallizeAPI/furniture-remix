@@ -38,9 +38,9 @@ export const VariantSelector = ({
 }) => {
     const attributes = reduceAttributes(variants);
 
-    let imageKeysForFiltering = [];
-    variants.map((variant) => {
-        imageKeysForFiltering.push(variant.images?.[0].key);
+    let imageKeysForFiltering = [] as any;
+    variants.map((variant: any) => {
+        imageKeysForFiltering.push(variant?.images?.[0].key);
     });
     const variantsHasUniqueImages = [...new Set(imageKeysForFiltering)]?.length > 1;
 
@@ -49,7 +49,7 @@ export const VariantSelector = ({
 
         selectedAttributes[attribute] = value;
         // Get the most suitable variant
-        let variant = variants.find((variant: any) => {
+        let variant = variants?.find((variant: any) => {
             if (isEqual(selectedAttributes, attributesToObject(variant))) {
                 return true;
             }
@@ -65,7 +65,7 @@ export const VariantSelector = ({
         <div>
             {Object.keys(attributes).map((attribute) => {
                 const attr = attributes[attribute];
-                const selectedAttr = selectedVariant.attributes.find((a: any) => a.attribute === attribute);
+                const selectedAttr = selectedVariant.attributes?.find((a: any) => a.attribute === attribute);
 
                 if (!selectedAttr) {
                     return null;
@@ -78,10 +78,9 @@ export const VariantSelector = ({
                             {attr.map((value: string) => {
                                 const selectedAttributes = attributesToObject(selectedVariant);
                                 selectedAttributes[attribute] = value;
-                                const mostSuitableVariant = variants.find((variant) =>
+                                const mostSuitableVariant = variants.find((variant: any) =>
                                     isEqual(selectedAttributes, attributesToObject(variant)),
                                 );
-                                console.log({ mostSuitableVariant });
                                 return (
                                     <button
                                         key={value}

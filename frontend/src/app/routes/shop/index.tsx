@@ -1,5 +1,5 @@
 import { ContentTransformer } from '@crystallize/reactjs-components';
-import { json, LoaderFunction } from '@remix-run/node';
+import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { CategoryList } from '~/core/components/category-list';
@@ -12,6 +12,16 @@ import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.cs
 export function links() {
     return [{ rel: 'stylesheet', href: splideStyles }];
 }
+
+export let meta: MetaFunction = ({ data }: { data: any }) => {
+    let metaData = data?.folder?.meta?.content?.chunks?.[0];
+
+    return {
+        title: `${metaData?.[0]?.content?.text}`,
+        description: `${metaData?.[1]?.content?.plainText}`,
+        'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+    };
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);

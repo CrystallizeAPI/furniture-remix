@@ -1,4 +1,4 @@
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { fetchFolder } from '~/core/UseCases';
@@ -7,6 +7,16 @@ import { getSuperFast } from 'src/lib/superfast/SuperFast';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
+
+export let meta: MetaFunction = ({ data }: { data: any }) => {
+    let metaData = data?.folder?.meta?.content?.chunks?.[0];
+
+    return {
+        title: `${metaData?.[0]?.content?.text}`,
+        description: `${metaData?.[1]?.content?.plainText}`,
+        'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+    };
 };
 
 export const loader: LoaderFunction = async ({ request }) => {

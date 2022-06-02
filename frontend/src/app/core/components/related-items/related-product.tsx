@@ -4,9 +4,10 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 export const RelatedProduct = ({ product }: { product: any }) => {
     let image = product?.defaultVariant?.images;
     let price = product?.defaultVariant?.price;
+    console.log(product);
     return (
         <div className="pb-5">
-            <Link to={product.path} prefetch="intent">
+            <Link to={product.path}>
                 <div className="img-container rounded-md overflow-hidden">
                     <Image {...image?.[0]} size="20vw" loading="lazy" />
                 </div>

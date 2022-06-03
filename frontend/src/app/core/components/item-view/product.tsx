@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
 
-export const GridProduct = ({ item, layout }: { layout: any; item: any }) => {
+export const GridProduct = ({ item, layout }: { item: any; layout: any }) => {
     return (
         <Link to={item.path} prefetch="intent">
             <div className={`flex flex-col justify-between`}>

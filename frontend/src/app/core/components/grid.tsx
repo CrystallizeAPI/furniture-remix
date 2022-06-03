@@ -6,7 +6,19 @@ const getTotalGridDimensions = (rows: any) => {
     return totalColSpan;
 };
 
-const cellPlacement = ({ item, layout, totalColSpan, cellIndex, rowIndex }) => {
+const cellPlacement = ({
+    item,
+    layout,
+    totalColSpan,
+    cellIndex,
+    rowIndex,
+}: {
+    item: any;
+    layout: any;
+    totalColSpan: any;
+    cellIndex: any;
+    rowIndex: any;
+}) => {
     const fullWidthTileComponentValue = item?.components?.find((component: any) => component.id === 'fullwidth-tile')
         ?.content?.value;
 
@@ -29,18 +41,19 @@ const cellPlacement = ({ item, layout, totalColSpan, cellIndex, rowIndex }) => {
 export const Grid = ({ grid }: { grid: any }) => {
     const totalColSpan = getTotalGridDimensions(grid.rows);
     const colWidth = Math.round(1600 / totalColSpan);
+
     return (
         <div
-            className="frntr-grid gap-3"
+            className="frntr-grid gap-3 border-3"
             style={{
                 gridTemplateColumns: `minmax(50px, 1fr) repeat(${totalColSpan}, minmax(0, ${colWidth}px)) minmax(50px, 1fr)
             `,
             }}
         >
-            {grid.rows.map((row: any, rowIndex: number) => {
-                return row.columns.map((cell: any, cellIndex: number) => (
+            {grid.rows.map((row: any, rowIndex: number, index: number) => {
+                return row.columns.map((cell: any, cellIndex: number, index: number) => (
                     <div
-                        key={`grid-cell-${rowIndex}`}
+                        key={index}
                         className="flex justify-stretch align-stretch"
                         style={cellPlacement({ ...cell, totalColSpan, cellIndex, rowIndex })}
                     >

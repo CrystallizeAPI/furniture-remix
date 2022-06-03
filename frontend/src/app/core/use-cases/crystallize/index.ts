@@ -190,6 +190,18 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                     item {
                       name
                       path
+                      type
+                      ...on Product {
+                        defaultVariant {
+                          price
+                          images {
+                            variants {
+                              url
+                              width
+                            }
+                          }
+                        }
+                      }
                       components {
                         type
                         id
@@ -807,6 +819,18 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                           item {
                             name
                             path
+                            type
+                            ...on Product {
+                              defaultVariant {
+                                price
+                                images {
+                                  variants {
+                                    url
+                                    width
+                                  }
+                                }
+                              }
+                            }
                             components {
                               type
                               id

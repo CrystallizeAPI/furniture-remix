@@ -1,20 +1,20 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { SuperFastHttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
-import { fetchCart } from '~/core/UseCases';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { getStoreFront } from '~/core/storefront.server';
+import { ServiceAPI } from '~/core/use-cases/service-api';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const superFast = await getSuperFast(request.headers.get('Host')!);
+    const { shared } = await getStoreFront(request.headers.get('Host')!);
     return json(
         { cartId: params.id },
-        SuperFastHttpCacheHeaderTagger('30s', '30s', ['cart' + params.id], superFast.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['cart' + params.id], shared.config),
     );
 };
 
@@ -33,7 +33,7 @@ export default function CartPlaced() {
                 if (localCart.cartId === cartId) {
                     empty();
                 }
-                const cart = await fetchCart(cartId);
+                const cart = await ServiceAPI.fetchCart(cartId);
                 if (cart?.extra?.orderId) {
                     if (cart?.customer?.isGuest === true) {
                         setOrderGuestId(cart.extra.orderId);

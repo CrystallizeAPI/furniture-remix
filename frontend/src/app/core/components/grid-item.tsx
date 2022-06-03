@@ -21,7 +21,7 @@ export const GridItem = ({ cell }: { cell: any }) => {
         product: <GridProduct layout={cell.layout} item={cell?.item} />,
         document: <GridDocument item={cell?.item} />,
     };
-    let renderer = view ? tiles : itemTypes;
+
     return (
         <div
             style={{
@@ -29,7 +29,7 @@ export const GridItem = ({ cell }: { cell: any }) => {
                 gridColumnStart: `span ${cell.layout.colspan}`,
             }}
         >
-            {renderer[view || type]}
+            {view ? tiles[view as keyof typeof tiles] : itemTypes[type as keyof typeof itemTypes]}
         </div>
     );
 };

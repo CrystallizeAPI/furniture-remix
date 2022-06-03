@@ -1,9 +1,9 @@
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { fetchFolder } from '~/core/UseCases';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { BlogItem } from '~/core/components/blog-item';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
+import { getStoreFront } from '~/core/storefront.server';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -24,9 +24,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const path = `/stories`;
-    const superFast = await getSuperFast(request.headers.get('Host')!);
-    const folder = await fetchFolder(superFast.apiClient, path, version);
-    return json({ folder }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
+    const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
+    const folder = await CrystallizeAPI.fetchFolder(secret.apiClient, path, version);
+    return json({ folder }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
 };
 
 export default function FolderPage() {

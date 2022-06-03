@@ -1,4 +1,4 @@
-import { SuperFastConfig } from 'src/lib/superfast/SuperFast';
+import { TStoreFrontConfig } from 'src/lib/storefrontaware/types';
 
 // From https://github.com/jkroso/parse-duration that we cannot installed on Remix
 const parse = (duration: string, format: string): number => {
@@ -166,17 +166,17 @@ export function HttpCacheHeaderTagger(
     };
 }
 
-export function SuperFastHttpCacheHeaderTagger(
+export function StoreFrontAwaretHttpCacheHeaderTagger(
     maxAge: string,
     sharedMaxAge: string,
     tags: string[],
-    superFastConfig: SuperFastConfig,
+    storeFrontConfig: TStoreFrontConfig,
 ): HttpCacheHeaders | VarnishHttpCacheHeaders | FastlyHttpCacheHeaders {
     return HttpCacheHeaderTagger(
         maxAge,
         sharedMaxAge,
         tags
-            .map((tag: string) => `${superFastConfig.identifier}-${tag}`)
-            .concat(superFastConfig.identifier, superFastConfig.tenantIdentifier),
+            .map((tag: string) => `${storeFrontConfig.identifier}-${tag}`)
+            .concat(storeFrontConfig.identifier, storeFrontConfig.tenantIdentifier),
     );
 }

@@ -1,15 +1,15 @@
 import { json, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { FilteredProducts } from '~/core/components/filter/filtered-products';
-import { search } from '~/core/UseCases';
+import { getStoreFront } from '~/core/storefront.server';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const superFast = await getSuperFast(request.headers.get('Host')!);
+    const { secret } = await getStoreFront(request.headers.get('Host')!);
     const url = new URL(request.url);
     const params = url.searchParams.get('q');
-    let data = await search(superFast.apiClient, params ? params : '');
+    let data = await CrystallizeAPI.search(secret.apiClient, params ? params : '');
     return json({ data });
 };
 

@@ -1,4 +1,3 @@
-import { useRemoteCart } from '../hooks/useRemoteCart';
 import BasketIcon from '~/assets/basketIcon.svg';
 import { Link } from '@remix-run/react';
 import { useLocalCart } from '../hooks/useLocalCart';

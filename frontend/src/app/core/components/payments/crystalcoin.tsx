@@ -1,9 +1,9 @@
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { sendAuthPaidOrder, sendGuestPaidOrder } from '~/core/UseCases';
 import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
-import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
+import { useLocalStorage } from '@rehooks/local-storage';
 import { Guest } from '../checkout-forms/guest';
+import { ServiceAPI } from '~/core/use-cases/service-api';
 
 export const CrystalCoin: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
     const { cart, isEmpty, empty } = useLocalCart();
@@ -22,9 +22,9 @@ export const CrystalCoin: React.FC<{ isGuest: boolean }> = ({ isGuest = false })
             onClick={async () => {
                 setPaying(true);
                 if (!isGuest) {
-                    await sendAuthPaidOrder(cart);
+                    await ServiceAPI.sendAuthPaidOrder(cart);
                 } else {
-                    await sendGuestPaidOrder(cart, customer);
+                    await ServiceAPI.sendGuestPaidOrder(cart, customer);
                 }
                 empty();
                 navigate(`/order/cart/${cart.cartId}`, { replace: true });

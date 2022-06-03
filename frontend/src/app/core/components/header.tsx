@@ -1,12 +1,12 @@
 import UserIcon from '~/assets/userIcon.svg';
 import { Link, useLocation } from '@remix-run/react';
-import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
 import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
+import { useStoreFront } from 'src/lib/storefrontaware/provider';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const { state: superFast } = useSuperFast();
+    const { state: storeFrontState } = useStoreFront();
     let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
     let location = useLocation();
     let paths = [
@@ -21,7 +21,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center w-1/4">
                         <Link to="/" prefetch="intent">
-                            <img src={superFast.config.logo} style={{ width: '200px' }} />
+                            <img src={storeFrontState.config.logo} style={{ width: '200px' }} />
                         </Link>
                     </div>
                     <div className="flex w-3/4 gap-5">
@@ -47,7 +47,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <div className="flex gap-10 items-center">
                             <Link to="/" prefetch="intent">
                                 <img
-                                    src={superFast.config.logo}
+                                    src={storeFrontState.config.logo}
                                     width=""
                                     height=""
                                     alt="Logo"
@@ -57,13 +57,13 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <div className="flex gap-10 items-center">
                                 <SearchBar />
 
-                                <Link to="/shop" prefetch="intent" className="hover:underline">
-                                    {navigation.tree.name}
+                                <Link to={navigation.folders.tree.path} prefetch="intent" className="hover:underline">
+                                    {navigation.folders.tree.name}
                                 </Link>
                                 <Link to="/stories" prefetch="intent" className="hover:underline">
                                     Stories
                                 </Link>
-                                <TopicNavigation />
+                                <TopicNavigation navigation={navigation.topics} />
                             </div>
                         </div>
                     </div>

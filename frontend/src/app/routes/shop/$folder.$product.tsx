@@ -1,16 +1,16 @@
-import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData, useLocation } from '@remix-run/react';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import StockIcon from '~/assets/stockIcon.svg';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
-import { fetchProduct } from '~/core/UseCases';
 import { useEffect, useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
 import { Cart } from '~/core/components/cart';
 import { RelatedProduct } from '~/core/components/related-items/related-product';
+import { getStoreFront } from '~/core/storefront.server';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -31,9 +31,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}/${params.product}`;
-    const superFast = await getSuperFast(request.headers.get('Host')!);
-    const product = await fetchProduct(superFast.apiClient, path, version);
-    return json({ product }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
+    const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
+    const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version);
+    return json({ product }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
 };
 
 export default function ProductPage() {

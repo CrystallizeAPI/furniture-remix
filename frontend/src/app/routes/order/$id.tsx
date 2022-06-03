@@ -1,19 +1,19 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
-import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { fetchOrder } from '~/core/UseCases';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { getStoreFront } from '~/core/storefront.server';
+import { ServiceAPI } from '~/core/use-cases/service-api';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const superFast = await getSuperFast(request.headers.get('Host')!);
+    const { shared } = await getStoreFront(request.headers.get('Host')!);
     return json(
         { orderId: params.id },
-        SuperFastHttpCacheHeaderTagger('30s', '30s', ['order' + params.id], superFast.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['order' + params.id], shared.config),
     );
 };
 
@@ -26,7 +26,7 @@ export default function Order() {
         let timeout: ReturnType<typeof setTimeout>;
         (async () => {
             try {
-                setOrder(await fetchOrder(orderId));
+                setOrder(await ServiceAPI.fetchOrder(orderId));
             } catch (exception) {
                 timeout = setTimeout(() => {
                     setTryCount(tryCount + 1);

@@ -1,43 +1,58 @@
-import { ClientInterface, createClient, CrystallizeClient } from '@crystallize/js-api-client';
+import { CrystallizeClient } from '@crystallize/js-api-client';
 import * as redis from 'redis';
 import crypto from 'crypto';
+import { TStoreFrontAdapter, TStoreFrontConfig } from '../types';
 
-export type SuperFastConfig = {
-    identifier: string;
-    tenantIdentifier: string;
-    language: string;
-    storefront: string;
-    logo: string;
-    theme: string;
-    configuration: {
-        [key: string]: string;
-    };
-};
+const TTL_STORAGE = 30;
+const storageClient = createStorage(TTL_STORAGE);
 
-export type SuperFastClient = {
-    config: SuperFastConfig;
-    apiClient: ClientInterface;
-};
-
-function createStorage(ttlInSeconds: number) {
-    let redisDSN = `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`;
-    const config = require('platformsh-config').config();
-    if (config.isValidPlatform()) {
-        const credentials = config.credentials('redis');
-        redisDSN = `redis://${credentials.host}:${credentials.port}`;
-    }
-    const client = redis.createClient({ url: redisDSN });
-    client.connect();
+export const createSuperFastAdapter = (hostname: string): TStoreFrontAdapter => {
+    const memoryCache: Record<
+        string,
+        {
+            expiresAt: number;
+            value: any;
+        }
+    > = {};
     return {
-        get: async (key: string) => await client.get(`superfast-${key}`),
-        set: async (key: string, value: any) => {
-            await client.set(`superfast-${key}`, value);
-            client.expireAt(`superfast-${key}`, Math.floor(Date.now() / 1000) + ttlInSeconds);
+        config: async (withSecrets: boolean): Promise<TStoreFrontConfig> => {
+            const domainkey = hostname.split('.')[0];
+            if (memoryCache[domainkey]) {
+                if (memoryCache[domainkey].expiresAt > Date.now() / 1000) {
+                    return memoryCache[domainkey].value;
+                }
+            }
+
+            const hit = await storageClient.get(domainkey);
+            let config: TStoreFrontConfig | undefined = undefined;
+
+            if (!hit) {
+                config = await fetchSuperFastConfig(domainkey);
+                memoryCache[domainkey] = {
+                    expiresAt: Math.floor(Date.now() / 1000) + TTL_STORAGE,
+                    value: config,
+                };
+                await storageClient.set(domainkey, JSON.stringify(config));
+            } else {
+                config = await JSON.parse(hit);
+                memoryCache[domainkey] = {
+                    expiresAt: Math.floor(Date.now() / 1000) + TTL_STORAGE,
+                    value: config,
+                };
+            }
+
+            if (config !== undefined) {
+                config.configuration = cypher(`${process.env.ENCRYPTED_PARAMS_SECRET}`).decryptMap(
+                    config.configuration,
+                );
+                return config;
+            }
+            throw new Error('Impossible to fetch SuperFast config');
         },
     };
-}
+};
 
-async function fetchSuperFastConfig(domainkey: string): Promise<SuperFastConfig> {
+async function fetchSuperFastConfig(domainkey: string): Promise<TStoreFrontConfig> {
     const query = `query {
   catalogue(path:"/tenants/${domainkey}") {
     name
@@ -119,36 +134,23 @@ async function fetchSuperFastConfig(domainkey: string): Promise<SuperFastConfig>
         configuration: components['configuration'],
     };
 }
-const storageClient = createStorage(30);
 
-export async function getSuperFast(hostname: string): Promise<SuperFastClient> {
-    //@ts-ignore
-    if (typeof window === 'object') {
-        throw new Error('fetchSuperFastConfig MUST not be called in the browser');
+function createStorage(ttlInSeconds: number) {
+    let redisDSN = `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`;
+    const config = require('platformsh-config').config();
+    if (config.isValidPlatform()) {
+        const credentials = config.credentials('redis');
+        redisDSN = `redis://${credentials.host}:${credentials.port}`;
     }
-    const domainkey = hostname.split('.')[0];
-    const hit = await storageClient.get(domainkey);
-    let config: SuperFastConfig | undefined = undefined;
-
-    if (!hit) {
-        config = await fetchSuperFastConfig(domainkey);
-        await storageClient.set(domainkey, JSON.stringify(config));
-    } else {
-        config = await JSON.parse(hit);
-    }
-
-    if (config !== undefined) {
-        config.configuration = cypher(`${process.env.ENCRYPTED_PARAMS_SECRET}`).decryptMap(config.configuration);
-        return {
-            config: config,
-            apiClient: createClient({
-                tenantIdentifier: config.tenantIdentifier,
-                accessTokenId: config.configuration.ACCESS_TOKEN_ID,
-                accessTokenSecret: config.configuration.ACCESS_TOKEN_SECRET,
-            }),
-        };
-    }
-    throw new Error('Impossible to fetch SuperFast config');
+    const client = redis.createClient({ url: redisDSN });
+    client.connect();
+    return {
+        get: async (key: string) => await client.get(`superfast-${key}`),
+        set: async (key: string, value: any) => {
+            await client.set(`superfast-${key}`, value);
+            client.expireAt(`superfast-${key}`, Math.floor(Date.now() / 1000) + ttlInSeconds);
+        },
+    };
 }
 
 const cypher = (

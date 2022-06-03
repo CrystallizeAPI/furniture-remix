@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import SearchIcon from '~/assets/searchIcon.svg';
 import { DebounceInput } from 'react-debounce-input';
-import { useSuperFast } from 'src/lib/superfast/SuperFastProvider/Provider';
-import { createClient } from '@crystallize/js-api-client';
 import { Link } from '@remix-run/react';
-import { search } from '~/core/UseCases';
-
+import { useStoreFront } from 'src/lib/storefrontaware/provider';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
-    const { state: superFastState } = useSuperFast();
+    const { apiClient: client } = useStoreFront();
 
     //close dropdown on outside click
     useEffect(() => {
@@ -30,9 +28,8 @@ export const SearchBar = () => {
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSearchTerm(value);
-        const client = createClient({ tenantIdentifier: superFastState.config.tenantIdentifier });
         try {
-            setSuggestions(await search(client, value));
+            setSuggestions(await CrystallizeAPI.search(client, value));
         } catch (error) {
             console.error(error);
         }

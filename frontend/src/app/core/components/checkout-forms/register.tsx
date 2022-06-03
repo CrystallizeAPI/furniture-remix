@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { registerAndSendMagickLink } from '~/core/UseCases';
+import { ServiceAPI } from '~/core/use-cases/service-api';
 
 export const RegisterCheckoutForm: React.FC<{ enabledGuest: Function }> = ({ enabledGuest }) => {
     const [formData, updateFormData] = useState({
@@ -22,7 +22,7 @@ export const RegisterCheckoutForm: React.FC<{ enabledGuest: Function }> = ({ ena
             <form
                 onSubmit={async (event: FormEvent<HTMLFormElement>) => {
                     event.preventDefault();
-                    await registerAndSendMagickLink(formData);
+                    await ServiceAPI.registerAndSendMagickLink(formData);
                     alert('We sent you a magick link, check your email.');
                 }}
             >

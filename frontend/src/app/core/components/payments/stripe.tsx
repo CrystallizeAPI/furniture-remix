@@ -4,11 +4,10 @@ import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { fetchPaymentIntent, placeCart } from '~/core/UseCases';
+import { ServiceAPI } from '~/core/use-cases/service-api';
 import { Guest } from '../checkout-forms/guest';
 
 export const Stripe: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
-    //@ts-ignore
     const stripePromise = loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
     const [clientSecret, setClientSecret] = useState<string>('');
     const { cart, isEmpty } = useLocalCart();
@@ -16,7 +15,7 @@ export const Stripe: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
     useEffect(() => {
         (async () => {
             if (!isEmpty()) {
-                const data = await fetchPaymentIntent(cart);
+                const data = await ServiceAPI.fetchPaymentIntent(cart);
                 setClientSecret(data.key);
             }
         })();
@@ -57,9 +56,9 @@ const StripCheckoutForm: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) 
         // before anything else we place the cart
         try {
             if (!isGuest) {
-                await placeCart(cart);
+                await ServiceAPI.placeCart(cart);
             } else {
-                await placeCart(cart, customer);
+                await ServiceAPI.placeCart(cart, customer);
             }
         } catch (exception) {
             console.log(exception);

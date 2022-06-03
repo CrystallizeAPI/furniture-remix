@@ -1,22 +1,22 @@
 import { useAuth } from '~/core/hooks/useAuth';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
-import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { Payments } from '~/core/components/payments';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { CheckoutCart } from '~/core/components/checkout-forms/cart';
 import { RegisterCheckoutForm } from '~/core/components/checkout-forms/register';
 import { GuestCheckoutForm } from '~/core/components/checkout-forms/guest';
 import { useState } from 'react';
+import { getStoreFront } from '~/core/storefront.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const superFast = await getSuperFast(request.headers.get('Host')!);
-    return json({}, SuperFastHttpCacheHeaderTagger('30s', '30s', ['checkout'], superFast.config));
+    const { shared } = await getStoreFront(request.headers.get('Host')!);
+    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['checkout'], shared.config));
 };
 
 export default function Checkout() {

@@ -4,64 +4,24 @@ import {
     catalogueFetcherGraphqlBuilder,
     ClientInterface,
 } from '@crystallize/js-api-client';
-import { getJson, postJson } from '@crystallize/reactjs-hooks';
-import { Guest } from './components/checkout-forms/guest';
-import { LocalCart } from './hooks/useLocalCart';
 
-export async function fetchPaymentIntent(cart: LocalCart): Promise<any> {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/stripe/intent/create', { cartId: cart.cartId });
-}
+export const CrystallizeAPI = {
+    fetchNavigation,
+    fetchTopicNavigation,
+    fetchProducts,
+    search,
+    fetchCampaignPage,
+    fetchDocument,
+    fetchProduct,
+    fetchFolder,
+    searchOrderBy,
+    orderByPriceRange,
+    getPriceRange,
+    filterByPriceRange,
+    searchByTopic,
+};
 
-export async function fetchOrders() {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders');
-}
-
-export async function fetchOrder(orderId: string) {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/order/' + orderId);
-}
-
-// in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
-export async function sendAuthPaidOrder(cart: LocalCart) {
-    const cartWrapper = await placeCart(cart);
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
-        cartId: cartWrapper.cartId,
-    });
-}
-
-// in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
-export async function sendGuestPaidOrder(cart: LocalCart, guest: Partial<Guest>) {
-    const cartWrapper = await placeCart(cart, guest);
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
-        cartId: cartWrapper.cartId,
-    });
-}
-
-export async function placeCart(cart: LocalCart, guest?: Partial<Guest>) {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + (guest ? '/guest' : '') + '/cart/place', {
-        cartId: cart.cartId,
-        locale: 'en',
-        items: Object.values(cart.items),
-        guest,
-    });
-}
-
-export async function registerAndSendMagickLink(userInfos: any) {
-    //@ts-ignore
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
-}
-
-export async function fetchCart(cartId: string) {
-    //@ts-ignore
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
-}
-
-export async function fetchNavigation(apiClient: ClientInterface) {
+async function fetchNavigation(apiClient: ClientInterface) {
     const fetch = createNavigationFetcher(apiClient).byFolders;
     const builder = catalogueFetcherGraphqlBuilder;
     const response = await fetch(
@@ -117,13 +77,13 @@ export async function fetchNavigation(apiClient: ClientInterface) {
     return response;
 }
 
-export async function fetchTopicNavigation(apiClient: ClientInterface) {
+async function fetchTopicNavigation(apiClient: ClientInterface) {
     const fetch = createNavigationFetcher(apiClient).byTopics;
     const response = await fetch('/', 'en', 2);
     return response;
 }
 
-export async function fetchProducts(apiClient: ClientInterface, path: string) {
+async function fetchProducts(apiClient: ClientInterface, path: string) {
     const fetch = createCatalogueFetcher(apiClient);
     const builder = catalogueFetcherGraphqlBuilder;
     const query = {
@@ -157,7 +117,7 @@ export async function fetchProducts(apiClient: ClientInterface, path: string) {
     return response.catalogue.children.filter((item: any) => item.__typename === 'Product');
 }
 
-export async function search(apiClient: ClientInterface, value: string): Promise<any[]> {
+async function search(apiClient: ClientInterface, value: string): Promise<any[]> {
     const data = await apiClient.searchApi(
         `query Search ($searchTerm: String!){
                         search(language:"en", filter: { 
@@ -187,7 +147,8 @@ export async function search(apiClient: ClientInterface, value: string): Promise
     );
     return data.search.edges;
 }
-export async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any) {
+
+async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
@@ -347,7 +308,7 @@ export async function fetchCampaignPage(apiClient: ClientInterface, path: string
     ).catalogue;
 }
 
-export async function fetchDocument(apiClient: ClientInterface, path: string, version: string) {
+async function fetchDocument(apiClient: ClientInterface, path: string, version: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
@@ -488,7 +449,7 @@ export async function fetchDocument(apiClient: ClientInterface, path: string, ve
     ).catalogue;
 }
 
-export async function fetchProduct(apiClient: ClientInterface, path: string, version: string) {
+async function fetchProduct(apiClient: ClientInterface, path: string, version: string) {
     //should be using the createCatalogueFetcher
     // just did this way to have everything for now
 
@@ -794,7 +755,7 @@ export async function fetchProduct(apiClient: ClientInterface, path: string, ver
     ).catalogue;
 }
 
-export async function fetchFolder(apiClient: ClientInterface, path: string, version: string) {
+async function fetchFolder(apiClient: ClientInterface, path: string, version: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
@@ -1037,7 +998,7 @@ export async function fetchFolder(apiClient: ClientInterface, path: string, vers
     ).catalogue;
 }
 
-export async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any) {
+async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any) {
     const field = orderBy?.split('_')[0];
     const direction = orderBy?.split('_')[1];
     const priceRangeParams = fitlers.price;
@@ -1090,7 +1051,7 @@ export async function searchOrderBy(apiClient: ClientInterface, path: string, or
     return results?.search?.edges || [];
 }
 
-export async function orderByPriceRange(apiClient: ClientInterface, path: string, orderSearchParams: any) {
+async function orderByPriceRange(apiClient: ClientInterface, path: string, orderSearchParams: any) {
     return await apiClient.searchApi(
         `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
         search(
@@ -1125,7 +1086,7 @@ export async function orderByPriceRange(apiClient: ClientInterface, path: string
     );
 }
 
-export async function getPriceRange(apiClient: ClientInterface, path: string) {
+async function getPriceRange(apiClient: ClientInterface, path: string) {
     return await apiClient.searchApi(
         `query GET_PRICE_RANGE($path: [String!]) {
         search(
@@ -1149,7 +1110,7 @@ export async function getPriceRange(apiClient: ClientInterface, path: string) {
     );
 }
 
-export async function filterByPriceRange(apiClient: ClientInterface, path: string, min: string, max: string) {
+async function filterByPriceRange(apiClient: ClientInterface, path: string, min: string, max: string) {
     return await apiClient.searchApi(
         `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
         search(
@@ -1187,7 +1148,7 @@ export async function filterByPriceRange(apiClient: ClientInterface, path: strin
     );
 }
 
-export async function searchByTopic(apiClient: ClientInterface, value: string) {
+async function searchByTopic(apiClient: ClientInterface, value: string) {
     return await apiClient.searchApi(
         `query SEARCH_BY_TOPIC($value: String!) {
           search(

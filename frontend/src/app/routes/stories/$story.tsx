@@ -1,21 +1,20 @@
-import { fetchDocument } from '~/core/UseCases';
-import { SuperFastHttpCacheHeaderTagger, HttpCacheHeaderTaggerFromLoader } from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
 import { RelatedDocument } from '~/core/components/related-items/related-document';
 import { RelatedProduct } from '~/core/components/related-items/related-product';
 import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { Image } from '@crystallize/reactjs-components/dist/image';
-import { BlogItem } from '~/core/components/blog-item';
+import { getStoreFront } from '~/core/storefront.server';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
 type LoaderData = {
-    document: Awaited<ReturnType<typeof fetchDocument>>;
+    document: Awaited<ReturnType<typeof CrystallizeAPI.fetchDocument>>;
 };
 
 export let meta: MetaFunction = ({ data }: { data: LoaderData }) => {
@@ -33,9 +32,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const path = `/stories/${params.story}`;
-    const superFast = await getSuperFast(request.headers.get('Host')!);
-    const document = await fetchDocument(superFast.apiClient, path, version);
-    return json<LoaderData>({ document }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
+    const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
+
+    const document = await CrystallizeAPI.fetchDocument(secret.apiClient, path, version);
+    return json<LoaderData>({ document }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
 };
 
 export default function ProductPage() {

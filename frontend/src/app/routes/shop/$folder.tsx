@@ -1,11 +1,11 @@
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { HttpCacheHeaderTaggerFromLoader, SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { fetchFolder, fetchProducts, getPriceRange, searchOrderBy } from '~/core/UseCases';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { Filter } from '~/core/components/filter';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { FilteredProducts, ProductsList } from '~/core/components/filter/filtered-products';
 import sliderStyles from 'rc-slider/assets/index.css';
+import { getStoreFront } from '~/core/storefront.server';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export function links() {
     return [{ rel: 'stylesheet', href: sliderStyles }];
@@ -30,7 +30,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}`;
-    const superFast = await getSuperFast(request.headers.get('Host')!);
+    const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
 
     const searchParams = {
         orderBy: url.searchParams.get('orderBy'),
@@ -46,16 +46,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;)
     // we can reduce to one call.
     const [folder, products, priceRange] = await Promise.all([
-        fetchFolder(superFast.apiClient, path, version),
+        CrystallizeAPI.fetchFolder(secret.apiClient, path, version),
         isFiltered
-            ? await searchOrderBy(superFast.apiClient, path, searchParams.orderBy, searchParams.filters)
-            : fetchProducts(superFast.apiClient, path),
-        getPriceRange(superFast.apiClient, path),
+            ? CrystallizeAPI.searchOrderBy(secret.apiClient, path, searchParams.orderBy, searchParams.filters)
+            : CrystallizeAPI.fetchProducts(secret.apiClient, path),
+        CrystallizeAPI.getPriceRange(secret.apiClient, path),
     ]);
 
     return json(
         { products, folder, priceRange, isFiltered },
-        SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config),
     );
 };
 

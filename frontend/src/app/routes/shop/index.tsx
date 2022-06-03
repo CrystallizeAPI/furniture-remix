@@ -1,38 +1,30 @@
 import { ContentTransformer } from '@crystallize/reactjs-components';
-import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { json, LoaderFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { getSuperFast } from 'src/lib/superfast/SuperFast';
 import { CategoryList } from '~/core/components/category-list';
 import { FolderHero } from '~/core/components/folder-hero';
-import { SuperFastHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { fetchFolder, fetchNavigation } from '~/core/UseCases';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
+import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { getStoreFront } from '~/core/storefront.server';
+import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export function links() {
     return [{ rel: 'stylesheet', href: splideStyles }];
 }
-
-export let meta: MetaFunction = ({ data }: { data: any }) => {
-    let metaData = data?.folder?.meta?.content?.chunks?.[0];
-
-    return {
-        title: `${metaData?.[0]?.content?.text}`,
-        description: `${metaData?.[1]?.content?.plainText}`,
-        'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
-    };
-};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const path = '/shop';
-    const superFast = await getSuperFast(request.headers.get('Host')!);
-    const folder = await fetchFolder(superFast.apiClient, path, version);
-    const navigation = await fetchNavigation(superFast.apiClient);
+    const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
+    const [folder, navigation] = await Promise.all([
+        CrystallizeAPI.fetchFolder(secret.apiClient, path, version),
+        CrystallizeAPI.fetchNavigation(secret.apiClient),
+    ]);
 
-    return json({ folder, navigation }, SuperFastHttpCacheHeaderTagger('30s', '30s', [path], superFast.config));
+    return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
 };
 
 export default function ShopPage() {
@@ -60,7 +52,7 @@ export default function ShopPage() {
                 </div>
                 <div>
                     {navigation?.tree?.children?.map((child: any) => (
-                        <div className="border-t border-[#dfdfdf] py-20">
+                        <div className="border-t border-[#dfdfdf] py-20" key={child.path}>
                             <div className="flex items-center justify-between ">
                                 <div className="w-2/4 leading-[1.5em]">
                                     <h2 className="font-bold text-2xl mb-3">{child.name}</h2>

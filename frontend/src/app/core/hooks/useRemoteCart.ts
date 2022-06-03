@@ -15,7 +15,6 @@ export function useRemoteCart(): { loading: boolean; remoteCart: any | null } {
                 ...state,
                 loading: true,
             });
-            //@ts-ignore
             const cartWrapper = await post<any>(window.ENV.SERVICE_API_URL + '/cart', {
                 locale: 'en',
                 items: Object.values(cart.items),

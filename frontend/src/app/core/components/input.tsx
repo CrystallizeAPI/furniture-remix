@@ -1,3 +1,5 @@
+import { ChangeEventHandler } from 'react';
+
 export const Input = ({
     placeholder,
     defaultValue,
@@ -9,7 +11,7 @@ export const Input = ({
     placeholder: string;
     defaultValue: any;
     name: string;
-    onChange: Function;
+    onChange: ChangeEventHandler<HTMLInputElement>;
     label: string;
     required: any;
 }) => {
@@ -21,7 +23,7 @@ export const Input = ({
             </span>
             <input
                 defaultValue={defaultValue}
-                type={name}
+                type={'text'}
                 id={name}
                 placeholder={placeholder}
                 name={name}

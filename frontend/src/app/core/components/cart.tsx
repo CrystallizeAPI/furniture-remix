@@ -51,9 +51,8 @@ const InnerCart: React.FC<{ basket: any }> = ({ basket }) => {
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
-    // const { cart, total } = remoteCart || { cart: null, total: null };
-    const { cart } = remoteCart || { cart: null };
-    const { total } = cart || { total: null };
+    const { cart, total } = remoteCart?.cart || { cart: null, total: null };
+
     if (isEmpty()) {
         return null;
     }
@@ -72,7 +71,7 @@ export const HydratedCart: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-3 min-h-[200px] ">
                     {cart &&
-                        cart.cart.items.map((item: any, index: number) => (
+                        cart.items.map((item: any, index: number) => (
                             <div
                                 key={index}
                                 className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg "

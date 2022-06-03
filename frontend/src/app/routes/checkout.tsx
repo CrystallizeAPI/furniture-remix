@@ -31,7 +31,7 @@ export default function Checkout() {
                     <ClientOnly fallback={<RegisterCheckoutForm enabledGuest={() => setIsGuestCheckout(true)} />}>
                         {(() => {
                             if (!isAuthenticated) {
-                                return !isGuestCheckout ? (
+                                return isGuestCheckout ? (
                                     <GuestCheckoutForm />
                                 ) : (
                                     <RegisterCheckoutForm enabledGuest={() => setIsGuestCheckout(true)} />

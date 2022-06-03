@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ServiceAPI } from '~/core/use-cases/service-api';
+import { Input } from '../input';
 
 export const RegisterCheckoutForm: React.FC<{ enabledGuest: Function }> = ({ enabledGuest }) => {
     const [formData, updateFormData] = useState({

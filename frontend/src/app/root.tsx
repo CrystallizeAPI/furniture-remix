@@ -7,11 +7,11 @@ import tailwindDefaultTheme from './styles/tailwind.default.css';
 import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
-import { StoreFrontConfigProvider } from 'src/lib/storefrontaware/provider';
-import { getStoreFront } from './core/storefront.server';
+import { getStoreFront } from './core/storefront/storefront.server';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './core/Http-Cache-Tagger';
-import { TStoreFrontConfig } from 'src/lib/storefrontaware/types';
 import { CrystallizeAPI } from './core/use-cases/crystallize';
+import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
+import { StoreFrontConfigProvider } from './core/storefront/provider';
 
 export const meta: MetaFunction = () => {
     return {

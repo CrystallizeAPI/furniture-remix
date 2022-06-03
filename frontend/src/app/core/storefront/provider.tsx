@@ -1,8 +1,9 @@
 import { ClientInterface, createClient } from '@crystallize/js-api-client';
+import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils/dist/types';
 import * as React from 'react';
 import { FunctionComponent } from 'react';
 import { mapToReducerActions, Reducer } from './reducer';
-import { Actions, Dispatch, State, TStoreFrontConfig } from './types';
+import { Actions, Dispatch, State } from './types';
 
 const StateContext = React.createContext<State | undefined>(undefined);
 const DispatchContext = React.createContext<Dispatch | undefined>(undefined);

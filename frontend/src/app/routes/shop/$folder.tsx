@@ -4,7 +4,7 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { Filter } from '~/core/components/filter';
 import { FilteredProducts, ProductsList } from '~/core/components/filter/filtered-products';
 import sliderStyles from 'rc-slider/assets/index.css';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export function links() {

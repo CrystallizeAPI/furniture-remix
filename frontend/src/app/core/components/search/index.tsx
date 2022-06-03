@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import SearchIcon from '~/assets/searchIcon.svg';
 import { DebounceInput } from 'react-debounce-input';
 import { Link } from '@remix-run/react';
-import { useStoreFront } from 'src/lib/storefrontaware/provider';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { useStoreFront } from '~/core/storefront/provider';
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');

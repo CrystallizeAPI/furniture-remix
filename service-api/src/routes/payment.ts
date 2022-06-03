@@ -4,6 +4,7 @@ import {
     OrderCreatedConfirmation,
     PaymentInputRequest,
 } from '@crystallize/js-api-client';
+import { TStoreFront } from '@crystallize/js-storefrontaware-utils';
 import {
     Cart,
     CartItem,
@@ -16,11 +17,10 @@ import {
 } from '@crystallize/node-service-api-request-handlers';
 import { StandardRouting, ValidatingRequestRouting } from '@crystallize/node-service-api-router';
 import Koa from 'koa';
-import { SuperFastClient } from '../lib/superfast/SuperFast';
 import { cartWrapperRepository } from '../services';
 
 const pushOrderSubHandler = async (
-    superFast: SuperFastClient,
+    storeFront: TStoreFront,
     cartWrapper: CartWrapper,
     customer: CustomerInputRequest,
     payment: PaymentInputRequest,
@@ -32,7 +32,7 @@ const pushOrderSubHandler = async (
             status: 403,
         };
     }
-    const pusher = createOrderPusher(superFast.apiClient);
+    const pusher = createOrderPusher(storeFront.apiClient);
     const orderCreatedConfirmation = await pusher({
         customer,
         cart: cart.cart.items.map((item: CartItem) => {
@@ -103,7 +103,7 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
             handler: handleStripeCreatePaymentIntentRequestPayload,
             args: (context: Koa.Context): StripePaymentIntentArguments => {
                 return {
-                    secret_key: context.superFast.config.configuration.SECRET_KEY,
+                    secret_key: context.storeFront.config.configuration.SECRET_KEY,
                     fetchCart: async () => {
                         const cartId = context.request.body.cartId as string;
                         const cartWrapper = await cartWrapperRepository.find(cartId);
@@ -134,9 +134,9 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
             handler: handleStripePaymentIntentWebhookRequestPayload,
             args: (context: Koa.Context): StripePaymentIntentWebhookArguments => {
                 return {
-                    secret_key: context.superFast.config.configuration.SECRET_KEY,
+                    secret_key: context.storeFront.config.configuration.SECRET_KEY,
                     endpointSecret:
-                        context.superFast.config.configuration.SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET,
+                        context.storeFront.config.configuration.SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET,
                     signature: context.request.headers['stripe-signature'] as string,
                     rawBody: context.request.rawBody,
                     handleEvent: async (eventName: string, event: any) => {
@@ -151,7 +151,7 @@ export const paymentBodyConvertedRoutes: ValidatingRequestRouting = {
                                     };
                                 }
                                 const orderCreatedConfirmation = await pushOrderSubHandler(
-                                    context.superFast,
+                                    context.storeFront,
                                     cartWrapper,
                                     buildCustomer(cartWrapper),
                                     {
@@ -190,7 +190,7 @@ export const paymentStandardRoutes: StandardRouting = {
                     };
                 }
                 const orderCreatedConfirmation = await pushOrderSubHandler(
-                    ctx.superFast,
+                    ctx.storeFront,
                     cartWrapper,
                     buildCustomer(cartWrapper),
                     {

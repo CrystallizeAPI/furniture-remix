@@ -6,7 +6,7 @@ import { cartBodyConvertedRoutes, cartStandardRoutes } from './routes/cart';
 import { paymentBodyConvertedRoutes, paymentStandardRoutes } from './routes/payment';
 import { webhookStandardRoutes } from './routes/webhook';
 import Koa from 'koa';
-import { getSuperFast } from './lib/superfast/SuperFast';
+import { getStoreFront } from './services';
 
 // Create the service api, you can destruct the router and/or app if needed.
 const { run, app } = createServiceApiApp(
@@ -26,13 +26,12 @@ const { run, app } = createServiceApiApp(
     authenticatedMiddleware(`${process.env.JWT_SECRET}`),
 );
 
-const superFastMiddleware: Koa.Middleware = async (ctx: Koa.Context, next: Koa.Next) => {
-    const superFast = await getSuperFast(ctx.request.host);
-    ctx.superFast = superFast;
+const storeFrontMiddleware: Koa.Middleware = async (ctx: Koa.Context, next: Koa.Next) => {
+    ctx.storeFront = await getStoreFront(ctx.request.host);
     await next();
 };
 
-app.use(superFastMiddleware);
+app.use(storeFrontMiddleware);
 
 // run the app!
 run(process.env.PORT ? parseInt(process.env.PORT) : 3000);

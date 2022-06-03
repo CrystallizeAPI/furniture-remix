@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { ServiceAPI } from '~/core/use-cases/service-api';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

@@ -1,4 +1,4 @@
-import { createClient, createProductHydrater } from '@crystallize/js-api-client';
+import { createProductHydrater } from '@crystallize/js-api-client';
 import {
     Cart,
     CartHydraterArguments,
@@ -19,7 +19,7 @@ export const cartBodyConvertedRoutes: ValidatingRequestRouting = {
             handler: handleCartRequestPayload,
             args: (context: Koa.Context): CartHydraterArguments => {
                 return {
-                    hydraterBySkus: createProductHydrater(context.superFast.apiClient).bySkus,
+                    hydraterBySkus: createProductHydrater(context.storeFront.apiClient).bySkus,
                     perVariant: () => {
                         return {
                             id: true,
@@ -92,7 +92,7 @@ export const cartStandardRoutes: StandardRouting = {
             handler: async (ctx: Koa.Context) => {
                 const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
                 const cart = await handleCartRequestPayload(request, {
-                    hydraterBySkus: createProductHydrater(ctx.superFast.apiClient).bySkus,
+                    hydraterBySkus: createProductHydrater(ctx.storeFront.apiClient).bySkus,
                 });
                 const customer = {
                     identifier: ctx.user.aud,
@@ -107,10 +107,10 @@ export const cartStandardRoutes: StandardRouting = {
             handler: async (ctx: Koa.Context) => {
                 const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
                 const cart = await handleCartRequestPayload(request, {
-                    hydraterBySkus: createProductHydrater(ctx.superFast.apiClient).bySkus,
+                    hydraterBySkus: createProductHydrater(ctx.storeFront.apiClient).bySkus,
                 });
                 const customer = {
-                    ...ctx.request.body.customer,
+                    ...ctx.request.body.guest,
                     isGuest: true,
                 };
                 ctx.body = await handleAndPlaceCart(cart, customer, ctx.request.body.cartId as string);

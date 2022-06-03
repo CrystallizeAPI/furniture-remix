@@ -8,7 +8,7 @@ import { CheckoutCart } from '~/core/components/checkout-forms/cart';
 import { RegisterCheckoutForm } from '~/core/components/checkout-forms/register';
 import { GuestCheckoutForm } from '~/core/components/checkout-forms/guest';
 import { useState } from 'react';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

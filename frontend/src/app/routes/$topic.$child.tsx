@@ -1,7 +1,7 @@
 import { json, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { FilteredProducts } from '~/core/components/filter/filtered-products';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const loader: LoaderFunction = async ({ request, params }) => {

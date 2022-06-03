@@ -16,7 +16,7 @@ export const CrystalCoin: React.FC<{ isGuest: boolean }> = ({ isGuest = false })
 
     return (
         <button
-            className="text-[#000] font-medium rounded-md px-2 py-2 mt-2"
+            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5"
             disabled={paying}
             onClick={async () => {
                 setPaying(true);

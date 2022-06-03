@@ -3,7 +3,7 @@ import { Link, useLocation } from '@remix-run/react';
 import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
-import { useStoreFront } from 'src/lib/storefrontaware/provider';
+import { useStoreFront } from '../storefront/provider';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: storeFrontState } = useStoreFront();

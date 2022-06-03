@@ -1,7 +1,7 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { HydratedCart } from '~/core/components/cart';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { getStoreFront } from '~/core/storefront.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

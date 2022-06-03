@@ -3,7 +3,7 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { Grid } from '~/core/components/grid';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { useLoaderData } from '@remix-run/react';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 type LoaderData = {

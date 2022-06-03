@@ -2,7 +2,7 @@ import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/
 import { useLoaderData } from '@remix-run/react';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { BlogItem } from '~/core/components/blog-item';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

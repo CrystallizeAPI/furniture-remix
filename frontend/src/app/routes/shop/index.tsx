@@ -6,7 +6,7 @@ import { FolderHero } from '~/core/components/folder-hero';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export function links() {

@@ -1,9 +1,9 @@
 import { LoaderFunction, Response } from '@remix-run/node';
 import ReactPDF from '@react-pdf/renderer';
 import { SingleProduct } from '~/core/components/pdf/single-product';
-import { getStoreFront } from '~/core/storefront.server';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);

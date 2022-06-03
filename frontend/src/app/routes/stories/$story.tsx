@@ -6,7 +6,7 @@ import { RelatedDocument } from '~/core/components/related-items/related-documen
 import { RelatedProduct } from '~/core/components/related-items/related-product';
 import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
 import { Image } from '@crystallize/reactjs-components/dist/image';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

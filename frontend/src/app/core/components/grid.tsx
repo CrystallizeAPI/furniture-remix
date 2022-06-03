@@ -53,11 +53,11 @@ export const Grid = ({ grid }: { grid: any }) => {
             {grid.rows.map((row: any, rowIndex: number, index: number) => {
                 return row.columns.map((cell: any, cellIndex: number, index: number) => (
                     <div
-                        key={index}
+                        key={`grid-row-${rowIndex}-cell-${cellIndex}`}
                         className="flex justify-stretch align-stretch"
                         style={cellPlacement({ ...cell, totalColSpan, cellIndex, rowIndex })}
                     >
-                        <GridItem cell={cell} key={`grid-row-${rowIndex}-cell-${cellIndex}`} />
+                        <GridItem cell={cell} />
                     </div>
                 ));
             })}

@@ -52,8 +52,8 @@ export const magickLinkBodyConvertedRoutes: ValidatingRequestRouting = {
             args: (context: Koa.Context): MagickLinkConfirmArguments => {
                 const config = require('platformsh-config').config();
                 const frontendURL = config.isValidPlatform()
-                    ? config.getRoute('frontapp').url.replace(/\/$/, '').replace('*', context.superFast.identifier)
-                    : (process.env.FRONTEND_URL_PATTERN || '').replace('%s', context.superFast.config.identifier);
+                    ? config.getRoute('frontapp').url.replace(/\/$/, '').replace('*', context.storeFront.identifier)
+                    : (process.env.FRONTEND_URL_PATTERN || '').replace('%s', context.storeFront.config.identifier);
                 return {
                     token: context.params.token,
                     host: context.request.host,

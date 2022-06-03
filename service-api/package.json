@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "dev": "tsc && concurrently 'PORT=3020 nodemon -r dotenv/config ./dist' 'tsc -W'",
+        "dev": "tsc && concurrently 'PORT=3020 nodemon -r dotenv/config ./dist' 'tsc -W --preserveWatchOutput'",
         "build": "tsc"
     },
     "devDependencies": {
@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@crystallize/js-api-client": "^0.6.0",
+        "@crystallize/js-storefrontaware-utils": "^0.1.2",
         "@crystallize/node-service-api-request-handlers": "^0.4.1",
         "@crystallize/node-service-api-router": "^0.4.0",
         "dotenv": "^8.2.0",

@@ -10,14 +10,13 @@ export const CrystalCoin: React.FC<{ isGuest: boolean }> = ({ isGuest = false })
     const [paying, setPaying] = useState(false);
     const [customer] = useLocalStorage<Partial<Guest>>('customer', {});
     const navigate = useNavigate();
-
     if (isEmpty()) {
         return null;
     }
 
     return (
         <button
-            className="bg-buttonBg2 px-4 py-2 mt-5"
+            className="text-[#000] font-medium rounded-md px-2 py-2 mt-2"
             disabled={paying}
             onClick={async () => {
                 setPaying(true);
@@ -30,7 +29,7 @@ export const CrystalCoin: React.FC<{ isGuest: boolean }> = ({ isGuest = false })
                 navigate(`/order/cart/${cart.cartId}`, { replace: true });
             }}
         >
-            Place with Crystal Coins
+            Pay with Crystal Coins
         </button>
     );
 };

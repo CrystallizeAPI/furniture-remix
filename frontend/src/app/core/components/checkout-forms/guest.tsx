@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { Payments } from '../payments';
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
+import { Input } from '~/core/components/input';
 
 export type Guest = {
     firstname: string;
@@ -24,103 +25,71 @@ export const GuestCheckoutForm: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col gap-3 mt-3">
-            <h1 className="font-bold text-2xl mt-5 mb-5">Guest Checkout</h1>
+        <div className="flex flex-col gap-3">
+            <h1 className="font-bold text-2xl mt-5 mb-3">Guest Checkout</h1>
             <form>
-                <div className="flex gap-3">
-                    <input
+                <div className="grid grid-cols-2 gap-3">
+                    <Input
                         defaultValue={customer.firstname}
-                        type={'firstname'}
                         placeholder={'Frodo'}
+                        label="First name"
                         name="firstname"
                         required
-                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                        invalid:border-pink-500 invalid:text-pink-600
-                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
-                    <input
+
+                    <Input
                         defaultValue={customer.lastname}
-                        type={'lastname'}
                         placeholder={'Baggins'}
+                        label="Last name"
                         name="lastname"
                         required
-                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                        invalid:border-pink-500 invalid:text-pink-600
-                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                 </div>
-                <input
-                    defaultValue={customer.email}
-                    type={'email'}
-                    placeholder={'Frodo.ringmaster@shireclub.com'}
-                    name="email"
-                    required
-                    className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                    invalid:border-pink-500 invalid:text-pink-600
-                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    onChange={handleChange}
-                />
-                <input
-                    defaultValue={customer.streetAddress}
-                    type={'text'}
-                    placeholder={'Shire'}
-                    name="streetAddress"
-                    required
-                    className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                    invalid:border-pink-500 invalid:text-pink-600
-                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    onChange={handleChange}
-                />
-                <div className="flex gap-3">
-                    <input
+                <div className="mt-3">
+                    <Input
+                        defaultValue={customer.email}
+                        label="Email"
+                        placeholder={'Frodo.ringmaster@shireclub.com'}
+                        name="email"
+                        required
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mt-3">
+                    <Input
+                        defaultValue={customer.streetAddress}
+                        label="Street Address"
+                        placeholder={'6th hole from the Brandybuck Family'}
+                        name="streetAddress"
+                        required
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="grid grid-cols-3 gap-3 mt-3">
+                    <Input
                         defaultValue={customer.country}
-                        type={'text'}
+                        label="Country"
                         placeholder={'Middle Earth'}
                         name="country"
                         required
-                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                        invalid:border-pink-500 invalid:text-pink-600
-                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
-                    <input
+                    <Input
                         defaultValue={customer.city}
-                        type={'text'}
-                        placeholder={'City'}
+                        label="City"
+                        placeholder={'Shire'}
                         name="city"
                         required
-                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                        invalid:border-pink-500 invalid:text-pink-600
-                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
-                </div>
-                <div className="flex items-center gap-2">
-                    <input
+                    <Input
                         defaultValue={customer.zipCode}
-                        type={'text'}
+                        label="Zip code"
                         placeholder={'3130'}
                         name="zipCode"
                         required
-                        className="mb-2 py-[15px] bg-grey block w-full px-3 py-2 bg-white border border-[#dfdfdf] rounded-md text-sm placeholder-slate-400
-                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                        invalid:border-pink-500 invalid:text-pink-600
-                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                         onChange={handleChange}
                     />
                 </div>

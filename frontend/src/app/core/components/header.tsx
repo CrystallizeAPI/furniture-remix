@@ -67,8 +67,16 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-auto items-center justify-end gap-5">
-                        <img src={`${UserIcon}`} />
+                    <div className="flex flex-auto items-center justify-end ">
+                        <Link to="/" prefetch="intent" className="p-2 rounded-md hover:bg-[#efefef]">
+                            <img
+                                className="w-[30px] h-[30px]"
+                                src={`${UserIcon}`}
+                                width="25"
+                                height="25"
+                                alt="User icon"
+                            />
+                        </Link>
                         <BasketButton />
                     </div>
                 </div>

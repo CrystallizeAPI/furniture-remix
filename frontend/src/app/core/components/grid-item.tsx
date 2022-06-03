@@ -26,7 +26,7 @@ export const GridItem = ({ cell }: { cell: any }) => {
         <div
             style={{
                 background: color,
-                gridColumnStart: `span ${cell.layout.colspan}`,
+                width: '100%',
             }}
         >
             {view ? tiles[view as keyof typeof tiles] : itemTypes[type as keyof typeof itemTypes]}

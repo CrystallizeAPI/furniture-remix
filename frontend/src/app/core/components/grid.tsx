@@ -6,32 +6,47 @@ const getTotalGridDimensions = (rows: any) => {
     return totalColSpan;
 };
 
+const cellPlacement = ({ item, layout, totalColSpan, cellIndex, rowIndex }) => {
+    const fullWidthTileComponentValue = item?.components?.find((component: any) => component.id === 'fullwidth-tile')
+        ?.content?.value;
+
+    if (layout?.colspan === totalColSpan && fullWidthTileComponentValue) {
+        return {
+            gridColumn: `1 / span ${totalColSpan + 2}`,
+            gridRow: `${rowIndex + 1} / span ${layout?.rowspan}`,
+        };
+    }
+    if (cellIndex > 0) {
+        return {
+            gridColumn: `${cellIndex + 2} / span ${layout?.colspan}`,
+        };
+    } else
+        return {
+            gridColumn: `${cellIndex + 2} / span ${layout?.colspan}`,
+            gridRowStart: `span ${layout?.rowspan}`,
+        };
+};
 export const Grid = ({ grid }: { grid: any }) => {
     const totalColSpan = getTotalGridDimensions(grid.rows);
+    const colWidth = Math.round(1600 / totalColSpan);
     return (
-        <div className="frntr-grid auto-rows-auto gap-3">
+        <div
+            className="frntr-grid gap-3"
+            style={{
+                gridTemplateColumns: `minmax(50px, 1fr) repeat(${totalColSpan}, minmax(0, ${colWidth}px)) minmax(50px, 1fr)
+            `,
+            }}
+        >
             {grid.rows.map((row: any, rowIndex: number) => {
-                let isFullWidth;
-                // A workaround to make the fullwidth tiles work properly
-                if (row.columns.length < 2) {
-                    isFullWidth = row.columns?.[0].item?.components?.find(
-                        (component: any) => component.id === 'fullwidth-tile',
-                    )?.content?.value;
-                }
-                return (
+                return row.columns.map((cell: any, cellIndex: number) => (
                     <div
-                        className="grid max-w-full gap-3"
-                        style={{
-                            gridColumnStart: isFullWidth ? 'span 3' : 2,
-                            gridTemplateColumns: `repeat(${totalColSpan}, 1fr)`,
-                        }}
-                        key={`grid-row-${rowIndex}`}
+                        key={`grid-cell-${rowIndex}`}
+                        className="flex justify-stretch align-stretch"
+                        style={cellPlacement({ ...cell, totalColSpan, cellIndex, rowIndex })}
                     >
-                        {row.columns.map((cell: any, cellIindex: number) => (
-                            <GridItem cell={cell} key={`grid-row-${rowIndex}-cell-${cellIindex}`} />
-                        ))}
+                        <GridItem cell={cell} key={`grid-row-${rowIndex}-cell-${cellIndex}`} />
                     </div>
-                );
+                ));
             })}
         </div>
     );

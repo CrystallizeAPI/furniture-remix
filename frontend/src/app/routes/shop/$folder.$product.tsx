@@ -33,7 +33,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}/${params.product}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
     const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version);
-    return json({ product }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
+    return json({ product }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
 export default function ProductPage() {

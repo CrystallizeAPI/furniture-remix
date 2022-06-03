@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared } = await getStoreFront(request.headers.get('Host')!);
     return json(
         { cartId: params.id },
-        StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['cart' + params.id], shared.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart' + params.id], shared.config),
     );
 };
 

@@ -55,7 +55,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     return json(
         { products, folder, priceRange, isFiltered },
-        StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config),
     );
 };
 

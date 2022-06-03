@@ -15,7 +15,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const pdf = await ReactPDF.renderToStream(<SingleProduct product={product} />);
     return new Response(pdf, {
         headers: {
-            ...StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config).headers,
+            ...StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config).headers,
             'Content-Type': 'application/pdf',
         },
     });

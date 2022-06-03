@@ -11,13 +11,12 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(request.headers.get('Host')!);
-    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['orders'], shared.config));
+    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config));
 };
 
 export default function OrdersPage() {
     const [orders, setOrders] = useState<any | null>(null);
     useEffect(() => {
-        let timeout: ReturnType<typeof setTimeout>;
         (async () => {
             try {
                 setOrders(await ServiceAPI.fetchOrders());
@@ -29,7 +28,6 @@ export default function OrdersPage() {
     return (
         <div>
             <h1>My Orders</h1>
-
             <ul>
                 {orders &&
                     orders.map((order: any, index: number) => (

@@ -1,17 +1,21 @@
 import { ContentTransformer } from '@crystallize/reactjs-components';
-import { json, LoaderFunction } from '@remix-run/node';
+import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { CategoryList } from '~/core/components/category-list';
 import { FolderHero } from '~/core/components/folder-hero';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
 export function links() {
     return [{ rel: 'stylesheet', href: splideStyles }];
 }
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);
@@ -24,7 +28,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         CrystallizeAPI.fetchNavigation(secret.apiClient),
     ]);
 
-    return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
+    return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
 export default function ShopPage() {

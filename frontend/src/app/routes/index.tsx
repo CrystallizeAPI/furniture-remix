@@ -38,7 +38,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const data = await CrystallizeAPI.fetchCampaignPage(secret.apiClient, path, version);
-    return json<LoaderData>({ data }, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', [path], shared.config));
+    return json<LoaderData>({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
 export default function HomePage() {

@@ -18,5 +18,6 @@ web:
 hooks:
     build: |
         npm run build
-
+    deploy: |
+        curl -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge_all" -H "Fastly-Key: ${FASTLY_API_TOKEN}" -H 'Accept: application/json'
 disk: 1024

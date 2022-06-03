@@ -16,7 +16,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(request.headers.get('Host')!);
-    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['checkout'], shared.config));
+    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config));
 };
 
 export default function Checkout() {

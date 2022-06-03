@@ -46,7 +46,7 @@ export const getStoreFront = async (hostname: string) => {
                 accessTokenSecret: `${process.env.SUPERFAST_ACCESS_TOKEN_SECRET}`,
             },
             storage,
-            30,
+            600,
         );
     })();
 

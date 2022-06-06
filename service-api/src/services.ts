@@ -19,7 +19,7 @@ export function createMailer(dsn: string) {
     const transporter = nodemailer.createTransport(realDSN);
     transporter.verify((error, success) => {
         if (!success) {
-            console.log(error);
+            console.log(`DSN ${realDSN}: ${error}`);
         }
     });
 

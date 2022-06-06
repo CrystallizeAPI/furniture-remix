@@ -14,7 +14,6 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
         { path: '/checkout', name: 'Checkout' },
         { path: '/confirmation', name: 'Confirmation' },
     ];
-    console.log(storeFrontState.config.logo);
 
     return (
         <>

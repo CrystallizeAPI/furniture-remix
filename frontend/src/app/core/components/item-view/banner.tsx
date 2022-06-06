@@ -30,7 +30,7 @@ export const Banner = ({ layout, item }: { layout: any; item: any }) => {
                 <div className="self-end w-8/12 img-container">
                     <Image
                         {...image}
-                        sizes="(max-width: 500px) 300px, 400px"
+                        sizes="(max-width: 500px) 300px, 700px"
                         loading="lazy"
                         className="max-w-none w-full"
                     />

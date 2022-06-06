@@ -14,6 +14,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
         { path: '/checkout', name: 'Checkout' },
         { path: '/confirmation', name: 'Confirmation' },
     ];
+    console.log(storeFrontState.config.logo);
 
     return (
         <>
@@ -21,7 +22,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                     <div className="flex flex-auto justify-between items-center w-1/4">
                         <Link to="/" prefetch="intent">
-                            <img src={storeFrontState.config.logo} style={{ width: '200px' }} />
+                            <img src={storeFrontState.config.logo} width="150" height="30" />
                         </Link>
                     </div>
                     <div className="flex w-3/4 gap-5">
@@ -46,13 +47,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <div className="flex flex-auto justify-between items-center">
                         <div className="flex gap-10 items-center">
                             <Link to="/" prefetch="intent">
-                                <img
-                                    src={storeFrontState.config.logo}
-                                    width=""
-                                    height=""
-                                    alt="Logo"
-                                    style={{ width: '150px' }}
-                                />
+                                <img src={storeFrontState.config.logo} width="150" height="30" alt="Logo" />
                             </Link>
                             <div className="flex gap-10 items-center">
                                 <SearchBar />

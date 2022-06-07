@@ -1,7 +1,8 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
+import { ItemViewComponentProps } from '../../../../lib/grid-tile/types';
 
-export const GridProduct = ({ item, layout }: { item: any; layout: any }) => {
+export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     return (
         <Link to={item.path} prefetch="intent">
             <div className={`flex flex-col justify-between`}>

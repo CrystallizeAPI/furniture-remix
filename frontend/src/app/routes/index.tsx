@@ -1,10 +1,10 @@
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { Grid } from '~/core/components/grid';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { Grid } from '~/core/components/grid-cells/grid';
 
 type LoaderData = {
     data: Awaited<ReturnType<typeof CrystallizeAPI.fetchCampaignPage>>;
@@ -43,7 +43,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function HomePage() {
     const { data } = useLoaderData() as LoaderData;
-    let grid = data?.component?.content?.grids[0];
+    let grid = data?.component?.content?.grids;
 
-    return <div className="mx-auto w-full test">{grid && <Grid grid={grid} />}</div>;
+    return grid.map((grid: any, index: number) => (
+        <div key={`${grid.id}-${index}`} className="mx-auto w-full test">
+            <Grid grid={grid} />
+        </div>
+    ));
 }

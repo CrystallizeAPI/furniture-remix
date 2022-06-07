@@ -1,6 +1,7 @@
 import { Image } from '@crystallize/reactjs-components';
+import { ItemViewComponentProps } from '../../../../lib/grid-tile/types';
 
-export const GridDocument = ({ item }: { item: any }) => {
+export const Document: React.FC<ItemViewComponentProps> = ({ item }) => {
     let title = item?.components?.find((component: any) => component?.id === 'title')?.content?.text;
     let media = item?.components?.find((component: any) => component?.id === 'media')?.content?.selectedComponent
         ?.content;

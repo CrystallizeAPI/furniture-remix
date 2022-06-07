@@ -2,6 +2,7 @@ import { createRepository } from '@crystallize/node-service-api-request-handlers
 import { BackendStorage } from '@crystallize/node-service-api-request-handlers/dist/core/type';
 import nodemailer from 'nodemailer';
 import * as redis from 'redis';
+import dns from 'dns';
 import {
     createSuperFastAdapter,
     createStoreFront,

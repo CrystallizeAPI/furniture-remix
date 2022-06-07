@@ -4,15 +4,22 @@ import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 
 export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
+    console.log(tile);
     let colspan = options?.colspan;
-    //let isFullWidth = components?.find((component: any) => component.id === 'fullwidth-tile')?.content?.value;
-    const isFullWidth = false;
-    const { title, description, media, background } = tile;
+    const { title, description, content, ctas, styling } = tile;
     return (
         <>
-            <div className={`${background.color ? 'px-20 pt-20 h-1/3' : 'px-0 pt-20'}`}>
+            <div className={`${styling?.background.color ? 'px-20 pt-20 h-1/3' : 'px-0 pt-20'}`}>
                 {title && <h2 className={`${colspan > 2 ? 'text-3xl' : 'text-2xl'} mb-3 font-bold`}>{title}</h2>}
                 {description && <p className={`embed-text ${colspan > 2 ? 'w-2/4' : 'w-5/5'}`}>{description}</p>}
+                {ctas &&
+                    ctas.map((cta) => (
+                        <button className="bg-ctaBlue px-8 py-4 rounded font-medium" key={cta.link}>
+                            <Link to={cta.link} prefetch="intent">
+                                {cta.text}
+                            </Link>
+                        </button>
+                    ))}
             </div>
 
             <div className={`${colspan > 2 ? 'pt-10' : 'px-10'}`}>
@@ -25,8 +32,8 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
                     }}
                     className="splide "
                 >
-                    {media.items &&
-                        media.items.map((item: any) => {
+                    {content.items &&
+                        content.items.map((item: any) => {
                             return (
                                 <SplideSlide key={item.name} className="slide ">
                                     <Link to={item.path} prefetch="intent">

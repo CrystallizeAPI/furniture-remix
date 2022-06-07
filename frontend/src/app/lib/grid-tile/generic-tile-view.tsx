@@ -1,40 +1,23 @@
-import { Video } from '@crystallize/reactjs-components';
+import { Video } from '@crystallize/reactjs-components/dist/video';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 
 export const GenericTileView: React.FC<TileViewComponentProps> = ({ tile, options }) => {
-    const { title, description, media, ctas, background } = tile;
-
-    let backgroundElement = null;
-    if (background.images && background.images.length > 0) {
-        backgroundElement = (
-            <div className="crystallize-background-image">
-                <Image {...background.images[0]} sizes="(max-width: 500px) 300px, 700px" loading="lazy" />
-            </div>
-        );
-    }
-    if (background.videos && background.videos.length > 0) {
-        backgroundElement = (
-            <div className="crystallize-background-image">
-                <Video {...background.videos[0]} sizes="(max-width: 500px) 300px, 700px" loading="lazy" />
-            </div>
-        );
-    }
+    const { title, description, content, ctas, styling } = tile;
 
     return (
         <div
             className={`crystallize-generic-tile-view view-${tile.view}`}
-            style={{ backgroundColor: background.color }}
+            style={{ backgroundColor: styling?.background.color }}
         >
-            {backgroundElement}
             <div className="crystallize-generic-tile-view-header">
                 {title && <h2>{title}</h2>}
                 {description && <p>{description}</p>}
             </div>
             <div className="crystallize-generic-tile-view-body">
-                {media.images && media.images.length > 0 && <GenericTileViewWithImage image={media.images[0]} />}
-                {media.videos && media.videos.length > 0 && <GenericTileViewWithVideo video={media.videos[0]} />}
-                {media.items && media.items.length > 0 && <GenericTileViewWithItems items={media.items} />}
+                {content.images && content.images.length > 0 && <GenericTileViewWithImage image={content.images[0]} />}
+                {content.videos && content.videos.length > 0 && <GenericTileViewWithVideo video={content.videos[0]} />}
+                {content.items && content.items.length > 0 && <GenericTileViewWithItems items={content.items} />}
             </div>
 
             {ctas && ctas.length > 0 && (

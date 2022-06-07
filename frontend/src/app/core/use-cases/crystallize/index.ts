@@ -286,9 +286,28 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                           }
                           ... on ContentChunkContent {
                             chunks {
+                              id  
                               content {
-                                ... on SingleLineContent {
-                                  text
+                                ...on SingleLineContent{
+                                    text
+                                }
+                                ...on SelectionContent {
+                                    options {
+                                        key
+                                        value
+                                    }
+                                }
+                                ...on BooleanContent {
+                                    value
+                                }
+                                ...on PropertiesTableContent {
+                                    sections {
+                                        title
+                                        properties {
+                                            key
+                                            value
+                                        }
+                                    }
                                 }
                               }
                             }

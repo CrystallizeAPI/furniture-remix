@@ -19,10 +19,19 @@ export type ItemComponentMapping = Record<
     React.FunctionComponent<{ children: React.ReactNode } & ItemViewComponentProps>
 >;
 
+export type TileViewWrapperOptions = {
+    background?: {
+        style?: React.CSSProperties;
+        imageProps?: any;
+        videoProps?: any;
+    };
+    style?: React.CSSProperties;
+};
+
 export type Tile = {
     title?: string;
     description?: string;
-    media: {
+    content: {
         items?: any[];
         images?: any[];
         videos?: any[];
@@ -35,8 +44,10 @@ export type Tile = {
     background: {
         images?: any[];
         videos?: any[];
-        color?: string;
     };
+    isFullWidth?: boolean;
+    styling?: Record<string, Record<string, string>>;
+    cssPreset?: string;
 };
 
 export type Item = any;

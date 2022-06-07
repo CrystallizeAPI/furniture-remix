@@ -50,7 +50,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </Link>
                             <div className="flex gap-10 items-center">
                                 <SearchBar />
-
+                                //make this menu following the top level (category)
                                 <Link to={navigation.folders.tree.path} prefetch="intent" className="hover:underline">
                                     {navigation.folders.tree.name}
                                 </Link>

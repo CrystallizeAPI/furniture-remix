@@ -8,11 +8,12 @@ export const Grid: React.FC<{
     grid: any;
     tileViewComponentMapping: TileViewComponentMapping;
     itemComponentMapping: ItemComponentMapping;
-}> = ({ grid, tileViewComponentMapping, itemComponentMapping }) => {
+    type?: GridRenderingType;
+}> = ({ grid, tileViewComponentMapping, itemComponentMapping, type = GridRenderingType.RowCol }) => {
     return (
         <GridRenderer
             grid={grid}
-            type={GridRenderingType.Div}
+            type={type}
             cellComponent={({ cell, totalColSpan, children }) => {
                 const cellItem: Tile | Item = cell?.item;
                 if (!cellItem) {

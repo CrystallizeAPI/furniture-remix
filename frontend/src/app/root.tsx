@@ -43,7 +43,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
 
     const [folders, topics] = await Promise.all([
-        CrystallizeAPI.fetchNavigation(secret.apiClient),
+        CrystallizeAPI.fetchNavigation(secret.apiClient, '/'),
         CrystallizeAPI.fetchTopicNavigation(secret.apiClient),
     ]);
 

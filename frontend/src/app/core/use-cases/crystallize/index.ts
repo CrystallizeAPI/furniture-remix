@@ -21,11 +21,11 @@ export const CrystallizeAPI = {
     searchByTopic,
 };
 
-async function fetchNavigation(apiClient: ClientInterface) {
+async function fetchNavigation(apiClient: ClientInterface, path: string) {
     const fetch = createNavigationFetcher(apiClient).byFolders;
     const builder = catalogueFetcherGraphqlBuilder;
     const response = await fetch(
-        '/shop',
+        path,
         'en',
         3,
         {

@@ -50,13 +50,26 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </Link>
                             <div className="flex gap-10 items-center">
                                 <SearchBar />
-                                //make this menu following the top level (category)
-                                <Link to={navigation.folders.tree.path} prefetch="intent" className="hover:underline">
-                                    {navigation.folders.tree.name}
-                                </Link>
-                                <Link to="/stories" prefetch="intent" className="hover:underline">
-                                    Stories
-                                </Link>
+                                {navigation.folders.tree.children
+                                    .filter((item: any) => {
+                                        return (
+                                            item.__typename === 'Folder' &&
+                                            item.children.length > 0 &&
+                                            !item.name.startsWith('_')
+                                        );
+                                    })
+                                    .map((item: any) => {
+                                        return (
+                                            <Link
+                                                to={item.path}
+                                                prefetch="intent"
+                                                key={item.path}
+                                                className="hover:underline"
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        );
+                                    })}
                                 <TopicNavigation navigation={navigation.topics} />
                             </div>
                         </div>

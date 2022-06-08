@@ -12,11 +12,14 @@ export const Grid: React.FC<{
     itemComponentMapping: ItemComponentMapping;
     type?: GridRenderingType;
     options?: TileViewWrapperOptions;
-}> = ({ grid, tileViewComponentMapping, itemComponentMapping, type = GridRenderingType.RowCol, options }) => {
+    style?: React.CSSProperties;
+}> = ({ grid, tileViewComponentMapping, itemComponentMapping, type = GridRenderingType.RowCol, options, style }) => {
+    console.log({ options });
     return (
         <GridRenderer
             grid={grid}
             type={type}
+            style={style}
             cellComponent={({ cell, totalColSpan, children }) => {
                 const cellItem: Tile | Item = cell?.item;
                 if (!cellItem) {
@@ -27,7 +30,7 @@ export const Grid: React.FC<{
                     const Component = tileViewComponentMapping[tile.view] || GenericTileView;
                     return (
                         <Tile tile={tile} options={options}>
-                            <Component tile={tile} options={totalColSpan}>
+                            <Component tile={tile} options={totalColSpan} cell={cell}>
                                 {children}
                             </Component>
                         </Tile>
@@ -37,7 +40,7 @@ export const Grid: React.FC<{
                 const Component = itemComponentMapping[cellItem.type.toLowerCase()] || GenericItem;
                 return (
                     <div style={options?.style}>
-                        <Component item={cellItem} options={totalColSpan}>
+                        <Component item={cellItem} options={totalColSpan} cell={cell}>
                             {children}
                         </Component>
                     </div>

@@ -18,13 +18,18 @@ const itemMapping = {
 };
 
 export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
-    const [type, setType] = useState<GridRenderingType>(GridRenderingType.RowCol);
+    const [type, setType] = useState<GridRenderingType>(GridRenderingType.Div);
 
+    const getTotalGridDimensions = (rows) => {
+        const totalColSpan = rows[0].columns.reduce((acc, col) => acc + col.layout.colspan, 0);
+
+        return totalColSpan;
+    };
+    const totalColumns = getTotalGridDimensions(grid.rows);
+    const colWidth = Math.round(1600 / totalColumns);
     return (
         <>
             <div>
-                <p>Just for you Didrik to easily swith the rendering and pick the best one</p>
-                <p>It almost invisible but it changes the html structure</p>
                 <button
                     className="bg-textBlack text-[#fff] py-2 px-4 rounded-md"
                     onClick={() => setType(GridRenderingType.Div)}
@@ -44,29 +49,38 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                     Table
                 </button>
             </div>
-            <BaseGrid
-                grid={grid}
-                itemComponentMapping={itemMapping}
-                tileViewComponentMapping={titeMapping}
-                type={type}
-                options={{
-                    background: {
+            <div className="frntr-grid">
+                {console.log({ grid })}
+                <BaseGrid
+                    grid={grid}
+                    style={{
+                        gridTemplateColumns: `minmax(50px, 1fr) repeat(${totalColumns}, minmax(0, ${colWidth}px)) minmax(50px, 1fr)`,
+                    }}
+                    itemComponentMapping={itemMapping}
+                    tileViewComponentMapping={titeMapping}
+                    type={type}
+                    options={{
+                        background: {
+                            style: {
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                            },
+                            imageProps: {
+                                sizes: '(max-width: 500px) 300px, 700px',
+                            },
+                        },
                         style: {
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
+                            position: 'relative',
+                            width: '100%',
+                            height: '100%',
+                            display: 'contents',
                         },
-                        imageProps: {
-                            sizes: '(max-width: 500px) 300px, 700px',
-                            // loading: "lazy"
-                        },
-                    },
-                    style: {
-                        position: 'relative',
-                        width: '100%',
-                    },
-                }}
-            />
+                    }}
+                />
+            </div>
         </>
     );
 };

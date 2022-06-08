@@ -3,12 +3,19 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 
-export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
+export const Slider: React.FC<TileViewComponentProps> = ({ tile, options, cell }) => {
     console.log(tile);
     let colspan = options?.colspan;
     const { title, description, content, ctas, styling } = tile;
+    console.log('slider', cell);
     return (
-        <>
+        <div
+            style={
+                {
+                    // gridColumn: `2 / span ${cell.layout.colSpan}`,
+                }
+            }
+        >
             <div className={`${styling?.background.color ? 'px-20 pt-20 h-1/3' : 'px-0 pt-20'}`}>
                 {title && <h2 className={`${colspan > 2 ? 'text-3xl' : 'text-2xl'} mb-3 font-bold`}>{title}</h2>}
                 {description && <p className={`embed-text ${colspan > 2 ? 'w-2/4' : 'w-5/5'}`}>{description}</p>}
@@ -54,6 +61,6 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
                         })}
                 </Splide>
             </div>
-        </>
+        </div>
     );
 };

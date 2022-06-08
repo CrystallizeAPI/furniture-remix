@@ -67,12 +67,29 @@
         background-size: 0.65em auto, 100%;
     }
     .frntr-grid {
+        /* border: 1px solid red; */
+    }
+
+    .frntr-grid .crystallize-grid {
         display: grid;
-        grid-template-rows: auto;
+        gap: 20px;
+    }
+    .frntr-grid .crystallize-grid__cell {
+        align-items: stretch;
+        display: contents;
+    }
+
+    .frntr-grid .last-col {
+    }
+    .frntr-grid .first-col {
+    }
+    .frntr-grid .last-col.first-col {
+        border: 1px solid green;
     }
     .frntr-grid-row  {
         display: grid;
     }
+
     .img-container img {
         width: 100%;
         height: auto;

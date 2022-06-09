@@ -11,7 +11,6 @@ export const CategoryList = ({ category }: { category: any }) => {
             <p className="w-3/5 mb-3 mt-2">{description}</p>
             <div className="grid grid-cols-5 gap-6">
                 {category?.children?.map((child: any) => {
-                    console.log({ category });
                     return <Product item={child} key={`${category.name}-${child.path}`} />;
                 })}
             </div>

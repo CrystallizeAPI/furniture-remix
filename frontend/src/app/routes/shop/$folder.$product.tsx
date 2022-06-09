@@ -2,7 +2,6 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData, useLocation } from '@remix-run/react';
-import StockIcon from '~/assets/stockIcon.svg';
 import { useEffect, useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
@@ -10,7 +9,12 @@ import { Cart } from '~/core/components/cart';
 import { ImageGallery } from '~/core/components/image-gallery';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { TopicLabels } from '~/core/components/topic-labels';
+import { Price } from '~/core/components/price';
+import { StockLocations } from '~/core/components/stock-location';
 import { Product } from '~/core/components/item/product';
+
+
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
@@ -37,7 +41,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function ProductPage() {
     const { product } = useLoaderData();
-    const primaryVariant = product.variants.find((v) => v.isDefault);
+    const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
     let [showCart, setShowCart] = useState(false);
     let location = useLocation();
@@ -73,6 +77,7 @@ export default function ProductPage() {
                 <div className="w-2/6">
                     <div className="flex flex-col gap-5 sticky top-8">
                         <h1 className="font-bold text-4xl">{title}</h1>
+                        {product.topics && <TopicLabels labels={product?.topics} />}
                         <p className="text-xl font-normal">{description}</p>
                         <VariantSelector
                             variants={product.variants}
@@ -80,7 +85,7 @@ export default function ProductPage() {
                             onVariantChange={onVariantChange}
                         />
                         <div className="flex justify-between items-center">
-                            <p className="font-bold">€{selectedVariant?.price}</p>
+                            <Price priceVariants={selectedVariant.priceVariants} />
                             <button
                                 className="bg-buttonBg2 px-10 py-3 rounded font-buttonText font-bold hover:bg-pink"
                                 onClick={() => {
@@ -92,24 +97,16 @@ export default function ProductPage() {
                         </div>
 
                         <hr className="bg-[#dfdfdf] mt-5" />
-                        <div className="flex gap-3 items-center">
-                            <img src={`${StockIcon}`} />
-                            <p>
-                                More than{' '}
-                                <span className="font-bold">{product?.variants[0]?.stockLocations[0]?.stock}</span> in
-                                stock
-                            </p>
-                            <div className="w-2.5 h-2.5 rounded-full bg-green"></div>
-                        </div>
+                        <StockLocations locations={selectedVariant?.stockLocations} />
                     </div>
                 </div>
             </div>
             {relatedProducts && (
                 <div className="w-full">
                     <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                    <div className="flex gap-5 grid grid-cols-5 pb-5">
+                    <div className="gap-5 grid grid-cols-5 pb-5">
                         {relatedProducts?.map((item: any, index: number) => (
-                            <Product product={item} />
+                            <Product item={item} />
                         ))}
                     </div>
                 </div>

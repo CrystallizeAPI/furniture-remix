@@ -58,6 +58,12 @@ async function fetchNavigation(apiClient: ClientInterface, path: string) {
                             builder.onProduct({
                                 defaultVariant: {
                                     price: true,
+                                    priceVariants: {
+                                        price: true,
+                                        currency: true,
+                                        identifier: true,
+                                        name: true,
+                                    },
                                     firstImage: {
                                         altText: true,
                                         variants: {
@@ -848,6 +854,12 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                 ...on Product {
                                   defaultVariant {
                                     price
+                                    priceVariants {
+                                      price
+                                      identifier
+                                      currency
+                                      name
+                                    }
                                     images {
                                       variants {
                                         url
@@ -923,6 +935,12 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                               ...on Product {
                                                 defaultVariant {
                                                   price
+                                                  priceVariants {
+                                                    identifier
+                                                    name
+                                                    price
+                                                    currency
+                                                  }
                                                   firstImage {
                                                     url
                                                     altText
@@ -932,6 +950,20 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                                       height
                                                     }
                                                   }
+                                                }
+                                              }
+                                            }
+                                          }
+                                          ...on Product {
+                                            defaultVariant {
+                                              price
+                                              firstImage {
+                                                url
+                                                altText
+                                                variants {
+                                                  url
+                                                  width
+                                                  height
                                                 }
                                               }
                                             }
@@ -1049,6 +1081,12 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
           ...on Product {
             defaultVariant {
               price
+              priceVariants {
+                identifier
+                name
+                price
+                currency
+              }
               firstImage {
                 url
                 altText

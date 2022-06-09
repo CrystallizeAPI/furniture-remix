@@ -17,7 +17,6 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export let meta: MetaFunction = ({ data }: { data: any }) => {
     let metaData = data?.folder?.meta?.content?.chunks?.[0];
-    console.log({ metaData });
     return {
         title: `${metaData?.[0]?.content?.text}`,
         description: `${metaData?.[1]?.content?.plainText}`,

@@ -12,6 +12,7 @@ module.exports = {
             buttonBg2: '#FAD2E1',
             buttonText: '#9E8376',
             green: '#DAF5CB',
+            green2: '#83B69D',
             pink: '#FCE8F0',
         },
         fontFamily: {

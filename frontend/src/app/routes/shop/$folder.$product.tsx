@@ -14,7 +14,6 @@ import { Price } from '~/core/components/price';
 import { StockLocations } from '~/core/components/stock-location';
 import { Product } from '~/core/components/item/product';
 
-
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };

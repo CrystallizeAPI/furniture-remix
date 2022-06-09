@@ -954,20 +954,6 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                               }
                                             }
                                           }
-                                          ...on Product {
-                                            defaultVariant {
-                                              price
-                                              firstImage {
-                                                url
-                                                altText
-                                                variants {
-                                                  url
-                                                  width
-                                                  height
-                                                }
-                                              }
-                                            }
-                                          }
                                         }
                                       }
                                     }

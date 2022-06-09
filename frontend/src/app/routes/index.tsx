@@ -34,7 +34,7 @@ export function links() {
 export const loader: LoaderFunction = async ({ request }) => {
     const url = new URL(request.url);
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
-    const path = `/campaign`;
+    const path = `/frontpage`;
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
     const data = await CrystallizeAPI.fetchCampaignPage(secret.apiClient, path, version);
@@ -44,10 +44,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function HomePage() {
     const { data } = useLoaderData() as LoaderData;
     let grid = data?.component?.content?.grids;
-
-    return grid.map((grid: any, index: number) => (
-        <div key={`${grid.id}-${index}`} className="mx-auto w-full test">
-            <Grid grid={grid} />
+    return (
+        <div className="min-h-[100vh]">
+            {grid?.map((grid: any, index: number) => (
+                <div key={`${grid.id}-${index}`} className="mx-auto w-full test">
+                    <Grid grid={grid} />
+                </div>
+            ))}
         </div>
-    ));
+    );
 }

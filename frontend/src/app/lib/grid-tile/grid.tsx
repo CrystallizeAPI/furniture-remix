@@ -1,4 +1,4 @@
-import { GridRenderer, GridRenderingType } from '@crystallize/reactjs-components/dist/grid';
+import { GridPositionnable, GridRenderer, GridRenderingType } from '@crystallize/reactjs-components/dist/grid';
 import React from 'react';
 import { GenericItem } from './generic-item';
 import { GenericTileView } from './generic-tile-view';
@@ -11,14 +11,23 @@ export const Grid: React.FC<{
     tileViewComponentMapping: TileViewComponentMapping;
     itemComponentMapping: ItemComponentMapping;
     type?: GridRenderingType;
-    options?: TileViewWrapperOptions;
     style?: React.CSSProperties;
-}> = ({ grid, tileViewComponentMapping, itemComponentMapping, type = GridRenderingType.RowCol, options, style }) => {
-    console.log({ options });
+    styleForCell?: (cell: any, positionInfos: GridPositionnable, styles: React.CSSProperties) => React.CSSProperties;
+    options?: TileViewWrapperOptions;
+}> = ({
+    grid,
+    tileViewComponentMapping,
+    itemComponentMapping,
+    type = GridRenderingType.RowCol,
+    options,
+    style,
+    styleForCell,
+}) => {
     return (
         <GridRenderer
             grid={grid}
             type={type}
+            styleForCell={styleForCell}
             style={style}
             cellComponent={({ cell, totalColSpan, children }) => {
                 const cellItem: Tile | Item = cell?.item;
@@ -30,7 +39,7 @@ export const Grid: React.FC<{
                     const Component = tileViewComponentMapping[tile.view] || GenericTileView;
                     return (
                         <Tile tile={tile} options={options}>
-                            <Component tile={tile} options={totalColSpan} cell={cell}>
+                            <Component tile={tile} options={{ totalColSpan, ...cell.layout }}>
                                 {children}
                             </Component>
                         </Tile>
@@ -40,7 +49,7 @@ export const Grid: React.FC<{
                 const Component = itemComponentMapping[cellItem.type.toLowerCase()] || GenericItem;
                 return (
                     <div style={options?.style}>
-                        <Component item={cellItem} options={totalColSpan} cell={cell}>
+                        <Component item={cellItem} options={{ totalColSpan, ...cell.layout }}>
                             {children}
                         </Component>
                     </div>
@@ -73,7 +82,9 @@ const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: T
     }
     return (
         <div
-            className={`crystallize-tile crystallize-tile-view-${tile.view} crystallize-tile-preset-${tile.cssPreset}`}
+            className={`crystallize-tile crystallize-tile-view-${tile.view} ${
+                tile.cssPreset ? 'crystallize-tile-preset-' + tile.cssPreset : ''
+            }`}
             style={{
                 ...options?.style,
                 background: tile.styling?.background?.color ?? null,

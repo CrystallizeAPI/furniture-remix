@@ -3,7 +3,7 @@ import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/
 import { useLoaderData } from '@remix-run/react';
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
 import { RelatedDocument } from '~/core/components/related-items/related-document';
-import { RelatedProduct } from '~/core/components/related-items/related-product';
+import { Product } from '~/core/components/item/product';
 import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { getStoreFront } from '~/core/storefront/storefront.server';
@@ -57,10 +57,10 @@ export default function ProductPage() {
 
     return (
         <div className="">
-            <div className="2xl  container mx-auto mt-10">
-                <div className="px-6 max-w-[1000px]">
-                    <h1 className="text-4xl font-semibold mb-5">{title}</h1>
-                    <p className="mb-10">{creationDate}</p>
+            <div className="2xl container mx-auto mt-40 mb-40">
+                <div className="px-6  max-w-[1000px]">
+                    <p className="mb-4 text-md">{creationDate}</p>
+                    <h1 className="text-6xl font-semibold mb-2">{title}</h1>
                     <div className="w-3/4 my-10 text-2xl leading-[1.8em]">
                         <ContentTransformer json={description} />
                     </div>
@@ -69,13 +69,13 @@ export default function ProductPage() {
             <div className="container 2xl img-container overflow-hidden rounded-lg mt-5 w-screen mx-auto">
                 <Image {...media?.images?.[0]} sizes="100vw" />
             </div>
-            <div className="w-3/4 mx-auto">
+            <div className="2xl container mx-auto frntr-story">
                 <ParagraphCollection paragraphs={paragraphs} />
             </div>
             {relatedArticles && (
                 <div className="2xl container px-6 mx-auto w-full mt-10">
                     <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
-                    <div className="grid grid-cols-5 gap-5 overflow-x-scroll">
+                    <div className="grid grid-cols-3 gap-5 overflow-x-scroll">
                         {relatedArticles?.map((item: any, index: number) => (
                             <div key={index}>
                                 <RelatedDocument document={item} />
@@ -87,12 +87,11 @@ export default function ProductPage() {
             {featuredProducts && (
                 <div className="2xl container px-6 mx-auto w-full mt-10">
                     <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
-                    <div className="flex gap-5 overflow-x-scroll snap-mandatory snap-x scroll-p-0 pb-5">
-                        {featuredProducts?.map((item: any, index: number) => (
-                            <div key={index}>
-                                <RelatedProduct product={item} />
-                            </div>
-                        ))}
+                    <div className="flex gap-5 pb-5">
+                        {featuredProducts?.map((item: any, index: number) => {
+                            console.log({ item });
+                            return <Product item={item} key={index} />;
+                        })}
                     </div>
                 </div>
             )}

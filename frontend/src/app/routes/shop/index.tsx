@@ -35,12 +35,10 @@ export default function ShopPage() {
     const { folder, navigation } = useLoaderData();
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
-
     return (
         <>
             <FolderHero component={hero} />
             <div className="2xl  container mx-auto ">
-                {/* <h1 className="font-bold text-2xl">{folder.name}</h1> */}
                 <div className="flex flex-wrap gap-4 mt-20 pt-20 mb-20  items-center">
                     <h2 className="font-medium text-md text-md w-full block">Browse categories</h2>
                     {navigation?.tree?.children?.map((child: any) => (

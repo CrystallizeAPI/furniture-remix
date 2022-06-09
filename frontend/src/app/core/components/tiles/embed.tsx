@@ -12,6 +12,8 @@ export const Embed: React.FC<TileViewComponentProps> = ({ tile, options }) => {
     const firstItemImage = firstItem.components.find((component: any) => component.id === 'media')?.content
         ?.selectedComponent?.content;
 
+    console.log({ firstItem });
+
     return (
         <Link to={firstItem.path} prefetch="intent">
             <div

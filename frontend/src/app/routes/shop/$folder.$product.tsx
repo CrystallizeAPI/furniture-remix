@@ -21,18 +21,20 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export let meta: MetaFunction = ({ data }: { data: any }) => {
     let metaData = data?.product?.meta?.content?.chunks?.[0];
     let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText;
+    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
     let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-
+    let altDescription = data?.product?.components?.find((comp: any) => comp.id === 'description')?.content?.plainText?.[0];
+    let altImage = data?.product?.components?.variants?.[0]?.images?.[0]?.url;
+  
     return {
-        title,
-        'og:title': title,
-        description,
-        'og:description': description,
-        'og:image':image,
-        'twitter:image': image,
+        title: title || data?.product?.name,
+        'og:title': title ? title : data.product.name,
+        description: description || altDescription,
+        'og:description': description || altDescription,
+        'og:image': image || altImage,
+        'twitter:image': image || altImage,
         'twitter:card': 'summary_large_image',
-        'twitter:description': description,
+        'twitter:description': description || altDescription,
         'og:type': 'product',
     };
 };
@@ -49,8 +51,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function ProductPage() {
     const { product } = useLoaderData();
-    let metaData = product?.meta?.content?.chunks?.[0];
-    console.log({metaData})
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
     let [showCart, setShowCart] = useState(false);
@@ -75,16 +75,16 @@ export default function ProductPage() {
     }, [location.pathname]);
 
     return (
-        <div className="container p-8 px-202xl mx-auto w-full ">
+        <div className="container p-8 px-202xl mx-auto">
             {showCart ? <Cart /> : null}
-            <div className="flex gap-20">
-                <div className="w-4/6 img-container">
+            <div className="flex gap-20 xl:flex-row flex-col-reverse">
+                <div className="xl:w-4/6 w-full img-container">
                     <div className="img-container overflow-hidden rounded-md">
                         <ImageGallery images={selectedVariant?.images} />
                     </div>
                     <ProductBody components={product?.components} />
                 </div>
-                <div className="w-2/6">
+                <div className="xl:w-2/6 w-full">
                     <div className="flex flex-col gap-4 sticky top-8">
                         {product.topics && <TopicLabels labels={product?.topics} />}
                         <h1 className="font-bold text-4xl">{title}</h1>

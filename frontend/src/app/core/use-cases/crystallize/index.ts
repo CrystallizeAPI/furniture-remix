@@ -388,6 +388,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
             }
             ...on RichTextContent {
               json
+              plainText
             }
             ...on ImageContent {
               images {

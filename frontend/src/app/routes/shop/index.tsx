@@ -58,8 +58,8 @@ export default function ShopPage() {
     return (
         <>
             <FolderHero component={hero} />
-            <div className="2xl  container mx-auto ">
-                <div className="flex flex-wrap gap-4 mt-20 pt-20 mb-20  items-center">
+            <div className="2xl container mx-auto px-10">
+                <div className="flex flex-wrap gap-4 pt-20 mb-10  items-center">
                     <h2 className="font-medium text-md text-md w-full block">Browse categories</h2>
                     {navigation?.tree?.children?.map((child: any) => (
                         <Link

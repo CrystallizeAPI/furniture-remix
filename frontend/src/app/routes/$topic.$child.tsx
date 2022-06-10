@@ -18,7 +18,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function Topics() {
     let { data, params } = useLoaderData();
-
     return (
         <div className="container 2xl mx-auto px-6 mt-10">
             <h1 className="capitalize font-bold text-4xl">{params.child}</h1>

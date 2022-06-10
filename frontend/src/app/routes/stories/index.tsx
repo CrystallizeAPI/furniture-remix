@@ -46,7 +46,7 @@ export default function FolderPage() {
 
     return (
         <div className="container 2xl px-6 mx-auto w-full">
-            <h1 className="text-3xl font-bold mt-10 mb-4">{title}</h1>
+            <h1 className="text-6xl font-bold mt-10 mb-4">{title}</h1>
             <div className="flex gap-5">{description}</div>
             <div className="grid grid-cols-3 gap-6 mt-10">
                 {folder.children.map((child: any) => (

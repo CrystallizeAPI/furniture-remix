@@ -22,14 +22,15 @@ export let meta: MetaFunction = ({ data }: { data: LoaderData }) => {
     let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
     let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
     let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-    let altDescription = data?.document?.components?.find((comp: any) => comp.id === 'description')?.content?.plainText?.[0];
-    
+    let altDescription = data?.document?.components?.find((comp: any) => comp.id === 'description')?.content
+        ?.plainText?.[0];
+
     return {
         title: title || data?.document?.name,
         'og:title': title || data?.document?.name,
         description: description || altDescription,
         'og:description': description || altDescription,
-        'og:image':image,
+        'og:image': image,
         'twitter:image': image,
         'twitter:card': 'summary_large_image',
         'twitter:description': description || altDescription,

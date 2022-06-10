@@ -10,7 +10,7 @@ type LoaderData = {
     data: Awaited<ReturnType<typeof CrystallizeAPI.fetchCampaignPage>>;
 };
 
-export let meta: MetaFunction = ({ data, params }: { data: LoaderData, params: any }) => {
+export let meta: MetaFunction = ({ data, params }: { data: LoaderData; params: any }) => {
     let metaData = data?.data?.meta?.content?.chunks?.[0];
     let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
     let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
@@ -21,7 +21,7 @@ export let meta: MetaFunction = ({ data, params }: { data: LoaderData, params: a
         'og:title': title ? title : data?.data?.name,
         description,
         'og:description': description,
-        'og:image':image,
+        'og:image': image,
         'twitter:image': image,
         'twitter:card': 'summary_large_image',
         'twitter:description': description,

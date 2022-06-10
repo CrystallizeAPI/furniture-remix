@@ -12,12 +12,9 @@ export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
         ?.selectedComponent?.content;
 
     return (
-        <Link to={firstItem.path} prefetch="intent">
-            <div
-                className="flex flex-col justify-between items-stretch h-full overflow-hidden"
-                style={{ background: styling?.background.color }}
-            >
-                <div className="px-20 pt-20 h-1/3 ">
+        <Link to={firstItem.path} prefetch="intent" className="grid min-h-[100%]">
+            <div className="flex flex-col justify-between items-stretch h-full overflow-hidden w-full">
+                <div className="px-10 pt-20 h-1/3 ">
                     {title && <h2 className="text-2xl font-bold mb-3">{title}</h2>}
                     {description && <p className="embed-text">{description}</p>}
                     {ctas &&
@@ -29,7 +26,7 @@ export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
                             </button>
                         ))}
                 </div>
-                <div className="pl-10 pt-10 max-w-full h-full img-container img-cover grow">
+                <div className="pl-10 pt-10 max-w-full h-full img-container overflow-hidden rounded-t-l-md img-cover grow">
                     <Image
                         {...firstItemImage?.firstImage}
                         sizes="300px"

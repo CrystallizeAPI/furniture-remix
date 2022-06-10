@@ -7,7 +7,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { images } = content;
     return (
         <div>
-            <div className={`pl-20 flex container 2xl mx-auto  ${isFullWidth ? 'items-center' : 'pt-20'}`}>
+            <div className={`pl-10 flex container 2xl mx-auto  ${isFullWidth ? 'items-center' : 'pt-20'}`}>
                 <div className="items-center flex-column pr-8 justify-items-center	w-4/12">
                     {title && (
                         <h1 className={`${title.length < 10 ? 'text-9xl' : 'text-3xl'} font-bold mb-3`}>{title}</h1>

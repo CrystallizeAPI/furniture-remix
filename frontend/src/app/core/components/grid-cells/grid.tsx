@@ -74,6 +74,8 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                         position: 'relative',
                         width: '100%',
                         minHeight: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
                     },
                 }}
             />

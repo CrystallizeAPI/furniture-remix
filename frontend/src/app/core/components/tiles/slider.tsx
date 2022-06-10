@@ -13,7 +13,7 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
     const { dimensions, layout } = options;
     let colspan = layout.colspan;
     const { title, description, content, ctas, styling } = tile;
-    const spansOverAllColumns = layout.colspan === dimensions.rows;
+    const spansOverAllColumns = layout.colspan === dimensions.cols;
     const hasBackgroundColor = styling?.background.color;
     const isFullWidth = tile.isFullWidth;
     const setInnerPadding = () => {
@@ -26,7 +26,7 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
     };
     return (
         <div className={`${isFullWidth && 'max-w-[1789px] mx-auto px-[70px]'}`}>
-            <div className={`pb-10  ${hasBackgroundColor && !isFullWidth ? 'px-20 pt-20' : 'px-0 pt-20'}`}>
+            <div className={`pb-10  pt-20 ${setInnerPadding()}`}>
                 {title && <h2 className={`${colspan > 2 ? 'text-3xl' : 'text-2xl'} mb-3 font-bold`}>{title}</h2>}
                 {description && <p className={`embed-text ${colspan > 2 ? 'w-2/4' : 'w-5/5'}`}>{description}</p>}
                 {ctas &&

@@ -94,7 +94,7 @@ export const VariantSelector = ({
                                                 value === selectedAttr.value ? '1px solid #000' : '1px solid #efefef',
                                         }}
                                     >
-                                        {variantsHasUniqueImages && (
+                                        {variantsHasUniqueImages && attribute.toLowerCase() !== 'size' && (
                                             <div className="img-container p-3 h-[80px] w-[80px] img-contain">
                                                 {mostSuitableVariant?.images?.[0] && (
                                                     <Image {...mostSuitableVariant.images[0]} sizes="100px" />

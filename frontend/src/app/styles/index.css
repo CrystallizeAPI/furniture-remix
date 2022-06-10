@@ -97,8 +97,8 @@
         border: 1px solid #dfdfdf;
     }
     .frntr-img.portrait {
-        width: 33.333%;
-        max-width: 50%;
+        /* width: 33.333%; */
+        /* max-width: 50%; */
     }
     .frntr-img.portrait:only-child {
         max-width: 100%;
@@ -106,6 +106,9 @@
     }
     .frntr-img:first-child {
         width: 100%;
+    }
+    .frntr-img.portrait:first-child {
+        width: 50%;
     }
 
     .frntr-grid {

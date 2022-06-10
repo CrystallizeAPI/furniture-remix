@@ -15,7 +15,7 @@
         "nodemon": "^2.0.15"
     },
     "volta": {
-        "node": "16.14.2"
+        "node": "16.15.1"
     },
     "dependencies": {
         "@crystallize/js-api-client": "^0.6.0",

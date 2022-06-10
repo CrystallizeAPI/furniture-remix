@@ -25,7 +25,7 @@ export let meta: MetaFunction = ({ data }: { data: any }) => {
     let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
     let altDescription = data?.product?.components?.find((comp: any) => comp.id === 'description')?.content
         ?.plainText?.[0];
-    let altImage = data?.product?.components?.variants?.[0]?.images?.[0]?.url;
+    let altImage = data?.product?.variants?.[0]?.images?.[0]?.url;
 
     return {
         title: title || data?.product?.name,

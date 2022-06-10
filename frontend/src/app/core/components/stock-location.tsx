@@ -34,11 +34,11 @@ const StockIndicators = ({ location }: { location: any }) => {
 };
 
 export const StockLocations = ({ locations }: { locations: any }) => {
-    if (!locations) return;
+    if (!locations) return null;
     return (
         <div>
             {locations?.map((location: any) => (
-                <div key={location.identifier} className="flex py-2 items-center items-center gap-2 justify-between">
+                <div key={location.identifier} className="flex py-2 items-center gap-2 justify-between">
                     <StockIndicators location={location} />
                 </div>
             ))}

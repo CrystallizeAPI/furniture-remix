@@ -167,6 +167,7 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
           content {
             ...on ContentChunkContent {
               chunks {
+                id
                 content {
                   ...on SingleLineContent {
                     text
@@ -360,6 +361,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
           content {
             ...on ContentChunkContent {
               chunks {
+                id
                 content {
                   ...on SingleLineContent {
                     text
@@ -386,6 +388,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
             }
             ...on RichTextContent {
               json
+              plainText
             }
             ...on ImageContent {
               images {
@@ -501,6 +504,7 @@ async function fetchProduct(apiClient: ClientInterface, path: string, version: s
           content {
             ...on ContentChunkContent {
               chunks {
+                id
                 content {
                   ...on SingleLineContent {
                     text
@@ -807,6 +811,7 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
           content {
             ...on ContentChunkContent {
               chunks {
+                id
                 content {
                   ...on SingleLineContent {
                     text

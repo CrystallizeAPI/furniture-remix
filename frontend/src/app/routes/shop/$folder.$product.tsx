@@ -86,7 +86,7 @@ export default function ProductPage() {
                         <div className="flex justify-between items-end">
                             <Price priceVariants={selectedVariant.priceVariants} />
                             <button
-                                className="bg-buttonBg2 px-10 py-3 rounded font-buttonText font-bold hover:bg-pink"
+                                className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100"
                                 onClick={() => {
                                     handleClick();
                                 }}

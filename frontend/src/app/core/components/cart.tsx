@@ -136,7 +136,7 @@ export const HydratedCart: React.FC = () => {
                     <button className="bg-grey py-2 px-5 rounded-md text-center font-semibold">
                         <Link to="/">Back</Link>
                     </button>
-                    <button className="bg-buttonBg2 py-2 rounded-md py-4 px-4 w-40 text-center font-bold hover:bg-pink">
+                    <button className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100">
                         <Link to="/checkout">Checkout</Link>
                     </button>
                 </div>

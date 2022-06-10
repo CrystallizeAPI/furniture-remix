@@ -25,7 +25,7 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
         }
     };
     return (
-        <div className={`${isFullWidth ? 'max-w-[1789px] mx-auto px-[70px]' : 'w-full'}`}>
+        <div className={`${isFullWidth ? 'max-w-[1789px] w-full mx-auto px-[70px]' : 'w-full'}`}>
             <div className={`pb-10  pt-20 ${setInnerPadding()}`}>
                 {title && <h2 className={`${colspan > 2 ? 'text-3xl' : 'text-2xl'} mb-3 font-bold`}>{title}</h2>}
                 {description && <p className={`embed-text ${colspan > 2 ? 'w-2/4' : 'w-5/5'}`}>{description}</p>}

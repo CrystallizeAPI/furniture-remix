@@ -25,10 +25,10 @@ const StockIndicators = ({ location }: { location: any }) => {
     return (
         <>
             <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#16CA58]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green2" />
                 <p className="font-regular">{location.name}</p>
             </div>
-            <p className="font-medium text-[#16CA58]">20+ in stock</p>
+            <p className="font-medium text-green2">20+ in stock</p>
         </>
     );
 };

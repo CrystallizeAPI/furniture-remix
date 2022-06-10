@@ -16,7 +16,7 @@ export const Price = ({ priceVariants }: { priceVariants: any }) => {
                     </div>
                 </div>
             ) : (
-                <div className="text-4xl font-bold">€{defaultPrice.price}</div>
+                <div className="text-4xl font-bold">€{defaultPrice?.price}</div>
             )}
         </div>
     );

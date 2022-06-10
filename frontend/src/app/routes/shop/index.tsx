@@ -1,5 +1,5 @@
 import { ContentTransformer } from '@crystallize/reactjs-components';
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { CategoryList } from '~/core/components/category-list';
 import { FolderHero } from '~/core/components/folder-hero';
@@ -12,6 +12,20 @@ import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 export function links() {
     return [{ rel: 'stylesheet', href: splideStyles }];
 }
+
+export let meta: MetaFunction = ({ data }: { data: any }) => {
+    let metaData = data?.folder?.meta?.content?.chunks?.[0];
+    return {
+        title: `${metaData?.[0]?.content?.text}`,
+        'og:title': `${metaData?.[0]?.content?.text}`,
+        description: `${metaData?.[1]?.content?.plainText}`,
+        'og:description': `${metaData?.[1]?.content?.plainText}`,
+        'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+        'twitter:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+        'twitter:card': 'summary_large_image',
+        'twitter:description': `${metaData?.[1]?.content?.plainText}`,
+    };
+};
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

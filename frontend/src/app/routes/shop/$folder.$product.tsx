@@ -25,7 +25,7 @@ export let meta: MetaFunction = ({ data }: { data: any }) => {
     let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
     let altDescription = data?.product?.components?.find((comp: any) => comp.id === 'description')?.content
         ?.plainText?.[0];
-    let altImage = data?.product?.components?.variants?.[0]?.images?.[0]?.url;
+    let altImage = data?.product?.variants?.[0]?.images?.[0]?.url;
 
     return {
         title: title || data?.product?.name,
@@ -115,7 +115,7 @@ export default function ProductPage() {
             {relatedProducts && (
                 <div className="w-full">
                     <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                    <div className="gap-5 grid grid-cols-5 pb-5">
+                    <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
                         {relatedProducts?.map((item: any, index: number) => (
                             <Product item={item} />
                         ))}

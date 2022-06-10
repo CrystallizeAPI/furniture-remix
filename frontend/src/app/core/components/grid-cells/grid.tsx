@@ -1,9 +1,9 @@
 import { Grid as BaseGrid } from '~/lib/grid-tile/grid';
-import { Banner } from '~/core/components/grid-cells/views/banner';
-import { Product } from '~/core/components/grid-cells/item/product';
-import { Document } from '~/core/components/grid-cells/item/document';
-import { Embed } from '~/core/components/grid-cells/views/embed';
-import { Slider } from '~/core/components/grid-cells/views/slider';
+import { Product } from '~/core/components/item/product';
+import { Document } from '~/core/components/item/document';
+import { Banner } from '~/core/components/tiles/banner';
+import { Embed } from '~/core/components/tiles/embed';
+import { Slider } from '~/core/components/tiles/slider';
 import { GridPositionnable, GridRenderingType } from '@crystallize/reactjs-components';
 
 const titeMapping = {
@@ -28,14 +28,20 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
         if (!component) {
             return styles;
         }
-        const isFullWidth = component?.content?.chunks[0]?.find((chunk: any) => chunk.id === 'use-full-width').content
+        const isFullWidth = component?.content?.chunks[0]?.find((chunk: any) => chunk.id === 'use-full-width')?.content
             ?.value;
         if (!isFullWidth) {
-            return styles;
+            console.log({ cell, positionInfos });
+            return {
+                ...styles,
+                gridColumn: `${positionInfos.colIndex + 2} / span ${cell.layout.colspan}`,
+                gridRow: `${positionInfos.rowIndex + 1} / span ${cell.layout.rowspan}`,
+            };
         }
         return {
             ...styles,
-            gridColumn: isFullWidth ? '1 / span 5' : '2 / span 3',
+            gridColumn: `1 / span ${totalColumns + 2}`,
+            gridRow: `auto / span ${cell.layout.rowspan}`,
         };
     };
 
@@ -67,8 +73,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                     style: {
                         position: 'relative',
                         width: '100%',
-                        height: '100%',
-                        display: 'contents',
+                        minHeight: '100%',
                     },
                 }}
             />

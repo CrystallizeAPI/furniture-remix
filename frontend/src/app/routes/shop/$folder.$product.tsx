@@ -2,16 +2,15 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData, useLocation } from '@remix-run/react';
-import { Image } from '@crystallize/reactjs-components/dist/image';
 import StockIcon from '~/assets/stockIcon.svg';
 import { useEffect, useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
 import { Cart } from '~/core/components/cart';
-import { RelatedProduct } from '~/core/components/related-items/related-product';
+import { ImageGallery } from '~/core/components/image-gallery';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
-
+import { Product } from '~/core/components/item/product';
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
@@ -38,7 +37,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function ProductPage() {
     const { product } = useLoaderData();
-    let [selectedVariant, setSelectedVariant] = useState(product?.variants[0]);
+    const primaryVariant = product.variants.find((v) => v.isDefault);
+    let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
     let [showCart, setShowCart] = useState(false);
     let location = useLocation();
 
@@ -57,7 +57,7 @@ export default function ProductPage() {
         ?.items;
 
     useEffect(() => {
-        setSelectedVariant(product?.variants?.[0]);
+        setSelectedVariant(primaryVariant);
     }, [location.pathname]);
 
     return (
@@ -66,14 +66,14 @@ export default function ProductPage() {
             <div className="flex gap-20">
                 <div className="w-4/6 img-container">
                     <div className="img-container overflow-hidden rounded-md">
-                        <Image {...selectedVariant?.images?.[0]} sizes="(max-width: 500px) 300px, 500px" />
+                        <ImageGallery images={selectedVariant?.images} />
                     </div>
                     <ProductBody components={product?.components} />
                 </div>
                 <div className="w-2/6">
                     <div className="flex flex-col gap-5 sticky top-8">
                         <h1 className="font-bold text-4xl">{title}</h1>
-                        <p>{description}</p>
+                        <p className="text-xl font-normal">{description}</p>
                         <VariantSelector
                             variants={product.variants}
                             selectedVariant={selectedVariant}
@@ -107,11 +107,9 @@ export default function ProductPage() {
             {relatedProducts && (
                 <div className="w-full">
                     <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                    <div className="flex gap-5 overflow-x-scroll grid grid-cols-5 snap-mandatory snap-x scroll-p-0 pb-5">
+                    <div className="flex gap-5 grid grid-cols-5 pb-5">
                         {relatedProducts?.map((item: any, index: number) => (
-                            <div key={index} onClick={() => setSelectedVariant('')}>
-                                <RelatedProduct product={item} />
-                            </div>
+                            <Product product={item} />
                         ))}
                     </div>
                 </div>

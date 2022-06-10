@@ -2,12 +2,16 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 
-export const Banner: React.FC<TileViewComponentProps> = ({ tile, options }) => {
-    console.log(tile);
+export const Banner: React.FC<TileViewComponentProps> = ({ tile, options, cell }) => {
     const { title, description, ctas, isFullWidth, content } = tile;
     const { images } = content;
+    console.log({ options });
     return (
-        <>
+        <div
+            style={{
+                gridColumn: isFullWidth ? '1 / span 5' : '2 / span 3',
+            }}
+        >
             <div className={`pl-20 flex container 2xl mx-auto  ${isFullWidth ? 'items-center' : 'pt-20'}`}>
                 <div className="items-center flex-column pr-8 justify-items-center	w-4/12">
                     {title && (
@@ -34,6 +38,6 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile, options }) => {
                     </div>
                 )}
             </div>
-        </>
+        </div>
     );
 };

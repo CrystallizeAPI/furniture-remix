@@ -39,7 +39,7 @@ export const Grid: React.FC<{
                     const Component = tileViewComponentMapping[tile.view] || GenericTileView;
                     return (
                         <Tile tile={tile} options={options}>
-                            <Component tile={tile} options={{ totalColSpan }}>
+                            <Component tile={tile} options={{ totalColSpan, ...cell.layout }}>
                                 {children}
                             </Component>
                         </Tile>
@@ -49,7 +49,7 @@ export const Grid: React.FC<{
                 const Component = itemComponentMapping[cellItem.type.toLowerCase()] || GenericItem;
                 return (
                     <div style={options?.style}>
-                        <Component item={cellItem} options={{ totalColSpan }}>
+                        <Component item={cellItem} options={{ totalColSpan, ...cell.layout }}>
                             {children}
                         </Component>
                     </div>

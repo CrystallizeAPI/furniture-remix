@@ -17,7 +17,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export let meta: MetaFunction = ({ data }: { data: any }) => {
     let metaData = data?.folder?.meta?.content?.chunks?.[0];
-
+    console.log({ metaData });
     return {
         title: `${metaData?.[0]?.content?.text}`,
         description: `${metaData?.[1]?.content?.plainText}`,
@@ -65,7 +65,7 @@ export default function FolderPage() {
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
 
     return (
-        <div className="container 2xl mx-auto w-full">
+        <div className="container 2xl px-5 mx-auto w-full">
             <h1 className="text-3xl font-bold mt-10 mb-4">{title}</h1>
             <p className="w-3/5 mb-10">{description}</p>
             <Filter priceRange={priceRange} />

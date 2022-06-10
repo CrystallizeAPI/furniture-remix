@@ -1,23 +1,26 @@
 import { Link } from '@remix-run/react';
 import { Image } from '@crystallize/reactjs-components';
-
+import { Product } from '~/core/components/item/product';
+import { Document } from '~/core/components/item/document';
 export const FilteredProducts = ({ products }: { products: any }) => {
     return (
         <div className="mt-10">
             <h2 className="font-medium text-lg mt-5">Found {products.length} products</h2>
 
             <div className="grid grid-cols-5 gap-5 ">
-                {products.map((product: any, index: number) => (
-                    <Link key={index} to={product?.node?.path}>
-                        <div className="mt-5">
-                            <div className="img-container rounded-md overflow-hidden">
-                                <Image {...product?.node?.matchingVariant?.images?.[0]} sizes="300px" loading="lazy" />
-                            </div>
-                            <p className="mt-4">{product?.node?.name}</p>
-                            <p className="font-bold">€{product?.node?.matchingVariant?.price}</p>
-                        </div>
-                    </Link>
-                ))}
+                {products.map((product: any, index: number) => {
+                    return (
+                        <Product
+                            item={{
+                                ...product.node,
+                                defaultVariant: {
+                                    ...product.node.matchingVariant,
+                                    firstImage: product.node.matchingVariant.images?.[0],
+                                },
+                            }}
+                        />
+                    );
+                })}
             </div>
         </div>
     );
@@ -27,17 +30,7 @@ export const ProductsList = ({ products }: { products: any }) => {
     return (
         <div className="grid grid-cols-5 gap-6 w-full">
             {products?.map((product: any) => {
-                return (
-                    <Link to={product.path} key={product.path}>
-                        <div className="mt-5">
-                            <div className="img-container rounded-md overflow-hidden">
-                                <Image {...product.defaultVariant.firstImage} sizes="300px" loading="lazy" />
-                            </div>
-                            <p className="mt-5">{product.name}</p>
-                            <p className="font-bold">€{product.defaultVariant.price}</p>
-                        </div>
-                    </Link>
-                );
+                return <Product item={product} />;
             })}
         </div>
     );

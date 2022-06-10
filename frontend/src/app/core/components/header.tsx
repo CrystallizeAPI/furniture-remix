@@ -50,11 +50,11 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </Link>
                             <div className="flex gap-10 items-center">
                                 <SearchBar />
-                                {navigation.folders.tree.children
+                                {navigation?.folders?.tree?.children
                                     .filter((item: any) => {
                                         return (
                                             item.__typename === 'Folder' &&
-                                            item.children.length > 0 &&
+                                            item.children?.length > 0 &&
                                             !item.name.startsWith('_')
                                         );
                                     })

@@ -6,15 +6,17 @@ export const Price = ({ priceVariants }: { priceVariants: any }) => {
     return (
         <div>
             {priceVariants.length > 1 ? (
-                <div className="flex flex-wrap gap-2 flex-col">
-                    <div className="text-xl font-bold">€{discountPrice?.price}</div>
-                    <div className="flex gap-3 items-center">
-                        <div className="line-through">€{defaultPrice?.price}</div>
-                        <div className="text-lg text-red">{discountPercentage}%</div>
+                <div className="flex flex-wrap  flex-col">
+                    <div className="line-through font-bold pt-1 text-sm">€{defaultPrice?.price}</div>
+                    <div className="flex gap-2 items-center ">
+                        <div className="text-4xl font-bold text-[#16CA58]">€{discountPrice?.price}</div>
+                        <div className="text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-bold ">
+                            -{discountPercentage}%
+                        </div>
                     </div>
                 </div>
             ) : (
-                <div className="text-xl font-bold">€{defaultPrice.price}</div>
+                <div className="text-4xl font-bold">€{defaultPrice.price}</div>
             )}
         </div>
     );

@@ -74,16 +74,16 @@ export default function ProductPage() {
                     <ProductBody components={product?.components} />
                 </div>
                 <div className="w-2/6">
-                    <div className="flex flex-col gap-5 sticky top-8">
-                        <h1 className="font-bold text-4xl">{title}</h1>
+                    <div className="flex flex-col gap-4 sticky top-8">
                         {product.topics && <TopicLabels labels={product?.topics} />}
+                        <h1 className="font-bold text-4xl">{title}</h1>
                         <p className="text-xl font-normal">{description}</p>
                         <VariantSelector
                             variants={product.variants}
                             selectedVariant={selectedVariant}
                             onVariantChange={onVariantChange}
                         />
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-end">
                             <Price priceVariants={selectedVariant.priceVariants} />
                             <button
                                 className="bg-buttonBg2 px-10 py-3 rounded font-buttonText font-bold hover:bg-pink"
@@ -95,7 +95,7 @@ export default function ProductPage() {
                             </button>
                         </div>
 
-                        <hr className="bg-[#dfdfdf] mt-5" />
+                        <div className="bg-[#dfdfdf] h-[1px] mt-5" />
                         <StockLocations locations={selectedVariant?.stockLocations} />
                     </div>
                 </div>

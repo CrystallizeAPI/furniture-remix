@@ -134,12 +134,18 @@ async function search(apiClient: ClientInterface, value: string): Promise<any[]>
                           edges {
                             node {
                               name
+                              type
                               path
                               ... on Product {
                                 matchingVariant {
                                   price
                                   images {
                                     url
+                                    variants {
+                                      url
+                                      width
+                                      key
+                                    }
                                   }
                                 }
                               }

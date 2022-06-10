@@ -4,6 +4,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { Link } from '@remix-run/react';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { useStoreFront } from '~/core/storefront/provider';
+import { Image } from '@crystallize/reactjs-components';
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -34,16 +35,16 @@ export const SearchBar = () => {
             console.error(error);
         }
     };
-
+    console.log({ suggestions });
     return (
-        <div className="bg-grey w-80  relative overflow-hidden rounded-full">
-            <div className="flex items-center justify-between bg-grey h-10">
+        <div className=" w-[340px] px-4 relative ">
+            <div className="bg-grey relative z-30 flex items-center justify-between bg-grey h-10 rounded-full overflow-hidden focus-within:border">
                 <DebounceInput
                     minLength={2}
                     placeholder="Names, skus, categories"
                     debounceTimeout={300}
                     onChange={handleChange}
-                    className="bg-grey focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic"
+                    className="bg-grey rounded-md rounded-full overflow-hidden focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic "
                 />
                 <Link
                     to={`/search?q=${searchTerm}`}
@@ -53,20 +54,35 @@ export const SearchBar = () => {
                 </Link>
             </div>
             {suggestions.length > 0 && show ? (
-                <div ref={ref} className="absolute top-10 w-60 h-[200px] left-0 overflow-y-scroll shadow-sm">
-                    {suggestions?.map((suggestion: any, index: number) => (
-                        <div key={index}>
-                            <Link
-                                to={suggestion?.node?.path}
-                                onClick={() => {
-                                    setSuggestions([]);
-                                }}
-                                prefetch="intent"
-                            >
-                                <div className="p-4 bg-[#fff] hover:bg-grey2">{suggestion?.node?.name}</div>
-                            </Link>
-                        </div>
-                    ))}
+                <div
+                    ref={ref}
+                    className="absolute rounded-xl bg-[#fff] -top-5 w-full pt-20 pb-2 shadow-md border border-[#dfdfdf] left-0 overflow-y-scroll shadow-sm z-20"
+                >
+                    <div className="max-h-[400px] overflow-y-scroll">
+                        {suggestions?.map((suggestion: any, index: number) => (
+                            <div key={index}>
+                                <Link
+                                    to={suggestion?.node?.path}
+                                    onClick={() => {
+                                        setSuggestions([]);
+                                    }}
+                                    prefetch="intent"
+                                >
+                                    <div className="py-1 px-4 bg-[#fff] flex gap-2 items-center hover:bg-grey2">
+                                        <div className="w-[25px] h-[35px] img-container rounded-sm img-cover border border-[#dfdfdf]">
+                                            <Image {...suggestion?.node?.matchingVariant?.images?.[0]} sizes="100px" />
+                                        </div>
+                                        <div className="flex justify-between w-full">
+                                            <span className="text-sm ">{suggestion?.node?.name}</span>
+                                            <span className="text-sm font-bold">
+                                                €{suggestion?.node?.matchingVariant?.price}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ) : null}
         </div>

@@ -79,7 +79,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </div>
                         </div>
                         <div className="flex flex-auto items-center justify-end ">
-                            <Link to="/" prefetch="intent" className="p-2 rounded-md hover:bg-[#efefef]">
+                            <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
                                 <img
                                     className="w-[30px] h-[30px]"
                                     src={`${UserIcon}`}
@@ -98,7 +98,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <img src={storeFrontState.config.logo} width="150" height="30" />
                 </Link>
                 <div className="flex items-center gap-5 justify-start">
-                    <Link to="/" prefetch="intent" className="p-2 rounded-md hover:bg-[#efefef]">
+                    <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
                         <img className="w-[30px] h-[30px]" src={`${UserIcon}`} width="25" height="25" alt="User icon" />
                     </Link>
                     <BasketButton />

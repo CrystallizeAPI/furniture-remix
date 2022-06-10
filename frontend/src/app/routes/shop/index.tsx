@@ -15,15 +15,19 @@ export function links() {
 
 export let meta: MetaFunction = ({ data }: { data: any }) => {
     let metaData = data?.folder?.meta?.content?.chunks?.[0];
+    let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
+    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText;
+    let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
+
     return {
-        title: `${metaData?.[0]?.content?.text}`,
-        'og:title': `${metaData?.[0]?.content?.text}`,
-        description: `${metaData?.[1]?.content?.plainText}`,
-        'og:description': `${metaData?.[1]?.content?.plainText}`,
-        'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
-        'twitter:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+        title,
+        'og:title': title,
+        description,
+        'og:description': description,
+        'og:image':image,
+        'twitter:image': image,
         'twitter:card': 'summary_large_image',
-        'twitter:description': `${metaData?.[1]?.content?.plainText}`,
+        'twitter:description': description,
     };
 };
 

@@ -5,27 +5,14 @@ import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { Grid } from '~/core/components/grid-cells/grid';
+import { buildMetas } from '~/core/MicrodataBuilder';
 
 type LoaderData = {
     data: Awaited<ReturnType<typeof CrystallizeAPI.fetchCampaignPage>>;
 };
 
-export let meta: MetaFunction = ({ data, params }: { data: LoaderData; params: any }) => {
-    let metaData = data?.data?.meta?.content?.chunks?.[0];
-    let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
-    let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-
-    return {
-        title: title ? title : data?.data?.name,
-        'og:title': title ? title : data?.data?.name,
-        description,
-        'og:description': description,
-        'og:image': image,
-        'twitter:image': image,
-        'twitter:card': 'summary_large_image',
-        'twitter:description': description,
-    };
+export let meta: MetaFunction = ({ data }: { data: LoaderData }) => {
+    return buildMetas(data);
 };
 
 export const headers: HeadersFunction = ({ parentHeaders, loaderHeaders }) => {

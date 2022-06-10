@@ -6,6 +6,7 @@ import { FilteredProducts, ProductsList } from '~/core/components/filter/filtere
 import sliderStyles from 'rc-slider/assets/index.css';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { buildMetas } from '~/core/MicrodataBuilder';
 
 export function links() {
     return [{ rel: 'stylesheet', href: sliderStyles }];
@@ -15,24 +16,8 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
-export let meta: MetaFunction = ({ data }: { data: any }) => {
-    let metaData = data?.folder?.meta?.content?.chunks?.[0];
-    let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
-    let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-    let altDescription = data?.folder?.components?.find((comp: any) => comp.id === 'description')?.content
-        ?.plainText?.[0];
-
-    return {
-        title: title || data?.folder?.name,
-        'og:title': title || data?.folder?.name,
-        description: description || altDescription,
-        'og:description': description || altDescription,
-        'og:image': image,
-        'twitter:image': image,
-        'twitter:card': 'summary_large_image',
-        'twitter:description': description || altDescription,
-    };
+export let meta: MetaFunction = ({ data }) => {
+    return buildMetas(data);
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {

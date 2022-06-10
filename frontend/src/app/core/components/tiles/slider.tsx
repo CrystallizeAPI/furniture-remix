@@ -1,5 +1,4 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { Product } from '../item/product';
@@ -10,10 +9,11 @@ const itemMapping = {
     document: Document,
 };
 
-export const Slider: React.FC<TileViewComponentProps> = ({ tile, options, cell }) => {
-    let colspan = options?.colspan;
+export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
+    const { dimensions, layout } = options;
+    let colspan = layout.colspan;
     const { title, description, content, ctas, styling } = tile;
-    const spansOverAllColumns = options.colspan === options.totalColSpan;
+    const spansOverAllColumns = layout.colspan === dimensions.rows;
     const hasBackgroundColor = styling?.background.color;
     const isFullWidth = tile.isFullWidth;
     const setInnerPadding = () => {
@@ -51,7 +51,7 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options, cell }
                 >
                     {content.items &&
                         content.items.map((item: any) => {
-                            const Component = itemMapping[item.type];
+                            const Component = itemMapping[item.type as keyof typeof itemMapping];
                             return (
                                 <SplideSlide key={item.name} className="slide items-stretch pb-10">
                                     <Component item={item} />

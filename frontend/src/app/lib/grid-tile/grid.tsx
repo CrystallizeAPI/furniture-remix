@@ -1,4 +1,4 @@
-import { GridPositionnable, GridRenderer, GridRenderingType } from '@crystallize/reactjs-components/dist/grid';
+import { GridCell, GridRenderer, GridRenderingType } from '@crystallize/reactjs-components/dist/grid';
 import React from 'react';
 import { GenericItem } from './generic-item';
 import { GenericTileView } from './generic-tile-view';
@@ -12,7 +12,7 @@ export const Grid: React.FC<{
     itemComponentMapping: ItemComponentMapping;
     type?: GridRenderingType;
     style?: React.CSSProperties;
-    styleForCell?: (cell: any, positionInfos: GridPositionnable, styles: React.CSSProperties) => React.CSSProperties;
+    styleForCell?: (cell: GridCell, styles: React.CSSProperties) => React.CSSProperties;
     options?: TileViewWrapperOptions;
 }> = ({
     grid,
@@ -29,7 +29,7 @@ export const Grid: React.FC<{
             type={type}
             styleForCell={styleForCell}
             style={style}
-            cellComponent={({ cell, totalColSpan, children }) => {
+            cellComponent={({ cell, dimensions, children }) => {
                 const cellItem: Tile | Item = cell?.item;
                 if (!cellItem) {
                     return null;
@@ -39,7 +39,7 @@ export const Grid: React.FC<{
                     const Component = tileViewComponentMapping[tile.view] || GenericTileView;
                     return (
                         <Tile tile={tile} options={options}>
-                            <Component tile={tile} options={{ totalColSpan, ...cell.layout }}>
+                            <Component tile={tile} options={{ dimensions, layout: cell.layout }}>
                                 {children}
                             </Component>
                         </Tile>
@@ -49,7 +49,7 @@ export const Grid: React.FC<{
                 const Component = itemComponentMapping[cellItem.type.toLowerCase()] || GenericItem;
                 return (
                     <div style={options?.style}>
-                        <Component item={cellItem} options={{ totalColSpan, ...cell.layout }}>
+                        <Component item={cellItem} options={{ dimensions, layout: cell.layout }}>
                             {children}
                         </Component>
                     </div>

@@ -2,17 +2,14 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 
-export const Embed: React.FC<TileViewComponentProps> = ({ tile, options }) => {
-    console.log(tile);
-    const { title, description, content, background, ctas, styling } = tile;
+export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
+    const { title, description, content, ctas, styling } = tile;
     if (!content.items || content.items.length === 0) {
         return <p>Nothing has been embed.</p>;
     }
     const firstItem = content.items[0];
     const firstItemImage = firstItem.components.find((component: any) => component.id === 'media')?.content
         ?.selectedComponent?.content;
-
-    console.log({ firstItem });
 
     return (
         <Link to={firstItem.path} prefetch="intent">

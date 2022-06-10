@@ -89,7 +89,6 @@ export default function ProductPage() {
                     <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
                     <div className="flex gap-5 pb-5">
                         {featuredProducts?.map((item: any, index: number) => {
-                            console.log({ item });
                             return <Product item={item} key={index} />;
                         })}
                     </div>

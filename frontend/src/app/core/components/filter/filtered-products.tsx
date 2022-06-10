@@ -1,7 +1,4 @@
-import { Link } from '@remix-run/react';
-import { Image } from '@crystallize/reactjs-components';
 import { Product } from '~/core/components/item/product';
-import { Document } from '~/core/components/item/document';
 export const FilteredProducts = ({ products }: { products: any }) => {
     return (
         <div className="mt-10">

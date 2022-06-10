@@ -1,6 +1,5 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
-import { divide } from 'lodash';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import getRelativePriceVariants from '~/lib/pricing';
 

@@ -17,14 +17,3 @@ export const CategoryList = ({ category }: { category: any }) => {
         </div>
     );
 };
-
-{
-    /* <Link to={child.path} prefetch="intent" key={child.name}>
-<div className="img-container rounded-md overflow-hidden">
-    <Image {...child.defaultVariant.firstImage} sizes="300px" loading="lazy" />
-</div>
-<p className="mt-3 ">{child.name}</p>
-<p className="font-bold">€{child.defaultVariant.price}</p>
-</Link>
-); */
-}

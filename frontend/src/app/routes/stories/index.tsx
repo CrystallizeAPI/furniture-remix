@@ -14,8 +14,13 @@ export let meta: MetaFunction = ({ data }: { data: any }) => {
 
     return {
         title: `${metaData?.[0]?.content?.text}`,
+        'og:title': `${metaData?.[0]?.content?.text}`,
         description: `${metaData?.[1]?.content?.plainText}`,
+        'og:description': `${metaData?.[1]?.content?.plainText}`,
         'og:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+        'twitter:image': `${metaData?.[2]?.content?.firstImage?.url}`,
+        'twitter:card': 'summary_large_image',
+        'twitter:description': `${metaData?.[1]?.content?.plainText}`,
     };
 };
 

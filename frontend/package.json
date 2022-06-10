@@ -18,7 +18,7 @@
     "dependencies": {
         "@crystallize/js-api-client": "^0.7.1",
         "@crystallize/js-storefrontaware-utils": "^0.1.2",
-        "@crystallize/reactjs-components": "^0.2.2",
+        "@crystallize/reactjs-components": "^0.3.0",
         "@crystallize/reactjs-hooks": "^0.7.0",
         "@react-pdf/renderer": "^2.1.2",
         "@rehooks/local-storage": "^2.4.4",

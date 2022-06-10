@@ -1,20 +1,20 @@
 name: serviceapi
-type: "nodejs:16"
+type: 'nodejs:16'
 
 build:
-  flavor: default
+    flavor: default
 
 relationships:
-  redis: "redis:redis"
+    redis: 'redis:redis'
 
 web:
-  commands:
-    start: NODE_ENV=production node ./dist/index.js
+    commands:
+        start: NODE_ENV=production node ./dist/index.js
 
 hooks:
-  build: |
-    npm run build
-  deploy: |
-    curl -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge_all" -H "Fastly-Key: ${FASTLY_API_TOKEN}" -H 'Accept: application/json'
+    build: |
+        npm run build
+    deploy: |
+        curl -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge_all" -H "Fastly-Key: ${FASTLY_API_TOKEN}" -H 'Accept: application/json'
 
 disk: 1024

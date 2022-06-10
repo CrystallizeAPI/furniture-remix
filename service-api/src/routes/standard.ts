@@ -5,7 +5,9 @@ export const routes: StandardRouting = {
     '/': {
         get: {
             handler: async (ctx: Koa.Context) => {
-                ctx.response.body = { msg: `Crystallize Service API - Tenant ${ctx.storeFront.config.tenantIdentifier}` };
+                ctx.response.body = {
+                    msg: `Crystallize Service API - Tenant ${ctx.storeFront.config.tenantIdentifier}`,
+                };
             },
         },
     },

@@ -1,10 +1,6 @@
 name: serviceapi
 type: 'nodejs:16'
 
-dependencies:
-    nodejs:
-        pm2: '^4.5.0'
-
 build:
     flavor: default
 
@@ -13,11 +9,12 @@ relationships:
 
 web:
     commands:
-        start: node ./dist/index.js
+        start: NODE_ENV=production node ./dist/index.js
 
 hooks:
     build: |
         npm run build
     deploy: |
         curl -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge_all" -H "Fastly-Key: ${FASTLY_API_TOKEN}" -H 'Accept: application/json'
+
 disk: 1024

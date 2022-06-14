@@ -13,31 +13,14 @@ import { TopicLabels } from '~/core/components/topic-labels';
 import { Price } from '~/core/components/price';
 import { StockLocations } from '~/core/components/stock-location';
 import { Product } from '~/core/components/item/product';
+import { buildMetas } from '~/core/MicrodataBuilder';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
-export let meta: MetaFunction = ({ data }: { data: any }) => {
-    let metaData = data?.product?.meta?.content?.chunks?.[0];
-    let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
-    let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-    let altDescription = data?.product?.components?.find((comp: any) => comp.id === 'description')?.content
-        ?.plainText?.[0];
-    let altImage = data?.product?.variants?.[0]?.images?.[0]?.url;
-
-    return {
-        title: title || data?.product?.name,
-        'og:title': title ? title : data.product.name,
-        description: description || altDescription,
-        'og:description': description || altDescription,
-        'og:image': image || altImage,
-        'twitter:image': image || altImage,
-        'twitter:card': 'summary_large_image',
-        'twitter:description': description || altDescription,
-        'og:type': 'product',
-    };
+export let meta: MetaFunction = ({ data }) => {
+    return buildMetas(data);
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -94,6 +77,7 @@ export default function ProductPage() {
                             variants={product.variants}
                             selectedVariant={selectedVariant}
                             onVariantChange={onVariantChange}
+                            renderingType="default"
                         />
                         <div className="flex justify-between items-end">
                             <Price priceVariants={selectedVariant.priceVariants} />

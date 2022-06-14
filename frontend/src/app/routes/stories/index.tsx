@@ -1,32 +1,16 @@
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
-import { BlogItem } from '~/core/components/blog-item';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
-
+import { buildMetas } from '~/core/MicrodataBuilder';
+import { Document } from '~/core/components/item/document';
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
-export let meta: MetaFunction = ({ data }: { data: any }) => {
-    let metaData = data?.folder?.meta?.content?.chunks?.[0];
-    let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
-    let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-    let altDescription = data?.folder?.components?.find((comp: any) => comp.id === 'description')?.content
-        ?.plainText?.[0];
-
-    return {
-        title: title || data?.folder?.name,
-        'og:title': title || data?.folder?.name,
-        description: description || altDescription,
-        'og:description': description || altDescription,
-        'og:image': image,
-        'twitter:image': image,
-        'twitter:card': 'summary_large_image',
-        'twitter:description': description || altDescription,
-    };
+export let meta: MetaFunction = ({ data }) => {
+    return buildMetas(data);
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -48,9 +32,9 @@ export default function FolderPage() {
         <div className="container 2xl px-6 mx-auto w-full">
             <h1 className="text-6xl font-bold mt-10 mb-4">{title}</h1>
             <div className="flex gap-5">{description}</div>
-            <div className="grid grid-cols-3 gap-6 mt-10">
+            <div className="grid grid-cols-3 gap-3 mt-10">
                 {folder.children.map((child: any) => (
-                    <BlogItem item={child} key={child.name} />
+                    <Document item={child} key={child.name} />
                 ))}
             </div>
         </div>

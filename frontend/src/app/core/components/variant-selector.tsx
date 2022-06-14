@@ -31,10 +31,12 @@ export const VariantSelector = ({
     variants,
     selectedVariant,
     onVariantChange,
+    renderingType = 'default',
 }: {
     variants: any;
     selectedVariant: any;
     onVariantChange: Function;
+    renderingType: string;
 }) => {
     const attributes = reduceAttributes(variants);
 
@@ -60,55 +62,106 @@ export const VariantSelector = ({
             onVariantChange(variant);
         }
     }
+    function handleSelectChange({ attribute, value }: { attribute: string; value: string }) {
+        onAttributeSelect({ attribute, value });
+    }
+    const renderingTypes = {
+        default: (
+            <div>
+                {Object.keys(attributes).map((attribute) => {
+                    const attr = attributes[attribute];
+                    const selectedAttr = selectedVariant.attributes?.find((a: any) => a.attribute === attribute);
 
-    return (
-        <div>
-            {Object.keys(attributes).map((attribute) => {
-                const attr = attributes[attribute];
-                const selectedAttr = selectedVariant.attributes?.find((a: any) => a.attribute === attribute);
+                    if (!selectedAttr) {
+                        return null;
+                    }
 
-                if (!selectedAttr) {
-                    return null;
-                }
-
-                return (
-                    <div key={attribute} className="border-[#dfdfdf]">
-                        <p className="my-3 text-sm  font-semibold">{attribute}</p>
-                        <div className="flex mb-5 flex-wrap gap-2">
-                            {attr.map((value: string) => {
-                                const selectedAttributes = attributesToObject(selectedVariant);
-                                selectedAttributes[attribute] = value;
-                                const mostSuitableVariant = variants.find((variant: any) =>
-                                    isEqual(selectedAttributes, attributesToObject(variant)),
-                                );
-                                return (
-                                    <button
-                                        key={value}
-                                        onClick={(e) => onAttributeSelect({ attribute, value })}
-                                        type="button"
-                                        className=" w-1/6   py-2 rounded-lg text-text flex flex-col items-center text-xs font-medium"
-                                        disabled={!mostSuitableVariant}
-                                        style={{
-                                            opacity: !mostSuitableVariant ? 0.2 : 1,
-                                            border:
-                                                value === selectedAttr.value ? '1px solid #000' : '1px solid #efefef',
-                                        }}
-                                    >
-                                        {variantsHasUniqueImages && attribute.toLowerCase() !== 'size' && (
-                                            <div className="img-container p-3 h-[80px] w-[80px] img-contain">
-                                                {mostSuitableVariant?.images?.[0] && (
-                                                    <Image {...mostSuitableVariant.images[0]} sizes="100px" />
-                                                )}
-                                            </div>
-                                        )}
-                                        {value}
-                                    </button>
-                                );
-                            })}
+                    return (
+                        <div key={attribute} className="border-[#dfdfdf]">
+                            <p className="my-3 text-sm  font-semibold">{attribute}</p>
+                            <div className="flex mb-5 flex-wrap gap-2">
+                                {attr.map((value: string) => {
+                                    const selectedAttributes = attributesToObject(selectedVariant);
+                                    selectedAttributes[attribute] = value;
+                                    const mostSuitableVariant = variants.find((variant: any) =>
+                                        isEqual(selectedAttributes, attributesToObject(variant)),
+                                    );
+                                    return (
+                                        <button
+                                            key={value}
+                                            onClick={(e) => onAttributeSelect({ attribute, value })}
+                                            type="button"
+                                            className=" w-1/6   py-2 rounded-lg text-text flex flex-col items-center text-xs font-medium"
+                                            disabled={!mostSuitableVariant}
+                                            style={{
+                                                opacity: !mostSuitableVariant ? 0.2 : 1,
+                                                border:
+                                                    value === selectedAttr.value
+                                                        ? '1px solid #000'
+                                                        : '1px solid #efefef',
+                                            }}
+                                        >
+                                            {variantsHasUniqueImages && attribute.toLowerCase() !== 'size' && (
+                                                <div className="img-container p-3 h-[80px] w-[80px] img-contain">
+                                                    {mostSuitableVariant?.images?.[0] && (
+                                                        <Image {...mostSuitableVariant.images[0]} sizes="100px" />
+                                                    )}
+                                                </div>
+                                            )}
+                                            {value}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                );
-            })}
-        </div>
-    );
+                    );
+                })}
+            </div>
+        ),
+        dropdown: (
+            <>
+                {Object.keys(attributes).map((attribute) => {
+                    const attr = attributes[attribute];
+                    const selectedAttr = selectedVariant.attributes?.find((a: any) => a.attribute === attribute);
+
+                    if (!selectedAttr) {
+                        return null;
+                    }
+
+                    return (
+                        <div className="">
+                            <label>
+                                <span className="block text-xs pb-1 font-medium">{attribute}</span>
+                                <select
+                                    onChange={(e) => handleSelectChange({ attribute, value: e.target.value })}
+                                    className="py-2 px-4 bg-[#fff] text-sm rounded-md min-w-[150px] "
+                                >
+                                    {attr?.map((value: any) => {
+                                        const selectedAttributes = attributesToObject(selectedVariant);
+                                        selectedAttributes[attribute] = value;
+                                        const mostSuitableVariant = variants.find((variant: any) =>
+                                            isEqual(selectedAttributes, attributesToObject(variant)),
+                                        );
+
+                                        return (
+                                            <option
+                                                key={value}
+                                                disabled={!mostSuitableVariant}
+                                                value={value}
+                                                // className="hover:bg-grey text "
+                                            >
+                                                {value}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </label>
+                        </div>
+                    );
+                })}
+            </>
+        ),
+    };
+
+    return renderingTypes[renderingType] || null;
 };

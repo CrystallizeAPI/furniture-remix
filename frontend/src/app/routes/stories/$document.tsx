@@ -8,7 +8,8 @@ import { ParagraphCollection } from '~/core/components/crystallize-components/pa
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
-
+import { buildMetas } from '~/core/MicrodataBuilder';
+import { CuratedProductStory } from './currated-product-story';
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
@@ -17,43 +18,25 @@ type LoaderData = {
     document: Awaited<ReturnType<typeof CrystallizeAPI.fetchDocument>>;
 };
 
-export let meta: MetaFunction = ({ data }: { data: LoaderData }) => {
-    let metaData = data?.document?.meta?.content?.chunks?.[0];
-    let title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    let description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
-    let image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
-    let altDescription = data?.document?.components?.find((comp: any) => comp.id === 'description')?.content
-        ?.plainText?.[0];
-
-    return {
-        title: title || data?.document?.name,
-        'og:title': title || data?.document?.name,
-        description: description || altDescription,
-        'og:description': description || altDescription,
-        'og:image': image,
-        'twitter:image': image,
-        'twitter:card': 'summary_large_image',
-        'twitter:description': description || altDescription,
-    };
+export let meta: MetaFunction = ({ data }) => {
+    return buildMetas(data);
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
-    const path = `/stories/${params.story}`;
+    const path = `/stories/${params.document}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
 
     const document = await CrystallizeAPI.fetchDocument(secret.apiClient, path, version);
     return json<LoaderData>({ document }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
-export default function ProductPage() {
-    const { document } = useLoaderData() as LoaderData;
-
-    let getComponentContent = (id: string) => {
+const DefaultArticle = ({ document }: { document: any }) => {
+    const getComponentContent = (id: string) => {
         let component = document.components.find((component: any) => component.id === id);
-        return component.content;
+        return component?.content || null;
     };
 
     let title = getComponentContent('title')?.text;
@@ -66,7 +49,7 @@ export default function ProductPage() {
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     return (
-        <div className="">
+        <>
             <div className="2xl container mx-auto mt-40 mb-40">
                 <div className="px-6  max-w-[1000px]">
                     <p className="mb-4 text-md">{creationDate}</p>
@@ -104,6 +87,17 @@ export default function ProductPage() {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
+};
+
+export default function DocumentPage() {
+    const { document } = useLoaderData() as LoaderData;
+    if (document.shape.identifier === 'curated-product-story') {
+        return <CuratedProductStory document={document} />;
+    }
+    if (document.shape.identifier === 'default-document') {
+        return <DefaultArticle document={document} />;
+    }
+    return <div> No renderer for type</div>;
 }

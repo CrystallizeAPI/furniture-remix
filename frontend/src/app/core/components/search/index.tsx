@@ -48,7 +48,7 @@ export const SearchBar = () => {
                 />
                 <Link
                     to={`/search?q=${searchTerm}`}
-                    className="w-10 p-4 h-full text-[#fff] flex justify-center items-center  rounded-full"
+                    className="w-10 p-4 h-full text-[#fff] flex justify-center items-center rounded-full"
                 >
                     <img src={`${SearchIcon}`} alt="search icon" width="15" height="15" />
                 </Link>

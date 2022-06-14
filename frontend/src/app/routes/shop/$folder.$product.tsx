@@ -61,7 +61,7 @@ export default function ProductPage() {
     return (
         <div className="container p-8 px-202xl mx-auto">
             {showCart ? <Cart /> : null}
-            <div className="flex gap-20 xl:flex-row flex-col-reverse">
+            <div className="flex gap-20 lg:flex-row flex-col-reverse">
                 <div className="xl:w-4/6 w-full img-container">
                     <div className="img-container overflow-hidden rounded-md">
                         <ImageGallery images={selectedVariant?.images} />

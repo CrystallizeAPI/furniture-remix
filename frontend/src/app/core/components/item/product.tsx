@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
-import getRelativePriceVariants from '~/lib/pricing';
+import getRelativePriceVariants, { CurrencyFormatter } from '~/lib/pricing';
 
 export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
@@ -24,12 +24,14 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
 
                 {discountPrice?.price ? (
                     <div className="flex items-center gap-3">
-                        <p className="text-md text-green2 font-bold">€{discountPrice?.price}</p>
-                        <p className="text-sm line-through">€{defaultPrice?.price}</p>
+                        <p className="text-md text-green2 font-bold">
+                            {CurrencyFormatter.format(discountPrice?.price)}
+                        </p>
+                        <p className="text-sm line-through">{CurrencyFormatter.format(defaultPrice?.price)}</p>
                     </div>
                 ) : (
                     <div>
-                        <p className="text-md font-bold">€{item?.defaultVariant?.price}</p>
+                        <p className="text-md font-bold">{CurrencyFormatter.format(item?.defaultVariant?.price)}</p>
                     </div>
                 )}
             </div>

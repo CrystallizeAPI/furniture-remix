@@ -13,6 +13,13 @@
     button:hover {
         transform: scale(1.02, 1.02);
     }
+    .order-item span {
+        font-size: 11px;
+        color: #565959;
+    }
+    .order-item p {
+        font-size: 13px;
+    }
     .category-container img {
         object-fit: cover;
         width: 100%;

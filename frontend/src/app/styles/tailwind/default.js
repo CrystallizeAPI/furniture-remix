@@ -8,6 +8,7 @@ module.exports = {
             grey3: '#8F8F8F',
             grey4: '#DFDFDF',
             grey5: '#BBBBBB',
+            grey6: '#565959',
             buttonBg1: '#FBDCCE',
             buttonBg2: '#FAD2E1',
             buttonText: '#9E8376',

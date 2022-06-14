@@ -106,7 +106,7 @@ export const HydratedCart: React.FC = () => {
                                         >
                                             {' '}
                                             {item.quantity === 1 ? (
-                                                <img src={trashIcon} width="25" height="25" alt="Trash icon " />
+                                                <img src={trashIcon} width="25" height="25" alt="Trash icon" />
                                             ) : (
                                                 '-'
                                             )}{' '}

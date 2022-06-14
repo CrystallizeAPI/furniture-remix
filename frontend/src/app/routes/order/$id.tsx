@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     );
 };
 
-export default function Order() {
+export default () => {
     const { orderId } = useLoaderData();
     const [tryCount, setTryCount] = useState(0);
     const [order, setOrder] = useState<any | null>(null);
@@ -76,4 +76,4 @@ export default function Order() {
             )}
         </div>
     );
-}
+};

@@ -12,10 +12,10 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart'], shared.config));
 };
 
-export default function Cart() {
+export default () => {
     return (
         <div className="lg:w-content mx-auto w-full">
             <HydratedCart />
         </div>
     );
-}
+};

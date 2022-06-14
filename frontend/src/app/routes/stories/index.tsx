@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({ folder }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
-export default function FolderPage() {
+export default () => {
     const { folder } = useLoaderData();
     let title = folder.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = folder.components.find((component: any) => component.type === 'richText')?.content?.plainText;
@@ -40,4 +40,4 @@ export default function FolderPage() {
             </div>
         </div>
     );
-}
+};

@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     );
 };
 
-export default function CartPlaced() {
+export default () => {
     const { cart: localCart, empty } = useLocalCart();
     const { cartId } = useLoaderData();
     const [tryCount, setTryCount] = useState(0);
@@ -87,4 +87,4 @@ export default function CartPlaced() {
             </div>
         </div>
     );
-}
+};

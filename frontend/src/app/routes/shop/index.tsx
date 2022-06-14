@@ -36,7 +36,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
-export default function ShopPage() {
+export default () => {
     const { folder, navigation } = useLoaderData();
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
@@ -87,4 +87,4 @@ export default function ShopPage() {
             </div>
         </>
     );
-}
+};

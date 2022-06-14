@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json({ data, params }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [value], shared.config));
 };
 
-export default function Topics() {
+export default () => {
     let { data, params } = useLoaderData();
     return (
         <div className="container 2xl mx-auto px-6 mt-10">
@@ -24,4 +24,4 @@ export default function Topics() {
             <FilteredProducts products={data?.search?.edges} />
         </div>
     );
-}
+};

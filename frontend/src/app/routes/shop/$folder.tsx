@@ -54,7 +54,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     );
 };
 
-export default function FolderPage() {
+export default () => {
     const { folder, products, priceRange, isFiltered } = useLoaderData();
     let title = folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
@@ -67,4 +67,4 @@ export default function FolderPage() {
             {isFiltered ? <FilteredProducts products={products} /> : <ProductsList products={products} />}
         </div>
     );
-}
+};

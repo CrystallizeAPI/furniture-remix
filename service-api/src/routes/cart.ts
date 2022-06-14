@@ -6,10 +6,12 @@ import {
     cartPayload,
     CartWrapper,
     handleCartRequestPayload,
+    Price,
 } from '@crystallize/node-service-api-request-handlers';
 import { StandardRouting, validatePayload, ValidatingRequestRouting } from '@crystallize/node-service-api-router';
 import Koa from 'koa';
 import { v4 as uuidv4 } from 'uuid';
+import { extractDisountLotFromItemsBasedOnXForYTopic, groupSavingsPerSkus, TDItem } from '../core/discount';
 import { cartWrapperRepository } from '../services';
 
 export const cartBodyConvertedRoutes: ValidatingRequestRouting = {
@@ -20,9 +22,11 @@ export const cartBodyConvertedRoutes: ValidatingRequestRouting = {
             args: (context: Koa.Context): CartHydraterArguments => {
                 return {
                     hydraterBySkus: createProductHydrater(context.storeFront.apiClient).bySkus,
-                    perVariant: () => {
+                    perProduct: () => {
                         return {
-                            id: true,
+                            topics: {
+                                name: true,
+                            },
                         };
                     },
                 };
@@ -30,6 +34,67 @@ export const cartBodyConvertedRoutes: ValidatingRequestRouting = {
         },
     },
 };
+
+function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
+    const { cart, total } = wrapper.cart;
+    const lots = extractDisountLotFromItemsBasedOnXForYTopic(cart.items);
+    const savings = groupSavingsPerSkus(lots);
+
+    let totals: Price = {
+        gross: 0,
+        currency: 'EUR',
+        net: 0,
+        taxAmount: 0,
+        discounts: [
+            {
+                amount: 0,
+                percent: 0,
+            },
+        ],
+    };
+
+    const alteredItems = cart.items.map((item) => {
+        const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
+        const grossAmount = item.price.gross - (saving?.amount || 0);
+        const taxAmount = (grossAmount * (item.product?.vatType?.percent || 0)) / 100;
+        const netAmount = grossAmount + taxAmount;
+        const discount = {
+            amount: saving?.amount || 0,
+            percent: ((saving?.amount || 0) / grossAmount) * 100,
+        };
+        totals.taxAmount += taxAmount;
+        totals.gross += grossAmount;
+        totals.net += netAmount;
+        totals.currency = total.currency;
+        totals.discounts![0].amount += saving?.amount || 0;
+        return {
+            ...item,
+            price: {
+                gross: grossAmount,
+                net: netAmount,
+                currency: item.price.currency,
+                taxAmount,
+                discounts: [discount],
+            },
+        };
+    });
+
+    return {
+        ...wrapper,
+        cart: {
+            total: totals,
+            cart: {
+                items: alteredItems,
+            },
+        },
+        extra: {
+            discounts: {
+                lots,
+                savings,
+            },
+        },
+    };
+}
 
 async function handleAndSaveCart(cart: Cart, providedCartId: string): Promise<CartWrapper> {
     let cartId = providedCartId;
@@ -46,6 +111,9 @@ async function handleAndSaveCart(cart: Cart, providedCartId: string): Promise<Ca
         cartWrapper = { ...storedCartWrapper };
         cartWrapper.cart = cart;
     }
+
+    // handle discount
+    cartWrapper = alterCartBasedOnDiscounts(cartWrapper);
 
     if (!cartWrapperRepository.save(cartWrapper)) {
         return storedCartWrapper || cartWrapper;

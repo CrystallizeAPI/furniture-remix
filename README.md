@@ -20,7 +20,7 @@ For a better experience and respect the [Twelve-Facter App](https://12factor.net
 
 ## Add local domains
 
-Add an entry for the subdomains in your `/etc/host` file:
+Add an entry for the subdomains in your `/etc/hosts` file:
 
 ```
 127.0.0.1 furniture.superfast.crystal furniture.sapi.superfast.crystal
@@ -38,7 +38,7 @@ This will:
 
 -   install the Certificate Authority using `mkcert`
 -   generate the certificates `mkcert` for `*.superfast.crystal`
--   `npm install` the `front-end` folder and `service-api` folder
+-   `npm install` the `frontend` folder and `service-api` folder
 
 ## Run the project
 
@@ -58,7 +58,7 @@ This will:
 -   Service API: https://furniture.sapi.superfast.crystal
 -   Mailcatcher - Web: http://localhost:3022
 -   Mailcatcher SMTP: http://localhost:3021
--   Redis: http://localhost:3023
+-   Redis: tcp://localhost:3023
 
 > Note: to connect to Redis: `docker run --rm --net=host -it redis redis-cli -h 127.0.0.1 -p 3023`
 

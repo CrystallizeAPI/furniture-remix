@@ -1,12 +1,23 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
-import getRelativePriceVariants, { CurrencyFormatter } from '~/lib/pricing';
+import displayPriceFor from '~/lib/pricing/pricing';
+import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 
 export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
-    let { defaultPrice, discountPercentage, discountPrice } = getRelativePriceVariants(
-        item?.defaultVariant?.priceVariants,
+    const {
+        default: defaultPrice,
+        discounted: discountPrice,
+        percent: discountPercentage,
+        currency,
+    } = displayPriceFor(
+        item?.defaultVariant,
+        {
+            default: 'default',
+            discounted: 'sales',
+        },
+        'EUR',
     );
 
     return (
@@ -22,16 +33,20 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
             <div className="grow-0">
                 <h3>{item.name}</h3>
 
-                {discountPrice?.price ? (
+                {discountPrice > 0 ? (
                     <div className="flex items-center gap-3">
                         <p className="text-md text-green2 font-bold">
-                            {CurrencyFormatter.format(discountPrice?.price)}
+                            <CrystallizePrice currencyCode={currency.code}>{discountPrice}</CrystallizePrice>
                         </p>
-                        <p className="text-sm line-through">{CurrencyFormatter.format(defaultPrice?.price)}</p>
+                        <p className="text-sm line-through">
+                            <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
+                        </p>
                     </div>
                 ) : (
                     <div>
-                        <p className="text-md font-bold">{CurrencyFormatter.format(item?.defaultVariant?.price)}</p>
+                        <p className="text-md font-bold">
+                            <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
+                        </p>
                     </div>
                 )}
             </div>

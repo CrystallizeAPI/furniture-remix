@@ -33,7 +33,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json<LoaderData>({ document }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
-export default function ProductPage() {
+export default () => {
     const { document } = useLoaderData() as LoaderData;
 
     let getComponentContent = (id: string) => {
@@ -91,4 +91,4 @@ export default function ProductPage() {
             )}
         </div>
     );
-}
+};

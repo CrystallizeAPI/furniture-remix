@@ -33,7 +33,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json({ product }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
-export default function ProductPage() {
+export default () => {
     const { product } = useLoaderData();
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
@@ -78,17 +78,19 @@ export default function ProductPage() {
                             selectedVariant={selectedVariant}
                             onVariantChange={onVariantChange}
                         />
-                        <div className="flex justify-between items-end">
-                            <Price priceVariants={selectedVariant.priceVariants} />
-                            <button
-                                className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100"
-                                onClick={() => {
-                                    handleClick();
-                                }}
-                            >
-                                Add to Cart
-                            </button>
-                        </div>
+                        {selectedVariant && (
+                            <div className="flex justify-between items-end">
+                                <Price variant={selectedVariant} />
+                                <button
+                                    className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100"
+                                    onClick={() => {
+                                        handleClick();
+                                    }}
+                                >
+                                    Add to Cart
+                                </button>
+                            </div>
+                        )}
 
                         <div className="bg-[#dfdfdf] h-[1px] mt-5" />
                         <StockLocations locations={selectedVariant?.stockLocations} />
@@ -100,11 +102,11 @@ export default function ProductPage() {
                     <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
                     <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
                         {relatedProducts?.map((item: any, index: number) => (
-                            <Product item={item} />
+                            <Product item={item} key={`${item?.id}-${index}`} />
                         ))}
                     </div>
                 </div>
             )}
         </div>
     );
-}
+};

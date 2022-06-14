@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config));
 };
 
-export default function Checkout() {
+export default () => {
     const { isAuthenticated } = useAuth();
     const { cart } = useLocalCart();
     const [isGuestCheckout, setIsGuestCheckout] = useState(false);
@@ -59,4 +59,4 @@ export default function Checkout() {
             </div>
         </div>
     );
-}
+};

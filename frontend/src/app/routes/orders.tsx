@@ -5,7 +5,7 @@ import { useAuth } from '~/core/hooks/useAuth';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { ServiceAPI } from '~/core/use-cases/service-api';
-import { CurrencyFormatter } from '~/lib/pricing';
+import { Price } from '~/lib/pricing/pricing-component';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config));
 };
 
-export default function OrdersPage() {
+export default () => {
     const { isAuthenticated } = useAuth();
     const [orders, setOrders] = useState<any | null>(null);
 
@@ -55,7 +55,9 @@ export default function OrdersPage() {
                                         </div>
                                         <div className="order-item">
                                             <span>Total</span>
-                                            <p className="text-grey6">{CurrencyFormatter.format(order.total.gross)}</p>
+                                            <p className="text-grey6">
+                                                <Price currencyCode={order.total.currency}>{order.total.gross}</Price>
+                                            </p>
                                         </div>
                                     </div>
                                     <div className="p-5 flex flex-col gap-5">
@@ -64,7 +66,7 @@ export default function OrdersPage() {
                                                 <p className="w-40">{item.name}</p>
                                                 <p className="w-20">{item.quantity}</p>
                                                 <p className="w-20 text-right">
-                                                    {CurrencyFormatter.format(item.price.gross)}
+                                                    <Price currencyCode={item.price.currency}>{item.price.gross}</Price>
                                                 </p>
                                             </div>
                                         ))}
@@ -81,4 +83,4 @@ export default function OrdersPage() {
             )}
         </div>
     );
-}
+};

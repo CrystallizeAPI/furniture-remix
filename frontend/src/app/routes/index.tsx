@@ -36,7 +36,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json<LoaderData>({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
-export default function HomePage() {
+export default () => {
     const { data } = useLoaderData() as LoaderData;
     let grid = data?.component?.content?.grids;
     return (
@@ -48,4 +48,4 @@ export default function HomePage() {
             ))}
         </div>
     );
-}
+};

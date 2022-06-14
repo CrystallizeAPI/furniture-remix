@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['search'], shared.config));
 };
 
-export default function SearchPage() {
+export default () => {
     let { data } = useLoaderData();
 
     return (
@@ -32,4 +32,4 @@ export default function SearchPage() {
             )}
         </div>
     );
-}
+};

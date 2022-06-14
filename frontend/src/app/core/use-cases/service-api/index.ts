@@ -16,6 +16,7 @@ export const ServiceAPI = {
     sendGuestPaidOrder,
     placeCart,
     registerAndSendMagickLink,
+    sendMagickLink,
     fetchCart,
 };
 
@@ -58,6 +59,14 @@ async function placeCart(cart: LocalCart, guest?: Partial<Guest>) {
 
 async function registerAndSendMagickLink(userInfos: any) {
     return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
+}
+
+async function sendMagickLink(email: string, callbackPath: string) {
+    return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink?callbackPath=' + callbackPath, {
+        email,
+        firstname: '',
+        lastname: '',
+    });
 }
 
 async function fetchCart(cartId: string) {

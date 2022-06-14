@@ -1,6 +1,6 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { useEffect, useState } from 'react';
-import { RegisterCheckoutForm } from '~/core/components/checkout-forms/register';
+import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
 import { useAuth } from '~/core/hooks/useAuth';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { getStoreFront } from '~/core/storefront/storefront.server';
@@ -76,7 +76,7 @@ export default function OrdersPage() {
             ) : (
                 <div>
                     <div>You need to be logged in to see your orders.</div>
-                    <RegisterCheckoutForm enabledGuest={() => false} />
+                    <MagickLoginForm title="Login" onlyLogin actionTitle="Login" />
                 </div>
             )}
         </div>

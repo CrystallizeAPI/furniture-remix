@@ -22,9 +22,9 @@ export const magickLinkBodyConvertedRoutes: ValidatingRequestRouting = {
                 return {
                     mailer,
                     jwtSecret: `${process.env.JWT_SECRET}`,
-                    confirmLinkUrl: `http${context.secure ? 's' : ''}://${
-                        context.request.host
-                    }/confirm/email/magicklink/:token`,
+                    confirmLinkUrl:
+                        `http${context.secure ? 's' : ''}://${context.request.host}/confirm/email/magicklink/:token` +
+                        (context.query.callbackPath ? `?callbackPath=${context.query.callbackPath}` : ''),
                     subject: '[Crystallize - Boilerplate] - Magic link login',
                     from: 'hello@crystallize.com',
                     buildHtml: (request: MagickLinkUserInfosPayload, link: string) =>
@@ -54,11 +54,12 @@ export const magickLinkBodyConvertedRoutes: ValidatingRequestRouting = {
                 const frontendURL = config.isValidPlatform()
                     ? config.getRoute('frontapp').url.replace(/\/$/, '').replace('*', context.storeFront.identifier)
                     : (process.env.FRONTEND_URL_PATTERN || '').replace('%s', context.storeFront.config.identifier);
+                const backLinkPath = context.query.callbackPath ? context.query.callbackPath : '/checkout';
                 return {
                     token: context.params.token,
                     host: context.request.host,
                     jwtSecret: `${process.env.JWT_SECRET}`,
-                    backLinkPath: `${frontendURL}/checkout?token=:token`,
+                    backLinkPath: `${frontendURL}${backLinkPath}?token=:token`,
                     setCookie: (name: string, value: string) => {
                         context.cookies.set(name, value, { httpOnly: false, secure: context.secure });
                     },

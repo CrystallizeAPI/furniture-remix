@@ -5,7 +5,7 @@ import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { Payments } from '~/core/components/payments';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { CheckoutCart } from '~/core/components/checkout-forms/cart';
-import { RegisterCheckoutForm } from '~/core/components/checkout-forms/register';
+import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
 import { GuestCheckoutForm } from '~/core/components/checkout-forms/guest';
 import { useState } from 'react';
 import { getStoreFront } from '~/core/storefront/storefront.server';
@@ -28,13 +28,25 @@ export default function Checkout() {
             <div className="flex gap-20 w-full">
                 <CheckoutCart />
                 <div className="rounded pt-5 px-10 w-3/5">
-                    <ClientOnly fallback={<RegisterCheckoutForm enabledGuest={() => setIsGuestCheckout(true)} />}>
+                    <ClientOnly
+                        fallback={
+                            <MagickLoginForm
+                                enabledGuest={() => setIsGuestCheckout(true)}
+                                actionTitle="Register"
+                                title="Register or continue as guest?"
+                            />
+                        }
+                    >
                         {(() => {
                             if (!isAuthenticated) {
                                 return isGuestCheckout ? (
                                     <GuestCheckoutForm />
                                 ) : (
-                                    <RegisterCheckoutForm enabledGuest={() => setIsGuestCheckout(true)} />
+                                    <MagickLoginForm
+                                        enabledGuest={() => setIsGuestCheckout(true)}
+                                        actionTitle="Register"
+                                        title="Register or continue as guest?"
+                                    />
                                 );
                             }
                             if (cart.cartId !== '') {

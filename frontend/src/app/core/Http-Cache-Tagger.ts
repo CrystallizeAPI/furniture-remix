@@ -1,4 +1,4 @@
-import { TStoreFrontConfig } from 'src/lib/storefrontaware/types';
+import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 
 // From https://github.com/jkroso/parse-duration that we cannot installed on Remix
 const parse = (duration: string, format: string): number => {

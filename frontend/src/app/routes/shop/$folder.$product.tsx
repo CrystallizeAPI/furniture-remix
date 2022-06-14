@@ -59,16 +59,16 @@ export default function ProductPage() {
     }, [location.pathname]);
 
     return (
-        <div className="container p-8 px-202xl mx-auto">
+        <div className="p-8 px-20 mx-auto">
             {showCart ? <Cart /> : null}
             <div className="flex gap-20 lg:flex-row flex-col-reverse">
-                <div className="xl:w-4/6 w-full img-container">
+                <div className="lg:w-4/6 w-full img-container">
                     <div className="img-container overflow-hidden rounded-md">
                         <ImageGallery images={selectedVariant?.images} />
                     </div>
                     <ProductBody components={product?.components} />
                 </div>
-                <div className="xl:w-2/6 w-full">
+                <div className="lg:w-2/6 w-full">
                     <div className="flex flex-col gap-4 sticky top-8">
                         {product.topics && <TopicLabels labels={product?.topics} />}
                         <h1 className="font-bold text-4xl">{title}</h1>

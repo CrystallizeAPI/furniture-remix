@@ -58,7 +58,7 @@ export default function displayPriceFor(
     return {
         default: defaultPrice,
         discounted: discountedPrice,
-        percent: ((defaultPrice - discountedPrice) / defaultPrice) * 100,
+        percent: Math.round(((defaultPrice - discountedPrice) / defaultPrice) * 100),
         currency,
     };
 }

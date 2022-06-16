@@ -1,12 +1,13 @@
 import { Image } from '@crystallize/reactjs-components';
 import { ItemViewComponentProps } from '../../../../lib/grid-tile/types';
 import { Link } from '@remix-run/react';
-export const Document: React.FC<ItemViewComponentProps> = ({ item }) => {
+import { CuratedProduct } from './curated-product';
+
+const DefaultDocument = ({ item }) => {
     const title = item?.components?.find((component: any) => component?.id === 'title')?.content?.text;
     const media = item?.components?.find((component: any) => component?.id === 'media')?.content?.selectedComponent
         ?.content;
     const description = item?.components?.find((component: any) => component?.id === 'description')?.content?.plainText;
-
     return (
         <Link
             to={item.path}
@@ -29,4 +30,10 @@ export const Document: React.FC<ItemViewComponentProps> = ({ item }) => {
             </div>
         </Link>
     );
+};
+export const Document: React.FC<ItemViewComponentProps> = ({ item }) => {
+    if (item.shape.identifier === 'curated-product-story') {
+        return <CuratedProduct item={item} />;
+    }
+    return <DefaultDocument item={item} />;
 };

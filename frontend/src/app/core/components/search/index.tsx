@@ -35,7 +35,6 @@ export const SearchBar = () => {
             console.error(error);
         }
     };
-    console.log({ suggestions });
     return (
         <div className=" w-[340px] px-4 relative ">
             <div className="bg-grey relative z-30 flex items-center justify-between bg-grey h-10 rounded-full overflow-hidden focus-within:border">

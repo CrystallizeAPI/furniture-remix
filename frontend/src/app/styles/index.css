@@ -97,6 +97,25 @@
         width: 12px;
         height: 12px;
     }
+    .frntr-hotspot span > div {
+        /* transform: scale(0, 0); */
+        transition: all 0.1s ease-in-out;
+        background: #fff;
+        width: 180px;
+        bottom: 110%;
+        position: absolute;
+        transform-origin: center bottom;
+        transform: scale(1, 0) translateX(-70px) translateY(-50%);
+    }
+    .frntr-hotspot.frntr-hotspot-microformat span:hover > div {
+        transform: scale(1, 1) translateX(-70px) translateY(0);
+    }
+
+    .frntr-hotspot.frntr-hotspot-microformat {
+        width: 100%;
+        height: 100%;
+    }
+
     .frntr-img-gallery {
         position: relative;
         display: flex;

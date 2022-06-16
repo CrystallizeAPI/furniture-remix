@@ -161,6 +161,13 @@ export const cartStandardRoutes: StandardRouting = {
                 const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
                 const cart = await handleCartRequestPayload(request, {
                     hydraterBySkus: createProductHydrater(ctx.storeFront.apiClient).bySkus,
+                    perVariant: () => {
+                        return {
+                            firstImage: {
+                                url: true,
+                            },
+                        };
+                    },
                 });
                 const customer = {
                     identifier: ctx.user.aud,
@@ -176,6 +183,13 @@ export const cartStandardRoutes: StandardRouting = {
                 const request = validatePayload<CartPayload>(cartPayload, ctx.request.body);
                 const cart = await handleCartRequestPayload(request, {
                     hydraterBySkus: createProductHydrater(ctx.storeFront.apiClient).bySkus,
+                    perVariant: () => {
+                        return {
+                            firstImage: {
+                                url: true,
+                            },
+                        };
+                    },
                 });
                 const customer = {
                     ...ctx.request.body.guest,

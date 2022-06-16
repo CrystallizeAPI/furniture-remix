@@ -66,7 +66,8 @@ export default () => {
                                                 <p className="w-40">{item.name}</p>
                                                 <p className="w-20">{item.quantity}</p>
                                                 <p className="w-20 text-right">
-                                                    <Price currencyCode={item.price.currency}>{item.price.gross}</Price>
+                                                    {/* adding because orders aren't returning currency, will be fixed */}
+                                                    <Price currencyCode={item.price.currency || 'EUR'}>{item.price.gross}</Price>
                                                 </p>
                                             </div>
                                         ))}

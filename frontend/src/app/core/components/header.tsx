@@ -25,20 +25,31 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                         <div className="flex flex-auto justify-between items-center w-1/4">
                             <Link to="/" prefetch="intent">
-                                <img src={storeFrontState.config.logo} width="150" height="30" />
+                                <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
+                                    <img
+                                        src={storeFrontState.config.logo}
+                                        width="150"
+                                        height="30"
+                                        alt={storeFrontState.config.identifier + ` logo`}
+                                        style={{
+                                            width: 'auto',
+                                            height: '100%',
+                                        }}
+                                    />
+                                </div>
                             </Link>
                         </div>
-                        <div className="flex w-3/4 gap-5">
+                        <div className="flex w-3/4 gap-5 justify-end">
                             {paths.map((path) => (
                                 <div
                                     key={path.path}
-                                    className={`w-1/4 border-b-2 pb-2 ${
+                                    className={`w-1/4 border-b-4 pb-2 ${
                                         location.pathname === path.path
                                             ? 'border-b-[#000] text-[#000]'
                                             : 'border-b-grey5 text-grey5'
                                     }`}
                                 >
-                                    <Link to={path.path} prefetch="intent">
+                                    <Link to={path.path} prefetch="intent" className="text-sm font-medium">
                                         {path.name}
                                     </Link>
                                 </div>
@@ -46,49 +57,63 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </div>
                     </div>
                 ) : (
-                    <div className="flex flex-auto items-center justify-between mb-5 w-full">
-                        <div className="flex flex-auto justify-between items-center">
-                            <div className="flex gap-10 items-center">
-                                <Link to="/" prefetch="intent">
-                                    <img src={storeFrontState.config.logo} width="150" height="30" alt="Logo" />
-                                </Link>
+                    <div className=" justify-between-full fixed z-40 bg-[#fff] w-full left-0 top-0">
+                        <div className="flex flex-auto items-center mx-auto px-6 container lg pt-3 pb-2">
+                            <div className="flex container mx-auto flex-auto justify-between items-center">
                                 <div className="flex gap-10 items-center">
-                                    <SearchBar />
-                                    {navigation?.folders?.tree?.children
-                                        .filter((item: any) => {
-                                            return (
-                                                item.__typename === 'Folder' &&
-                                                item.children?.length > 0 &&
-                                                !item.name.startsWith('_')
-                                            );
-                                        })
-                                        .map((item: any) => {
-                                            return (
-                                                <Link
-                                                    to={item.path}
-                                                    prefetch="intent"
-                                                    key={item.path}
-                                                    className="hover:underline"
-                                                >
-                                                    {item.name}
-                                                </Link>
-                                            );
-                                        })}
-                                    <TopicNavigation navigation={navigation.topics} />
+                                    {console.log({ storeFrontState })}
+                                    <Link to="/" prefetch="intent">
+                                        <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
+                                            <img
+                                                src={storeFrontState.config.logo}
+                                                width="150"
+                                                height="30"
+                                                alt={storeFrontState.config.identifier + ` logo`}
+                                                style={{
+                                                    width: 'auto',
+                                                    height: '100%',
+                                                }}
+                                            />
+                                        </div>
+                                    </Link>
+                                    <div className="flex gap-10 items-center">
+                                        <SearchBar />
+                                        {navigation?.folders?.tree?.children
+                                            .filter((item: any) => {
+                                                return (
+                                                    item.__typename === 'Folder' &&
+                                                    item.children?.length > 0 &&
+                                                    !item.name.startsWith('_')
+                                                );
+                                            })
+                                            .map((item: any) => {
+                                                return (
+                                                    <Link
+                                                        to={item.path}
+                                                        prefetch="intent"
+                                                        key={item.path}
+                                                        className="hover:underline"
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                );
+                                            })}
+                                        <TopicNavigation navigation={navigation.topics} />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex flex-auto items-center justify-end ">
-                            <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
-                                <img
-                                    className="w-[30px] h-[30px]"
-                                    src={`${UserIcon}`}
-                                    width="25"
-                                    height="25"
-                                    alt="User icon"
-                                />
-                            </Link>
-                            <BasketButton />
+                            <div className="flex flex-auto items-center justify-end ">
+                                <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
+                                    <img
+                                        className="w-[30px] h-[30px]"
+                                        src={`${UserIcon}`}
+                                        width="25"
+                                        height="25"
+                                        alt="User icon"
+                                    />
+                                </Link>
+                                <BasketButton />
+                            </div>
                         </div>
                     </div>
                 )}

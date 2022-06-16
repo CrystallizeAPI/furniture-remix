@@ -22,9 +22,9 @@ export const MagickLoginForm: React.FC<{
     };
 
     return (
-        <div className="flex flex-col gap-2 mt-3">
-            <h1 className="font-bold text-2xl">{title}</h1>
-            <p className="mb-5">We'll send you a magick link.</p>
+        <div className="flex flex-col gap-2 min-w-[500px]">
+            <h1 className="font-bold text-3xl">{title}</h1>
+            <p className="mb-5  text-lg">We'll send you a magick link.</p>
             <form
                 onSubmit={async (event: FormEvent<HTMLFormElement>) => {
                     event.preventDefault();
@@ -67,11 +67,11 @@ export const MagickLoginForm: React.FC<{
                         onChange={handleChange}
                     />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-start">
                     {enabledGuest && (
                         <button
                             type="button"
-                            className="underline px-5 py-2 ml-2 rounded mt-5 w-40"
+                            className="underline w-full px-5 py-2 ml-2 rounded mt-5 w-40"
                             onClick={() => {
                                 if (enabledGuest) {
                                     enabledGuest();

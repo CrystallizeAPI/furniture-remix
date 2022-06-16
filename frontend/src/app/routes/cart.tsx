@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default () => {
     return (
-        <div className="lg:w-content mx-auto w-full">
+        <div className="lg:w-content mx-auto w-full min-h-[90vh]">
             <HydratedCart />
         </div>
     );

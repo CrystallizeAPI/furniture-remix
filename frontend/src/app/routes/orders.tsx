@@ -79,8 +79,7 @@ export default () => {
                     </div>
                 </>
             ) : (
-                <div>
-                    <div>You need to be logged in to see your orders.</div>
+                <div className="flex h-[60vh] w-full justify-center items-center">
                     <MagickLoginForm title="Login" onlyLogin actionTitle="Login" />
                 </div>
             )}

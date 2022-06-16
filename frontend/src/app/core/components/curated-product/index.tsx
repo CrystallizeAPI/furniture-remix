@@ -47,7 +47,7 @@ const Product = ({ product, current, productIndex }: { product: any; current: an
                     </div>
                     <div className="pl-4 pb-2">
                         {selectedVariant.name}
-                        <Price variant={selectedVariant} />
+                        <Price variant={selectedVariant} size="small" />
                     </div>
                 </div>
                 <div className="flex gap-2">

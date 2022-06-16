@@ -21,7 +21,7 @@ export default () => {
     let { data } = useLoaderData();
 
     return (
-        <div className="lg:w-content mx-auto w-full">
+        <div className="container px-6 mx-auto w-full">
             <h1 className="font-bold text-4xl mt-10">Search</h1>
             {data.length > 0 ? (
                 <div>

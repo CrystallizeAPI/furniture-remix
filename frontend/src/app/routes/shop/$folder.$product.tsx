@@ -59,7 +59,7 @@ export default () => {
     }, [location.pathname]);
 
     return (
-        <div className="p-8 px-20 mx-auto">
+        <div className="p-8 px-6 mx-auto container">
             {showCart ? <Cart /> : null}
             <div className="flex gap-20 lg:flex-row flex-col-reverse">
                 <div className="lg:w-4/6 w-full img-container">

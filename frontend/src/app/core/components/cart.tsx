@@ -84,7 +84,26 @@ export const HydratedCart: React.FC = () => {
     const { lots, savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
 
     if (isEmpty()) {
-        return null;
+        return (
+            <div className="min-h-[60vh] flex w-full flex-col gap-6 justify-center items-start ">
+                <div className="w-full flex items-center">
+                    <div className="overflow-hidden w-[200px] ">
+                        <div className="-ml-[50px]">
+                            <iframe width="300px" src="https://embed.lottiefiles.com/animation/823" />
+                        </div>
+                    </div>
+                    <div className="mt-10">
+                        <div className="flex  pb-2 text-3xl font-semibold ">Woah, nothing in your cart yet</div>
+                        <div className="flex w-full">
+                            Try going back and find something beautiul before you come back
+                        </div>
+                        <button className="bg-grey mt-3 py-2 px-5 rounded-md text-center text-xl font-semibold">
+                            <Link to="/">Back</Link>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

@@ -22,6 +22,7 @@
         "@crystallize/js-storefrontaware-utils": "^0.1.2",
         "@crystallize/node-service-api-request-handlers": "^0.4.2",
         "@crystallize/node-service-api-router": "^0.4.0",
+        "@sendgrid/mail": "^7.7.0",
         "dotenv": "^8.2.0",
         "koa": "^2.13.4",
         "koa-bodyparser": "^4.3.0",

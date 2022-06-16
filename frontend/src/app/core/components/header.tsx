@@ -61,7 +61,6 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <div className="flex flex-auto items-center mx-auto px-6 container lg pt-3 pb-2">
                             <div className="flex container mx-auto flex-auto justify-between items-center">
                                 <div className="flex gap-10 items-center">
-                                    {console.log({ storeFrontState })}
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                             <img

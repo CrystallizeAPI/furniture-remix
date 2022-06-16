@@ -40,7 +40,7 @@ export default () => {
         <div className="container 2xl px-6 mx-auto w-full">
             {isAuthenticated ? (
                 <>
-                    <h1 className="text-2xl font-semibold mb-10">Your Orders</h1>
+                    <h1 className="text-2xl font-semibold my-10">Your Orders</h1>
                     <div>
                         {orders &&
                             orders.map((order: any, index: number) => (
@@ -88,7 +88,7 @@ export default () => {
                     </div>
                 </>
             ) : (
-                <div className="">
+                <div>
                     <h1 className="text-center text-4xl mb-4 mt-10">Hey, there!</h1>
                     <p className="mb-4 text-center">You need to be logged in to see your orders.</p>
                     <div className="w-2/4 mx-auto shadow-lg p-6">

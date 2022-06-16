@@ -73,6 +73,55 @@
         background-position: right 0.7em top 50%, 0 0;
         background-size: 0.65em auto, 100%;
     }
+    .frntr-hotspot span {
+        width: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        border-radius: 50%;
+        transform-origin: center;
+        border: 0px solid rgba(255, 255, 255, 0.4);
+        transition: all 0.1s ease-in-out;
+        cursor: pointer;
+    }
+    .frntr-hotspot span:hover {
+        border: 4px solid rgba(255, 255, 255, 0.4);
+    }
+    .frntr-hotspot span:after {
+        position: absolute;
+        background: #fff;
+        width: 16px;
+        height: 16px;
+        content: '';
+        border: 1px solid #000;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.1s ease-in-out;
+    }
+    .frntr-hotspot span:hover:after {
+        width: 12px;
+        height: 12px;
+    }
+    .frntr-hotspot span > div {
+        /* transform: scale(0, 0); */
+        transition: all 0.1s ease-in-out;
+        background: #fff;
+        width: 180px;
+        bottom: 110%;
+        position: absolute;
+        transform-origin: center bottom;
+        transform: scale(1, 0) translateX(-70px) translateY(-50%);
+    }
+    .frntr-hotspot.frntr-hotspot-microformat span:hover > div {
+        transform: scale(1, 1) translateX(-70px) translateY(0);
+    }
+
+    .frntr-hotspot.frntr-hotspot-microformat {
+        width: 100%;
+        height: 100%;
+    }
 
     .frntr-img-gallery {
         position: relative;

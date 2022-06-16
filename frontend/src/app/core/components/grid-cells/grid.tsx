@@ -27,10 +27,17 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
 
         const component = cell.item.components.find((component: any) => component.id === 'styling');
         if (!component) {
-            return styles;
+            console.log({ cell });
+
+            return {
+                ...styles,
+                gridColumn: `${cell.position.colIndex + 2} / span ${cell.layout.colspan}`,
+                gridRow: `${cell.position.rowIndex + 1} / span ${cell.layout.rowspan}`,
+            };
         }
         const isFullWidth = component?.content?.chunks[0]?.find((chunk: any) => chunk.id === 'use-full-width')?.content
             ?.value;
+
         if (!isFullWidth) {
             return {
                 ...styles,
@@ -38,6 +45,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                 gridRow: `${cell.position.rowIndex + 1} / span ${cell.layout.rowspan}`,
             };
         }
+
         return {
             ...styles,
             gridColumn: `1 / span ${totalColumns + 2}`,
@@ -75,6 +83,8 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                         width: '100%',
                         minHeight: '100%',
                         display: 'flex',
+                        alignItems: 'stretch',
+                        justifyContent: 'stretch',
                     },
                 }}
             />

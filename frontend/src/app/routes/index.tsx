@@ -39,6 +39,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default () => {
     const { data } = useLoaderData() as LoaderData;
     let grid = data?.component?.content?.grids;
+    console.log({ grid });
     return (
         <div className="min-h-[100vh]">
             {grid?.map((grid: any, index: number) => (

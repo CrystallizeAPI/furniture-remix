@@ -21,17 +21,21 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     );
 
     return (
-        <Link to={item.path} prefetch="intent" className="flex flex-col h-full relative">
+        <Link
+            to={item.path}
+            prefetch="intent"
+            className="grid grid-rows-[1fr_60px] place-items-stretch h-full min-h-full w-full justify-stretch items-stretch "
+        >
             {discountPercentage > 0 && (
                 <div className="absolute top-3 right-2 bg-green2 p-3 rounded-full w-[50px] h-[50px] text-[#fff]">
                     {discountPercentage}%
                 </div>
             )}
-            <div className="img-container img-contain border-solid border border-[#dfdfdf] min-h-[220px] bg-[#fff] rounded-md h-full overflow-hidden grow-1">
+            <div className="img-container h-[3/4] img-contain border-solid border border-[#dfdfdf] min-h-full bg-[#fff] rounded-md h-full overflow-hidden grow-1">
                 <Image {...image} sizes="300px" loading="lazy" />
             </div>
-            <div className="grow-0">
-                <h3>{item.name}</h3>
+            <div className="pl-1 h-[1/4] ">
+                <h3 className="text-lg">{item.name}</h3>
 
                 {discountPrice > 0 ? (
                     <div className="flex items-center gap-3">

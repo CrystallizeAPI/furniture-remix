@@ -27,8 +27,6 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
 
         const component = cell.item.components.find((component: any) => component.id === 'styling');
         if (!component) {
-            console.log({ cell });
-
             return {
                 ...styles,
                 gridColumn: `${cell.position.colIndex + 2} / span ${cell.layout.colspan}`,

@@ -37,7 +37,6 @@ export const Grid: React.FC<{
                 }
                 const tile = normalizeTile(cellItem);
                 if (tile?.view) {
-                    console.log({ tile });
                     const Component = tileViewComponentMapping[tile.view] || GenericTileView;
                     return (
                         <Tile tile={tile} options={options}>

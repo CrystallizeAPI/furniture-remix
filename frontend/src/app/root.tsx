@@ -34,7 +34,9 @@ function getTailwindThemeForConfig(theme: string) {
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return {
-        Link: `<${getTailwindThemeForConfig(loaderHeaders.get('X-SuperFast-Theme') as string)}>; rel=preload; as=style; crossorigin=anonymous`,
+        Link: `<${getTailwindThemeForConfig(
+            loaderHeaders.get('X-SuperFast-Theme') as string,
+        )}>; rel=preload; as=style; crossorigin=anonymous`,
     };
 };
 

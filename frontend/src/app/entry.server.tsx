@@ -23,7 +23,9 @@ export default function handleRequest(
     responseHeaders.set(
         'Link',
         (responseHeaders.has('Link') ? responseHeaders.get('Link') + ',' : '') +
-            http2PushLinksHeaders.map((link: string) => `<${link}>; rel=preload; as=script; crossorigin=anonymous`).join(','),
+            http2PushLinksHeaders
+                .map((link: string) => `<${link}>; rel=preload; as=script; crossorigin=anonymous`)
+                .join(','),
     );
 
     return new Response('<!DOCTYPE html>' + markup, {

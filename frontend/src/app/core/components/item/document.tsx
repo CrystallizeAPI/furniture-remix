@@ -3,7 +3,7 @@ import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import { Link } from '@remix-run/react';
 import { CuratedProduct } from './curated-product';
 
-const DefaultDocument = ({ item }: {item: any}) => {
+const DefaultDocument = ({ item }: { item: any }) => {
     const title = item?.components?.find((component: any) => component?.id === 'title')?.content?.text;
     const media = item?.components?.find((component: any) => component?.id === 'media')?.content?.selectedComponent
         ?.content;

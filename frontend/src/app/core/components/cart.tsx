@@ -4,7 +4,6 @@ import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import trashIcon from '~/assets/trashIcon.svg';
-import { Price } from './price';
 import { DisplayPrice, Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 import { getCurrencyFromCode } from '~/lib/pricing/currencies';
 

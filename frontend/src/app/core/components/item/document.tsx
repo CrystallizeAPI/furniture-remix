@@ -1,6 +1,6 @@
 import { Image } from '@crystallize/reactjs-components';
-import { ItemViewComponentProps } from '../../../../lib/grid-tile/types';
 import { Link } from '@remix-run/react';
+import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
 
 const DefaultDocument = ({ item }: { item: any }) => {

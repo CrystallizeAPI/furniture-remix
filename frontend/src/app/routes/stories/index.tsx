@@ -5,7 +5,6 @@ import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { Document } from '~/core/components/item/document';
-import { CuratedProduct } from '~/core/components/item/curated-product';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

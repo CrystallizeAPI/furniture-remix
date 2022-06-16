@@ -2,7 +2,7 @@ import { ProductVariant } from '@crystallize/js-api-client';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 
-export const Price: React.FC<{ variant: ProductVariant; size: string }> = ({ variant, size = 'medium' }) => {
+export const Price: React.FC<{ variant: ProductVariant; size?: string }> = ({ variant, size = 'medium' }) => {
     const priceSize = {
         small: {
             default: 'text-md font-semibold',
@@ -34,24 +34,29 @@ export const Price: React.FC<{ variant: ProductVariant; size: string }> = ({ var
         <div>
             {discountPrice > 0 ? (
                 <div className="flex flex-wrap  flex-col">
-                    <div className={priceSize[size].previous}>
+                    <div className={priceSize[size as keyof typeof priceSize].previous}>
                         <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
                     </div>
                     <div className="flex gap-2 items-center ">
-                        <div className={priceSize[size].discount}>
+                        <div className={priceSize[size as keyof typeof priceSize].discount}>
                             <CrystallizePrice currencyCode={currency.code}>{discountPrice}</CrystallizePrice>
                         </div>
-                        <div className={priceSize[size].percentage}>-{discountPercentage}%</div>
+                        <div className={priceSize[size as keyof typeof priceSize].percentage}>
+                            -{discountPercentage}%
+                        </div>
                     </div>
                 </div>
             ) : (
-                <div className={priceSize[size].default}>
+                <div className={priceSize[size as keyof typeof priceSize].default}>
                     <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
                 </div>
             )}
         </div>
     );
 };
+
+// SM on June 16th, 2022: PLEASE REMOVED IF NOT NEEDED
+
 // import getRelativePriceVariants from '~/lib/pricing';
 
 // export const Price = ({ priceVariants, renderType = 'default' }: { priceVariants: any; renderType: string }) => {

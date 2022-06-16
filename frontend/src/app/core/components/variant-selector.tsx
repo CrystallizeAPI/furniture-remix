@@ -163,5 +163,5 @@ export const VariantSelector = ({
         ),
     };
 
-    return renderingTypes[renderingType] || null;
+    return renderingTypes[renderingType as keyof typeof renderingTypes] || null;
 };

@@ -1,6 +1,6 @@
 import { Image } from '@crystallize/reactjs-components';
-import { ItemViewComponentProps } from '../../../../lib/grid-tile/types';
 import { Link } from '@remix-run/react';
+import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
     const getComponentContent = (components: any, id: string) => {
         let component = components.find((component: any) => component.id === id);

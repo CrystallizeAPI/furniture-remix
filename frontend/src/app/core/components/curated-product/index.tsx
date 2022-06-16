@@ -1,28 +1,27 @@
-import { ContentTransformer, Image } from '@crystallize/reactjs-components';
+import { Image } from '@crystallize/reactjs-components';
 import { useState, useEffect } from 'react';
 import { useLocation } from '@remix-run/react';
 import { Price } from '~/core/components/price';
-import { StockLocations } from '~/core/components/stock-location';
 import { VariantSelector } from '~/core/components/variant-selector';
 
 export function CuratedProduct({ merch, current }: { merch: any; current: any }) {
     return (
         <>
             {merch.products?.map((product: any, productIndex: number) => (
-                <Product product={product} current={current} productIndex={productIndex} key={productIndex} />
+                <Product product={product} current={current} key={productIndex} />
             ))}
         </>
     );
 }
 
-const Product = ({ product, current, productIndex }: { product: any; current: any; productIndex: number }) => {
+const Product = ({ product, current }: { product: any; current: any }) => {
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
     let location = useLocation();
 
     const onVariantChange = (variant: any) => {
         current.setVariants((prevState: any) => {
-            const indexOfVariant = prevState.findIndex((a) => a.id === selectedVariant.id);
+            const indexOfVariant = prevState.findIndex((a: any) => a.id === selectedVariant.id);
             if (indexOfVariant > -1) {
                 let newArr = [...prevState];
                 newArr[indexOfVariant] = { ...variant };

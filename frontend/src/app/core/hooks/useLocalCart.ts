@@ -7,7 +7,6 @@ export type LocalCart = {
             quantity: number;
             price: number;
             sku: string;
-            imageUrl: string;
         };
     };
     cartId: string;
@@ -66,7 +65,6 @@ export function useLocalCart() {
                     name: variant.name,
                     price: variant.price,
                     quantity: 1,
-                    imageUrl: variant.images[0].url,
                 };
             }
             update(cart);

@@ -77,6 +77,7 @@ export default () => {
                             variants={product.variants}
                             selectedVariant={selectedVariant}
                             onVariantChange={onVariantChange}
+                            renderingType="default"
                         />
                         {selectedVariant && (
                             <div className="flex justify-between items-end">

@@ -5,7 +5,6 @@ import { Link } from '@remix-run/react';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { useStoreFront } from '~/core/storefront/provider';
 import { Image } from '@crystallize/reactjs-components';
-
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');

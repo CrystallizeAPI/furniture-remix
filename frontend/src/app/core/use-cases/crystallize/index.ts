@@ -409,6 +409,9 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
         name
         createdAt
         path
+        shape {
+          identifier
+        }
         meta: component(id:"meta"){
           content {
             ...on ContentChunkContent {
@@ -447,6 +450,64 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
                 variants {
                   url
                   width
+                }
+              }
+            }
+            ...on ContentChunkContent {
+              chunks {
+                id
+                content {
+                  ... on SingleLineContent {
+                    text
+                  }
+                  ... on NumericContent {
+                    number
+                    unit
+                  }
+                  ... on ItemRelationsContent {
+                    items {
+                      name
+                      type
+                      path
+                      ...on Product {
+                        id
+                        variants {
+                          id
+                          name
+                          sku
+                          price
+                          priceVariants {
+                            identifier
+                            name
+                            price
+                            currency
+                          }
+                          attributes {
+                            value
+                            attribute
+                          }
+                          stockLocations {
+                            identifier
+                            name
+                            stock
+                          }
+                          isDefault
+                          images {
+                            url
+                            altText
+                            key
+                      
+                            variants {
+                              key
+                              height
+                              width
+                              url
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }

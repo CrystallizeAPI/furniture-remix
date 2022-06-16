@@ -31,11 +31,13 @@ export const Grid: React.FC<{
             style={style}
             cellComponent={({ cell, dimensions, children }) => {
                 const cellItem: Tile | Item = cell?.item;
+
                 if (!cellItem) {
                     return null;
                 }
                 const tile = normalizeTile(cellItem);
-                if (tile) {
+                if (tile?.view) {
+                    console.log({ tile });
                     const Component = tileViewComponentMapping[tile.view] || GenericTileView;
                     return (
                         <Tile tile={tile} options={options}>
@@ -45,7 +47,6 @@ export const Grid: React.FC<{
                         </Tile>
                     );
                 }
-
                 const Component = itemComponentMapping[cellItem.type.toLowerCase()] || GenericItem;
                 return (
                     <div style={options?.style}>

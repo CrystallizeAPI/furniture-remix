@@ -205,6 +205,9 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                       name
                       path
                       type
+                      shape {
+                        identifier
+                      }
                       ...on Product {
                         defaultVariant {
                           price
@@ -228,6 +231,17 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                           }
                           ... on RichTextContent {
                             plainText
+                          }
+                          ... on ImageContent {
+                            images {
+                              url
+                              altText
+                              variants {
+                                url
+                                width
+                                height
+                              }
+                            }
                           }
                           ... on ComponentChoiceContent {
                             selectedComponent {
@@ -303,6 +317,10 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                             chunks {
                               id  
                               content {
+                                ... on NumericContent {
+                                  number
+                                  unit
+                                }
                                 ...on SingleLineContent{
                                     text
                                 }
@@ -314,6 +332,34 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                                 }
                                 ...on BooleanContent {
                                     value
+                                }
+                                ... on ItemRelationsContent {
+                                  items {
+                                    name
+                                    type
+                                    path
+                                    ...on Product {
+                                      id
+                                      defaultVariant {
+                                        price
+                                        priceVariants {
+                                          identifier
+                                          name
+                                          price
+                                          currency
+                                        }
+                                        firstImage {
+                                          url
+                                          altText
+                                          variants {
+                                            url
+                                            width
+                                            height
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
                                 }
                                 ...on PropertiesTableContent {
                                     sections {
@@ -1044,6 +1090,10 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
         children {
           name
           path
+
+          shape {
+            identifier
+          }
           ...on Document {
             name
             path
@@ -1051,8 +1101,58 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
               id
               type
               content {
+                ...on ContentChunkContent {
+                  chunks {
+                    id
+                    content {
+                      ... on SingleLineContent {
+                        text
+                      }
+                      ... on NumericContent {
+                        number
+                        unit
+                      }
+                      ... on ItemRelationsContent {
+                        items {
+                          name
+                          type
+                          path
+                          ...on Product {
+                            id
+                            defaultVariant {
+                              price
+                              priceVariants {
+                                identifier
+                                name
+                                price
+                                currency
+                              }
+                              firstImage {
+                                url
+                                altText
+                                variants {
+                                  url
+                                  width
+                                  height
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
                 ...on SingleLineContent {
                   text
+                }
+                ...on ImageContent {
+                  images {
+                    variants {
+                      url
+                      width
+                    }
+                  }
                 }
                 ...on RichTextContent {
                   plainText

@@ -6,6 +6,7 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { ServiceAPI } from '~/core/use-cases/service-api';
 import { Price } from '~/lib/pricing/pricing-component';
+import DefaultImage from '~/assets/defaultIcon.svg';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -63,7 +64,15 @@ export default () => {
                                     <div className="p-5 flex flex-col gap-5">
                                         {order.cart.map((item: any, index: number) => (
                                             <div key={index} className="flex justify-between items-center order-item">
-                                                <p className="w-40">{item.name}</p>
+                                                <div className="flex gap-3 items-center">
+                                                    <img
+                                                        src={item.imageUrl ? item.imageUrl : DefaultImage}
+                                                        width="40px"
+                                                        height="40px"
+                                                        alt="product"
+                                                    />
+                                                    <p className="w-40">{item.name}</p>
+                                                </div>
                                                 <p className="w-20">{item.quantity}</p>
                                                 <p className="w-20 text-right">
                                                     {/* adding because orders aren't returning currency, will be fixed */}
@@ -79,9 +88,12 @@ export default () => {
                     </div>
                 </>
             ) : (
-                <div>
-                    <div>You need to be logged in to see your orders.</div>
-                    <MagickLoginForm title="Login" onlyLogin actionTitle="Login" />
+                <div className="">
+                    <h1 className="text-center text-4xl mb-4 mt-10">Hey, there!</h1>
+                    <p className="mb-4 text-center">You need to be logged in to see your orders.</p>
+                    <div className="w-2/4 mx-auto shadow-lg p-6">
+                        <MagickLoginForm title="Login" onlyLogin actionTitle="Login" />
+                    </div>
                 </div>
             )}
         </div>

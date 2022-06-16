@@ -40,6 +40,7 @@ const pushOrderSubHandler = async (
                 sku: item.variant.sku,
                 name: item.variant.name || item.variant.sku,
                 quantity: item.quantity,
+                imageUrl: item.variant.firstImage?.url || '',
                 price: {
                     gross: item.price.gross,
                     net: item.price.net,

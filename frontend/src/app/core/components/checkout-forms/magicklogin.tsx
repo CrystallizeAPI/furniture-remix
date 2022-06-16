@@ -71,7 +71,7 @@ export const MagickLoginForm: React.FC<{
                     {enabledGuest && (
                         <button
                             type="button"
-                            className="underline px-5 py-2 ml-2 rounded mt-5 w-40"
+                            className="underline px-5 py-2 ml-2 rounded mt-5 w-full"
                             onClick={() => {
                                 if (enabledGuest) {
                                     enabledGuest();
@@ -81,7 +81,7 @@ export const MagickLoginForm: React.FC<{
                             Guest Checkout
                         </button>
                     )}
-                    <button type="submit" className="bg-[#000] text-[#fff] px-8 py-4 rounded mt-5 w-40">
+                    <button type="submit" className="bg-[#000] text-[#fff] px-8 py-4 rounded mt-5 w-full">
                         {actionTitle}
                     </button>
                 </div>

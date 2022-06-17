@@ -7,6 +7,7 @@ export const FilteredProducts = ({ products }: { products: any }) => {
                 {products.map((product: any, index: number) => {
                     return (
                         <Product
+                            key={index}
                             item={{
                                 ...product.node,
                                 defaultVariant: {

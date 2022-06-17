@@ -5,7 +5,6 @@ import { useLoaderData, useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
-import { Cart } from '~/core/components/cart';
 import { ImageGallery } from '~/core/components/image-gallery';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
@@ -14,6 +13,7 @@ import { Price } from '~/core/components/price';
 import { StockLocations } from '~/core/components/stock-location';
 import { Product } from '~/core/components/item/product';
 import { buildMetas } from '~/core/MicrodataBuilder';
+import { AddToCartBtn } from '~/core/components/add-to-cart-button';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -37,7 +37,7 @@ export default () => {
     const { product } = useLoaderData();
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
-    let [showCart, setShowCart] = useState(false);
+    // let [showCart, setShowCart] = useState(false);
     let location = useLocation();
 
     let title = product?.components?.find((component: any) => component.type === 'singleLine')?.content?.text;
@@ -47,10 +47,10 @@ export default () => {
 
     const onVariantChange = (variant: any) => setSelectedVariant(variant);
 
-    const handleClick = () => {
-        add(selectedVariant);
-        setShowCart(true);
-    };
+    // const handleClick = () => {
+    //     add(selectedVariant);
+    //     setShowCart(true);
+    // };
     let relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
         ?.items;
 
@@ -60,7 +60,7 @@ export default () => {
 
     return (
         <div className="p-8 px-6 mx-auto container">
-            {showCart ? <Cart /> : null}
+            {/* {showCart ? <Cart /> : null} */}
             <div className="flex gap-20 lg:flex-row flex-col-reverse">
                 <div className="lg:w-4/6 w-full img-container">
                     <div className="img-container overflow-hidden rounded-md">
@@ -82,14 +82,7 @@ export default () => {
                         {selectedVariant && (
                             <div className="flex justify-between items-end">
                                 <Price variant={selectedVariant} />
-                                <button
-                                    className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100"
-                                    onClick={() => {
-                                        handleClick();
-                                    }}
-                                >
-                                    Add to Cart
-                                </button>
+                                <AddToCartBtn products={selectedVariant} />
                             </div>
                         )}
 

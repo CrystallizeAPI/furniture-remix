@@ -2,7 +2,7 @@ import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import { CuratedProduct } from '~/core/components/curated-product';
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { Cart } from '~/core/components/cart';
+import { AddToCartBtn } from '~/core/components/add-to-cart-button';
 
 const getComponentContent = (components: any, id: string) => {
     let component = components.find((component: any) => component.id === id);
@@ -12,7 +12,6 @@ const getComponentContent = (components: any, id: string) => {
 export function CuratedProductStory({ document }: { document: any }) {
     const [activePoint, setActivePoint] = useState('');
     let [variants, setVariants] = useState([]);
-    let [showCart, setShowCart] = useState(false);
 
     const { add } = useLocalCart();
     let title = getComponentContent(document?.components, 'title')?.text;
@@ -32,16 +31,9 @@ export function CuratedProductStory({ document }: { document: any }) {
         totalAmountToPay += price;
     });
 
-    const handleClick = () => {
-        for (let i = 0; i < variants.length; i++) {
-            add(variants[i]);
-        }
-        setShowCart(true);
-    };
-
     return (
         <div className="2xl grid grid-cols-2 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
-            {showCart ? <Cart /> : null}
+            {/* {showCart ? <Cart /> : null} */}
 
             <div className="img-container overflow-hidden self-start rounded-lg relative">
                 <div className="absolute h-full w-full frntr-hotspot">
@@ -77,14 +69,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                 </div>
                 <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">
                     <div className="text-4xl font-bold text-green2">€{totalAmountToPay}</div>
-                    <button
-                        className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100"
-                        onClick={() => {
-                            handleClick();
-                        }}
-                    >
-                        Add to Cart
-                    </button>
+                    <AddToCartBtn products={variants} label={`Add ${variants?.length} to cart`} />
                 </div>
             </div>
         </div>

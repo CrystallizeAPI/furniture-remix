@@ -10,7 +10,7 @@ import { getCurrencyFromCode } from '~/lib/pricing/currencies';
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
     return (
-        <div className="fixed rounded-md bottom-10 right-10 w-70 shadow-lg py-8 px-10 border border-[#dfdfdf]">
+        <div className="fixed rounded-md right-10 w-70 bottom-10 shadow-lg py-8 px-10 border border-[#dfdfdf] z-[999]">
             <ClientOnly fallback={<p>Your basket is empty.</p>}>
                 <>
                     {!isEmpty() && (

@@ -33,7 +33,7 @@ export const webhookStandardRoutes: StandardRouting = {
                     method: 'POST',
                     headers: {
                         'fastly-soft-purge': `1`,
-                        'Fastly-Key': `${process.env.FASTLY_SERVICE_KEY}`,
+                        'Fastly-Key': `${process.env.FASTLY_API_TOKEN}`,
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
                         'surrogate-key': keys.join(' '),

@@ -19,11 +19,11 @@ export default function displayPriceFor(
         amount: number;
     },
 ): DisplayPrice {
-    const priceVariants = variant.priceVariants;
+    const priceVariants = variant?.priceVariants;
     const currency = getCurrencyFromCode(currencyCode);
     if (!priceVariants) {
         return {
-            default: variant.price!,
+            default: variant?.price!,
             discounted: 0,
             percent: 0,
             currency,
@@ -31,7 +31,7 @@ export default function displayPriceFor(
     }
 
     const defaultPrice =
-        priceVariants.find(
+        priceVariants?.find(
             (priceVariant: ProductPriceVariant) =>
                 priceVariant.identifier === idenfiers.default &&
                 priceVariant.currency?.toLocaleLowerCase() === currency.code.toLocaleLowerCase(),
@@ -40,7 +40,7 @@ export default function displayPriceFor(
     // if there is a forced discount we take it
     const discountedPrice = discount
         ? discount.amount
-        : priceVariants.find(
+        : priceVariants?.find(
               (priceVariant: ProductPriceVariant) =>
                   priceVariant.identifier === idenfiers.discounted &&
                   priceVariant.currency?.toLocaleLowerCase() === currency.code.toLocaleLowerCase(),

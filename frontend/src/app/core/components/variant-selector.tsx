@@ -129,7 +129,7 @@ export const VariantSelector = ({
                     }
 
                     return (
-                        <div className="">
+                        <div className="" key={attribute}>
                             <label>
                                 <span className="block text-xs pb-1 font-medium">{attribute}</span>
                                 <select

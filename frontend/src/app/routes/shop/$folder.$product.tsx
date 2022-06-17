@@ -14,6 +14,7 @@ import { StockLocations } from '~/core/components/stock-location';
 import { Product } from '~/core/components/item/product';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { AddToCartBtn } from '~/core/components/add-to-cart-button';
+import { buildSchemaMarkup } from '~/core/SchemaMarkupBuilder';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -51,6 +52,7 @@ export default () => {
     //     add(selectedVariant);
     //     setShowCart(true);
     // };
+
     let relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
         ?.items;
 
@@ -59,48 +61,61 @@ export default () => {
     }, [location.pathname]);
 
     return (
-        <div className="p-8 px-6 mx-auto container">
-            {/* {showCart ? <Cart /> : null} */}
-            <div className="flex gap-20 lg:flex-row flex-col-reverse">
-                <div className="lg:w-4/6 w-full img-container">
-                    <div className="img-container overflow-hidden rounded-md">
-                        <ImageGallery images={selectedVariant?.images} />
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(buildSchemaMarkup(product)),
+                }}
+            />
+            <div className="p-8 px-6 mx-auto container">
+                {/* {showCart ? <Cart /> : null} */}
+                <div className="flex gap-20 lg:flex-row flex-col-reverse">
+                    <div className="lg:w-4/6 w-full img-container">
+                        <div className="img-container overflow-hidden rounded-md">
+                            <ImageGallery images={selectedVariant?.images} />
+                        </div>
+                        <ProductBody components={product?.components} />
                     </div>
-                    <ProductBody components={product?.components} />
+                    <div className="lg:w-2/6 w-full">
+                        <div className="flex flex-col gap-4 sticky top-8">
+                            {product.topics && <TopicLabels labels={product?.topics} />}
+                            <h1 className="font-bold text-4xl">{title}</h1>
+                            <p className="text-xl font-normal">{description}</p>
+                            <VariantSelector
+                                variants={product.variants}
+                                selectedVariant={selectedVariant}
+                                onVariantChange={onVariantChange}
+                                renderingType="default"
+                            />
+                            {selectedVariant && (
+                                <div className="flex justify-between items-end">
+                                    <Price variant={selectedVariant} />
+                                    <AddToCartBtn products={selectedVariant} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-                <div className="lg:w-2/6 w-full">
-                    <div className="flex flex-col gap-4 sticky top-8">
-                        {product.topics && <TopicLabels labels={product?.topics} />}
-                        <h1 className="font-bold text-4xl">{title}</h1>
-                        <p className="text-xl font-normal">{description}</p>
-                        <VariantSelector
-                            variants={product.variants}
-                            selectedVariant={selectedVariant}
-                            onVariantChange={onVariantChange}
-                            renderingType="default"
-                        />
-                        {selectedVariant && (
-                            <div className="flex justify-between items-end">
-                                <Price variant={selectedVariant} />
-                                <AddToCartBtn products={selectedVariant} />
-                            </div>
-                        )}
 
+                <div className="p-8 px-6 mx-auto container">
+                    {/* {showCart ? <Cart /> : null} */}
+                    <div className="flex gap-20 lg:flex-row flex-col-reverse">
                         <div className="bg-[#dfdfdf] h-[1px] mt-5" />
                         <StockLocations locations={selectedVariant?.stockLocations} />
                     </div>
+                    {relatedProducts && (
+                        <div className="w-full">
+                            <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
+                            <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
+                                {relatedProducts?.map((item: any, index: number) => (
+                                    <Product item={item} key={`${item?.id}-${index}`} />
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-            {relatedProducts && (
-                <div className="w-full">
-                    <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                    <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
-                        {relatedProducts?.map((item: any, index: number) => (
-                            <Product item={item} key={`${item?.id}-${index}`} />
-                        ))}
-                    </div>
-                </div>
-            )}
-        </div>
+        </>
     );
 };

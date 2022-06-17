@@ -25,6 +25,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
                         <div className="flex flex-auto justify-between items-center w-1/4">
                             <Link to="/" prefetch="intent">
+                                
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                     <img
                                         src={storeFrontState.config.logo}
@@ -35,6 +36,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             width: 'auto',
                                             height: '100%',
                                         }}
+                                        loading="eager"
                                     />
                                 </div>
                             </Link>
@@ -57,9 +59,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </div>
                     </div>
                 ) : (
-                    <div className=" justify-between-full fixed z-40 bg-[#fff] w-full left-0 top-0">
-                        <div className="flex flex-auto items-center mx-auto px-6 container lg pt-3 pb-2">
-                            <div className="flex container mx-auto flex-auto justify-between items-center">
+                    <div className="justify-between-full fixed z-40 bg-[#fff] w-full left-0 top-0">
+                        <div className="flex flex-auto items-center mx-auto md:px-6 md:container auto pt-3 pb-2">
+                            <div className="flex mx-auto flex-auto justify-between items-center">
                                 <div className="flex gap-10 items-center">
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
@@ -72,6 +74,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                                     width: 'auto',
                                                     height: '100%',
                                                 }}
+                                                loading="eager"
                                             />
                                         </div>
                                     </Link>

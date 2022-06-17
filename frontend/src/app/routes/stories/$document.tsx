@@ -10,6 +10,7 @@ import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { CuratedProductStory } from './curated-product-story';
+import { buildSchemaMarkupForBlogPost } from '~/core/SchemaMarkupBuilder';
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
@@ -28,8 +29,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const version = preview ? 'draft' : 'published';
     const path = `/stories/${params.document}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
-
     const document = await CrystallizeAPI.fetchDocument(secret.apiClient, path, version);
+
     return json<LoaderData>({ document }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 
@@ -38,7 +39,7 @@ const DefaultArticle = ({ document }: { document: any }) => {
         let component = document.components.find((component: any) => component.id === id);
         return component?.content || null;
     };
-
+    
     let title = getComponentContent('title')?.text;
     let description = getComponentContent('description')?.json;
     let media = getComponentContent('media')?.selectedComponent?.content;
@@ -50,11 +51,17 @@ const DefaultArticle = ({ document }: { document: any }) => {
 
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(buildSchemaMarkupForBlogPost(document)),
+                }}
+            />
             <div className="2xl container mx-auto mt-40 mb-40">
-                <div className="px-6  max-w-[1000px]">
+                <div className="md:px-6 px-2 max-w-[1000px]">
                     <p className="mb-4 text-md">{creationDate}</p>
                     <h1 className="text-6xl font-semibold mb-2">{title}</h1>
-                    <div className="w-3/4 my-10 text-2xl leading-[1.8em]">
+                    <div className="md:w-3/4 w-full my-10 text-2xl leading-[1.8em]">
                         <ContentTransformer json={description} />
                     </div>
                 </div>
@@ -80,7 +87,7 @@ const DefaultArticle = ({ document }: { document: any }) => {
             {featuredProducts && (
                 <div className="2xl container px-6 mx-auto w-full mt-10">
                     <h3 className="font-bold mt-20 mb-4 text-xl">Featured products</h3>
-                    <div className="flex gap-5 pb-5">
+                    <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
                         {featuredProducts?.map((item: any, index: number) => {
                             return <Product item={item} key={index} />;
                         })}

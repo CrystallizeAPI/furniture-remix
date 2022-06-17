@@ -408,6 +408,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
       ... on Item {
         name
         createdAt
+        updatedAt
         path
         shape {
           identifier

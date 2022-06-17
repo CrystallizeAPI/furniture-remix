@@ -18,9 +18,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default () => {
     let { data, params } = useLoaderData();
+    let topicName = params.child.replace(/-/g, ' ');
+
     return (
         <div className="container 2xl mx-auto px-6 mt-10">
-            <h1 className="capitalize font-bold text-4xl">{params.child}</h1>
+            <h1 className="capitalize font-bold text-4xl">{topicName}</h1>
             <FilteredProducts products={data?.search?.edges} />
         </div>
     );

@@ -207,9 +207,9 @@ export const HydratedCart: React.FC = () => {
                                             default: total.gross + total.discounts[0].amount,
                                             discounted: total.gross,
                                             percent:
-                                                ((total.gross + total.discounts[0].amount - total.gross) /
+                                                Math.round(((total.gross + total.discounts[0].amount - total.gross) /
                                                     (total.gross + total.discounts[0].amount)) *
-                                                100,
+                                                100),
                                             currency: getCurrencyFromCode('EUR'),
                                         }}
                                     />

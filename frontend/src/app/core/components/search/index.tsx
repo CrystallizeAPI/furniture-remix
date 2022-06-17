@@ -5,12 +5,14 @@ import { Link } from '@remix-run/react';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { useStoreFront } from '~/core/storefront/provider';
 import { Image } from '@crystallize/reactjs-components';
+
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const { apiClient: client } = useStoreFront();
+
 
     //close dropdown on outside click
     useEffect(() => {
@@ -35,15 +37,23 @@ export const SearchBar = () => {
             console.error(error);
         }
     };
+
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.code == 'Enter') {
+            window.location.replace(`/search?q=${searchTerm}`);
+        }
+    };
+
     return (
         <div className=" w-[340px] px-4 relative ">
-            <div className="bg-grey relative z-30 flex items-center justify-between bg-grey h-10 rounded-full overflow-hidden focus-within:border">
+            <div className="relative z-30 flex items-center justify-between bg-grey h-10 rounded-full overflow-hidden focus-within:border">
                 <DebounceInput
                     minLength={2}
                     placeholder="Names, skus, categories"
-                    debounceTimeout={300}
+                    debounceTimeout={200}
                     onChange={handleChange}
-                    className="bg-grey rounded-md rounded-full overflow-hidden focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic "
+                    className="bg-grey rounded-full overflow-hidden focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic "
+                    onKeyDown={handleKeyPress}
                 />
                 <Link
                     to={`/search?q=${searchTerm}`}
@@ -55,7 +65,7 @@ export const SearchBar = () => {
             {suggestions.length > 0 && show ? (
                 <div
                     ref={ref}
-                    className="absolute rounded-xl bg-[#fff] -top-5 w-full pt-20 pb-2 shadow-md border border-[#dfdfdf] left-0 overflow-y-scroll shadow-sm z-20"
+                    className="absolute rounded-xl bg-[#fff] -top-5 w-full pt-20 pb-2 border border-[#dfdfdf] left-0 overflow-y-scroll shadow-sm z-20"
                 >
                     <div className="max-h-[400px] overflow-y-scroll">
                         {suggestions?.map((suggestion: any, index: number) => (

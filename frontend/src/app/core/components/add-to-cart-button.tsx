@@ -10,7 +10,6 @@ export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: an
     const handleClick = () => {
         setShowTada(true);
         if (Array.isArray(products)) {
-            console.log('is Array');
             for (let i = 0; i < products.length; i++) {
                 add(products[i]);
             }

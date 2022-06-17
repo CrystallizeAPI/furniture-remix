@@ -6,7 +6,7 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { ServiceAPI } from '~/core/use-cases/service-api';
 import { Price } from '~/lib/pricing/pricing-component';
-import DefaultImage from '~/assets/defaultIcon.svg';
+import DefaultImage from '~/assets/defaultImage.svg';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

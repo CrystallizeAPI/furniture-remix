@@ -13,7 +13,6 @@ export const SearchBar = () => {
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const { apiClient: client } = useStoreFront();
 
-
     //close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: any) => {

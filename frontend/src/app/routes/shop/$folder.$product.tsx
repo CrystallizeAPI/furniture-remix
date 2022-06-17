@@ -68,7 +68,7 @@ export default () => {
                     __html: JSON.stringify(buildSchemaMarkup(product)),
                 }}
             />
-            <div className="p-8 px-6 mx-auto container">
+            <div className="p-8 px-6 mx-auto xl:container full">
                 {/* {showCart ? <Cart /> : null} */}
                 <div className="flex gap-20 lg:flex-row flex-col-reverse">
                     <div className="lg:w-4/6 w-full img-container">
@@ -94,27 +94,22 @@ export default () => {
                                     <AddToCartBtn products={selectedVariant} />
                                 </div>
                             )}
-                        </div>
-                    </div>
-                </div>
 
-                <div className="p-8 px-6 mx-auto container">
-                    {/* {showCart ? <Cart /> : null} */}
-                    <div className="flex gap-20 lg:flex-row flex-col-reverse">
-                        <div className="bg-[#dfdfdf] h-[1px] mt-5" />
-                        <StockLocations locations={selectedVariant?.stockLocations} />
-                    </div>
-                    {relatedProducts && (
-                        <div className="w-full">
-                            <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                            <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
-                                {relatedProducts?.map((item: any, index: number) => (
-                                    <Product item={item} key={`${item?.id}-${index}`} />
-                                ))}
-                            </div>
+                            <div className="bg-[#dfdfdf] h-[1px] mt-5" />
+                            <StockLocations locations={selectedVariant?.stockLocations} />
                         </div>
-                    )}
+                    </div>
                 </div>
+                {relatedProducts && (
+                    <div className="w-full">
+                        <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
+                        <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrap">
+                            {relatedProducts?.map((item: any, index: number) => (
+                                <Product item={item} key={`${item?.id}-${index}`} />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

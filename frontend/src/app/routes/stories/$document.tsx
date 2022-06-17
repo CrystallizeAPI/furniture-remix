@@ -39,7 +39,7 @@ const DefaultArticle = ({ document }: { document: any }) => {
         let component = document.components.find((component: any) => component.id === id);
         return component?.content || null;
     };
-    
+
     let title = getComponentContent('title')?.text;
     let description = getComponentContent('description')?.json;
     let media = getComponentContent('media')?.selectedComponent?.content;

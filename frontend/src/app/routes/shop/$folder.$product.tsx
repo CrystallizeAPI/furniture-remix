@@ -38,20 +38,10 @@ export default () => {
     const { product } = useLoaderData();
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
-    // let [showCart, setShowCart] = useState(false);
     let location = useLocation();
-
     let title = product?.components?.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = product?.components?.find((component: any) => component.type === 'richText')?.content?.plainText;
-
-    const { add } = useLocalCart();
-
     const onVariantChange = (variant: any) => setSelectedVariant(variant);
-
-    // const handleClick = () => {
-    //     add(selectedVariant);
-    //     setShowCart(true);
-    // };
 
     let relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
         ?.items;

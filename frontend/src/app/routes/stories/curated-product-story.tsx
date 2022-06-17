@@ -33,8 +33,6 @@ export function CuratedProductStory({ document }: { document: any }) {
 
     return (
         <div className="2xl grid grid-cols-2 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
-            {/* {showCart ? <Cart /> : null} */}
-
             <div className="img-container overflow-hidden self-start rounded-lg relative">
                 <div className="absolute h-full w-full frntr-hotspot">
                     {merchandising.map((merch: any, i: number) => (

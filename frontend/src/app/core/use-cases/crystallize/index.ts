@@ -121,7 +121,7 @@ async function fetchProducts(apiClient: ClientInterface, path: string) {
         },
     };
     const response = await fetch<any>(query);
-    return response.catalogue?.children.filter((item: any) => item.__typename === 'Product') || [];
+    return response.catalogue?.children?.filter((item: any) => item.__typename === 'Product') || [];
 }
 
 async function search(apiClient: ClientInterface, value: string): Promise<any[]> {

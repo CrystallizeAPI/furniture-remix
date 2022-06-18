@@ -10,7 +10,7 @@ export const buildMetas = (data: any): HtmlMetaDescriptor => {
     const altDescription = item?.components?.find((comp: any) => comp.id === 'description')?.content?.plainText?.[0];
     let altImage =
         item?.variants?.[0]?.images?.[0]?.url ||
-        item.components?.find((comp: any) => comp.id === 'shoppable-image')?.content?.images?.[0]?.variants?.[0]?.url;
+        item?.components?.find((comp: any) => comp.id === 'shoppable-image')?.content?.images?.[0]?.variants?.[0]?.url;
 
     return {
         title: title ? title : item?.name,

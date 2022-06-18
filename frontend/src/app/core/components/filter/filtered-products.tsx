@@ -26,8 +26,8 @@ export const FilteredProducts = ({ products }: { products: any }) => {
 export const ProductsList = ({ products }: { products: any }) => {
     return (
         <div className="grid grid-cols-5 gap-6 w-full">
-            {products?.map((product: any) => {
-                return <Product item={product} />;
+            {products?.map((product: any, index: number) => {
+                return <Product item={product} key={index} />;
             })}
         </div>
     );

@@ -26,7 +26,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
-
     const searchParams = {
         orderBy: url.searchParams.get('orderBy'),
         filters: {
@@ -36,10 +35,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
             },
         },
     };
+
+    // we don't need to consider the preview params here.
+    url.searchParams.delete('preview');
     const isFiltered = Array.from(url.searchParams).length > 0;
 
-    //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;)
-    // we can reduce to one call.
+    //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
     const [folder, products, priceRange] = await Promise.all([
         CrystallizeAPI.fetchFolder(secret.apiClient, path, version),
         isFiltered

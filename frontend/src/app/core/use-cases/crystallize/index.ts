@@ -472,6 +472,18 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
                       path
                       ...on Product {
                         id
+                        defaultVariant {
+                          price
+                          firstImage {
+                            url
+                            altText
+                            variants {
+                              url
+                              width
+                              height
+                            }
+                          }
+                        }
                         variants {
                           id
                           name
@@ -1211,6 +1223,8 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                         number
                         unit
                       }
+
+                      
                       ... on ItemRelationsContent {
                         items {
                           name

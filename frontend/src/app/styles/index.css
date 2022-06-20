@@ -73,6 +73,22 @@
         background-position: right 0.7em top 50%, 0 0;
         background-size: 0.65em auto, 100%;
     }
+    .burger {
+        height: 3px;
+        width: 24px;
+        border-radius: 4px;
+        background: #000;
+        top: 50%;
+        left: 13px;
+        position: absolute;
+        margin-top: -2px;
+    }
+    .burger.top {
+        transform: translateY(-8px);
+    }
+    .burger.bottom {
+        transform: translateY(8px);
+    }
     .frntr-hotspot span {
         width: 40px;
         height: 40px;

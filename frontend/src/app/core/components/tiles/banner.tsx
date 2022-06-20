@@ -8,7 +8,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     return (
         <div
             className={` flex md:flex-row flex-col  w-full mx-auto  ${
-                isFullWidth ? 'items-center px-10 py-10 lg:pl-[100px] md:py-0 lg:max-w-[1750px]' : 'pl-10 pt-20'
+                isFullWidth ? 'container items-center px-10 pt-10  md:py-0 ' : 'pl-10 pt-20'
             }`}
         >
             <div
@@ -18,7 +18,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
             >
                 {title && (
                     <h1
-                        className={`${title.length < 10 ? 'text-5xl sm:text-9xl' : 'text-3xl'} font-bold mb-3`}
+                        className={`${title.length < 10 ? 'text-5xl sm:text-[7vw]' : 'text-3xl'} font-bold mb-3`}
                         style={{ fontSize: `${styling?.font.size}` }}
                     >
                         {title}
@@ -35,7 +35,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                     ))}
             </div>
             {images && images.length > 0 && (
-                <div className="self-end md:w-8/12 w-full py-10 img-container img-contain md:py-0">
+                <div className="self-end md:w-8/12 w-full pt-10 img-container img-contain md:py-0">
                     <Image
                         {...images[0]}
                         sizes="(max-width: 500px) 300px, 700px"

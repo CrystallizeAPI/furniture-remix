@@ -29,10 +29,10 @@ export default () => {
     let title = folder.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = folder.components.find((component: any) => component.type === 'richText')?.content?.plainText;
     return (
-        <div className="md:container 2xl md:px-6 mx-auto w-full p-10">
+        <div className="container 2xl md:px-6 mx-auto w-full p-10">
             <h1 className="text-6xl font-bold mt-10 mb-4">{title}</h1>
             <div className="flex gap-5">{description}</div>
-            <div className="lg:grid lg:grid-cols-3 gap-3 mt-10 grid-flow-row flex flex-wrap">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-10 grid-flow-row flex flex-wrap">
                 {folder?.children.map((child: any) => (
                     <Document item={child} key={child.name} />
                 ))}

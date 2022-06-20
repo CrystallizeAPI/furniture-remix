@@ -1,7 +1,6 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import { CuratedProduct } from '~/core/components/curated-product';
 import { useState } from 'react';
-import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { AddToCartBtn } from '~/core/components/add-to-cart-button';
 
 const getComponentContent = (components: any, id: string) => {
@@ -13,7 +12,6 @@ export function CuratedProductStory({ document }: { document: any }) {
     const [activePoint, setActivePoint] = useState('');
     let [variants, setVariants] = useState([]);
 
-    const { add } = useLocalCart();
     let title = getComponentContent(document?.components, 'title')?.text;
     let description = getComponentContent(document?.components, 'description')?.json;
     let shoppableImage = getComponentContent(document?.components, 'shoppable-image')?.images?.[0];
@@ -34,24 +32,42 @@ export function CuratedProductStory({ document }: { document: any }) {
     return (
         <div className="2xl grid grid-cols-2 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
             <div className="img-container overflow-hidden self-start rounded-lg relative">
-                <div className="absolute h-full w-full frntr-hotspot">
+                <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                     {merchandising.map((merch: any, i: number) => (
                         <span
                             onMouseOver={() => setActivePoint(`hotspot-point-${i}`)}
                             onMouseLeave={() => setActivePoint('')}
                             key={`hotspot-${merch.hotspotX.number}-${merch.hotspotY.number}`}
                             style={{ left: merch.hotspotX.number + `%`, top: merch.hotspotY.number + '%' }}
-                        />
+                        >
+                            <div className="rounded-sm overflow-hidden shadow-sm px-2 pt-2 ">
+                                {merch.products?.map((product: any) => (
+                                    <div className="flex items-center gap-2 pb-2" key={product.id}>
+                                        <div className="img-container img-cover w-[30px] h-[40px]">
+                                            <Image
+                                                {...product?.defaultVariant?.firstImage}
+                                                sizes="100px"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                        <div>
+                                            <div className="text-xs">{product.name}</div>
+                                            <div className="text-xs font-bold">€{product.defaultVariant.price}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </span>
                     ))}
                 </div>
                 <Image {...shoppableImage} sizes="50vw" />
             </div>
             <div className="px-6">
                 <h1 className="text-4xl font-semibold mb-2">{title}</h1>
-                <div className="w-3/4 text-2xl leading-[1.8em]">
+                <div className="w-3/4 text-2xl leading-[1.8em] pb-4">
                     <ContentTransformer json={description} />
                 </div>
-                <div>
+                <div className="sticky top-20">
                     {merchandising.map((merch: any, i: number) => (
                         <div
                             key={`merch-container-${merch.hotspotX.number}-${merch.hotspotY.number}`}
@@ -64,10 +80,10 @@ export function CuratedProductStory({ document }: { document: any }) {
                             <CuratedProduct merch={merch} current={{ variants, setVariants }} />
                         </div>
                     ))}
-                </div>
-                <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">
-                    <div className="text-4xl font-bold text-green2">€{totalAmountToPay}</div>
-                    <AddToCartBtn products={variants} label={`Add ${variants?.length} to cart`} />
+                    <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">
+                        <div className="text-4xl font-bold text-green2">€{totalAmountToPay}</div>
+                        <AddToCartBtn products={variants} label={`Add ${variants?.length} to cart`} />
+                    </div>
                 </div>
             </div>
         </div>

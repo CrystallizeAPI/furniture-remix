@@ -120,18 +120,35 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                 )}
             </div>
             <div className="flex items-center justify-between lg:hidden relative">
-                <Link to="/" prefetch="intent">
-                    <img src={storeFrontState.config.logo} width="150" height="30" />
-                </Link>
-                <div className="flex items-center gap-5 justify-start">
+                <div className="flex flex-auto justify-between items-center w-1/4">
+                    <Link to="/" prefetch="intent">
+                        <div className="max-h-[80px] h-[50px] max-w-[100%] img-container">
+                            <img
+                                src={storeFrontState.config.logo}
+                                width="150"
+                                height="30"
+                                alt={storeFrontState.config.identifier + ` logo`}
+                                style={{
+                                    width: 'auto',
+                                    height: '100%',
+                                }}
+                                loading="eager"
+                            />
+                        </div>
+                    </Link>
+                </div>
+                <div className="flex items-center gap-3 justify-start">
                     <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
                         <img className="w-[30px] h-[30px]" src={`${UserIcon}`} width="25" height="25" alt="User icon" />
                     </Link>
                     <BasketButton />
-                    <div className="z-50" onClick={() => setIsOpen(!isOpen)}>
-                        <div className="h-1 w-8 bg-textBlack"></div>
-                        <div className="h-1 w-8 bg-textBlack mt-2"></div>
-                        <div className="h-1 w-8 bg-textBlack mt-2"></div>
+                    <div
+                        className="z-50 p-[10px] w-[50px] h-[50px] relative items-center rounded-md cursor-pointer hover:bg-[#efefef] "
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        <div className="burger" />
+                        <div className="burger top" />
+                        <div className="burger bottom" />
                     </div>
                 </div>
                 {isOpen ? (

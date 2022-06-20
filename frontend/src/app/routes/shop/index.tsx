@@ -45,11 +45,11 @@ export default () => {
     return (
         <>
             {grid && (
-                <div className="w-full mt-10">
+                <div className="w-full">
                     <Grid grid={grid} />
                 </div>
             )}
-            <div className="2xl container mx-auto px-10">
+            <div className="2xl container mx-auto px-4 md:px-10">
                 <div className="flex flex-wrap gap-4 pt-20 mb-10  items-center">
                     <h2 className="font-medium text-md text-md w-full block">Browse categories</h2>
                     {navigation?.tree?.children?.map((child: any) => (
@@ -66,8 +66,8 @@ export default () => {
                 <div>
                     {navigation?.tree?.children?.map((child: any) => (
                         <div className="border-t border-[#dfdfdf] py-20" key={child.path}>
-                            <div className="flex items-center justify-between ">
-                                <div className="w-2/4 leading-[1.5em]">
+                            <div className="flex  flex-col sm:flex-row sm:items-center justify-between ">
+                                <div className="w-3/4 sm:w-2/4 leading-[1.5em]">
                                     <h2 className="font-bold text-2xl mb-3">{child.name}</h2>
                                     <ContentTransformer
                                         className="leading-1"
@@ -78,13 +78,13 @@ export default () => {
                                 <Link
                                     to={child?.path}
                                     prefetch="intent"
-                                    className="w-auto bg-grey py-2 px-6 rounded-md text-md font-bold hover:bg-black hover:text-white"
+                                    className="w-auto bg-grey py-2 px-6 text-center rounded-md text-md font-bold hover:bg-black hover:text-white mt-6 sm:mt-0"
                                     key={child.name}
                                 >
                                     View all {child.name.toLowerCase()}
                                 </Link>
                             </div>
-                            <div className="grid grid-col-5 gap-5">
+                            <div className="grid md:grid-col-5 gap-5">
                                 <CategoryList category={child} />
                             </div>
                         </div>

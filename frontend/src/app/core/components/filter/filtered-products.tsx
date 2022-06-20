@@ -3,7 +3,7 @@ export const FilteredProducts = ({ products }: { products: any }) => {
     return (
         <div className="mt-10">
             <h2 className="font-medium text-lg my-5">Found {products.length} products</h2>
-            <div className="md:grid grid-cols-4 gap-5 flex flex-wrap">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 {products.map((product: any, index: number) => {
                     return (
                         <Product
@@ -25,7 +25,7 @@ export const FilteredProducts = ({ products }: { products: any }) => {
 
 export const ProductsList = ({ products }: { products: any }) => {
     return (
-        <div className="grid grid-cols-5 gap-6 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {products?.map((product: any, index: number) => {
                 return <Product item={product} key={index} />;
             })}

@@ -18,7 +18,7 @@ const itemMapping = {
 
 export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
     const totalColumns = grid.rows[0].columns.reduce((acc: number, col: any) => acc + col.layout.colspan, 0);
-    const colWidth = Math.round(1600 / totalColumns);
+    const colWidth = Math.round(1530 / totalColumns);
 
     const styleForCell = (cell: GridCell, styles: React.CSSProperties) => {
         if (!cell?.item) {

@@ -9,7 +9,7 @@ export const CategoryList = ({ category }: { category: any }) => {
         <div className="my-10">
             <h2 className="text-2xl font-bold">{title}</h2>
             <p className="w-3/5 mb-3 mt-2">{description}</p>
-            <div className="grid grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 {category?.children?.map((child: any) => {
                     return <Product item={child} key={`${category.name}-${child.path}`} />;
                 })}

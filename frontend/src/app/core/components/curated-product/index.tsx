@@ -40,7 +40,7 @@ const Product = ({ product, current }: { product: any; current: any }) => {
     return (
         <>
             <div className="flex gap-2 justify-between flex-wrap items-center py-2">
-                <div className="flex items-center ">
+                <div className="flex items-center">
                     <div className="w-[60px] h-[80px] img-container img-cover">
                         <Image sizes="200px" {...selectedVariant?.images?.[0]} />
                     </div>

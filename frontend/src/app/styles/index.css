@@ -100,7 +100,9 @@
         transition: all 0.1s ease-in-out;
         cursor: pointer;
     }
-    .frntr-hotspot span:hover {
+    .frntr-hotspot span:hover,
+    .frntr-hotspot span:focus,
+    .frntr-hotspot span:active {
         border: 4px solid rgba(255, 255, 255, 0.4);
     }
     .frntr-hotspot span:after {
@@ -116,7 +118,9 @@
         transform: translate(-50%, -50%);
         transition: all 0.1s ease-in-out;
     }
-    .frntr-hotspot span:hover:after {
+    .frntr-hotspot span:hover:after,
+    .frntr-hotspot span:active:after,
+    .frntr-hotspot span:focus:after {
         width: 12px;
         height: 12px;
     }
@@ -126,11 +130,14 @@
         background: #fff;
         width: 180px;
         bottom: 110%;
+        z-index: 10;
         position: absolute;
         transform-origin: center bottom;
         transform: scale(1, 0) translateX(-70px) translateY(-50%);
     }
-    .frntr-hotspot.frntr-hotspot-microformat span:hover > div {
+    .frntr-hotspot.frntr-hotspot-microformat span:hover > div,
+    .frntr-hotspot.frntr-hotspot-microformat span:focus > div,
+    .frntr-hotspot.frntr-hotspot-microformat span:active > div {
         transform: scale(1, 1) translateX(-70px) translateY(0);
     }
 

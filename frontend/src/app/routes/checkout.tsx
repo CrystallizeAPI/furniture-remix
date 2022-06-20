@@ -24,8 +24,8 @@ export default () => {
     const { cart } = useLocalCart();
     const [isGuestCheckout, setIsGuestCheckout] = useState(false);
     return (
-        <div className="2xl lg:container lg:px-6 px-2 mx-auto min-h-[100vh] w-full">
-            <div className="flex gap-20 w-full lg:flex-row flex-col">
+        <div className="2xl lg:container lg:px-6 px-2 mx-auto min-h-[100vh]">
+            <div className="flex gap-20 lg:flex-row flex-col">
                 <CheckoutCart />
                 <div className="rounded pt-5 lg:px-10 lg:w-3/5 w-full px-3">
                     <ClientOnly

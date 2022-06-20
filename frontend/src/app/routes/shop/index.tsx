@@ -84,7 +84,7 @@ export default () => {
                                     View all {child.name.toLowerCase()}
                                 </Link>
                             </div>
-                            <div className="grid md:grid-col-5 gap-5">
+                            <div className="grid md:grid-col-5 grid-flow-col gap-5 overflow-auto">
                                 <CategoryList category={child} />
                             </div>
                         </div>

@@ -174,6 +174,16 @@
         display: grid;
         gap: 20px;
     }
+    @media (max-width: 976px) {
+        .frntr-grid .crystallize-grid {
+            display: grid;
+            gap: 5px;
+        }
+        .frntr-grid .crystallize-grid__cell {
+            grid-column: 2 / span 3 !important;
+            grid-row: auto !important;
+        }
+    }
 
     .frntr-grid .crystallize-grid__cell {
         align-items: stretch;
@@ -380,6 +390,13 @@
         left: 0;
         bottom: 0;
         right: 0;
+    }
+    .crystallize-tile {
+        position: relative;
+    }
+    .crystallize-background-image {
+        position: absolute;
+        z-index: 1;
     }
     @-webkit-keyframes load3 {
         0% {

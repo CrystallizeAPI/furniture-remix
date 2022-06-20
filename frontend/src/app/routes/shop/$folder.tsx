@@ -7,6 +7,7 @@ import sliderStyles from 'rc-slider/assets/index.css';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
+import { Grid } from '~/core/components/grid-cells/grid';
 
 export function links() {
     return [{ rel: 'stylesheet', href: sliderStyles }];
@@ -59,13 +60,25 @@ export default () => {
     const { folder, products, priceRange, isFiltered } = useLoaderData();
     let title = folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
-
+    const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
+        ?.selectedComponent;
+    let grid = hero?.content?.grids?.[0];
+    console.log({ grid });
     return (
-        <div className="container 2xl px-5 mx-auto w-full">
-            <h1 className="text-3xl font-bold mt-10 mb-4">{title}</h1>
-            <p className="w-3/5 mb-10">{description}</p>
-            <Filter priceRange={priceRange} />
-            {isFiltered ? <FilteredProducts products={products} /> : <ProductsList products={products} />}
-        </div>
+        <>
+            <div className="container 2xl px-5 mx-auto w-full">
+                <h1 className="text-3xl font-bold mt-10 mb-4">{title}</h1>
+                <p className="w-3/5 mb-10">{description}</p>
+            </div>
+            {grid && (
+                <div className="w-full  mx-auto 2xl">
+                    <Grid grid={grid} />
+                </div>
+            )}
+            <div className="container 2xl mt-20 px-5 mx-auto w-full">
+                <Filter priceRange={priceRange} />
+                {isFiltered ? <FilteredProducts products={products} /> : <ProductsList products={products} />}
+            </div>
+        </>
     );
 };

@@ -2,7 +2,7 @@ import { ContentTransformer } from '@crystallize/reactjs-components';
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { CategoryList } from '~/core/components/category-list';
-import { FolderHero } from '~/core/components/folder-hero';
+import { Grid } from '~/core/components/grid-cells/grid';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
@@ -40,9 +40,15 @@ export default () => {
     const { folder, navigation } = useLoaderData();
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
+    let grid = hero?.content?.grids?.[0];
+    console.log({ grid });
     return (
         <>
-            <FolderHero component={hero} />
+            {grid && (
+                <div className="w-full mt-10">
+                    <Grid grid={grid} />
+                </div>
+            )}
             <div className="2xl container mx-auto px-10">
                 <div className="flex flex-wrap gap-4 pt-20 mb-10  items-center">
                     <h2 className="font-medium text-md text-md w-full block">Browse categories</h2>

@@ -60,7 +60,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                 type={GridRenderingType.Div}
                 styleForCell={styleForCell}
                 style={{
-                    gridTemplateColumns: `minmax(50px, 1fr) repeat(${totalColumns}, minmax(0, ${colWidth}px)) minmax(50px, 1fr)`,
+                    gridTemplateColumns: `minmax(15px, 1fr) repeat(${totalColumns}, minmax(0, ${colWidth}px)) minmax(15px, 1fr)`,
                 }}
                 options={{
                     background: {
@@ -70,6 +70,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                             left: 0,
                             width: '100%',
                             height: '100%',
+                            objectFit: 'cover',
                         },
                         imageProps: {
                             sizes: '(max-width: 500px) 300px, 700px',
@@ -79,6 +80,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                     style: {
                         position: 'relative',
                         width: '100%',
+                        zIndex: 20,
                         minHeight: '100%',
                         display: 'flex',
                         alignItems: 'stretch',

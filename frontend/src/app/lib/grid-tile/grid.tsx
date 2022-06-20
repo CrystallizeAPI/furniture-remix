@@ -93,7 +93,7 @@ const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: T
             }}
         >
             {backgroundElement}
-            {children}
+            <div style={{ width: '100%', zIndex: 20 }}>{children}</div>
         </div>
     );
 };

@@ -970,15 +970,12 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                 name
                                 path
                                 type
+                                shape {
+                                  identifier
+                                }
                                 ...on Product {
                                   defaultVariant {
                                     price
-                                    priceVariants {
-                                      price
-                                      identifier
-                                      currency
-                                      name
-                                    }
                                     images {
                                       variants {
                                         url
@@ -999,6 +996,17 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                     }
                                     ... on RichTextContent {
                                       plainText
+                                    }
+                                    ... on ImageContent {
+                                      images {
+                                        url
+                                        altText
+                                        variants {
+                                          url
+                                          width
+                                          height
+                                        }
+                                      }
                                     }
                                     ... on ComponentChoiceContent {
                                       selectedComponent {
@@ -1054,12 +1062,6 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                               ...on Product {
                                                 defaultVariant {
                                                   price
-                                                  priceVariants {
-                                                    identifier
-                                                    name
-                                                    price
-                                                    currency
-                                                  }
                                                   firstImage {
                                                     url
                                                     altText
@@ -1080,6 +1082,10 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                       chunks {
                                         id  
                                         content {
+                                          ... on NumericContent {
+                                            number
+                                            unit
+                                          }
                                           ...on SingleLineContent{
                                               text
                                           }
@@ -1091,6 +1097,34 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                           }
                                           ...on BooleanContent {
                                               value
+                                          }
+                                          ... on ItemRelationsContent {
+                                            items {
+                                              name
+                                              type
+                                              path
+                                              ...on Product {
+                                                id
+                                                defaultVariant {
+                                                  price
+                                                  priceVariants {
+                                                    identifier
+                                                    name
+                                                    price
+                                                    currency
+                                                  }
+                                                  firstImage {
+                                                    url
+                                                    altText
+                                                    variants {
+                                                      url
+                                                      width
+                                                      height
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
                                           }
                                           ...on PropertiesTableContent {
                                               sections {
@@ -1121,6 +1155,9 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                   ... on ItemRelationsContent {
                     items {
                       name
+                      shape {
+                        identifier
+                      }
                       components {
                         content {
                           ... on SingleLineContent {

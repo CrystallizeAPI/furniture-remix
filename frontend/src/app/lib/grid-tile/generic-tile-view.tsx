@@ -53,7 +53,7 @@ export const GenericTileViewWithEmbed: React.FC<{ item: any }> = ({ item }) => {
 
 export const GenericTileViewWithImage: React.FC<{ image: any }> = ({ image }) => {
     return (
-        <div className="crystallize-generic-tile-view-image">
+        <div className="crystallize-generic-tile-view-image ">
             <Image {...image} sizes="(max-width: 500px) 300px, 700px" loading="lazy" />
         </div>
     );

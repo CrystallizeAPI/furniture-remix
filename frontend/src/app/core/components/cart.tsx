@@ -183,7 +183,7 @@ export const HydratedCart: React.FC = () => {
                                 </div>
                             );
                         })}
-                    {lots && <DiscountsDebug discounts={lots} />}
+                    {/* {lots && <DiscountsDebug discounts={lots} />} */}
                     {total && (
                         <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 text-sm justify-between w-60">

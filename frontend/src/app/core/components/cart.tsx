@@ -130,10 +130,6 @@ export const HydratedCart: React.FC = () => {
                                         <div className="flex flex-col">
                                             <p className="text-xl font-semibold w-full">{item.product.name}</p>
                                             <p>
-                                                {/* <CrystallizePrice currencyCode="EUR">
-                                                    {item.variantPrice.price}
-                                                </CrystallizePrice>
-                                                x{item.quantity}{' '} */}
                                                 <CrystallizePrice currencyCode="EUR">
                                                     {item.price.gross}
                                                 </CrystallizePrice>

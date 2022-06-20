@@ -264,12 +264,6 @@
         transform: scale(1, -1);
     }
 
-    @media screen and (max-width: 976px) {
-        .nav-anchor {
-            height: 20px;
-        }
-    }
-
     .nav-dropdown {
         /* border: 1px solid blue; */
         display: none;
@@ -420,6 +414,14 @@
         position: absolute;
         z-index: 1;
     }
+
+    @media screen and (max-width: 1024px) {
+        .nav-anchor {
+            height: auto;
+        }
+       
+    }
+
     @-webkit-keyframes load3 {
         0% {
             -webkit-transform: rotate(0deg);

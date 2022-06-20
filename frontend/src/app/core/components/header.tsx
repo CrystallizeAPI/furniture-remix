@@ -123,7 +123,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </div>
                 )}
             </div>
-            <div className="flex items-center justify-between lg:hidden relative">
+            <div className="flex items-center justify-between lg:hidden relative p-5">
                 <div className="flex flex-auto justify-between items-center w-1/4">
                     <Link to="/" prefetch="intent">
                         <div className="max-h-[80px] h-[50px] max-w-[100%] img-container">
@@ -133,7 +133,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 height="30"
                                 alt={storeFrontState.config.identifier + ` logo`}
                                 style={{
-                                    width: 'auto',
+                                    width: '200px',
                                     height: '100%',
                                 }}
                                 loading="eager"
@@ -165,8 +165,23 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             className="self-end m-4"
                             onClick={() => setIsOpen(false)}
                         />
-                        <div className="flex flex-col items-center gap-4 pt-10">
-                            <div className="mb-[20px]">
+                        <div className="flex flex-col items-center gap-4 pt-5">
+                            <Link to="/" prefetch="intent">
+                                <div className="max-h-[80px] h-[50px] max-w-[100%] img-container">
+                                    <img
+                                        src={storeFrontState.config.logo}
+                                        width="150"
+                                        height="30"
+                                        alt={storeFrontState.config.identifier + ` logo`}
+                                        style={{
+                                            width: '200px',
+                                            height: '100%',
+                                        }}
+                                        loading="eager"
+                                    />
+                                </div>
+                            </Link>
+                            <div className="mb-[20px] pt-5">
                                 <SearchBar />
                             </div>
                             {navigation?.folders?.tree?.children

@@ -133,7 +133,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 height="30"
                                 alt={storeFrontState.config.identifier + ` logo`}
                                 style={{
-                                    width: '200px',
+                                    width: 'auto',
                                     height: '100%',
                                 }}
                                 loading="eager"
@@ -156,55 +156,60 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </div>
                 </div>
                 {isOpen ? (
-                    <div className="z-50 h-screen bg-[#fff] absolute top-0 left-0 right-0 bottom-0 flex flex-col">
-                        <img
-                            src={CloseIcon}
-                            width="30"
-                            height="30"
-                            alt="Close icon"
-                            className="self-end m-4"
-                            onClick={() => setIsOpen(false)}
-                        />
-                        <div className="flex flex-col items-center gap-4 pt-5">
+                    <div className="z-50 h-screen bg-[#fff] fixed top-0 left-0 right-0 bottom-0 flex flex-col">
+                        <div className="p-5 flex justify-between items-center">
                             <Link to="/" prefetch="intent">
-                                <div className="max-h-[80px] h-[50px] max-w-[100%] img-container">
+                                <div className="max-h-[80px] h-[50px] max-w-[100%] img-container img-contain">
                                     <img
                                         src={storeFrontState.config.logo}
                                         width="150"
                                         height="30"
                                         alt={storeFrontState.config.identifier + ` logo`}
                                         style={{
-                                            width: '200px',
+                                            width: 'auto',
                                             height: '100%',
                                         }}
                                         loading="eager"
                                     />
                                 </div>
                             </Link>
-                            <div className="mb-[20px] pt-5">
+                            <img
+                                src={CloseIcon}
+                                width="30"
+                                height="30"
+                                alt="Close icon"
+                                // className="self-end m-4"
+                                onClick={() => setIsOpen(false)}
+                            />
+                        </div>
+
+                        <div className="flex flex-col items-left gap-4 pt-2">
+                            <div className="mb-[20px]">
                                 <SearchBar />
                             </div>
-                            {navigation?.folders?.tree?.children
-                                .filter((item: any) => {
-                                    return (
-                                        item.__typename === 'Folder' &&
-                                        item.children?.length > 0 &&
-                                        !item.name.startsWith('_')
-                                    );
-                                })
-                                .map((item: any) => {
-                                    return (
-                                        <Link
-                                            to={item.path}
-                                            prefetch="intent"
-                                            key={item.path}
-                                            className="hover:underline"
-                                        >
-                                            {item.name}
-                                        </Link>
-                                    );
-                                })}
-                            <TopicNavigation navigation={navigation.topics} />
+                            <div className="flex flex-col px-6">
+                                {navigation?.folders?.tree?.children
+                                    .filter((item: any) => {
+                                        return (
+                                            item.__typename === 'Folder' &&
+                                            item.children?.length > 0 &&
+                                            !item.name.startsWith('_')
+                                        );
+                                    })
+                                    .map((item: any) => {
+                                        return (
+                                            <Link
+                                                to={item.path}
+                                                prefetch="intent"
+                                                key={item.path}
+                                                className="text-xl block py-2 hover:underline"
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        );
+                                    })}
+                                <TopicNavigation navigation={navigation.topics} />
+                            </div>
                         </div>
                     </div>
                 ) : null}

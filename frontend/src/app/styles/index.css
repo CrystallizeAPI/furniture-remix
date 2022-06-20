@@ -258,8 +258,6 @@
     .nav-anchor {
         position: relative;
         height: 40px;
-        display: flex;
-        align-items: center;
     }
     .nav-anchor:hover .nav-dropdown {
         display: block;
@@ -279,19 +277,34 @@
 
     .nav-dropdown {
         /* border: 1px solid blue; */
-        display: none;
-        position: absolute;
-        min-width: 180px;
+        display: block;
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         background: #fff;
-        padding: 20px 0;
-        top: 100%;
         z-index: 99;
     }
     .nav-dropdown li {
-        padding: 20px 30px;
+        padding: 8px 15px;
     }
+    @media (min-width: 1024px) {
+        .nav-dropdown {
+            top: 100%;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            position: absolute;
+            padding: 20px 0;
+        }
+        .nav-dropdown li {
+            padding: 20px 30px;
+        }
+        .nav-anchor {
+            display: flex;
+            align-items: center;
+        }
+    }
+    /* 
+    sm: '640px',
+    md: '768px', */
     .img-cover-hover:hover img {
         width: 105%;
         height: 105%;

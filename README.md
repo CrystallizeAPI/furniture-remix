@@ -1,4 +1,4 @@
-# Furniture v2 - Remix - Boiler Plate
+# Furniture v2 - Remix Run - Boiler Plate
 
 ---
 

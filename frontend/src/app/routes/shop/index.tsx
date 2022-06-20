@@ -56,7 +56,7 @@ export default () => {
                         <Link
                             to={child?.path}
                             prefetch="intent"
-                            className="w-auto bg-grey py-2 px-6 rounded-md text-lg font-bold"
+                            className="w-auto bg-grey py-2 sm:px-6 px-4 rounded-md sm:text-lg text-md font-bold"
                             key={child.name}
                         >
                             {child.name}
@@ -84,7 +84,7 @@ export default () => {
                                     View all {child.name.toLowerCase()}
                                 </Link>
                             </div>
-                            <div className="grid md:grid-col-5 gap-5">
+                            <div className="grid md:grid-col-5 grid-flow-col gap-5 overflow-auto">
                                 <CategoryList category={child} />
                             </div>
                         </div>

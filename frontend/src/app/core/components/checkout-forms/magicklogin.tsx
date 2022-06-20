@@ -22,7 +22,7 @@ export const MagickLoginForm: React.FC<{
     };
 
     return (
-        <div className="flex flex-col gap-2 min-w-[500px]">
+        <div className="flex flex-col gap-2 md:min-w-[500px]">
             <h1 className="font-bold text-3xl">{title}</h1>
             <p className="mb-5  text-lg">We'll send you a magick link.</p>
             <form
@@ -37,7 +37,7 @@ export const MagickLoginForm: React.FC<{
                 }}
             >
                 {!onlyLogin && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                         <Input
                             defaultValue={formData.firstname}
                             label="First name"

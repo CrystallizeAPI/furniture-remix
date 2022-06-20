@@ -57,8 +57,8 @@ const DefaultArticle = ({ document }: { document: any }) => {
                     __html: JSON.stringify(buildSchemaMarkupForBlogPost(document)),
                 }}
             />
-            <div className="2xl container mx-auto mt-40 mb-40">
-                <div className="md:px-6 px-2 max-w-[1000px]">
+            <div className="2xl md:container md:px-6 px-4 mx-auto mt-40 mb-40">
+                <div className="max-w-[1000px]">
                     <p className="mb-4 text-md">{creationDate}</p>
                     <h1 className="text-6xl font-semibold mb-2">{title}</h1>
                     <div className="md:w-3/4 w-full my-10 text-2xl leading-[1.8em]">
@@ -69,13 +69,13 @@ const DefaultArticle = ({ document }: { document: any }) => {
             <div className="container 2xl img-container overflow-hidden rounded-lg mt-5 w-screen mx-auto">
                 <Image {...media?.images?.[0]} sizes="100vw" />
             </div>
-            <div className="2xl container mx-auto frntr-story">
+            <div className="2xl container mx-auto frntr-story md:px-6 px-4">
                 <ParagraphCollection paragraphs={paragraphs} />
             </div>
             {relatedArticles && (
                 <div className="2xl container px-6 mx-auto w-full mt-10">
                     <h3 className="font-bold mt-40 mb-4 text-xl">Read next</h3>
-                    <div className="grid grid-cols-3 gap-5 overflow-x-scroll">
+                    <div className="gap-5 lg:grid grid-cols-5 pb-5 flex flex-wrapl">
                         {relatedArticles?.map((item: any, index: number) => (
                             <div key={index}>
                                 <RelatedDocument document={item} />

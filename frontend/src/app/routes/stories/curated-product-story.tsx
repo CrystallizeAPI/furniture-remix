@@ -30,8 +30,8 @@ export function CuratedProductStory({ document }: { document: any }) {
     });
 
     return (
-        <div className="2xl grid grid-cols-1 md:grid-cols-5 gap-8 min-h-full container px-6 mx-auto mt-2 md:mt-20 mb-40">
-            <div className="img-container col-span-3 overflow-hidden self-start rounded-lg relative">
+        <div className="2xl grid lg:grid-cols-5 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
+            <div className="img-container lg:col-span-3 overflow-hidden self-start rounded-lg relative">
                 <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                     {merchandising.map((merch: any, i: number) => (
                         <span
@@ -62,9 +62,9 @@ export function CuratedProductStory({ document }: { document: any }) {
                 </div>
                 <Image {...shoppableImage} sizes="50vw" />
             </div>
-            <div className="px-6 col-span-2">
+            <div className="px-6 lg:col-span-2">
                 <h1 className="text-4xl font-semibold mb-2">{title}</h1>
-                <div className="w-3/4 text-2xl leading-[1.8em] pb-4">
+                <div className="lg:w-3/4 text-1xl leading-[1.4em] mb-5">
                     <ContentTransformer json={description} />
                 </div>
                 <div className="sticky top-20">

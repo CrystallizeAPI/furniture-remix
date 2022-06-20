@@ -50,7 +50,6 @@ export type Savings = Record<string, { quantity: number; amount: number }>;
 const DiscountsDebug: React.FC<{ discounts: DiscountLot[] }> = ({ discounts }) => {
     return (
         <div className="">
-            <h6>DEBUG</h6>
             {discounts.map((discount: DiscountLot, index: number) => {
                 const {
                     discount: { identifier },
@@ -131,16 +130,16 @@ export const HydratedCart: React.FC = () => {
                                         <div className="flex flex-col">
                                             <p className="text-xl font-semibold w-full">{item.product.name}</p>
                                             <p>
-                                                <CrystallizePrice currencyCode="EUR">
+                                                {/* <CrystallizePrice currencyCode="EUR">
                                                     {item.variantPrice.price}
                                                 </CrystallizePrice>
-                                                x{item.quantity}{' '}
+                                                x{item.quantity}{' '} */}
                                                 <CrystallizePrice currencyCode="EUR">
                                                     {item.price.gross}
                                                 </CrystallizePrice>
                                                 {saving && (
                                                     <>
-                                                        <del className="text-red">
+                                                        <del className="text-red mx-2">
                                                             <CrystallizePrice currencyCode="EUR">
                                                                 {item.price.gross + saving.amount}
                                                             </CrystallizePrice>

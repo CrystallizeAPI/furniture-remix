@@ -12,6 +12,7 @@ export const ImageGallery = ({ images }: { images: any }) => {
                         <Image
                             {...img}
                             sizes={`${i < 1 || (i === images?.length && !galleryHasOddNubmer) ? '50vw' : '33vw'}`}
+                            loading="lazy"
                         />
                     </div>
                 );

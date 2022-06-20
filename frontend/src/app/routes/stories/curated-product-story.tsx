@@ -32,7 +32,9 @@ export function CuratedProductStory({ document }: { document: any }) {
     });
 
     return (
-        <div className="2xl grid grid-cols-2 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
+        <div className="2xl grid lg:grid-cols-2 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
+            {/* {showCart ? <Cart /> : null} */}
+
             <div className="img-container overflow-hidden self-start rounded-lg relative">
                 <div className="absolute h-full w-full frntr-hotspot">
                     {merchandising.map((merch: any, i: number) => (
@@ -48,7 +50,7 @@ export function CuratedProductStory({ document }: { document: any }) {
             </div>
             <div className="px-6">
                 <h1 className="text-4xl font-semibold mb-2">{title}</h1>
-                <div className="w-3/4 text-2xl leading-[1.8em]">
+                <div className="lg:w-3/4 text-2xl leading-[1.8em]">
                     <ContentTransformer json={description} />
                 </div>
                 <div>

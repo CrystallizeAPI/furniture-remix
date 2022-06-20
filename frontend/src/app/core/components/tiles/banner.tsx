@@ -8,7 +8,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     return (
         <div
             className={`pl-10 flex md:flex-row flex-col container 2xl w-full mx-auto  ${
-                isFullWidth ? 'items-center' : 'pt-20'
+                isFullWidth ? 'items-center md:pt-0 pt-10' : 'pt-20'
             }`}
         >
             <div

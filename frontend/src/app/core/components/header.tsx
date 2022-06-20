@@ -4,7 +4,7 @@ import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
 import { useStoreFront } from '../storefront/provider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloseIcon from '~/assets/closeIcon.svg';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -17,6 +17,10 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
         { path: '/checkout', name: 'Checkout' },
         { path: '/confirmation', name: 'Confirmation' },
     ];
+
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location.pathname]);
 
     return (
         <>
@@ -119,12 +123,12 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </div>
                 )}
             </div>
-            <div className="flex items-center justify-between lg:hidden relative">
+            <div className="flex items-center justify-between lg:hidden relative p-4">
                 <Link to="/" prefetch="intent">
-                    <img src={storeFrontState.config.logo} width="150" height="30" />
+                    <img src={storeFrontState.config.logo} width="150" height="30" loading="eager" />
                 </Link>
                 <div className="flex items-center gap-5 justify-start">
-                    <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
+                    <Link to="/orders" className="rounded-md hover:bg-[#efefef]">
                         <img className="w-[30px] h-[30px]" src={`${UserIcon}`} width="25" height="25" alt="User icon" />
                     </Link>
                     <BasketButton />
@@ -135,17 +139,19 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </div>
                 </div>
                 {isOpen ? (
-                    <div className="z-50 h-screen bg-[#fff] absolute top-0 left-0 right-0 flex flex-col">
+                    <div className="z-50 h-screen bg-[#fff] absolute top-0 left-0 right-0 bottom-0 flex flex-col">
                         <img
                             src={CloseIcon}
                             width="30"
                             height="30"
                             alt="Close icon"
-                            className="self-end  m-4"
+                            className="self-end m-4"
                             onClick={() => setIsOpen(false)}
                         />
-                        <div className="flex flex-col items-center gap-5 pt-10">
-                            <SearchBar />
+                        <div className="flex flex-col items-center gap-4 pt-10">
+                            <div className="mb-[20px]">
+                                <SearchBar />
+                            </div>
                             {navigation?.folders?.tree?.children
                                 .filter((item: any) => {
                                     return (

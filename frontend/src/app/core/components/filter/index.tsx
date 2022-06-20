@@ -14,8 +14,8 @@ export const Filter: React.FC<{ priceRange: any }> = ({ priceRange }) => {
         submit(event.currentTarget, { replace: true });
     }
     return (
-        <div className="flex gap-5 mb-20">
-            <Form method="get" onChange={handleChange} ref={formRef} className="flex gap-4">
+        <div className="flex gap-5 mb-20 flex-wrap items-center justify-start">
+            <Form method="get" onChange={handleChange} ref={formRef} className="flex gap-4 flex-wrap">
                 <label>
                     <select
                         name="orderBy"

@@ -6,11 +6,11 @@ export const CategoryList = ({ category }: { category: any }) => {
         ?.plainText?.[0];
 
     return (
-        <div className="my-10">
+        <div className="my-10 w-max">
             <h2 className="text-2xl font-bold">{title}</h2>
             <p className="w-3/5 mb-3 mt-2">{description}</p>
-            <div className="grid grid-cols-5 gap-6">
-                {category?.children?.map((child: any) => {
+            <div className="gap-6 w-full flex">
+                {category?.children?.slice(0, 5)?.map((child: any) => {
                     return <Product item={child} key={`${category.name}-${child.path}`} />;
                 })}
             </div>

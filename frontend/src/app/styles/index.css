@@ -238,6 +238,12 @@
         transform: scale(1, -1);
     }
 
+    @media screen and (max-width: 976px) {
+        .nav-anchor {
+            height: 20px;
+        }
+    }
+
     .nav-dropdown {
         /* border: 1px solid blue; */
         display: none;

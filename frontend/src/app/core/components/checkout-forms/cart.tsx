@@ -10,7 +10,7 @@ export const CheckoutCart: React.FC = () => {
         return <p>Cart is loading...</p>;
     }
     return (
-        <div className="w-2/5">
+        <div className="lg:w-2/5 w-full">
             <h1 className="font-bold text-2xl mt-10 mb-5">Your cart</h1>
             {cart &&
                 cart.items.map((item: any, index: number) => {

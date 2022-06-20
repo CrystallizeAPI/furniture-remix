@@ -37,7 +37,7 @@ export const MagickLoginForm: React.FC<{
                 }}
             >
                 {!onlyLogin && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                         <Input
                             defaultValue={formData.firstname}
                             label="First name"

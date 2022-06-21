@@ -37,22 +37,28 @@ export default () => {
     }, [orderId, tryCount]);
 
     return (
-        <div className="lg:w-content mx-auto w-full">
+        <div className="min-h-[70vh] items-center flex lg:w-content mx-auto w-full">
             {order && (
-                <div className="w-2/4 mx-auto">
+                <div className="w-3/4 mx-auto">
                     <div className="mt-10">
                         <h1 className="font-bold text-3xl">Order Confirmation</h1>
-                        <p className="my-4">We've received your order. The order ID is: #{order.id}.</p>
+                        <p className="mt-4">We've received your order.</p>
+                        <p> The order ID is: #{order.id}.</p>
                         <div className="mt-2">
                             {order.cart.map((item: any, index: number) => {
                                 return (
-                                    <div key={index} className="bg-grey2 p-5 flex justify-between">
-                                        <div>
-                                            <p className="font-semibold">
-                                                {item.name} x {item.quantity}
-                                            </p>
+                                    <div key={index} className="bg-grey2 px-3 py-2 mb-2 gap-2 flex items-center">
+                                        <div className="img-container overflow-hidden rounded-md img-contain w-[50px] h-[70px]">
+                                            <img src={item.imageUrl} />
                                         </div>
-                                        <p>${item.price.gross * item.quantity}</p>
+                                        <div className="flex w-full justify-between">
+                                            <div>
+                                                <p className="font-semibold">
+                                                    {item.name} x {item.quantity}
+                                                </p>
+                                            </div>
+                                            <p>€{item.price.gross * item.quantity}</p>
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -66,7 +72,7 @@ export default () => {
                                     <p>€ {order.total.gross - order.total.net}</p>
                                 </div>
                                 <div className="flex font-bold text-xl justify-between w-60">
-                                    <p>To pay</p>
+                                    <p>Paid</p>
                                     <p>€ {order.total.gross}</p>
                                 </div>
                             </div>

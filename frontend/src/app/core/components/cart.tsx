@@ -194,7 +194,7 @@ export const HydratedCart: React.FC = () => {
                                     <CrystallizePrice currencyCode="EUR">{total.taxAmount}</CrystallizePrice>
                                 </p>
                             </div>
-                            <div className="flex font-bold mt-2 text-lg justify-between w-60">
+                            <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
                                 <p>To pay</p>
                                 <p>
                                     <DisplayPrice

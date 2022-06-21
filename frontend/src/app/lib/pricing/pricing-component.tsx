@@ -18,11 +18,13 @@ export const Price: React.FC<{
 };
 
 export const DisplayPrice: React.FC<{ price: TDisplayPrice; className?: string }> = ({ price, className = '' }) => {
-    if (price.discounted) {
+    if (price.discounted > price.default) {
         return (
             <span className={`crystallize-discounted-price ${className}`}>
                 <del>
-                    <Price currencyCode={price.currency.code}>{price.default}</Price>
+                    <Price currencyCode={price.currency.code} className="font-medium block text-right text-sm">
+                        {price.default}
+                    </Price>
                 </del>
                 <Price currencyCode={price.currency.code}>{price.discounted}</Price>
                 {price.percent > 0 && <span className={`crystallize-discount-percent`}>-{price.percent}%</span>}

@@ -5,6 +5,10 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 
+interface Chars {
+    [key: string]: string;
+}
+
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
@@ -18,7 +22,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default () => {
     let { data, params } = useLoaderData();
-    let topicName = params.child.replace(/-/g, ' ');
+    let param = params.child.replace(/-/g, ' ');
+
+    let chars: Chars = { ø: 'o', å: 'a', ä: 'a', ö: 'o', Ü: 'u', æ: 'ae' };
+
+    let topic = data.topics.aggregations.topics.filter((item: any) => {
+        let str = item.name.replace(/[øåäöÜæ]/g, (char: string) => chars[char]);
+        if (str.toLowerCase() === param.toLowerCase()) {
+            return item;
+        }
+    })?.[0];
+
+    let topicName = topic.name || param;
 
     return (
         <div className="container 2xl mx-auto px-6 mt-10">

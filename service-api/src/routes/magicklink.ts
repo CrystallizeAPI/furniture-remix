@@ -52,7 +52,10 @@ export const magickLinkBodyConvertedRoutes: ValidatingRequestRouting = {
             args: (context: Koa.Context): MagickLinkConfirmArguments => {
                 const config = require('platformsh-config').config();
                 const frontendURL = config.isValidPlatform()
-                    ? config.getRoute('frontapp').url.replace(/\/$/, '').replace('*', context.storeFront.identifier)
+                    ? config
+                          .getRoute('frontapp')
+                          .url.replace(/\/$/, '')
+                          .replace('*', context.storeFront.config.identifier)
                     : (process.env.FRONTEND_URL_PATTERN || '').replace('%s', context.storeFront.config.identifier);
                 const backLinkPath = context.query.callbackPath ? context.query.callbackPath : '/checkout';
                 return {

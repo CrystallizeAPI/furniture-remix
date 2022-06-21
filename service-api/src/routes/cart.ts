@@ -88,6 +88,7 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
             },
         },
         extra: {
+            ...wrapper.extra,
             discounts: {
                 lots,
                 savings,

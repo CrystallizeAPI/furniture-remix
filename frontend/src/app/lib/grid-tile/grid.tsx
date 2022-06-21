@@ -69,14 +69,22 @@ const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: T
     if (background.images && background.images.length > 0) {
         backgroundElement = (
             <div className="crystallize-background-image" style={options?.background?.style}>
-                <Image {...background.images[0]} {...options?.background?.imageProps} />
+                <Image {...background.images[0]} {...options?.background?.imageProps} size="100vw" />
             </div>
         );
     }
+    console.log({ background });
     if (background.videos && background.videos.length > 0) {
         backgroundElement = (
             <div className="crystallize-background-video" style={options?.background?.style}>
-                <Video {...background.videos[0]} {...options?.background?.imageProps} />
+                <Video
+                    {...background.videos[0]}
+                    {...options?.background?.imageProps}
+                    autoPlay
+                    loop
+                    muted
+                    controls={false}
+                />
             </div>
         );
     }
@@ -89,7 +97,7 @@ const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: T
                 ...options?.style,
                 background: tile.styling?.background?.color ?? null,
                 color: tile.styling?.font?.color ?? null,
-                fontSize: tile.styling?.font?.size ?? null,
+                // fontSize: tile.styling?.font?.size ?? null,
             }}
         >
             {backgroundElement}
@@ -126,6 +134,7 @@ const componentChunkContent = (
 
 const normalizeTile = (cellItem: any): Tile | null => {
     const components = cellItem.components;
+    console.log({ cellItem });
     if (!components) {
         return null;
     }

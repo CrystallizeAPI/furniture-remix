@@ -441,9 +441,35 @@
     .crystallize-tile {
         position: relative;
     }
-    .crystallize-background-image {
+    .crystallize-background-image,
+    .crystallize-background-video {
         position: absolute;
         z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .crystallize-background-image figure,
+    .crystallize-background-image picture,
+    .crystallize-background-video figure,
+    .crystallize-background-video picture,
+    .crystallize-background-video .react-video {
+        height: 100%;
+        width: 100%;
+    }
+    .crystallize-background-video .react-video__thumbnail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .crystallize-background-image img,
+    .crystallize-background-video video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
     }
 
     @media screen and (max-width: 1024px) {

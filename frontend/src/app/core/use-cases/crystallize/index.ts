@@ -223,6 +223,12 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                       ...on Product {
                         defaultVariant {
                           price
+                          priceVariants {
+                            identifier
+                            name
+                            price
+                            currency
+                          }
                           images {
                             variants {
                               url
@@ -261,6 +267,20 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                               content {
                                 ...on SingleLineContent {
                                   text
+                                }
+                                    ... on VideoContent {
+                                    videos {
+                                        title
+                                        playlists
+                                        id
+                                        thumbnails {
+                                            variants {
+                                                url
+                                                width
+                                                height
+                                            }
+                                        }
+                                    }
                                 }
                                 ... on ImageContent {
                                   images {
@@ -1052,6 +1072,20 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                           ...on SingleLineContent {
                                             text
                                           }
+                                          ... on VideoContent {
+                                            videos {
+                                                title
+                                                playlists
+                                                id
+                                                thumbnails {
+                                                    variants {
+                                                        url
+                                                        width
+                                                        height
+                                                    }
+                                                }
+                                            }
+                                        }
                                           ... on ImageContent {
                                             images {
                                               url

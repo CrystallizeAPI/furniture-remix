@@ -1,11 +1,13 @@
 import { useRemoteCart } from '~/core/hooks/useRemoteCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
-import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from '~/lib/pricing/pricing-component';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const CheckoutCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
+    const { state: contextState } = useAppContext();
+
     if (loading) {
         return (
             <div className="lg:w-2/5 w-full">
@@ -44,19 +46,19 @@ export const CheckoutCart: React.FC = () => {
                     <div className="flex text-grey3 text-sm justify-between w-60">
                         <p>Net</p>
                         <p>
-                            <Price currencyCode="EUR">{total.net}</Price>
+                            <Price currencyCode={contextState.currency.code}>{total.net}</Price>
                         </p>
                     </div>
                     <div className="flex text-grey3 text-sm justify-between w-60">
                         <p>Tax amount</p>
                         <p>
-                            <Price currencyCode="EUR">{total.taxAmount}</Price>
+                            <Price currencyCode={contextState.currency.code}>{total.taxAmount}</Price>
                         </p>
                     </div>
                     <div className="flex font-bold mt-2 text-lg justify-between w-60">
                         <p>To pay</p>
                         <p>
-                            <Price currencyCode="EUR">{total.gross}</Price>
+                            <Price currencyCode={contextState.currency.code}>{total.gross}</Price>
                         </p>
                     </div>
                 </div>

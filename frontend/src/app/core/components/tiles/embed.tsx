@@ -14,7 +14,7 @@ export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
     return (
         <Link to={firstItem.path} prefetch="intent" className="grid min-h-[100%]">
             <div className="flex flex-col justify-between items-stretch h-full overflow-hidden w-full">
-                <div className="px-10 pt-20 h-1/3 ">
+                <div className="px-10 pt-20 md:h-1/3 ">
                     {title && <h2 className="text-2xl font-bold mb-3">{title}</h2>}
                     {description && <p className="embed-text">{description}</p>}
                     {ctas &&

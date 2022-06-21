@@ -79,7 +79,7 @@ export const VariantSelector = ({
                     return (
                         <div key={attribute} className="border-[#dfdfdf]">
                             <p className="my-3 text-sm  font-semibold">{attribute}</p>
-                            <div className="flex mb-5 flex-wrap gap-2">
+                            <div className="flex mb-5 flex-nowrap md:flex-wrap gap-2 overflow-x-scroll">
                                 {attr.map((value: string) => {
                                     const selectedAttributes = attributesToObject(selectedVariant);
                                     selectedAttributes[attribute] = value;
@@ -91,7 +91,7 @@ export const VariantSelector = ({
                                             key={value}
                                             onClick={(e) => onAttributeSelect({ attribute, value })}
                                             type="button"
-                                            className=" w-1/6   py-2 rounded-lg text-text flex flex-col items-center text-xs font-medium"
+                                            className="w-2/6 md:w-1/6 md:py-2 py-4 rounded-lg text-text flex flex-col items-center text-xs font-medium "
                                             disabled={!mostSuitableVariant}
                                             style={{
                                                 opacity: !mostSuitableVariant ? 0.2 : 1,

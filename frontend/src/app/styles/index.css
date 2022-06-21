@@ -316,9 +316,14 @@
         border: 1px solid red !important;
     }
     .frntr-content-transformer {
-        font-size: 1.5rem;
+        font-size: 1rem;
         color: #000;
         line-height: 1.5em;
+    }
+    @media (min-width: 1024px) {
+        .frntr-content-transformer {
+            font-size: 1.5rem;
+        }
     }
     .frntr-content-transformer h2 {
         font-size: 3rem;

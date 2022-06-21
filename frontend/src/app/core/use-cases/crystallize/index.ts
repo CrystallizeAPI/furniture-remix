@@ -1,138 +1,138 @@
 import {
-  createNavigationFetcher,
-  createCatalogueFetcher,
-  catalogueFetcherGraphqlBuilder,
-  ClientInterface,
+    createNavigationFetcher,
+    createCatalogueFetcher,
+    catalogueFetcherGraphqlBuilder,
+    ClientInterface,
 } from '@crystallize/js-api-client';
 
 export const CrystallizeAPI = {
-  fetchNavigation,
-  fetchTopicNavigation,
-  fetchProducts,
-  search,
-  fetchCampaignPage,
-  fetchDocument,
-  fetchProduct,
-  fetchFolder,
-  searchOrderBy,
-  orderByPriceRange,
-  getPriceRange,
-  filterByPriceRange,
-  searchByTopic,
+    fetchNavigation,
+    fetchTopicNavigation,
+    fetchProducts,
+    search,
+    fetchCampaignPage,
+    fetchDocument,
+    fetchProduct,
+    fetchFolder,
+    searchOrderBy,
+    orderByPriceRange,
+    getPriceRange,
+    filterByPriceRange,
+    searchByTopic,
 };
 
 async function fetchNavigation(apiClient: ClientInterface, path: string) {
-  const fetch = createNavigationFetcher(apiClient).byFolders;
-  const builder = catalogueFetcherGraphqlBuilder;
-  const response = await fetch(
-    path,
-    'en',
-    3,
-    {
-      tenant: {
-        __args: {
-          language: 'en',
-        },
-        name: true,
-      },
-    },
-    (level) => {
-      switch (level) {
-        case 0:
-          return {};
-        case 1:
-          return {
-            __on: [
-              builder.onItem({
-                ...builder.onComponent('description', 'RichText', {
-                  json: true,
-                }),
-              }),
-              builder.onFolder(),
-            ],
-          };
-        case 2:
-          return {
-            __on: [
-              builder.onItem(),
-              builder.onProduct({
-                defaultVariant: {
-                  price: true,
-                  priceVariants: {
-                    price: true,
-                    currency: true,
-                    identifier: true,
-                    name: true,
-                  },
-                  firstImage: {
-                    altText: true,
-                    variants: {
-                      width: true,
-                      url: true,
-                    },
-                  },
+    const fetch = createNavigationFetcher(apiClient).byFolders;
+    const builder = catalogueFetcherGraphqlBuilder;
+    const response = await fetch(
+        path,
+        'en',
+        3,
+        {
+            tenant: {
+                __args: {
+                    language: 'en',
                 },
-              }),
-            ],
-          };
-        default:
-          return {};
-      }
-    },
-  );
-  return response;
+                name: true,
+            },
+        },
+        (level) => {
+            switch (level) {
+                case 0:
+                    return {};
+                case 1:
+                    return {
+                        __on: [
+                            builder.onItem({
+                                ...builder.onComponent('description', 'RichText', {
+                                    json: true,
+                                }),
+                            }),
+                            builder.onFolder(),
+                        ],
+                    };
+                case 2:
+                    return {
+                        __on: [
+                            builder.onItem(),
+                            builder.onProduct({
+                                defaultVariant: {
+                                    price: true,
+                                    priceVariants: {
+                                        price: true,
+                                        currency: true,
+                                        identifier: true,
+                                        name: true,
+                                    },
+                                    firstImage: {
+                                        altText: true,
+                                        variants: {
+                                            width: true,
+                                            url: true,
+                                        },
+                                    },
+                                },
+                            }),
+                        ],
+                    };
+                default:
+                    return {};
+            }
+        },
+    );
+    return response;
 }
 
 async function fetchTopicNavigation(apiClient: ClientInterface) {
-  const fetch = createNavigationFetcher(apiClient).byTopics;
-  const response = await fetch('/', 'en', 2);
-  return response;
+    const fetch = createNavigationFetcher(apiClient).byTopics;
+    const response = await fetch('/', 'en', 2);
+    return response;
 }
 
 async function fetchProducts(apiClient: ClientInterface, path: string) {
-  const fetch = createCatalogueFetcher(apiClient);
-  const builder = catalogueFetcherGraphqlBuilder;
-  const query = {
-    catalogue: {
-      __args: {
-        path,
-        language: 'en',
-      },
-      children: {
-        __on: [
-          builder.onItem(),
-          builder.onProduct({
-            defaultVariant: {
-              price: true,
-              priceVariants: {
-                price: true,
-                currency: true,
-                identifier: true,
-                name: true,
-              },
-              firstImage: {
-                altText: true,
-                variants: {
-                  width: true,
-                  height: true,
-                  url: true,
-                },
-              },
+    const fetch = createCatalogueFetcher(apiClient);
+    const builder = catalogueFetcherGraphqlBuilder;
+    const query = {
+        catalogue: {
+            __args: {
+                path,
+                language: 'en',
             },
-          }),
-          builder.onDocument(),
-          builder.onFolder(),
-        ],
-      },
-    },
-  };
-  const response = await fetch<any>(query);
-  return response.catalogue?.children?.filter((item: any) => item.__typename === 'Product') || [];
+            children: {
+                __on: [
+                    builder.onItem(),
+                    builder.onProduct({
+                        defaultVariant: {
+                            price: true,
+                            priceVariants: {
+                                price: true,
+                                currency: true,
+                                identifier: true,
+                                name: true,
+                            },
+                            firstImage: {
+                                altText: true,
+                                variants: {
+                                    width: true,
+                                    height: true,
+                                    url: true,
+                                },
+                            },
+                        },
+                    }),
+                    builder.onDocument(),
+                    builder.onFolder(),
+                ],
+            },
+        },
+    };
+    const response = await fetch<any>(query);
+    return response.catalogue?.children?.filter((item: any) => item.__typename === 'Product') || [];
 }
 
 async function search(apiClient: ClientInterface, value: string): Promise<any[]> {
-  const data = await apiClient.searchApi(
-    `query Search ($searchTerm: String!){
+    const data = await apiClient.searchApi(
+        `query Search ($searchTerm: String!){
                         search(language:"en", filter: { 
                             searchTerm: $searchTerm, 
                             type: PRODUCT, 
@@ -166,17 +166,17 @@ async function search(apiClient: ClientInterface, value: string): Promise<any[]>
                         }
                       }
             `,
-    {
-      searchTerm: value,
-    },
-  );
-  return data.search.edges;
+        {
+            searchTerm: value,
+        },
+    );
+    return data.search.edges;
 }
 
 async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any) {
-  return (
-    await apiClient.catalogueApi(
-      `query ($language: String!, $path: String!, $version: VersionLabel) {
+    return (
+        await apiClient.catalogueApi(
+            `query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
@@ -410,19 +410,19 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
       }
     }
   }`,
-      {
-        language: 'en',
-        path,
-        version: version === 'draft' ? 'draft' : 'published',
-      },
-    )
-  ).catalogue;
+            {
+                language: 'en',
+                path,
+                version: version === 'draft' ? 'draft' : 'published',
+            },
+        )
+    ).catalogue;
 }
 
 async function fetchDocument(apiClient: ClientInterface, path: string, version: string) {
-  return (
-    await apiClient.catalogueApi(
-      `query ($language: String!, $path: String!, $version: VersionLabel) {
+    return (
+        await apiClient.catalogueApi(
+            `query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
@@ -627,22 +627,22 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
       }
     }
   }`,
-      {
-        language: 'en',
-        path,
-        version: version === 'draft' ? 'draft' : 'published',
-      },
-    )
-  ).catalogue;
+            {
+                language: 'en',
+                path,
+                version: version === 'draft' ? 'draft' : 'published',
+            },
+        )
+    ).catalogue;
 }
 
 async function fetchProduct(apiClient: ClientInterface, path: string, version: string) {
-  //should be using the createCatalogueFetcher
-  // just did this way to have everything for now
+    //should be using the createCatalogueFetcher
+    // just did this way to have everything for now
 
-  return (
-    await apiClient.catalogueApi(
-      `
+    return (
+        await apiClient.catalogueApi(
+            `
       query ($language: String!, $path: String!, $version: VersionLabel!) {
       catalogue(language: $language, path: $path, version: $version) {
         meta: component(id:"meta"){
@@ -937,19 +937,19 @@ async function fetchProduct(apiClient: ClientInterface, path: string, version: s
   }  
 
 `,
-      {
-        language: 'en',
-        path,
-        version: version === 'draft' ? 'draft' : 'published',
-      },
-    )
-  ).catalogue;
+            {
+                language: 'en',
+                path,
+                version: version === 'draft' ? 'draft' : 'published',
+            },
+        )
+    ).catalogue;
 }
 
 async function fetchFolder(apiClient: ClientInterface, path: string, version: string) {
-  return (
-    await apiClient.catalogueApi(
-      `query ($language: String!, $path: String!, $version: VersionLabel) {
+    return (
+        await apiClient.catalogueApi(
+            `query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(language: $language, path: $path, version: $version) {
         name
         meta: component(id:"meta"){
@@ -1332,22 +1332,22 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
       }
     }
   `,
-      {
-        language: 'en',
-        path,
-        version: version === 'draft' ? 'draft' : 'published',
-      },
-    )
-  ).catalogue;
+            {
+                language: 'en',
+                path,
+                version: version === 'draft' ? 'draft' : 'published',
+            },
+        )
+    ).catalogue;
 }
 
 async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any) {
-  const field = orderBy?.split('_')[0];
-  const direction = orderBy?.split('_')[1];
-  const priceRangeParams = fitlers.price;
+    const field = orderBy?.split('_')[0];
+    const direction = orderBy?.split('_')[1];
+    const priceRangeParams = fitlers.price;
 
-  const results = await apiClient.searchApi(
-    `query SEARCH_ORDERBY(
+    const results = await apiClient.searchApi(
+        `query SEARCH_ORDERBY(
         $path: [String!]
         $field: OrderField!
         $direction: OrderDirection!
@@ -1388,21 +1388,21 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
         }
       }
       `,
-    {
-      path,
-      field: field === 'NAME' ? 'ITEM_NAME' : field,
-      direction,
-      min: priceRangeParams.min ? parseFloat(priceRangeParams.min) : 0.0,
-      max: priceRangeParams.max ? parseFloat(priceRangeParams.max) : 0.0,
-    },
-  );
+        {
+            path,
+            field: field === 'NAME' ? 'ITEM_NAME' : field,
+            direction,
+            min: priceRangeParams.min ? parseFloat(priceRangeParams.min) : 0.0,
+            max: priceRangeParams.max ? parseFloat(priceRangeParams.max) : 0.0,
+        },
+    );
 
-  return results?.search?.edges || [];
+    return results?.search?.edges || [];
 }
 
 async function orderByPriceRange(apiClient: ClientInterface, path: string, orderSearchParams: any) {
-  return await apiClient.searchApi(
-    `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
+    return await apiClient.searchApi(
+        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
         search(
           filter: {
             type: PRODUCT
@@ -1435,15 +1435,15 @@ async function orderByPriceRange(apiClient: ClientInterface, path: string, order
           }
         }
       }`,
-    {
-      path,
-    },
-  );
+        {
+            path,
+        },
+    );
 }
 
 async function getPriceRange(apiClient: ClientInterface, path: string) {
-  return await apiClient.searchApi(
-    `query GET_PRICE_RANGE($path: [String!]) {
+    return await apiClient.searchApi(
+        `query GET_PRICE_RANGE($path: [String!]) {
         search(
           filter: {
             type: PRODUCT
@@ -1459,15 +1459,15 @@ async function getPriceRange(apiClient: ClientInterface, path: string) {
         }
       }
       `,
-    {
-      path,
-    },
-  );
+        {
+            path,
+        },
+    );
 }
 
 async function filterByPriceRange(apiClient: ClientInterface, path: string, min: string, max: string) {
-  return await apiClient.searchApi(
-    `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
+    return await apiClient.searchApi(
+        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
         search(
           filter: {
             type: PRODUCT
@@ -1501,17 +1501,17 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
         }
       }
       `,
-    {
-      path,
-      min,
-      max,
-    },
-  );
+        {
+            path,
+            min,
+            max,
+        },
+    );
 }
 
 async function searchByTopic(apiClient: ClientInterface, value: string) {
-  return await apiClient.searchApi(
-    `query SEARCH_BY_TOPIC($value: String!) {
+    return await apiClient.searchApi(
+        `query SEARCH_BY_TOPIC($value: String!) {
       topics: search(language: "en"){
         aggregations {
           topics {
@@ -1563,8 +1563,8 @@ async function searchByTopic(apiClient: ClientInterface, value: string) {
           }
         }
       `,
-    {
-      value,
-    },
-  );
+        {
+            value,
+        },
+    );
 }

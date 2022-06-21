@@ -6,9 +6,11 @@ import { TopicNavigation } from './topic-navigation';
 import { useStoreFront } from '../storefront/provider';
 import { useEffect, useState } from 'react';
 import CloseIcon from '~/assets/closeIcon.svg';
+import { useAppContext } from '../app-context/provider';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: storeFrontState } = useStoreFront();
+    const { state: appContextState, dispatch: appContextDispatch } = useAppContext();
     let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
     let [isOpen, setIsOpen] = useState(false);
     let location = useLocation();
@@ -21,6 +23,14 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
+
+    useEffect(() => {
+        let timeout: ReturnType<typeof setTimeout>;
+        setTimeout(() => {
+            appContextDispatch.resetLastAddedItems();
+        }, 3000);
+        return () => clearTimeout(timeout);
+    }, [appContextState.latestAddedCartItems]);
 
     return (
         <>
@@ -108,6 +118,10 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 </div>
                             </div>
                             <div className="flex flex-auto items-center justify-end ">
+                                {appContextState.latestAddedCartItems.length > 0 && (
+                                    <p>ADDED: {appContextState.latestAddedCartItems.length}</p>
+                                )}
+
                                 <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
                                     <img
                                         className="w-[30px] h-[30px]"

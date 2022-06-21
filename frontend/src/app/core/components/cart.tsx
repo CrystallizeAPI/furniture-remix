@@ -5,7 +5,7 @@ import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import trashIcon from '~/assets/trashIcon.svg';
 import { DisplayPrice, Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
-import { getCurrencyFromCode } from '~/lib/pricing/currencies';
+import { useAppContext } from '../app-context/provider';
 
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
@@ -80,6 +80,7 @@ export const HydratedCart: React.FC = () => {
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     const { lots, savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
+    const { state: contextState } = useAppContext();
 
     if (isEmpty()) {
         return (
@@ -130,13 +131,13 @@ export const HydratedCart: React.FC = () => {
                                         <div className="flex flex-col">
                                             <p className="text-xl font-semibold w-full">{item.product.name}</p>
                                             <p>
-                                                <CrystallizePrice currencyCode="EUR">
+                                                <CrystallizePrice currencyCode={contextState.currency.code}>
                                                     {item.price.gross}
                                                 </CrystallizePrice>
                                                 {saving && (
                                                     <>
                                                         <del className="text-red mx-2">
-                                                            <CrystallizePrice currencyCode="EUR">
+                                                            <CrystallizePrice currencyCode={contextState.currency.code}>
                                                                 {item.price.gross + saving.amount}
                                                             </CrystallizePrice>
                                                         </del>
@@ -185,13 +186,17 @@ export const HydratedCart: React.FC = () => {
                             <div className="flex text-grey3 text-sm justify-between w-60">
                                 <p>Net</p>
                                 <p>
-                                    <CrystallizePrice currencyCode="EUR">{total.net}</CrystallizePrice>
+                                    <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        {total.net}
+                                    </CrystallizePrice>
                                 </p>
                             </div>
                             <div className="flex text-grey3 text-sm justify-between w-60">
                                 <p>Tax amount</p>
                                 <p>
-                                    <CrystallizePrice currencyCode="EUR">{total.taxAmount}</CrystallizePrice>
+                                    <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        {total.taxAmount}
+                                    </CrystallizePrice>
                                 </p>
                             </div>
                             <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
@@ -206,7 +211,7 @@ export const HydratedCart: React.FC = () => {
                                                     (total.gross + total.discounts[0].amount)) *
                                                     100,
                                             ),
-                                            currency: getCurrencyFromCode('EUR'),
+                                            currency: contextState.currency,
                                         }}
                                     />
                                 </p>

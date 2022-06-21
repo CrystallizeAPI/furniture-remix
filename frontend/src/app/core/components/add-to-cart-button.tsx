@@ -26,7 +26,7 @@ export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: an
 
     return (
         <>
-            {showTada && <Cart />}
+            {/* {showTada && <Cart />} */}
             <button
                 className="bg-[#000] border px-10 py-3 relative overflow-hidden h-[50px] rounded text-[#fff] w-[200px] font-bold hover:bg-black-100"
                 onClick={() => {

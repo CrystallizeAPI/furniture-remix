@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import CloseIcon from '~/assets/closeIcon.svg';
 import { useAppContext } from '../app-context/provider';
 
+import { Image } from '@crystallize/reactjs-components';
+import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
+
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: storeFrontState } = useStoreFront();
     const { state: appContextState, dispatch: appContextDispatch } = useAppContext();
@@ -25,6 +28,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     }, [location.pathname]);
 
     useEffect(() => {
+        if (appContextState.latestAddedCartItems.length === 0) {
+            return;
+        }
         let timeout: ReturnType<typeof setTimeout>;
         setTimeout(() => {
             appContextDispatch.resetLastAddedItems();
@@ -34,6 +40,29 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     return (
         <>
+            {appContextState.latestAddedCartItems.length > 0 && (
+                <div className="border-[#dfdfdf] border rounded-md shadow fixed max-w-full sm:top-2 sm:right-2 bg-[#fff]  z-[60]  p-6">
+                    <p className="font-bold text-md mb-3 pb-2">
+                        Added {appContextState.latestAddedCartItems.length} product to cart
+                    </p>
+                    {appContextState.latestAddedCartItems.map((item) => (
+                        <div className="flex p-3 mt-1 items-center bg-grey2">
+                            <div className="max-w-[35px] max-h-[50px] img-container img-contain">
+                                <Image {...item.images?.[0]} size="100px" />
+                            </div>
+                            <div>
+                                <p className="text-sm">{item.name}</p>
+                                <p className="text-sm font-bold">€{item.price}</p>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="flex gap-3 mt-3 items-center border-t pt-2 border-t-[#dfdfdf]">
+                        <button className="bg-grey text-sm text-[#000] font-bold py-2 px-4 rounded-md">
+                            <Link to={'/cart'}>Go to cart</Link>
+                        </button>
+                    </div>
+                </div>
+            )}
             <div className="lg:block hidden">
                 {checkoutFlow.includes(location.pathname) ? (
                     <div className="flex container px-4 mx-auto gap-20 flex-auto items-center justify-between mb-5 w-full">
@@ -117,11 +146,8 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-auto items-center justify-end ">
-                                {appContextState.latestAddedCartItems.length > 0 && (
-                                    <p>ADDED: {appContextState.latestAddedCartItems.length}</p>
-                                )}
 
+                            <div className="flex flex-auto items-center justify-end ">
                                 <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
                                     <img
                                         className="w-[30px] h-[30px]"

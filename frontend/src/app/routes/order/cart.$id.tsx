@@ -56,16 +56,18 @@ export default () => {
 
     if (orderGuestId !== '') {
         return (
-            <div className="lg:w-content mx-auto w-full">
+            <div className="min-h-[80vh] items-center flex lg:w-content mx-auto w-full">
                 <div className="w-2/4 mx-auto">
-                    <h1 className="font-bold text-3xl">Order Placed!</h1>
+                    <h1 className="font-bold text-3xl mb-2">Order Placed!</h1>
                     <div>
                         <div>
                             <p>
                                 Your order has been placed successfully, as it is a Guest Order you won't see the
                                 details here.
                             </p>
-                            <p>Order Id is #{orderGuestId}</p>
+                            <p className="mt-4 text-[#6D6B69]">
+                                Order id: <span className="font-italic">{orderGuestId}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -74,14 +76,18 @@ export default () => {
     }
 
     return (
-        <div className="lg:w-content mx-auto w-full">
+        <div className="min-h-[80vh] items-center flex lg:w-content mx-auto w-full">
             <div className="w-2/4 mx-auto">
-                <h1 className="font-bold text-3xl">Cart Placed!</h1>
+                <h1 className="font-bold text-3xl mb-2">Cart Placed!</h1>
                 <div>
                     <div>
-                        <h2>Cart {cartId}</h2>
                         <p>Your cart has been placed successfully, we're waiting for payment confirmation.</p>
-                        <p>Redirecting....</p>
+                        <p className="mt-4 text-[#6D6B69]">
+                            Id: <span className="font-italic">{cartId}</span>
+                        </p>
+                        <p className="mt-4 flex gap-2">
+                            <div className="loader " />
+                        </p>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,15 @@ export const CheckoutCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     if (loading) {
-        return <p>Cart is loading...</p>;
+        return (
+            <div className="lg:w-2/5 w-full">
+                <h1 className="font-bold text-2xl mt-10 mb-5">Your cart</h1>
+                <div className="flex gap-2">
+                    <div className="loader" />
+                    <p>Cart is loading...</p>
+                </div>
+            </div>
+        );
     }
     return (
         <div className="lg:w-2/5 w-full">

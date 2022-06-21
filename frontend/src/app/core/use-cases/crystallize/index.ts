@@ -104,6 +104,12 @@ async function fetchProducts(apiClient: ClientInterface, path: string) {
                     builder.onProduct({
                         defaultVariant: {
                             price: true,
+                            priceVariants: {
+                                price: true,
+                                currency: true,
+                                identifier: true,
+                                name: true,
+                            },
                             firstImage: {
                                 altText: true,
                                 variants: {
@@ -139,6 +145,12 @@ async function search(apiClient: ClientInterface, value: string): Promise<any[]>
                               ... on Product {
                                 matchingVariant {
                                   price
+                                  priceVariants {
+                                    identifier
+                                    name
+                                    price
+                                    currency
+                                  }
                                   images {
                                     url
                                     variants {
@@ -295,8 +307,15 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                                       }
                                     }
                                     ...on Product {
+                                      id
                                       defaultVariant {
                                         price
+                                        priceVariants {
+                                          identifier
+                                          name
+                                          price
+                                          currency
+                                        }
                                         firstImage {
                                           url
                                           altText
@@ -988,6 +1007,12 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                 ...on Product {
                                   defaultVariant {
                                     price
+                                    priceVariants {
+                                      identifier
+                                      name
+                                      price
+                                      currency
+                                    }
                                     images {
                                       variants {
                                         url
@@ -1344,6 +1369,12 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
               ... on Product {
                   matchingVariant {
                   price
+                  priceVariants {
+                    identifier
+                    name
+                    price
+                    currency
+                  }
                   images {
                     variants {
                       url
@@ -1386,6 +1417,12 @@ async function orderByPriceRange(apiClient: ClientInterface, path: string, order
               ... on Product {
                 matchingVariant {
                   price
+                  priceVariants {
+                    identifier
+                    name
+                    price
+                    currency
+                  }
                   images {
                     variants {
                       url
@@ -1445,6 +1482,12 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
               ... on Product {
                 matchingVariant {
                   price
+                  priceVariants {
+                    identifier
+                    name
+                    price
+                    currency
+                  }
                   images {
                     variants {
                       url
@@ -1494,6 +1537,12 @@ async function searchByTopic(apiClient: ClientInterface, value: string) {
                 ... on Product {
                   matchingVariant {
                     price
+                    priceVariants {
+                      identifier
+                      name
+                      currency
+                      price
+                    }
                     images {
                       variants {
                         url

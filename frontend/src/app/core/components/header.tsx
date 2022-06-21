@@ -26,7 +26,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
         <>
             <div className="lg:block hidden">
                 {checkoutFlow.includes(location.pathname) ? (
-                    <div className="flex gap-20 flex-auto items-center justify-between mb-5 w-full">
+                    <div className="flex container px-4 mx-auto gap-20 flex-auto items-center justify-between mb-5 w-full">
                         <div className="flex flex-auto justify-between items-center w-1/4">
                             <Link to="/" prefetch="intent">
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
@@ -126,14 +126,14 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
             <div className="flex items-center justify-between lg:hidden relative p-5">
                 <div className="flex flex-auto justify-between items-center w-1/4">
                     <Link to="/" prefetch="intent">
-                        <div className="max-h-[80px] h-[50px] max-w-[100%] img-container">
+                        <div className="max-h-[80px] h-[50px] max-w-[180px]  img-container img-contain">
                             <img
                                 src={storeFrontState.config.logo}
                                 width="150"
                                 height="30"
                                 alt={storeFrontState.config.identifier + ` logo`}
                                 style={{
-                                    width: 'auto',
+                                    width: '100%',
                                     height: '100%',
                                 }}
                                 loading="eager"
@@ -159,14 +159,14 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <div className="z-50 h-screen bg-[#fff] fixed top-0 left-0 right-0 bottom-0 flex flex-col">
                         <div className="p-5 flex justify-between items-center">
                             <Link to="/" prefetch="intent">
-                                <div className="max-h-[80px] h-[50px] max-w-[100%] img-container img-contain">
+                                <div className="max-h-[80px] h-[50px] max-w-[180px]  img-container img-contain">
                                     <img
                                         src={storeFrontState.config.logo}
                                         width="150"
                                         height="30"
                                         alt={storeFrontState.config.identifier + ` logo`}
                                         style={{
-                                            width: 'auto',
+                                            width: '100%',
                                             height: '100%',
                                         }}
                                         loading="eager"

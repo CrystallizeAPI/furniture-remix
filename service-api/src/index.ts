@@ -31,6 +31,12 @@ const storeFrontMiddleware: Koa.Middleware = async (ctx: Koa.Context, next: Koa.
     await next();
 };
 
+const enforcePrivateServiceAPI: Koa.Middleware = async (ctx: Koa.Context, next: Koa.Next) => {
+    await next();
+    ctx.set('Cache-Control', 'private');
+};
+
+app.use(enforcePrivateServiceAPI);
 app.use(storeFrontMiddleware);
 
 // run the app!

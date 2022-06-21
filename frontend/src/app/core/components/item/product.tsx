@@ -27,8 +27,8 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
             className="grid grid-rows-[1fr_60px] place-items-stretch h-full min-h-full w-full justify-stretch items-stretch relative"
         >
             {discountPercentage > 0 && (
-                <div className="absolute top-3 right-2 bg-green2 p-3 rounded-full w-[45px] h-[45px] text-[#fff] text-sm">
-                    {discountPercentage}%
+                <div className="absolute top-3 right-2 bg-green2 items-center flex z-[20] justify-center rounded-full w-[45px] h-[45px] text-[#fff] text-sm">
+                    -{discountPercentage}%
                 </div>
             )}
             <div className="img-container img-contain border-solid border border-[#dfdfdf] min-h-full bg-[#fff] rounded-md h-full overflow-hidden grow-1">

@@ -1515,6 +1515,7 @@ async function searchByTopic(apiClient: ClientInterface, value: string) {
       topics: search(language: "en"){
         aggregations {
           topics {
+            path
             name
           }
         }

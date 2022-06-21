@@ -1,17 +1,16 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useLocation } from '@remix-run/react';
 import { FilteredProducts } from '~/core/components/filter/filtered-products';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { getStoreFront } from '~/core/storefront/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
-
-type Chars = Record<string, string>;
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+    let url = request.url;
     let value = `/${params.topic}/${params.child}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
     let data = await CrystallizeAPI.searchByTopic(secret.apiClient, value);
@@ -21,15 +20,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default () => {
     let { data, params } = useLoaderData();
     let param = params.child.replace(/-/g, ' ');
+    let location = useLocation();
 
-    let chars: Chars = { ø: 'o', å: 'a', ä: 'a', ö: 'o', Ü: 'u', æ: 'ae' };
-
-    let topic = data.topics.aggregations.topics.filter((item: any) => {
-        let str = item.name.replace(/[øåäöÜæ]/g, (char: string) => chars[char]);
-        if (str.toLowerCase() === param.toLowerCase()) {
-            return item;
-        }
-    })?.[0];
+    let topic = data?.topics?.aggregations?.topics?.find((item: any) => item.path === location.pathname);
 
     let topicName = topic.name || param;
 

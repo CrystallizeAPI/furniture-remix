@@ -24,7 +24,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
         <Link
             to={item.path}
             prefetch="intent"
-            className="grid grid-rows-[1fr_60px] place-items-stretch h-full min-h-full w-full justify-stretch items-stretch relative min-w-[200px]"
+            className="grid grid-rows-[1fr_60px] place-items-stretch h-full min-h-full w-full justify-stretch items-stretch relative"
         >
             {discountPercentage > 0 && (
                 <div className="absolute top-3 right-2 bg-green2 p-3 rounded-full w-[45px] h-[45px] text-[#fff] text-sm">

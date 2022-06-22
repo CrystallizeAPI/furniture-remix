@@ -61,15 +61,16 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                 styleForCell={styleForCell}
                 style={{
                     gridTemplateColumns: `minmax(15px, 1fr) repeat(${totalColumns}, minmax(0, ${colWidth}px)) minmax(15px, 1fr)`,
+                    gridAutoRows: 'minmax(300px, auto)',
                 }}
                 options={{
                     background: {
                         style: {
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
+                            // position: 'absolute',
+                            // top: 0,
+                            // left: 0,
+                            // width: '100%',
+                            // height: '100%',
                             objectFit: 'cover',
                         },
                         imageProps: {

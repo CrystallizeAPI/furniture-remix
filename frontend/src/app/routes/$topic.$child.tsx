@@ -1,5 +1,5 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useLocation } from '@remix-run/react';
 import { FilteredProducts } from '~/core/components/filter/filtered-products';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/core/Http-Cache-Tagger';
 import { getStoreFront } from '~/core/storefront/storefront.server';
@@ -10,6 +10,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+    let url = request.url;
     let value = `/${params.topic}/${params.child}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
     let data = await CrystallizeAPI.searchByTopic(secret.apiClient, value);
@@ -18,7 +19,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default () => {
     let { data, params } = useLoaderData();
-    let topicName = params.child.replace(/-/g, ' ');
+    let param = params.child.replace(/-/g, ' ');
+    let location = useLocation();
+
+    let topic = data?.topics?.aggregations?.topics?.find((item: any) => item.path === location.pathname);
+
+    let topicName = topic.name || param;
 
     return (
         <div className="container 2xl mx-auto px-6 mt-10">

@@ -223,6 +223,12 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                       ...on Product {
                         defaultVariant {
                           price
+                          priceVariants {
+                            identifier
+                            name
+                            price
+                            currency
+                          }
                           images {
                             variants {
                               url
@@ -261,6 +267,20 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                               content {
                                 ...on SingleLineContent {
                                   text
+                                }
+                                    ... on VideoContent {
+                                    videos {
+                                        title
+                                        playlists
+                                        id
+                                        thumbnails {
+                                            variants {
+                                                url
+                                                width
+                                                height
+                                            }
+                                        }
+                                    }
                                 }
                                 ... on ImageContent {
                                   images {
@@ -1052,6 +1072,20 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                           ...on SingleLineContent {
                                             text
                                           }
+                                          ... on VideoContent {
+                                            videos {
+                                                title
+                                                playlists
+                                                id
+                                                thumbnails {
+                                                    variants {
+                                                        url
+                                                        width
+                                                        height
+                                                    }
+                                                }
+                                            }
+                                        }
                                           ... on ImageContent {
                                             images {
                                               url
@@ -1512,6 +1546,14 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
 async function searchByTopic(apiClient: ClientInterface, value: string) {
     return await apiClient.searchApi(
         `query SEARCH_BY_TOPIC($value: String!) {
+      topics: search(language: "en"){
+        aggregations {
+          topics {
+            path
+            name
+          }
+        }
+      }
           search(
             filter: {
               type: PRODUCT
@@ -1555,7 +1597,6 @@ async function searchByTopic(apiClient: ClientInterface, value: string) {
             }
           }
         }
-        
       `,
         {
             value,

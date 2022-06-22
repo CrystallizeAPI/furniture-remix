@@ -9,7 +9,7 @@ export const ParagraphCollection = ({ paragraphs }: { paragraphs: any }) => {
                         <div className="my-10 mx-auto">
                             <h2 className="font-bold mt-10 text-4xl">{paragraph?.title?.text}</h2>
                             <div className="frntr-content-transformer">
-                                <ContentTransformer json={paragraph.body.json} />
+                                <ContentTransformer json={paragraph?.body?.json} />
                             </div>
                         </div>
                     </div>

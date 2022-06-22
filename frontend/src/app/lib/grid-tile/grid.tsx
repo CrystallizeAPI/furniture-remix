@@ -73,7 +73,6 @@ const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: T
             </div>
         );
     }
-    console.log({ background });
     if (background.videos && background.videos.length > 0) {
         backgroundElement = (
             <div className="crystallize-background-video" style={options?.background?.style}>
@@ -134,7 +133,6 @@ const componentChunkContent = (
 
 const normalizeTile = (cellItem: any): Tile | null => {
     const components = cellItem.components;
-    console.log({ cellItem });
     if (!components) {
         return null;
     }

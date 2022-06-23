@@ -12,7 +12,11 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                 isFullWidth ? 'container items-center px-10 pt-10  md:py-0 ' : 'pl-10 pt-20'
             }`}
         >
-            <div className={`${!images?.length ? 'py-40' : ''} items-center pr-8 flex-column w-full relative z-10`}>
+            <div
+                className={`${
+                    !images?.length ? 'py-40' : isFullWidth ? 'w-full' : 'w-2/5'
+                } items-center pr-8 flex-column w-full relative z-10`}
+            >
                 {title && (
                     <h1
                         className={`text-[1em] leading-[1.2em] font-bold mb-3`}

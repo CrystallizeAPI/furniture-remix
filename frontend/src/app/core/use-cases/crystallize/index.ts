@@ -19,19 +19,33 @@ export const CrystallizeAPI = {
     getPriceRange,
     filterByPriceRange,
     searchByTopic,
+    fetchTenantConfig,
 };
 
-async function fetchNavigation(apiClient: ClientInterface, path: string) {
+async function fetchTenantConfig(apiClient: ClientInterface, tenantIdentifier: string) {
+    const tenantId = (await apiClient.pimApi(`query { tenant { get(identifier:"${tenantIdentifier}") { id } }}`))
+        ?.tenant?.get?.id;
+    const currency = (
+        await apiClient.pimApi(
+            `query { priceVariant{ get(identifier:"default", tenantId:"${tenantId}") { currency } } }`,
+        )
+    )?.priceVariant?.get?.currency;
+    return {
+        currency,
+    };
+}
+
+async function fetchNavigation(apiClient: ClientInterface, path: string, language: string) {
     const fetch = createNavigationFetcher(apiClient).byFolders;
     const builder = catalogueFetcherGraphqlBuilder;
     const response = await fetch(
         path,
-        'en',
+        language,
         3,
         {
             tenant: {
                 __args: {
-                    language: 'en',
+                    language,
                 },
                 name: true,
             },
@@ -83,20 +97,20 @@ async function fetchNavigation(apiClient: ClientInterface, path: string) {
     return response;
 }
 
-async function fetchTopicNavigation(apiClient: ClientInterface) {
+async function fetchTopicNavigation(apiClient: ClientInterface, language: string) {
     const fetch = createNavigationFetcher(apiClient).byTopics;
     const response = await fetch('/', 'en', 2);
     return response;
 }
 
-async function fetchProducts(apiClient: ClientInterface, path: string) {
+async function fetchProducts(apiClient: ClientInterface, path: string, language: string) {
     const fetch = createCatalogueFetcher(apiClient);
     const builder = catalogueFetcherGraphqlBuilder;
     const query = {
         catalogue: {
             __args: {
                 path,
-                language: 'en',
+                language,
             },
             children: {
                 __on: [
@@ -130,10 +144,10 @@ async function fetchProducts(apiClient: ClientInterface, path: string) {
     return response.catalogue?.children?.filter((item: any) => item.__typename === 'Product') || [];
 }
 
-async function search(apiClient: ClientInterface, value: string): Promise<any[]> {
+async function search(apiClient: ClientInterface, value: string, language: string): Promise<any[]> {
     const data = await apiClient.searchApi(
         `query Search ($searchTerm: String!){
-                        search(language:"en", filter: { 
+                        search(language:"${language}", filter: { 
                             searchTerm: $searchTerm, 
                             type: PRODUCT, 
                             productVariants: { isDefault: true }}){
@@ -173,7 +187,7 @@ async function search(apiClient: ClientInterface, value: string): Promise<any[]>
     return data.search.edges;
 }
 
-async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any) {
+async function fetchCampaignPage(apiClient: ClientInterface, path: string, version: any, language: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
@@ -431,7 +445,7 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
     }
   }`,
             {
-                language: 'en',
+                language,
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
             },
@@ -439,7 +453,7 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
     ).catalogue;
 }
 
-async function fetchDocument(apiClient: ClientInterface, path: string, version: string) {
+async function fetchDocument(apiClient: ClientInterface, path: string, version: string, language: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
@@ -648,7 +662,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
     }
   }`,
             {
-                language: 'en',
+                language,
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
             },
@@ -656,7 +670,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
     ).catalogue;
 }
 
-async function fetchProduct(apiClient: ClientInterface, path: string, version: string) {
+async function fetchProduct(apiClient: ClientInterface, path: string, version: string, language: string) {
     //should be using the createCatalogueFetcher
     // just did this way to have everything for now
 
@@ -958,7 +972,7 @@ async function fetchProduct(apiClient: ClientInterface, path: string, version: s
 
 `,
             {
-                language: 'en',
+                language,
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
             },
@@ -966,7 +980,7 @@ async function fetchProduct(apiClient: ClientInterface, path: string, version: s
     ).catalogue;
 }
 
-async function fetchFolder(apiClient: ClientInterface, path: string, version: string) {
+async function fetchFolder(apiClient: ClientInterface, path: string, version: string, language: string) {
     return (
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
@@ -1434,7 +1448,7 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
     return results?.search?.edges || [];
 }
 
-async function orderByPriceRange(apiClient: ClientInterface, path: string, orderSearchParams: any) {
+async function orderByPriceRange(apiClient: ClientInterface, path: string) {
     return await apiClient.searchApi(
         `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
         search(
@@ -1543,10 +1557,10 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
     );
 }
 
-async function searchByTopic(apiClient: ClientInterface, value: string) {
+async function searchByTopic(apiClient: ClientInterface, value: string, language: string) {
     return await apiClient.searchApi(
         `query SEARCH_BY_TOPIC($value: String!) {
-      topics: search(language: "en"){
+      topics: search(language: "${language}"){
         aggregations {
           topics {
             path

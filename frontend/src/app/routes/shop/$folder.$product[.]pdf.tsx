@@ -11,7 +11,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}/${params.product}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
-    const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version);
+    const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version, 'en');
     const pdf = await ReactPDF.renderToStream(<SingleProduct product={product} />);
     return new Response(pdf, {
         headers: {

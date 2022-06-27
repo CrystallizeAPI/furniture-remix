@@ -7,6 +7,7 @@ import { getStoreFront } from '~/core/storefront/storefront.server';
 import { ServiceAPI } from '~/core/use-cases/service-api';
 import { Price } from '~/lib/pricing/pricing-component';
 import DefaultImage from '~/assets/defaultImage.svg';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -20,6 +21,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default () => {
     const { isAuthenticated } = useAuth();
     const [orders, setOrders] = useState<any | null>(null);
+
+    const { state } = useAppContext();
 
     let orderDate = (date: any) => {
         let newDate = new Date(date);
@@ -76,7 +79,11 @@ export default () => {
                                                 <p className="w-20">{item.quantity}</p>
                                                 <p className="w-20 text-right">
                                                     {/* adding because orders aren't returning currency, will be fixed */}
-                                                    <Price currencyCode={item.price.currency || 'EUR'}>
+                                                    <Price
+                                                        currencyCode={
+                                                            item.price.currency || state.currency.code || 'USD'
+                                                        }
+                                                    >
                                                         {item.price.gross}
                                                     </Price>
                                                 </p>

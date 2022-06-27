@@ -31,7 +31,7 @@ export const SearchBar = () => {
         const value = event.target.value;
         setSearchTerm(value);
         try {
-            setSuggestions(await CrystallizeAPI.search(client, value));
+            setSuggestions(await CrystallizeAPI.search(client, value, 'en'));
         } catch (error) {
             console.error(error);
         }

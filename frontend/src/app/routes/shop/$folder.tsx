@@ -43,10 +43,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
     const [folder, products, priceRange] = await Promise.all([
-        CrystallizeAPI.fetchFolder(secret.apiClient, path, version),
+        CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en'),
         isFiltered
             ? CrystallizeAPI.searchOrderBy(secret.apiClient, path, searchParams.orderBy, searchParams.filters)
-            : CrystallizeAPI.fetchProducts(secret.apiClient, path),
+            : CrystallizeAPI.fetchProducts(secret.apiClient, path, 'en'),
         CrystallizeAPI.getPriceRange(secret.apiClient, path),
     ]);
 

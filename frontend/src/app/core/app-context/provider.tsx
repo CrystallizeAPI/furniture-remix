@@ -7,19 +7,20 @@ import { Actions, Dispatch, State } from './types';
 const StateContext = React.createContext<State | undefined>(undefined);
 const DispatchContext = React.createContext<Dispatch | undefined>(undefined);
 
-const initialState = (): State => {
+type InitialState = Omit<State, 'latestAddedCartItems' | 'Country'>;
+
+const initiateState = (initialState: InitialState): State => {
     return {
-        locale: 'en-US', // not relevant for now
-        currency: getCurrencyFromCode('EUR'),
-        country: 'US', // not relevant for now
+        ...initialState,
         latestAddedCartItems: [],
     };
 };
 
 export const AppContextProvider: FunctionComponent<{
     children: React.ReactNode;
-}> = ({ children }) => {
-    const [state, dispatch] = React.useReducer(Reducer, initialState());
+    initialState: InitialState;
+}> = ({ children, initialState }) => {
+    const [state, dispatch] = React.useReducer(Reducer, initiateState(initialState));
     return (
         <StateContext.Provider value={state}>
             <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>

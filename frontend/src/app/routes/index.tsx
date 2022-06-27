@@ -32,7 +32,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const path = `/frontpage`;
     const preview = url.searchParams.get('preview');
     const version = preview ? 'draft' : 'published';
-    const data = await CrystallizeAPI.fetchCampaignPage(secret.apiClient, path, version);
+    const data = await CrystallizeAPI.fetchCampaignPage(secret.apiClient, path, version, 'en');
     return json<LoaderData>({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 

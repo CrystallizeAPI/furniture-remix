@@ -20,7 +20,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const version = preview ? 'draft' : 'published';
     const path = `/stories`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
-    const folder = await CrystallizeAPI.fetchFolder(secret.apiClient, path, version);
+    const folder = await CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en');
     return json({ folder }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 

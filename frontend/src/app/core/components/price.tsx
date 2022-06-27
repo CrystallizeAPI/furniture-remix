@@ -1,8 +1,10 @@
 import { ProductVariant } from '@crystallize/js-api-client';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
+import { useAppContext } from '../app-context/provider';
 
 export const Price: React.FC<{ variant: ProductVariant; size?: string }> = ({ variant, size = 'medium' }) => {
+    const { state } = useAppContext();
     const priceSize = {
         small: {
             default: 'text-md font-semibold',
@@ -28,7 +30,7 @@ export const Price: React.FC<{ variant: ProductVariant; size?: string }> = ({ va
             default: 'default',
             discounted: 'sales',
         },
-        'EUR',
+        state.currency.code,
     );
     return (
         <div>

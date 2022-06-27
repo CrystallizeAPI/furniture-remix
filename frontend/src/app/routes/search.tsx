@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
     const url = new URL(request.url);
     const params = url.searchParams.get('q');
-    let data = await CrystallizeAPI.search(secret.apiClient, params ? params : '');
+    let data = await CrystallizeAPI.search(secret.apiClient, params ? params : '', 'en');
     return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['search'], shared.config));
 };
 

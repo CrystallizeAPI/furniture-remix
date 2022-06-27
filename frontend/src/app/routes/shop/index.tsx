@@ -29,8 +29,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const path = '/shop';
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
     const [folder, navigation] = await Promise.all([
-        CrystallizeAPI.fetchFolder(secret.apiClient, path, version),
-        CrystallizeAPI.fetchNavigation(secret.apiClient, path),
+        CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en'),
+        CrystallizeAPI.fetchNavigation(secret.apiClient, path, 'en'),
     ]);
 
     return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));

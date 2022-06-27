@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     let url = request.url;
     let value = `/${params.topic}/${params.child}`;
     const { shared, secret } = await getStoreFront(request.headers.get('Host')!);
-    let data = await CrystallizeAPI.searchByTopic(secret.apiClient, value);
+    let data = await CrystallizeAPI.searchByTopic(secret.apiClient, value, 'en');
     return json({ data, params }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [value], shared.config));
 };
 
@@ -24,7 +24,7 @@ export default () => {
 
     let topic = data?.topics?.aggregations?.topics?.find((item: any) => item.path === location.pathname);
 
-    let topicName = topic.name || param;
+    let topicName = topic?.name || param;
 
     return (
         <div className="container 2xl mx-auto px-6 mt-10">

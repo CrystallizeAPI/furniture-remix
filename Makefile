@@ -24,35 +24,27 @@ list:
 
 .PHONY: clean
 clean: stop ## Clean non-essential files
-	@rm -rf frontend/node_modules
-	@rm -rf service-api/node_modules
+	@rm -rf application/node_modules
 	@$(DOCKER_COMPOSE) down
 	
 .PHONY: install
 install: install-certificates ## Install
 	@$(NPM) install
-	@cd frontend && cp .env.dist .env && cd ..
-	@cd frontend && $(NPM) install && cd ..	
-	@cd service-api && cp .env.dist .env && cd ..
-	@cd service-api && $(NPM) install && cd ..
-
+	@cd application && cp .env.dist .env && cd ..
+	@cd application && $(NPM) install && cd ..	
+	
 .PHONY: install-certificates
 install-certificates: ## Install the certificates
 	@$(MKCERT) -install
-	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.sapi.superfast.crystal" "*.superfast.crystal"
+	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.superfast.crystal"
 
 .PHONY: npmupdate
 npmupdate: ## npmupdate
-	@cd frontend && $(NPM) update && cd ..
-	@cd service-api && $(NPM) update && cd ..
+	@cd application && $(NPM) update && cd ..
 
-.PHONY: serve-front
-serve-front: ## Service the Frontend
-	@cd frontend && $(NPM) run dev
-
-.PHONY: serve-service-api
-serve-service-api: ## Service the Service API
-	@cd service-api && $(NPM) run dev
+.PHONY: serve-application
+serve-application: ## Service the Application
+	@cd application && $(NPM) run dev
 
 .PHONY: stop
 stop: ## Stop all the local services you need
@@ -68,7 +60,7 @@ stop: ## Stop all the local services you need
 serve: stop ## Run all the local services you need
 	@$(DOCKER_COMPOSE) up -d
 	@$(CADDY) start --config provisioning/dev/Caddyfile --pidfile provisioning/dev/caddy.dev.pid
-	@$(MAKE) -j 2 serve-front serve-service-api
+	@$(MAKE) serve-application
 	
 .PHONY: codeclean
 codeclean: ## Code Clean

@@ -1,8 +1,8 @@
-import { ActionFunction } from '@remix-run/node';
+import { LoaderFunction } from '@remix-run/node';
 import { privateJson } from '~/core-server/privateJson.server';
 import { cartWrapperRepository } from '~/core-server/services.server';
 
-export const action: ActionFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params }) => {
     const cartWrapper = await cartWrapperRepository.find(params.id!);
     if (!cartWrapper) {
         throw {

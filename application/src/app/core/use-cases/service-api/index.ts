@@ -49,7 +49,7 @@ async function sendGuestPaidOrder(cart: LocalCart, guest: Partial<Guest>) {
 }
 
 async function placeCart(cart: LocalCart, guest?: Partial<Guest>) {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + (guest ? '/guest' : '') + '/cart/place', {
+    return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart' + (guest ? '/guest' : '') + '/place', {
         cartId: cart.cartId,
         locale: 'en',
         items: Object.values(cart.items),
@@ -58,11 +58,11 @@ async function placeCart(cart: LocalCart, guest?: Partial<Guest>) {
 }
 
 async function registerAndSendMagickLink(userInfos: any) {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink', userInfos);
+    return await postJson<any>(window.ENV.SERVICE_API_URL + '/magicklink/register', userInfos);
 }
 
 async function sendMagickLink(email: string, callbackPath: string) {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/register/email/magicklink?callbackPath=' + callbackPath, {
+    return await postJson<any>(window.ENV.SERVICE_API_URL + '/magicklink/register?callbackPath=' + callbackPath, {
         email,
         firstname: '',
         lastname: '',

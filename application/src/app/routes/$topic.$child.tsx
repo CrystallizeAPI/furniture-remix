@@ -28,7 +28,7 @@ export default () => {
 
     let topic = data?.topics?.aggregations?.topics?.find((item: any) => item.path === location.pathname);
 
-    let topicName = topic.name || param;
+    let topicName = topic?.name || param;
 
     return (
         <div className="container 2xl mx-auto px-6 mt-10">

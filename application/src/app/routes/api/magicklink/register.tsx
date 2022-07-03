@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
             mailer,
             jwtSecret: `${process.env.JWT_SECRET}`,
             confirmLinkUrl:
-                `http${isSecure(httpRequest) ? 's' : ''}://${host}/confirm/email/magicklink/:token` +
+                `http${isSecure(httpRequest) ? 's' : ''}://${host}/api/magicklink/confirm/:token` +
                 (callbackPath !== '' ? `?callbackPath=${callbackPath}` : ''),
             subject: `[Crystallize - ${storefront.config.identifier}] - Magic link login`,
             from: 'hello@crystallize.com',

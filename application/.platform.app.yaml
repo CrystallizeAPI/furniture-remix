@@ -5,7 +5,6 @@ build:
     flavor: default
 
 relationships:
-    serviceapi: 'serviceapi:http'
     redis: 'redis:redis'
 
 web:

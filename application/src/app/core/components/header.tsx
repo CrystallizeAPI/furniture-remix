@@ -7,9 +7,7 @@ import { useStoreFront } from '../storefront/provider';
 import { useEffect, useState } from 'react';
 import CloseIcon from '~/assets/closeIcon.svg';
 import { useAppContext } from '../app-context/provider';
-
 import { Image } from '@crystallize/reactjs-components';
-import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: storeFrontState } = useStoreFront();
@@ -45,8 +43,8 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <p className="font-bold text-md mb-3 pb-2">
                         Added {appContextState.latestAddedCartItems.length} product to cart
                     </p>
-                    {appContextState.latestAddedCartItems.map((item) => (
-                        <div className="flex p-3 mt-1 items-center bg-grey2">
+                    {appContextState.latestAddedCartItems.map((item: any, index: number) => (
+                        <div className="flex p-3 mt-1 items-center bg-grey2" key={index}>
                             <div className="max-w-[35px] max-h-[50px] img-container img-contain">
                                 <Image {...item.images?.[0]} size="100px" />
                             </div>

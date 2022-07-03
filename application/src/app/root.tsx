@@ -15,7 +15,7 @@ import { AppContextProvider } from './core/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
 import { getCurrencyFromCode } from './lib/pricing/currencies';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.server';
-import { getHost } from './core-server/http-utils.server';
+import { getHost, isSecure } from './core-server/http-utils.server';
 
 export const meta: MetaFunction = () => {
     return {
@@ -52,7 +52,6 @@ export let loader: LoaderFunction = async ({ request }) => {
         CrystallizeAPI.fetchTopicNavigation(secret.apiClient, 'en'),
         CrystallizeAPI.fetchTenantConfig(secret.apiClient, secret.config.tenantIdentifier),
     ]);
-    const isSecure = request.headers.get('x-forwarded-proto')! === 'https' || request.url.startsWith('https');
     return json(
         {
             locale: 'en-US',
@@ -65,7 +64,7 @@ export let loader: LoaderFunction = async ({ request }) => {
             },
             ENV: {
                 CRYSTALLIZE_TENANT_IDENTIFIER: shared.config.tenantIdentifier,
-                SERVICE_API_URL: `http${isSecure ? 's' : ''}://${host}/api`,
+                SERVICE_API_URL: `http${isSecure(request) ? 's' : ''}://${host}/api`,
                 STRIPE_PUBLIC_KEY: shared.config.configuration.PUBLIC_KEY,
             },
         },

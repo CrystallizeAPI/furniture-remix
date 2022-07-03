@@ -9,7 +9,7 @@ export function getHost(request: Request): string {
     return request.headers.get('Host')!;
 }
 
-export function validatePayload<T>(schema: any | null, payload: unknown): T {
+export function validatePayload<T>(payload: unknown, schema: any | null): T {
     if (!schema) {
         return payload as T;
     }

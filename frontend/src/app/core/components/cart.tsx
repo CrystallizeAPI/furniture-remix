@@ -129,7 +129,7 @@ export const HydratedCart: React.FC = () => {
                                     <div className="flex cart-item gap-3 items-center">
                                         <Image {...item.variant.images?.[0]} sizes="100px" loading="lazy" />
                                         <div className="flex flex-col">
-                                            <p className="text-xl font-semibold w-full">{item.product.name}</p>
+                                            <p className="text-xl font-semibold w-full">{item.variant.name}</p>
                                             <p>
                                                 <CrystallizePrice currencyCode={contextState.currency.code}>
                                                     {item.price.gross}

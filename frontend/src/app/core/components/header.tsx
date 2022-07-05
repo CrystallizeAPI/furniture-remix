@@ -46,7 +46,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         Added {appContextState.latestAddedCartItems.length} product to cart
                     </p>
                     {appContextState.latestAddedCartItems.map((item) => (
-                        <div className="flex p-3 mt-1 items-center bg-grey2">
+                        <div className="flex p-3 mt-1 items-center bg-grey2 gap-3">
                             <div className="max-w-[35px] max-h-[50px] img-container img-contain">
                                 <Image {...item.images?.[0]} size="100px" />
                             </div>

@@ -1,5 +1,6 @@
 import isEqual from 'lodash/isEqual';
 import { Image } from '@crystallize/reactjs-components/dist/image';
+
 function reduceAttributes(variants: any) {
     return variants.reduce((acc: any, variant: any) => {
         const attrs = acc;
@@ -44,6 +45,7 @@ export const VariantSelector = ({
     variants.map((variant: any) => {
         imageKeysForFiltering.push(variant?.images?.[0].key);
     });
+
     const variantsHasUniqueImages = [...new Set(imageKeysForFiltering)]?.length > 1;
 
     function onAttributeSelect({ attribute, value }: { attribute: string; value: string }) {
@@ -58,9 +60,13 @@ export const VariantSelector = ({
             return false;
         });
 
-        if (variant) {
-            onVariantChange(variant);
+        if (!variant) {
+            variant = variants.find((variant: any) =>
+                variant.attributes.some((a: any) => a.attribute === attribute && a.value === value),
+            );
         }
+
+        onVariantChange(variant);
     }
     function handleSelectChange({ attribute, value }: { attribute: string; value: string }) {
         onAttributeSelect({ attribute, value });
@@ -86,13 +92,13 @@ export const VariantSelector = ({
                                     const mostSuitableVariant = variants.find((variant: any) =>
                                         isEqual(selectedAttributes, attributesToObject(variant)),
                                     );
+
                                     return (
                                         <button
                                             key={value}
                                             onClick={(e) => onAttributeSelect({ attribute, value })}
                                             type="button"
                                             className="w-2/6 md:w-1/6 md:py-2 py-4 rounded-lg text-text flex flex-col items-center text-xs font-medium "
-                                            disabled={!mostSuitableVariant}
                                             style={{
                                                 opacity: !mostSuitableVariant ? 0.2 : 1,
                                                 border:

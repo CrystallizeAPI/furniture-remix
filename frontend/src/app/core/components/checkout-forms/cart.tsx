@@ -19,6 +19,7 @@ export const CheckoutCart: React.FC = () => {
             </div>
         );
     }
+
     return (
         <div className="lg:w-2/5 w-full">
             <h1 className="font-bold text-2xl mt-10 mb-5">Your cart</h1>
@@ -34,8 +35,8 @@ export const CheckoutCart: React.FC = () => {
                                     <Image {...item?.variant.images?.[0]} sizes="100px" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <p className="text-md font-regular w-full">{item.product.name}</p>
-                                    <p className="text-md font-semibold w-full">€{item.price.gross}</p>
+                                    <p className="text-md font-regular w-full">{item.variant.name}</p>
+                                    <p className="text-md font-semibold w-full">€{item.price.gross.toFixed(5)}</p>
                                 </div>
                             </div>
                         </div>

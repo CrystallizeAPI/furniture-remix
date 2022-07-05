@@ -205,7 +205,7 @@ export const paymentStandardRoutes: StandardRouting = {
                                 },
                                 {
                                     property: 'amount',
-                                    value: cartWrapper.cart.total.net.toFixed(2),
+                                    value: cartWrapper.cart.total.net.toFixed(5),
                                 },
                             ],
                         },

@@ -12,6 +12,7 @@ export const Price: React.FC<{
         style: 'currency',
         currency: currency.code,
         minimumFractionDigits: 2,
+        maximumFractionDigits: 5,
     });
 
     return <span className={`crystallize-price ${className}`}>{formatter.format(children)}</span>;

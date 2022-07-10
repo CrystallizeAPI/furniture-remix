@@ -5,6 +5,7 @@ import { Link } from '@remix-run/react';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
 import { useStoreFront } from '~/core/storefront/provider';
 import { Image } from '@crystallize/reactjs-components';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -12,6 +13,7 @@ export const SearchBar = () => {
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const { apiClient: client } = useStoreFront();
+    const { state: appContextState } = useAppContext();
 
     //close dropdown on outside click
     useEffect(() => {
@@ -83,7 +85,8 @@ export const SearchBar = () => {
                                         <div className="flex justify-between w-full">
                                             <span className="text-sm ">{suggestion?.node?.name}</span>
                                             <span className="text-sm font-bold">
-                                                €{suggestion?.node?.matchingVariant?.price}
+                                                {appContextState.currency.code}{' '}
+                                                {suggestion?.node?.matchingVariant?.price}
                                             </span>
                                         </div>
                                     </div>

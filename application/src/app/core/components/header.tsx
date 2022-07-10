@@ -50,7 +50,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </div>
                             <div>
                                 <p className="text-sm">{item.name}</p>
-                                <p className="text-sm font-bold">€{item.price}</p>
+                                <p className="text-sm font-bold">
+                                    {appContextState.currency.code} {item.price}
+                                </p>
                             </div>
                         </div>
                     ))}

@@ -10,7 +10,7 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
     const { secret: storefront } = await getStoreFront(host);
     const body = await httpRequest.json();
 
-    const data = handleStripePaymentIntentWebhookRequestPayload(body, {
+    const data = await handleStripePaymentIntentWebhookRequestPayload(body, {
         secret_key: storefront.config.configuration.SECRET_KEY,
         endpointSecret: storefront.config.configuration.SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET,
         signature: httpRequest.headers.get('stripe-signature') as string,

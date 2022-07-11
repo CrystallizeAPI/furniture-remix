@@ -15,7 +15,7 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
     const mailer = createMailer(`${process.env.MAILER_DSN}`);
     const url = new URL(httpRequest.url);
     const callbackPath = url.searchParams.get('callbackPath') || '';
-    const data = handleMagickLinkRegisterPayload(
+    const data = await handleMagickLinkRegisterPayload(
         validatePayload(await httpRequest.json(), magickLinkUserInfosPayload),
         {
             mailer,

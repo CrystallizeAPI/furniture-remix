@@ -8,11 +8,11 @@ import { getStoreFront } from '~/core-server/storefront.server';
 export const loader: LoaderFunction = async ({ request }) => {
     const { secret: storefront } = await getStoreFront(getHost(request));
     try {
-        const user: any = await authenticate(request);
+        const auth: any = await authenticate(request);
         return json(
-            handleOrdersRequestPayload(null, {
+            await handleOrdersRequestPayload(null, {
                 fetcherByCustomerIdentifier: createOrderFetcher(storefront.apiClient).byCustomerIdentifier,
-                user: user.email,
+                user: auth.user.aud,
             }),
         );
     } catch (exception: any) {

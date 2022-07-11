@@ -13,29 +13,32 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
     const { secret: storefront } = await getStoreFront(host);
 
     const body = await httpRequest.json();
-    const data = handleStripeCreatePaymentIntentRequestPayload(validatePayload(body, stripePaymentIntentPayload), {
-        secret_key: storefront.config.configuration.SECRET_KEY,
-        fetchCart: async () => {
-            const cartId = body.cartId as string;
-            const cartWrapper = await cartWrapperRepository.find(cartId);
-            if (!cartWrapper) {
-                throw {
-                    message: `Cart '${cartId}' does not exist.`,
-                    status: 404,
+    const data = await handleStripeCreatePaymentIntentRequestPayload(
+        validatePayload(body, stripePaymentIntentPayload),
+        {
+            secret_key: storefront.config.configuration.SECRET_KEY,
+            fetchCart: async () => {
+                const cartId = body.cartId as string;
+                const cartWrapper = await cartWrapperRepository.find(cartId);
+                if (!cartWrapper) {
+                    throw {
+                        message: `Cart '${cartId}' does not exist.`,
+                        status: 404,
+                    };
+                }
+                return cartWrapper.cart;
+            },
+            createIntentArguments: (cart: Cart) => {
+                const cartId = body.cartId as string;
+                return {
+                    amount: cart.total.net * 100, // in cents (not sure here if this is correct)
+                    currency: cart.total.currency,
+                    metatdata: {
+                        cartId,
+                    },
                 };
-            }
-            return cartWrapper.cart;
+            },
         },
-        createIntentArguments: (cart: Cart) => {
-            const cartId = body.cartId as string;
-            return {
-                amount: cart.total.net * 100, // in cents (not sure here if this is correct)
-                currency: cart.total.currency,
-                metatdata: {
-                    cartId,
-                },
-            };
-        },
-    });
+    );
     return json(data);
 };

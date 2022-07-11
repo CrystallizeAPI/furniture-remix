@@ -29,7 +29,7 @@ async function fetchOrders() {
 }
 
 async function fetchOrder(orderId: string) {
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/order/' + orderId);
+    return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders/' + orderId);
 }
 
 // in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider

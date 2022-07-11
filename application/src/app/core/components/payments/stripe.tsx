@@ -48,7 +48,6 @@ export const Stripe: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
     const stripePromise = loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
     const [clientSecret, setClientSecret] = useState<string>('');
     const { cart, isEmpty } = useLocalCart();
-
     useEffect(() => {
         (async () => {
             if (!isEmpty()) {
@@ -62,7 +61,7 @@ export const Stripe: React.FC<{ isGuest: boolean }> = ({ isGuest = false }) => {
         return null;
     }
     return (
-        <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
+        <Elements options={{ clientSecret }} stripe={stripePromise}>
             <StripCheckoutForm isGuest={isGuest} />
         </Elements>
     );

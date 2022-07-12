@@ -1,7 +1,10 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
+import { useAppContext } from '~/core/app-context/provider';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
+import { Price } from '~/lib/pricing/pricing-component';
 export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
+    const { state: contextState } = useAppContext();
     const getComponentContent = (components: any, id: string) => {
         let component = components.find((component: any) => component.id === id);
         return component?.content || null;
@@ -50,20 +53,19 @@ export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
                                                 <div>
                                                     <div className="text-xs">{product.name}</div>
                                                     <div className="text-xs font-bold">
-                                                        €{product.defaultVariant.price}
+                                                        <Price currencyCode={contextState.currency.code}>
+                                                            {product.defaultVariant.price}
+                                                        </Price>
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
-
-                                    {/* <div>{merch.products?.[0].name}</div> */}
                                 </span>
                             ))}
                         </div>
                     </div>
                 </div>
-                {/* <div className="px-6  w-full">{title && <h2 className="text-lg font-bold mb-3">{title}</h2>}</div> */}
             </div>
         </Link>
     );

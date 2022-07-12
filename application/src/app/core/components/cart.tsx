@@ -4,7 +4,7 @@ import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import trashIcon from '~/assets/trashIcon.svg';
-import { DisplayPrice, Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
+import { DisplayPrice, Price as CrystallizePrice, Price } from '~/lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
 
 export const Cart: React.FC = () => {
@@ -48,6 +48,7 @@ export type DiscountLot = {
 export type Savings = Record<string, { quantity: number; amount: number }>;
 
 const DiscountsDebug: React.FC<{ discounts: DiscountLot[] }> = ({ discounts }) => {
+    const { state: contextState } = useAppContext();
     return (
         <div className="">
             {discounts.map((discount: DiscountLot, index: number) => {
@@ -64,7 +65,10 @@ const DiscountsDebug: React.FC<{ discounts: DiscountLot[] }> = ({ discounts }) =
                             const item = items[sku];
                             return (
                                 <p key={`${index}-${sku}`}>
-                                    You get {item.quantity} {sku} for free. You saved €{item.quantity * item.price}
+                                    You get {item.quantity} {sku} for free. You saved{' '}
+                                    <Price currencyCode={contextState.currency.code}>
+                                        {item.quantity * item.price}
+                                    </Price>
                                 </p>
                             );
                         })}
@@ -79,7 +83,7 @@ export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
-    const { lots, savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
+    const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
     const { state: contextState } = useAppContext();
 
     if (isEmpty()) {

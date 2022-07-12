@@ -10,7 +10,7 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
 
     let totals: Price = {
         gross: 0,
-        currency: 'EUR',
+        currency: '',
         net: 0,
         taxAmount: 0,
         discounts: [

@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import Slider from 'rc-slider';
 import { useSubmit } from '@remix-run/react';
+import { useAppContext } from '~/core/app-context/provider';
+import { Price } from '~/lib/pricing/pricing-component';
 
 export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any | null }> = ({
     min,
@@ -8,6 +10,7 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
     formRef,
 }) => {
     const submit = useSubmit();
+    const { state: contextState } = useAppContext();
     const [showSlider, setShowSlider] = useState(false);
     const [priceValue, setPriceValue] = useState({ min, max });
     function onRangeChange(newValue: any) {
@@ -50,8 +53,12 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
                         }}
                     />
                     <div className="flex justify-between mt-2">
-                        <p className="text-sm">€{priceValue.min}</p>
-                        <p className="text-sm">€{priceValue.max}</p>
+                        <p className="text-sm">
+                            <Price currencyCode={contextState.currency.code}>{priceValue.min}</Price>
+                        </p>
+                        <p className="text-sm">
+                            <Price currencyCode={contextState.currency.code}>{priceValue.max}</Price>
+                        </p>
                     </div>
                 </div>
             )}

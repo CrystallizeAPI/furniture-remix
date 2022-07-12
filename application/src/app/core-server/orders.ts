@@ -33,7 +33,7 @@ export const pushOrderSubHandler = async (
                 price: {
                     gross: item.price.gross,
                     net: item.price.net,
-                    currency: 'EUR',
+                    currency: item.price.currency,
                     tax: {
                         name: 'Exempt',
                         percent: 0,
@@ -42,7 +42,7 @@ export const pushOrderSubHandler = async (
             };
         }),
         total: {
-            currency: 'EUR',
+            currency: cart.total.currency,
             gross: cart.total.gross,
             net: cart.total.net,
             tax: {
@@ -59,27 +59,27 @@ export const pushOrderSubHandler = async (
 export const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
     return {
         identifier: cartWrapper?.customer?.identifier || '',
-        firstName: cartWrapper?.customer?.firstname || 'William',
-        lastName: cartWrapper?.customer?.lastname || 'Wallace',
-        companyName: cartWrapper?.customer?.company || 'Freedom Inc.',
+        firstName: cartWrapper?.customer?.firstname || 'Unknown',
+        lastName: cartWrapper?.customer?.lastname || 'Unknown',
+        companyName: cartWrapper?.customer?.company || 'Unknown',
         addresses: [
             {
                 //@ts-ignore
                 type: 'billing',
-                street: cartWrapper?.customer?.streetAddress || '845 Market St',
-                city: cartWrapper?.customer?.city || 'San Francisco',
-                country: 'USA',
-                state: 'CA',
-                postalCode: cartWrapper?.customer?.zipCode || '94103',
+                street: cartWrapper?.customer?.streetAddress || 'Unknown',
+                city: cartWrapper?.customer?.city || 'Unknown',
+                country: 'Unknown',
+                state: 'Unknown',
+                postalCode: cartWrapper?.customer?.zipCode || 'Unknown',
             },
             {
                 //@ts-ignore
                 type: 'delivery',
-                street: cartWrapper?.customer?.streetAddress || '845 Market St',
-                city: cartWrapper?.customer?.city || 'San Francisco',
-                country: 'USA',
-                state: 'CA',
-                postalCode: cartWrapper?.customer?.zipCode || '94103',
+                street: cartWrapper?.customer?.streetAddress || 'Unknown',
+                city: cartWrapper?.customer?.city || 'Unknown',
+                country: 'Unknown',
+                state: 'Unknown',
+                postalCode: cartWrapper?.customer?.zipCode || 'Unknown',
             },
         ],
     };

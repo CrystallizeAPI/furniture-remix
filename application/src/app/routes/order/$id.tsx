@@ -7,7 +7,9 @@ import {
 } from '~/core-server/http-cache.server';
 import { getHost } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
+import { useAppContext } from '~/core/app-context/provider';
 import { ServiceAPI } from '~/core/use-cases/service-api';
+import { Price } from '~/lib/pricing/pricing-component';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -25,6 +27,7 @@ export default () => {
     const { orderId } = useLoaderData();
     const [tryCount, setTryCount] = useState(0);
     const [order, setOrder] = useState<any | null>(null);
+    const { state: contextState } = useAppContext();
 
     useEffect(() => {
         let timeout: ReturnType<typeof setTimeout>;
@@ -61,7 +64,11 @@ export default () => {
                                                     {item.name} x {item.quantity}
                                                 </p>
                                             </div>
-                                            <p>€{item.price.gross * item.quantity}</p>
+                                            <p>
+                                                <Price currencyCode={contextState.currency.code}>
+                                                    {item.price.gross * item.quantity}
+                                                </Price>
+                                            </p>
                                         </div>
                                     </div>
                                 );
@@ -69,15 +76,23 @@ export default () => {
                             <div className="flex flex-col gap-4 border-t-2 border-grey4 py-4 items-end px-4 mt-5">
                                 <div className="flex text-grey3 justify-between w-60">
                                     <p>Net</p>
-                                    <p>€ {order.total.net}</p>
+                                    <p>
+                                        <Price currencyCode={contextState.currency.code}>{order.total.net}</Price>
+                                    </p>
                                 </div>
                                 <div className="flex text-grey3 justify-between w-60">
                                     <p>Tax amount</p>
-                                    <p>€ {order.total.gross - order.total.net}</p>
+                                    <p>
+                                        <Price currencyCode={contextState.currency.code}>
+                                            {order.total.gross - order.total.net}
+                                        </Price>
+                                    </p>
                                 </div>
                                 <div className="flex font-bold text-xl justify-between w-60">
                                     <p>Paid</p>
-                                    <p>€ {order.total.gross}</p>
+                                    <p>
+                                        <Price currencyCode={contextState.currency.code}>{order.total.gross}</Price>
+                                    </p>
                                 </div>
                             </div>
                         </div>

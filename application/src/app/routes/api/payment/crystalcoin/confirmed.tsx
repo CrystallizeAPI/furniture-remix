@@ -30,6 +30,10 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
                     property: 'amount',
                     value: cartWrapper.cart.total.net.toFixed(2),
                 },
+                {
+                    property: 'cartId',
+                    value: cartId,
+                },
             ],
         },
     });

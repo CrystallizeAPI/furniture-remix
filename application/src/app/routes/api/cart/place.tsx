@@ -24,6 +24,7 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
     });
     const customer = {
         identifier: auth.user.aud,
+        email: auth.user.aud,
     };
     return privateJson(await handleAndPlaceCart(cart, customer, body.cartId as string));
 };

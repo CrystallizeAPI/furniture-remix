@@ -58,7 +58,8 @@ export const pushOrderSubHandler = async (
 
 export const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
     return {
-        identifier: cartWrapper?.customer?.identifier || '',
+        identifier: cartWrapper?.customer?.email || '',
+        email: cartWrapper?.customer?.email || '',
         firstName: cartWrapper?.customer?.firstname || 'Unknown',
         lastName: cartWrapper?.customer?.lastname || 'Unknown',
         companyName: cartWrapper?.customer?.company || 'Unknown',

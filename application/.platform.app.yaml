@@ -1,0 +1,24 @@
+name: frontapp
+type: 'nodejs:16'
+
+build:
+    flavor: default
+
+relationships:
+    redis: 'redis:redis'
+
+web:
+    commands:
+        start: 'NODE_ENV=production npm run start'
+    locations:
+        '/public':
+            passthru: false
+            root: 'public'
+
+hooks:
+    build: |
+        npm run build
+    deploy: |
+        curl -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge_all" -H "Fastly-Key: ${FASTLY_API_TOKEN}" -H 'Accept: application/json'
+
+disk: 1024

@@ -23,7 +23,7 @@ For a better experience and respect the [Twelve-Facter App](https://12factor.net
 Add an entry for the subdomains in your `/etc/hosts` file:
 
 ```
-127.0.0.1 furniture.superfast.crystal furniture.sapi.superfast.crystal
+127.0.0.1 SUPERFASTPROJECTIDENTIFIER.superfast.crystal
 ```
 
 ## Installation
@@ -32,13 +32,13 @@ Add an entry for the subdomains in your `/etc/hosts` file:
 make install
 ```
 
-> Important!: You need to provide correct credentials in the `frontend/.env` and `service-api/.env`
+> Important!: You need to provide correct credentials in the `frontend/.env`.
 
 This will:
 
 -   install the Certificate Authority using `mkcert`
 -   generate the certificates `mkcert` for `*.superfast.crystal`
--   `npm install` the `frontend` folder and `service-api` folder
+-   `npm install` the `frontend` folder
 
 ## Run the project
 
@@ -55,7 +55,6 @@ This will:
 > you can stop non stopped services with `make stop`
 
 -   Frontend: https://furniture.superfast.crystal
--   Service API: https://furniture.sapi.superfast.crystal
 -   Mailcatcher - Web: http://localhost:3022
 -   Mailcatcher SMTP: http://localhost:3021
 -   Redis: tcp://localhost:3023
@@ -66,5 +65,4 @@ This will:
 
 -   Frontend run in HTTP on 3018
 -   Frontend Live Reload WebScoket run in HTTP on 3019
--   Service API run in HTTP on 3020
 -   Caddy enables HTTPS on top of them all

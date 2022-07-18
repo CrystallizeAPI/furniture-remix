@@ -5,11 +5,3 @@
     cache:
         # Cache is managed by Fastly
         enabled: false
-
-'https://*.sapi.{default}/':
-    type: upstream
-    id: 'serviceapi'
-    upstream: 'serviceapi:http'
-    cache:
-        # Cache is managed by Fastly
-        enabled: false

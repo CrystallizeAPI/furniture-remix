@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import CloseIcon from '~/assets/closeIcon.svg';
 import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
+import { Price } from '~/lib/pricing/pricing-component';
 
 export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: storeFrontState } = useStoreFront();
@@ -51,7 +52,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <div>
                                 <p className="text-sm">{item.name}</p>
                                 <p className="text-sm font-bold">
-                                    {appContextState.currency.code} {item.price}
+                                    <Price currencyCode={appContextState.currency.code}>{item.price}</Price>
                                 </p>
                             </div>
                         </div>

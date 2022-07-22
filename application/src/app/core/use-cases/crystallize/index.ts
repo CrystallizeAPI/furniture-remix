@@ -147,7 +147,7 @@ async function fetchProducts(apiClient: ClientInterface, path: string, language:
 async function search(apiClient: ClientInterface, value: string, language: string): Promise<any[]> {
     const data = await apiClient.searchApi(
         `query Search ($searchTerm: String!){
-                        search(language:"${language}", filter: { 
+                        search(language:"${language}", first: 100, filter: { 
                             searchTerm: $searchTerm, 
                             type: PRODUCT, 
                             productVariants: { isDefault: true }}){
@@ -1403,10 +1403,11 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
         $max: Float
       ) {
         search(
+          first: 100,
           orderBy: { field: $field, direction: $direction }
           filter: {
             type: PRODUCT
-            productVariants: { isDefault: true, priceRange: { min: $min, max: $max } }
+            productVariants: {  priceRange: { min: $min, max: $max } }
             include: { paths: $path }
           }
         ) {
@@ -1452,10 +1453,10 @@ async function orderByPriceRange(apiClient: ClientInterface, path: string) {
     return await apiClient.searchApi(
         `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
         search(
+          first: 100,  
           filter: {
             type: PRODUCT
             include: { paths: $path }
-            productVariants: { isDefault: true }
           }
         ) {
           edges {
@@ -1517,10 +1518,11 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
     return await apiClient.searchApi(
         `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
         search(
+          first: 100,
           filter: {
             type: PRODUCT
             include: { paths: $path }
-            productVariants: { isDefault: true, priceRange: { min: $min, max: $max } }
+            productVariants: { priceRange: { min: $min, max: $max } }
           }
         ) {
           edges {
@@ -1569,6 +1571,7 @@ async function searchByTopic(apiClient: ClientInterface, value: string, language
         }
       }
           search(
+            first: 100,
             filter: {
               type: PRODUCT
               include: {
@@ -1578,7 +1581,6 @@ async function searchByTopic(apiClient: ClientInterface, value: string, language
                   ]
                 }
               }
-              productVariants: { isDefault: true }
             }
           ) {
             edges {

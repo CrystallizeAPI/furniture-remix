@@ -67,6 +67,7 @@ export default () => {
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
     let grid = hero?.content?.grids?.[0];
+
     return (
         <>
             <div className="container 2xl px-5 mx-auto w-full">

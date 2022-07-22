@@ -192,7 +192,7 @@ export const HydratedCart: React.FC = () => {
                                 <p>Net</p>
                                 <p>
                                     <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {total.net}
+                                        {total.net + total.discounts[0].amount}
                                     </CrystallizePrice>
                                 </p>
                             </div>
@@ -204,12 +204,20 @@ export const HydratedCart: React.FC = () => {
                                     </CrystallizePrice>
                                 </p>
                             </div>
+                            <div className="flex text-grey3 text-sm justify-between w-60">
+                                <p>Discount</p>
+                                <p>
+                                    <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        {total.discounts[0].amount}
+                                    </CrystallizePrice>
+                                </p>
+                            </div>
                             <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
                                 <p>To pay</p>
                                 <p>
                                     <DisplayPrice
                                         price={{
-                                            default: total.gross + total.discounts[0].amount,
+                                            default: total.gross,
                                             discounted: total.gross,
                                             percent: Math.round(
                                                 ((total.gross + total.discounts[0].amount - total.gross) /

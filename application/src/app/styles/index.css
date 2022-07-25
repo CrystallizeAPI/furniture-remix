@@ -197,7 +197,7 @@
         display: grid;
         gap: 20px;
     }
-    @media (max-width: 976px) {
+    @media (max-width: 1024px) {
         .frntr-grid .crystallize-grid {
             display: grid;
             gap: 5px;
@@ -206,6 +206,17 @@
             grid-column: 2 / span 3 !important;
             grid-row: auto !important;
         }
+    }
+    .hero-slider .splide__pagination__page {
+        border: 1px solid #fff;
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+    }
+
+    .hero-slider .splide__pagination__page.is-active {
+        transform: scale(1);
+        background: #fff;
     }
 
     .frntr-grid .crystallize-grid__cell {

@@ -5,11 +5,13 @@ import { Banner } from '~/core/components/tiles/banner';
 import { Embed } from '~/core/components/tiles/embed';
 import { Slider } from '~/core/components/tiles/slider';
 import { GridCell, GridRenderingType } from '@crystallize/reactjs-components';
+import { HeroSlider } from '../tiles/hero-slider';
 
 const titeMapping = {
     banner: Banner,
     embed: Embed,
     slider: Slider,
+    heroslider: HeroSlider,
 };
 const itemMapping = {
     product: Product,

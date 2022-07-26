@@ -41,9 +41,9 @@ export const getStoreFront = async (hostname: string) => {
         return createSuperFastAdapter(
             hostname,
             {
-                tenantIdentifier: `${process.env.SUPERFAST_TENANT_IDENTIFIER}`,
-                accessTokenId: `${process.env.SUPERFAST_ACCESS_TOKEN_ID}`,
-                accessTokenSecret: `${process.env.SUPERFAST_ACCESS_TOKEN_SECRET}`,
+                tenantIdentifier: process.env.SUPERFAST_TENANT_IDENTIFIER,
+                accessTokenId: process.env.SUPERFAST_ACCESS_TOKEN_ID,
+                accessTokenSecret: process.env.SUPERFAST_ACCESS_TOKEN_SECRET,
             },
             storage,
             600,

@@ -85,7 +85,7 @@ export const VariantSelector = ({
                     return (
                         <div key={attribute} className="border-[#dfdfdf]">
                             <p className="my-3 text-sm  font-semibold">{attribute}</p>
-                            <div className="flex mb-5 flex-nowrap md:flex-wrap gap-2 overflow-x-scroll">
+                            <div className="flex mb-5 flex-nowrap md:flex-wrap gap-2 overflow-x-scroll py-4 px-1">
                                 {attr.map((value: string) => {
                                     const selectedAttributes = attributesToObject(selectedVariant);
                                     selectedAttributes[attribute] = value;
@@ -108,7 +108,7 @@ export const VariantSelector = ({
                                             }}
                                         >
                                             {variantsHasUniqueImages && attribute.toLowerCase() !== 'size' && (
-                                                <div className="img-container p-3 h-[80px] w-[80px] img-contain">
+                                                <div className="img-container p-3 w-[80px] img-contain">
                                                     {mostSuitableVariant?.images?.[0] && (
                                                         <Image {...mostSuitableVariant.images[0]} sizes="100px" />
                                                     )}

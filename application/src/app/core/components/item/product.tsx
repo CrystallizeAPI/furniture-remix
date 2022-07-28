@@ -6,6 +6,7 @@ import displayPriceFor from '~/lib/pricing/pricing';
 import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 
 export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
+    const name = item?.defaultVariant?.name || item.name;
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
     const { state } = useAppContext();
     const {
@@ -37,7 +38,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
                 <Image {...image} sizes="300px" loading="lazy" />
             </div>
             <div className="pl-1 h-[1/4] ">
-                <h3 className="text-lg">{item.name}</h3>
+                <h3 className="text-md">{name}</h3>
                 {discountPrice > 0 ? (
                     <div className="flex items-center gap-3">
                         <p className="text-md text-green2 font-bold">

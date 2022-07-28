@@ -28,7 +28,7 @@ export function CuratedProductStory({ document }: { document: any }) {
 
     let totalAmountToPay = 0;
     variants.map((v: any) => {
-        const price = v.priceVariants.find((price: any) => price.identifier === 'sales')?.price || v.price;
+        const price = v.priceVariants?.find((price: any) => price.identifier === 'sales')?.price || v.price;
         totalAmountToPay += price;
     });
 
@@ -40,8 +40,8 @@ export function CuratedProductStory({ document }: { document: any }) {
                         <span
                             onMouseOver={() => setActivePoint(`hotspot-point-${i}`)}
                             onMouseLeave={() => setActivePoint('')}
-                            key={`hotspot-${merch.hotspotX.number}-${merch.hotspotY.number}`}
-                            style={{ left: merch.hotspotX.number + `%`, top: merch.hotspotY.number + '%' }}
+                            key={`hotspot-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
+                            style={{ left: merch?.hotspotX?.number + `%`, top: merch?.hotspotY?.number + '%' }}
                         >
                             <div className="rounded-sm overflow-hidden shadow-sm px-2 pt-2 ">
                                 {merch.products?.map((product: any) => (
@@ -75,7 +75,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                 <div className="sticky top-20">
                     {merchandising.map((merch: any, i: number) => (
                         <div
-                            key={`merch-container-${merch.hotspotX.number}-${merch.hotspotY.number}`}
+                            key={`merch-container-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
                             className="px-2 bg-grey overflow-hidden rounded-md my-2"
                             style={{
                                 border:

@@ -5,7 +5,6 @@ import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
 import { useStoreFront } from '../storefront/provider';
 import { useEffect, useState } from 'react';
-import CloseIcon from '~/assets/closeIcon.svg';
 import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from '~/lib/pricing/pricing-component';
@@ -64,9 +63,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </div>
                 </div>
             )}
-            <div className="lg:block hidden">
+            <div className="">
                 {checkoutFlow.includes(location.pathname) ? (
-                    <div className="flex container px-4 mx-auto gap-20 flex-auto items-center justify-between mb-5 w-full">
+                    <nav className="flex container px-4 mx-auto gap-20 flex-auto items-center justify-between mb-5 w-full">
                         <div className="flex flex-auto justify-between items-center w-1/4">
                             <Link to="/" prefetch="intent">
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
@@ -100,11 +99,11 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </nav>
                 ) : (
                     <div className="justify-between-full fixed z-40 bg-[#fff] w-full left-0 top-0">
-                        <div className="flex flex-auto items-center mx-auto px-6 xl:container  pt-3 pb-2">
-                            <div className="flex mx-auto flex-auto justify-between items-center">
+                        <div className="flex flex-auto items-center mx-auto px-6 xl:container pt-3 pb-2">
+                            <div className="flex mx-auto flex-auto justify-between items-center relative">
                                 <div className="flex gap-10 items-center">
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
@@ -121,7 +120,11 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             />
                                         </div>
                                     </Link>
-                                    <div className="flex gap-10 items-center">
+                                    <div
+                                        className={`flex gap-10 lg:flex lg:items-center lg:flex-row flex-col lg:w-auto lg:h-auto lg:relative lg:px-0 lg:py-0 lg:mt-0 lg:top-0 ${
+                                            isOpen ? 'block' : 'hidden'
+                                        } top-10 mt-5 bg-[#fff] w-full right-0 left-0 z-50 h-screen fixed left-0 bottom-0 px-20 py-10`}
+                                    >
                                         <SearchBar />
                                         {navigation?.folders?.tree?.children
                                             .filter((item: any) => {
@@ -160,100 +163,52 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 </Link>
                                 <BasketButton />
                             </div>
+                            <div className="z-50 p-[10px] h-[40px] text-center rounded-md cursor-pointer hover:bg-[#efefef] lg:hidden block">
+                                <button
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    type="button"
+                                    className="focus:outline-none"
+                                    aria-controls="mobile-menu"
+                                    aria-expanded="false"
+                                >
+                                    {!isOpen ? (
+                                        <svg
+                                            className="block h-6 w-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M4 6h16M4 12h16M4 18h16"
+                                            />
+                                        </svg>
+                                    ) : (
+                                        <svg
+                                            className="block h-6 w-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                        </svg>
+                                    )}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
-            </div>
-            <div className="flex items-center justify-between lg:hidden relative p-5">
-                <div className="flex flex-auto justify-between items-center w-1/4">
-                    <Link to="/" prefetch="intent">
-                        <div className="max-h-[80px] h-[50px] max-w-[180px]  img-container img-contain">
-                            <img
-                                src={storeFrontState.config.logo}
-                                width="150"
-                                height="30"
-                                alt={storeFrontState.config.identifier + ` logo`}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                }}
-                                loading="eager"
-                            />
-                        </div>
-                    </Link>
-                </div>
-                <div className="flex items-center gap-3 justify-start">
-                    <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
-                        <img className="w-[30px] h-[30px]" src={`${UserIcon}`} width="25" height="25" alt="User icon" />
-                    </Link>
-                    <BasketButton />
-                    <div
-                        className="z-50 p-[10px] w-[50px] h-[50px] relative items-center rounded-md cursor-pointer hover:bg-[#efefef] "
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        <div className="burger" />
-                        <div className="burger top" />
-                        <div className="burger bottom" />
-                    </div>
-                </div>
-                {isOpen ? (
-                    <div className="z-50 h-screen bg-[#fff] fixed top-0 left-0 right-0 bottom-0 flex flex-col">
-                        <div className="p-5 flex justify-between items-center">
-                            <Link to="/" prefetch="intent">
-                                <div className="max-h-[80px] h-[50px] max-w-[180px]  img-container img-contain">
-                                    <img
-                                        src={storeFrontState.config.logo}
-                                        width="150"
-                                        height="30"
-                                        alt={storeFrontState.config.identifier + ` logo`}
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                        }}
-                                        loading="eager"
-                                    />
-                                </div>
-                            </Link>
-                            <img
-                                src={CloseIcon}
-                                width="30"
-                                height="30"
-                                alt="Close icon"
-                                // className="self-end m-4"
-                                onClick={() => setIsOpen(false)}
-                            />
-                        </div>
-
-                        <div className="flex flex-col items-left gap-4 pt-2">
-                            <div className="mb-[20px]">
-                                <SearchBar />
-                            </div>
-                            <div className="flex flex-col px-6">
-                                {navigation?.folders?.tree?.children
-                                    .filter((item: any) => {
-                                        return (
-                                            item.__typename === 'Folder' &&
-                                            item.children?.length > 0 &&
-                                            !item.name.startsWith('_')
-                                        );
-                                    })
-                                    .map((item: any) => {
-                                        return (
-                                            <Link
-                                                to={item.path}
-                                                prefetch="intent"
-                                                key={item.path}
-                                                className="text-xl block py-2 hover:underline"
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        );
-                                    })}
-                                <TopicNavigation navigation={navigation.topics} />
-                            </div>
-                        </div>
-                    </div>
-                ) : null}
             </div>
         </>
     );

@@ -43,25 +43,23 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     // we don't need to consider the preview params here.
     url.searchParams.delete('preview');
-    const isFiltered = Array.from(url.searchParams).length > 0;
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
     const [folder, products, priceRange] = await Promise.all([
         CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en'),
-        isFiltered
-            ? CrystallizeAPI.searchOrderBy(secret.apiClient, path, searchParams.orderBy, searchParams.filters)
-            : CrystallizeAPI.fetchProducts(secret.apiClient, path, 'en'),
+        CrystallizeAPI.searchOrderBy(secret.apiClient, path, searchParams.orderBy, searchParams.filters),
+
         CrystallizeAPI.getPriceRange(secret.apiClient, path),
     ]);
 
     return json(
-        { products, folder, priceRange, isFiltered },
+        { products, folder, priceRange },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config),
     );
 };
 
 export default () => {
-    const { folder, products, priceRange, isFiltered } = useLoaderData();
+    const { folder, products, priceRange } = useLoaderData();
     let title = folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text;
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
@@ -81,7 +79,7 @@ export default () => {
             )}
             <div className="container 2xl mt-20 px-5 mx-auto w-full">
                 <Filter priceRange={priceRange} />
-                {isFiltered ? <FilteredProducts products={products} /> : <ProductsList products={products} />}
+                <FilteredProducts products={products} />
             </div>
         </>
     );

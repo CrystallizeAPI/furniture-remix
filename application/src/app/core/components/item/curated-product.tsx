@@ -35,8 +35,8 @@ export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
                     <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                         {merchandising.map((merch: any, i: number) => (
                             <span
-                                key={`hotspot-${merch.hotspotX.number}-${merch.hotspotY.number}`}
-                                style={{ left: merch.hotspotX.number + `%`, top: merch.hotspotY.number + '%' }}
+                                key={`hotspot-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
+                                style={{ left: merch?.hotspotX?.number + `%`, top: merch?.hotspotY?.number + '%' }}
                             >
                                 <div className="rounded-sm overflow-hidden shadow-sm px-2 pt-2 ">
                                     {merch.products?.map((product: any) => (

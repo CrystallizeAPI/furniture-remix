@@ -150,7 +150,7 @@ async function search(apiClient: ClientInterface, value: string, language: strin
                         search(language:"${language}", first: 100, filter: { 
                             searchTerm: $searchTerm, 
                             type: PRODUCT, 
-                            productVariants: { isDefault: true }}){
+                            }){
                           edges {
                             node {
                               name
@@ -158,7 +158,9 @@ async function search(apiClient: ClientInterface, value: string, language: strin
                               path
                               ... on Product {
                                 matchingVariant {
+                                  name
                                   price
+                                  isDefault
                                   priceVariants {
                                     identifier
                                     name
@@ -1390,8 +1392,8 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
 }
 
 async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any) {
-    const field = orderBy?.split('_')[0];
-    const direction = orderBy?.split('_')[1];
+    const field = orderBy?.split('_')[0] || 'NAME';
+    const direction = orderBy?.split('_')[1] || 'ASC';
     const priceRangeParams = fitlers.price;
 
     const results = await apiClient.searchApi(
@@ -1417,7 +1419,9 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
               path
               ... on Product {
                   matchingVariant {
+                  name
                   price
+                  isDefault
                   priceVariants {
                     identifier
                     name
@@ -1465,6 +1469,7 @@ async function orderByPriceRange(apiClient: ClientInterface, path: string) {
               path
               ... on Product {
                 matchingVariant {
+                  isDefault
                   price
                   priceVariants {
                     identifier
@@ -1531,6 +1536,7 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
               path
               ... on Product {
                 matchingVariant {
+                  isDefault
                   price
                   priceVariants {
                     identifier
@@ -1594,6 +1600,7 @@ async function searchByTopic(apiClient: ClientInterface, value: string, language
                 }
                 ... on Product {
                   matchingVariant {
+                    isDefault
                     price
                     priceVariants {
                       identifier

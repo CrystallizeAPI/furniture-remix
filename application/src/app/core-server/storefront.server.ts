@@ -6,7 +6,7 @@ import {
     createFilesystemAdapter,
 } from '@crystallize/js-storefrontaware-utils';
 
-function createStorage() {
+function createRedisStorageEngine() {
     let redisDSN = `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`;
     const config = require('platformsh-config').config();
     if (config.isValidPlatform()) {
@@ -24,7 +24,26 @@ function createStorage() {
     };
 }
 
-const storage = createStorage();
+function createMemoryStorageEngine() {
+    const store = new Map();
+    return {
+        get: async (key: string) => {
+            const hit = store.get(`superfast-${key}`);
+            if (!hit) return undefined;
+            const { value, ttl } = hit;
+            return ttl > Date.now() / 1000 ? value : undefined;
+        },
+        set: async (key: string, value: any, ttl: number) => {
+            store.set(`superfast-${key}`, {
+                value,
+                ttl: Math.floor(Date.now() / 1000) + ttl,
+            });
+        },
+    };
+}
+
+console.log('storage', process.env?.STORAGE);
+const storage = process.env?.STORAGE === 'memory' ? createMemoryStorageEngine() : createRedisStorageEngine();
 
 export const getStoreFront = async (hostname: string) => {
     const adapter = (() => {

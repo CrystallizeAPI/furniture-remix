@@ -3,7 +3,8 @@ import { BackendStorage } from '@crystallize/node-service-api-request-handlers/d
 import nodemailer from 'nodemailer';
 import * as redis from 'redis';
 
-export const cartWrapperRepository = createRepository(createRedisClient());
+const storage = process.env?.STORAGE === 'memory' ? createMemoryClient() : createRedisClient();
+export const cartWrapperRepository = createRepository(storage);
 
 export function createMailer(dsn: string) {
     if (dsn.startsWith('sendgrid://')) {
@@ -56,6 +57,16 @@ function createRedisClient(): BackendStorage {
         get: async (key: string) => await client.get(key),
         set: async (key: string, value: any) => {
             await client.set(key, value);
+        },
+    };
+}
+
+function createMemoryClient(): BackendStorage {
+    const store = new Map();
+    return {
+        get: async (key: string) => store.get(`superfast-${key}`),
+        set: async (key: string, value: any) => {
+            store.set(`superfast-${key}`, value);
         },
     };
 }

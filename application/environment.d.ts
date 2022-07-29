@@ -1,12 +1,12 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            SUPERFAST_HOST?: string;
-            REDIS_DSN?: string;
-            STOREFRONT_CONFIG_FILE?: string;
+            STORAGE_DSN: string;
             SUPERFAST_TENANT_IDENTIFIER: string;
             SUPERFAST_ACCESS_TOKEN_ID: string;
             SUPERFAST_ACCES_TOKEN_SECRET: string;
+            SUPERFAST_HOST?: string;
+            STOREFRONT_CONFIG_FILE?: string;
         }
     }
 }

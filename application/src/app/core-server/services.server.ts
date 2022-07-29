@@ -1,9 +1,8 @@
 import { createRepository } from '@crystallize/node-service-api-request-handlers';
-import { BackendStorage } from '@crystallize/node-service-api-request-handlers/dist/core/type';
 import nodemailer from 'nodemailer';
-import * as redis from 'redis';
+import { configureStorage } from './storage.server';
 
-const storage = process.env?.STORAGE === 'memory' ? createMemoryClient() : createRedisClient();
+const storage = configureStorage(process.env?.STORAGE_DSN);
 export const cartWrapperRepository = createRepository(storage);
 
 export function createMailer(dsn: string) {
@@ -41,32 +40,5 @@ export function createMailer(dsn: string) {
             subject,
             html,
         });
-    };
-}
-
-function createRedisClient(): BackendStorage {
-    let redisDSN = `${process.env.REDIS_DSN || 'redis://127.0.0.1:6379'}`;
-    const config = require('platformsh-config').config();
-    if (config.isValidPlatform()) {
-        const credentials = config.credentials('redis');
-        redisDSN = `redis://${credentials.host}:${credentials.port}`;
-    }
-    const client = redis.createClient({ url: redisDSN });
-    client.connect();
-    return {
-        get: async (key: string) => await client.get(key),
-        set: async (key: string, value: any) => {
-            await client.set(key, value);
-        },
-    };
-}
-
-function createMemoryClient(): BackendStorage {
-    const store = new Map();
-    return {
-        get: async (key: string) => store.get(`superfast-${key}`),
-        set: async (key: string, value: any) => {
-            store.set(`superfast-${key}`, value);
-        },
     };
 }

@@ -34,7 +34,7 @@ function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}) {
             const hit = store.get(`${prefix}${key}`);
             if (!hit) return undefined;
             const { value, ttl } = hit;
-            return !ttl || ttl > Date.now() / 1000 ? value : undefined;
+            return (!ttl || ttl > Date.now() / 1000) ? value : undefined;
         },
         set: async (key: string, value: any, ttl: number | false = false) => {
             store.set(`${prefix}${key}`, {
@@ -54,8 +54,8 @@ function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}) {
  * @param options Object with options: prefix
  */
 export function configureStorage(dsn: string, options: StorageOptions = {}): BackendStorage {
-    if (dsn.startsWith('redis://')) {
-        return createRedisStorageEngine(dsn, options);
+    if (dsn.startsWith('memory://')) {
+        return createMemoryStorageEngine(dsn, options);
     }
-    return createMemoryStorageEngine(dsn, options);
+    return createRedisStorageEngine(dsn, options);
 }

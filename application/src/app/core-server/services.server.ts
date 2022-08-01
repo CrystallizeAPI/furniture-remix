@@ -2,7 +2,7 @@ import { createRepository } from '@crystallize/node-service-api-request-handlers
 import nodemailer from 'nodemailer';
 import { configureStorage } from './storage.server';
 
-const storage = configureStorage(process.env?.STORAGE_DSN);
+const storage = configureStorage(`${process.env?.STORAGE_DSN}`);
 export const cartWrapperRepository = createRepository(storage);
 
 export function createMailer(dsn: string) {

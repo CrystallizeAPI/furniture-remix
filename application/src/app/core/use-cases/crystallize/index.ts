@@ -48,7 +48,6 @@ async function fetchTenantConfig(apiClient: ClientInterface, tenantIdentifier: s
         identifier: tenantIdentifier,
     });
     const tenantId = tenant?.get?.id;
-    console.log({ tenant: tenant, tenantId, tenantIdentifier });
 
     const currency = (
         await apiClient.pimApi(

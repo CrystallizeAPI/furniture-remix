@@ -9,7 +9,38 @@ import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from '~/lib/pricing/pricing-component';
 
-export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
+function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
+    if (typeof logo === 'string') {
+        return (
+            <img
+                src={logo}
+                width="150"
+                height="30"
+                alt={identifier + ` logo`}
+                style={{
+                    width: 'auto',
+                    height: '100%',
+                }}
+                loading="eager"
+            />
+        );
+    }
+    return (
+        <Image
+            {...logo}
+            sizes="150px"
+            alt={identifier + ` logo`}
+            className="w-auto h-full"
+            style={{
+                width: 'auto',
+                height: '100%',
+            }}
+            loading="eager"
+        />
+    );
+}
+
+export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, logo }) => {
     const { state: storeFrontState } = useStoreFront();
     const { state: appContextState, dispatch: appContextDispatch } = useAppContext();
     let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
@@ -69,16 +100,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <div className="flex flex-auto justify-between items-center w-1/4">
                             <Link to="/" prefetch="intent">
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
-                                    <img
-                                        src={storeFrontState.config.logo}
-                                        width="150"
-                                        height="30"
-                                        alt={storeFrontState.config.identifier + ` logo`}
-                                        style={{
-                                            width: 'auto',
-                                            height: '100%',
-                                        }}
-                                        loading="eager"
+                                    <TenantLogo
+                                        logo={logo || storeFrontState.config.logo}
+                                        identifier={storeFrontState.config.identifier}
                                     />
                                 </div>
                             </Link>
@@ -107,16 +131,9 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 <div className="flex gap-10 items-center">
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
-                                            <img
-                                                src={storeFrontState.config.logo}
-                                                width="150"
-                                                height="30"
-                                                alt={storeFrontState.config.identifier + ` logo`}
-                                                style={{
-                                                    width: 'auto',
-                                                    height: '100%',
-                                                }}
-                                                loading="eager"
+                                            <TenantLogo
+                                                logo={logo || storeFrontState.config.logo}
+                                                identifier={storeFrontState.config.identifier}
                                             />
                                         </div>
                                     </Link>

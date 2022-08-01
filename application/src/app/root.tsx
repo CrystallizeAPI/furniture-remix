@@ -56,6 +56,7 @@ export let loader: LoaderFunction = async ({ request }) => {
         {
             locale: 'en-US',
             currencyCode: tenantConfig.currency,
+            logo: tenantConfig.logo,
             country: 'US',
             storeFrontConfig: shared.config,
             navigation: {
@@ -77,9 +78,25 @@ export let loader: LoaderFunction = async ({ request }) => {
     );
 };
 
+type LoaderData = {
+    storeFrontConfig: TStoreFrontConfig;
+    locale: string;
+    currencyCode: string;
+    country: string;
+    navigation: any;
+    logo: {
+        key: string;
+        url: string;
+        variants: Array<{
+            key: string;
+            url: string;
+            width: number;
+            height: number;
+        }>;
+    };
+};
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { storeFrontConfig, locale, currencyCode, country } =
-        useLoaderData<{ storeFrontConfig: TStoreFrontConfig; locale: string; currencyCode: string; country: string }>();
+    const { storeFrontConfig, locale, currencyCode, logo, country } = useLoaderData<LoaderData>();
     return (
         <StoreFrontConfigProvider config={storeFrontConfig}>
             <CrystallizeProvider language="en" tenantIdentifier={storeFrontConfig.tenantIdentifier}>
@@ -120,10 +137,11 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { navigation, ENV } = useLoaderData<{
-        ENV: any;
-        navigation: any;
-    }>();
+    const { navigation, logo, ENV } = useLoaderData<
+        LoaderData & {
+            ENV: string;
+        }
+    >();
     return (
         <>
             <header className="2xl w-full mx-auto lg:p-8 lg:px-6">
@@ -132,7 +150,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         __html: `window.ENV = ${JSON.stringify(ENV)}`,
                     }}
                 ></script>
-                <Header navigation={navigation} />
+                <Header navigation={navigation} logo={logo} />
             </header>
             <div>
                 <div>{children}</div>

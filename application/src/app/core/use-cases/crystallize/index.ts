@@ -22,9 +22,34 @@ export const CrystallizeAPI = {
     fetchTenantConfig,
 };
 
+const QUERY_FETCH_TENANT_CONFIG = `
+query FETCH_TENANT_CONFIG ($identifier: String!) {
+    tenant {
+        get(identifier: $identifier) {
+            id
+            logo {
+                key
+                url
+                variants {
+                    ... on ImageVariant {
+                        key
+                        url
+                        width
+                        height
+                    }
+                }
+            }
+        }
+    }
+}`;
+
 async function fetchTenantConfig(apiClient: ClientInterface, tenantIdentifier: string) {
-    const tenantId = (await apiClient.pimApi(`query { tenant { get(identifier:"${tenantIdentifier}") { id } }}`))
-        ?.tenant?.get?.id;
+    const { tenant } = await apiClient.pimApi(QUERY_FETCH_TENANT_CONFIG, {
+        identifier: tenantIdentifier,
+    });
+    const tenantId = tenant?.get?.id;
+    console.log({ tenant: tenant, tenantId, tenantIdentifier });
+
     const currency = (
         await apiClient.pimApi(
             `query { priceVariant{ get(identifier:"default", tenantId:"${tenantId}") { currency } } }`,
@@ -32,6 +57,7 @@ async function fetchTenantConfig(apiClient: ClientInterface, tenantIdentifier: s
     )?.priceVariant?.get?.currency;
     return {
         currency,
+        logo: tenant?.get?.logo,
     };
 }
 

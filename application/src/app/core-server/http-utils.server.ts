@@ -3,6 +3,9 @@ export function isSecure(request: Request): boolean {
 }
 
 export function getHost(request: Request): string {
+    if (process.env?.SUPERFAST_HOST) {
+        return process.env.SUPERFAST_HOST;
+    }
     if (!request.headers.has('Host') || request.headers.get('Host') === '') {
         throw new Error('Runtime Fatal: Host is not found on the Request.');
     }

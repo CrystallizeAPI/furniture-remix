@@ -9,7 +9,12 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     const name = item?.defaultVariant?.name || item.name;
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
     const { state } = useAppContext();
-    const { default: defaultPrice, discounted: discountPrice, percent: discountPercentage, currency } = displayPriceFor(
+    const {
+        default: defaultPrice,
+        discounted: discountPrice,
+        percent: discountPercentage,
+        currency,
+    } = displayPriceFor(
         item?.defaultVariant,
         {
             default: 'default',

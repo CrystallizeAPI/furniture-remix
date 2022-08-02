@@ -5,7 +5,7 @@ export type StorageOptions = {
     prefix?: string;
 };
 
-function createRedisStorageEngine(dsn: string, options: StorageOptions = {}) {
+function createRedisStorageEngine(dsn: string | undefined, options: StorageOptions = {}) {
     const prefix = options?.prefix ?? '';
     let redisDSN = `${dsn || 'redis://127.0.0.1:6379'}`;
     const config = require('platformsh-config').config();
@@ -53,8 +53,8 @@ function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}) {
  * @param dsn Connection string
  * @param options Object with options: prefix
  */
-export function configureStorage(dsn: string, options: StorageOptions = {}): BackendStorage {
-    if (dsn && dsn.startsWith('memory://')) {
+export function configureStorage(dsn: string | undefined, options: StorageOptions = {}): BackendStorage {
+    if (dsn?.startsWith?.('memory://')) {
         return createMemoryStorageEngine(dsn, options);
     }
     return createRedisStorageEngine(dsn, options);

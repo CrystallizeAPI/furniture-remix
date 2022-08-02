@@ -60,7 +60,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default () => {
     const { folder, products, priceRange } = useLoaderData();
-    let title = folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text || folder.name;
+    let title =
+        folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text || folder.name;
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;

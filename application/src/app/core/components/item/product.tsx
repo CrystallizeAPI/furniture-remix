@@ -9,12 +9,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     const name = item?.defaultVariant?.name || item.name;
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
     const { state } = useAppContext();
-    const {
-        default: defaultPrice,
-        discounted: discountPrice,
-        percent: discountPercentage,
-        currency,
-    } = displayPriceFor(
+    const { default: defaultPrice, discounted: discountPrice, percent: discountPercentage, currency } = displayPriceFor(
         item?.defaultVariant,
         {
             default: 'default',
@@ -27,7 +22,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
         <Link
             to={item.path}
             prefetch="intent"
-            className="grid grid-rows-[1fr_60px] place-items-stretch h-full min-h-full w-full justify-stretch items-stretch relative"
+            className="grid grid-rows-[1fr_60px] place-items-stretch min-h-full w-full justify-stretch items-stretch relative"
         >
             {discountPercentage > 0 && (
                 <div className="absolute top-3 right-2 bg-green2 items-center flex z-[20] justify-center rounded-full w-[45px] h-[45px] text-[#fff] text-sm">

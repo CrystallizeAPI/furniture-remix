@@ -1,2 +1,0 @@
-mkcert --install
-mkcert --cert-file domains.pem -key-file key.pem

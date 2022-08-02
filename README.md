@@ -34,6 +34,7 @@ You only ever need to do this once for all Superfast stores you might set up
 ```
 brew install dnsmasq
 echo "address=/superfast.local/127.0.0.1" >> /opt/homebrew/etc/dnsmasq.conf
+sudo mdkir -p /etc/resolver && echo "nameserver 127.0.0.1" > /etc/resolver/local
 sudo brew services restart dnsmasq
 ```
 

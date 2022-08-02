@@ -1,5 +1,11 @@
-*.superfast.crystal {
-    tls ./provisioning/dev/certs/domains.pem ./provisioning/dev/certs/key.pem
+{
+    local_certs
+}
+
+*.superfast.local {
+    tls {
+        on_demand
+    }
     push
     @websockets {
         header Connection *Upgrade*

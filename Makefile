@@ -11,7 +11,6 @@ DOCKER_COMPOSE := $(DOCKER_COMPOSE_ARGS) docker compose
 NPM := npm
 CADDY = caddy
 CADDY_PID_FILE := provisioning/dev/caddy.dev.pid
-MKCERT = mkcert
 
 .DEFAULT_GOAL := list
 
@@ -28,15 +27,10 @@ clean: stop ## Clean non-essential files
 	@$(DOCKER_COMPOSE) down
 	
 .PHONY: install
-install: install-certificates ## Install
+install:
 	@$(NPM) install
 	@cd application && cp .env.dist .env && cd ..
 	@cd application && $(NPM) install && cd ..	
-	
-.PHONY: install-certificates
-install-certificates: ## Install the certificates
-	@$(MKCERT) -install
-	@cd provisioning/dev/certs && $(MKCERT) --cert-file domains.pem -key-file key.pem "*.superfast.crystal"
 
 .PHONY: npmupdate
 npmupdate: ## npmupdate

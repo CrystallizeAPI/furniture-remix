@@ -12,7 +12,6 @@ If you want to report or contribute, you should do it on the main repository: ht
 
 -   Volta.sh (that will bring good version of Node )
 -   Caddy Server v2
--   `mkcert` for https with local domains
 
 # Installation
 
@@ -22,8 +21,20 @@ For a better experience and respect the [Twelve-Facter App](https://12factor.net
 
 Add an entry for the subdomains in your `/etc/hosts` file:
 
+### Using /etc/hosts
+
 ```
-127.0.0.1 SUPERFASTPROJECTIDENTIFIER.superfast.crystal
+127.0.0.1 SUPERFASTPROJECTIDENTIFIER.superfast.local
+```
+
+### Using dnsmasq for multiple tenants
+
+You only ever need to do this once for all Superfast stores you might set up
+
+```
+brew install dnsmasq
+echo "address=/superfast.local/127.0.0.1" >> /opt/homebrew/etc/dnsmasq.conf
+sudo brew services restart dnsmasq
 ```
 
 ## Installation
@@ -36,8 +47,6 @@ make install
 
 This will:
 
--   install the Certificate Authority using `mkcert`
--   generate the certificates `mkcert` for `*.superfast.crystal`
 -   `npm install` the `frontend` folder
 
 ## Run the project
@@ -54,7 +63,7 @@ This will:
 
 > you can stop non stopped services with `make stop`
 
--   Frontend: https://furniture.superfast.crystal
+-   Frontend: https://furniture.superfast.local
 -   Mailcatcher - Web: http://localhost:3022
 -   Mailcatcher SMTP: http://localhost:3021
 -   Redis: tcp://localhost:3023

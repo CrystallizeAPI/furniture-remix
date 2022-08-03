@@ -49,6 +49,12 @@ stop: ## Stop all the local services you need
 		rm -f  $(CADDY_PID_FILE); \
 	fi
 
+run: ## Run node+caddy outside on host
+	@touch $(CADDY_PID_FILE)
+	@$(CADDY) start \
+		--config provisioning/dev/Caddyfile \
+		--pidfile $(CADDY_PID_FILE)
+	@$(MAKE) serve-application
 
 .PHONY: serve
 serve: stop ## Run all the local services you need

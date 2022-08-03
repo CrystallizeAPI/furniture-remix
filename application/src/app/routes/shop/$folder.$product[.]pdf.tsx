@@ -13,6 +13,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/shop/${params.folder}/${params.product}`;
     const { shared, secret } = await getStoreFront(getHost(request));
     const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version, 'en');
+    if (!product) {
+        throw new Response('Product Not Found', {
+            status: 404,
+            statusText: 'Product Not Found',
+        });
+    }
     const pdf = await ReactPDF.renderToStream(<SingleProduct product={product} />);
     return new Response(pdf, {
         headers: {

@@ -34,7 +34,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const path = `/stories/${params.document}`;
     const { shared, secret } = await getStoreFront(getHost(request));
     const document = await CrystallizeAPI.fetchDocument(secret.apiClient, path, version, 'en');
-
+    if (!document) {
+        throw new Response('Document Not Found', {
+            status: 404,
+            statusText: 'Document Not Found',
+        });
+    }
     return json<LoaderData>({ document }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 

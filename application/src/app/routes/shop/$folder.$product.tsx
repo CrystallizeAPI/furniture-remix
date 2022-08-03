@@ -35,6 +35,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared, secret } = await getStoreFront(getHost(request));
 
     const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version, 'en');
+    if (!product) {
+        throw new Response('Product Not Found', {
+            status: 404,
+            statusText: 'Product Not Found',
+        });
+    }
     return json({ product }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 

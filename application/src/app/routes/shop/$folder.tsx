@@ -52,6 +52,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         CrystallizeAPI.getPriceRange(secret.apiClient, path),
     ]);
 
+    if (!folder) {
+        throw new Response('Folder Not Found', {
+            status: 404,
+            statusText: 'Folder Not Found',
+        });
+    }
+
     return json(
         { products, folder, priceRange },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config),

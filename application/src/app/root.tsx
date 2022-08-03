@@ -96,7 +96,7 @@ type LoaderData = {
     };
 };
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { storeFrontConfig, locale, currencyCode, logo, country } = useLoaderData<LoaderData>();
+    const { storeFrontConfig, locale, currencyCode, country } = useLoaderData<LoaderData>();
     return (
         <StoreFrontConfigProvider config={storeFrontConfig}>
             <CrystallizeProvider language="en" tenantIdentifier={storeFrontConfig.tenantIdentifier}>
@@ -190,17 +190,29 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }: { error: any })
 
 export const CatchBoundary: CatchBoundaryComponent = () => {
     const caught = useCatch();
+    if (caught.data !== null) {
+        return (
+            <Document>
+                <Layout>
+                    <div className="pl-6 md:px-6 mx-auto xl:container full">
+                        <h1 className="pt-8">
+                            {caught.status} {caught.statusText}
+                        </h1>
+                    </div>
+                </Layout>
+            </Document>
+        );
+    }
+
     return (
         <html>
             <head>
-                <title>Oops!</title>
+                <title>Oh no!</title>
                 <Meta />
                 <Links />
             </head>
             <body>
-                <h1>
-                    {caught.status} {caught.statusText}
-                </h1>
+                {caught.status} {caught.statusText}
                 <Scripts />
             </body>
         </html>

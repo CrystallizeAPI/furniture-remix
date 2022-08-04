@@ -138,15 +138,6 @@ export const Invoice = (data: any) => {
     return (
         <Document>
             <Page style={styles.page}>
-                <View style={styles.container}>
-                    <Image src="https://media.crystallize.com/frntr/22/8/4/1/frntr-logo.png" style={styles.image} />
-                    <View style={styles.address}>
-                        <Text>Crystallize AS</Text>
-                        <Text>NO 919134216 MVA</Text>
-                        <Text>Kverndalsgata 8</Text>
-                        <Text>3717 Skien, Norway</Text>
-                    </View>
-                </View>
                 <View style={styles.lineContainer}>
                     <Text style={styles.title}>Receipt</Text>
                 </View>

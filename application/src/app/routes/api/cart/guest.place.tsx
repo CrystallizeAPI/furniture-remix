@@ -6,7 +6,6 @@ import { getHost, validatePayload } from '~/core-server/http-utils.server';
 import { privateJson } from '~/core-server/privateJson.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 
-//@todo: auth
 export const action: ActionFunction = async ({ request: httpRequest }) => {
     const host = getHost(httpRequest);
     const { secret: storefront } = await getStoreFront(host);

@@ -22,13 +22,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 
     const { shared, secret } = await getStoreFront(getHost(request));
-    const logo = await getLogoForRequestTenant(secret);
+    const logoUrl = await getLogoForRequestTenant(secret);
 
-    if (!logo) {
+    if (!logoUrl) {
         return new Response('Not found', { status: 404 });
     }
 
-    const arrayBuffer = await fetchImageBuffer(logo);
+    const arrayBuffer = await fetchImageBuffer(logoUrl);
 
     if (!arrayBuffer) {
         return new Response('Not found', { status: 404 });

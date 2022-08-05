@@ -13,6 +13,7 @@ import DefaultImage from '~/assets/defaultImage.svg';
 import { useAppContext } from '~/core/app-context/provider';
 import { getHost } from '~/core-server/http-utils.server';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
+import DownloadIcon from '~/assets/downloadIcon.svg';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -100,6 +101,17 @@ export default () => {
                                                     </p>
                                                 </div>
                                             ))}
+                                        </div>
+                                        <div className="w-full flex justify-end">
+                                            <div className="bg-textBlack py-3 px-4 text-[#fff] rounded-sm flex align-center gap-3">
+                                                <a href={`/order/invoice/${order.id}.pdf`}>Download invoice</a>
+                                                <img
+                                                    src={`${DownloadIcon}`}
+                                                    alt="Download icon"
+                                                    width="18"
+                                                    height="18"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

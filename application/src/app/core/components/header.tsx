@@ -94,7 +94,7 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                     </div>
                 </div>
             )}
-            <div className="">
+            <div className="lg:mb-5 mb-20">
                 {checkoutFlow.includes(location.pathname) ? (
                     <nav className="flex container px-4 mx-auto gap-20 flex-auto items-center justify-between mb-5 w-full">
                         <div className="flex flex-auto justify-between items-center w-1/4">

@@ -1,60 +1,29 @@
 import { LoaderFunction } from '@remix-run/node';
-import { getHost } from '~/core-server/http-utils.server';
-import { getStoreFront } from '~/core-server/storefront.server';
 import sharp from 'sharp';
-
-const supportedSizes = [16, 32, 64, 128];
+import { SIZES, getLogoForRequestTenant, fetchImageBuffer, generateFavicon } from '~/lib/image/favicon';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const size = Number(params.size);
 
-    if (!supportedSizes.includes(size)) {
-        return new Response('err', {
-            status: 404,
-        });
+    if (!SIZES.includes(size)) {
+        return new Response('Not found', { status: 404 });
     }
 
-    const { secret } = await getStoreFront(getHost(request));
-    const result = await secret.apiClient.pimApi(
-        `query ($identifier: String!) {
-            tenant {
-                get(identifier: $identifier) {
-                    logo {
-                        url
-                        mimeType
-                    }
-                }
-            }
-        }`,
-        {
-            identifier: secret.config.tenantIdentifier,
-        },
-    );
+    const logo = await getLogoForRequestTenant(request);
 
-    const logo = result?.tenant?.get?.logo?.url;
+    if (!logo) {
+        return new Response('Not found', { status: 404 });
+    }
 
-    const { arrayBuffer, mime } = await fetch(logo).then(async (res) => {
-        return {
-            arrayBuffer: await res.arrayBuffer(),
-            mime: res.headers.get('Content-Type') as string,
-        };
-    });
+    const arrayBuffer = await fetchImageBuffer(logo);
 
     if (!arrayBuffer) {
-        return new Response('err', {
-            status: 404,
-        });
+        return new Response('Not found', { status: 404 });
     }
 
     const original = sharp(Buffer.from(arrayBuffer));
 
-    const resizedPngIcon = await original
-        .resize(size)
-        .png({
-            compressionLevel: 8,
-            quality: 80,
-        })
-        .toBuffer();
+    const resizedPngIcon = await generateFavicon(original, { size });
 
     return new Response(resizedPngIcon, {
         status: 200,

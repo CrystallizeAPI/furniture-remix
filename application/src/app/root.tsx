@@ -16,6 +16,7 @@ import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
 import { getCurrencyFromCode } from './lib/pricing/currencies';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.server';
 import { getHost, isSecure } from './core-server/http-utils.server';
+import { FAVICON_VARIANTS } from './routes/favicon/$size[.png]';
 
 export const meta: MetaFunction = () => {
     return {
@@ -114,9 +115,7 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <head>
                             <meta charSet="utf-8" />
                             <meta name="viewport" content="width=device-width,initial-scale=1" />
-                            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-                            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-                            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                            <Favicons />
                             <link rel="manifest" href="/site.webmanifest" />
                             <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
                             <meta name="msapplication-TileColor" content="#da532c" />
@@ -143,6 +142,21 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </CrystallizeProvider>
         </StoreFrontConfigProvider>
     );
+};
+
+const Favicons: React.FC = () => {
+    const linkTags = Object.entries(FAVICON_VARIANTS).map(([variant, meta]) => {
+        return (
+            <link
+                key={`/favicon/${variant}.png`}
+                rel={meta.rel}
+                sizes={`${meta.size}x${meta.size}`}
+                href={`/favicon/${variant}.png`}
+            />
+        );
+    });
+
+    return <>{linkTags}</>;
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

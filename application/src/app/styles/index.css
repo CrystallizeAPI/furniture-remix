@@ -32,6 +32,13 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+    .clamp-text-2 {
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
     .cart-item img {
         width: 54px;
         height: auto;
@@ -276,7 +283,22 @@
     .frntr-grid-row {
         display: grid;
     }
-
+    .currated-landscape img {
+        height: 100%;
+        width: auto;
+        margin: 0 auto;
+    }
+    .currated-portrait img {
+        height: 100%;
+        width: auto;
+        margin: 0 0 0 auto;
+        border-top-left-radius: 8px;
+    }
+    .img-container-currated figure,
+    .img-container-currated picture {
+        height: 100% !important;
+        min-width: 100%;
+    }
     .img-container img {
         width: 100%;
         height: auto;

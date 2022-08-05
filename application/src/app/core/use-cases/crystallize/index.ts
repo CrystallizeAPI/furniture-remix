@@ -531,6 +531,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
                 variants {
                   url
                   width
+                  height
                 }
               }
             }
@@ -621,6 +622,7 @@ async function fetchDocument(apiClient: ClientInterface, path: string, version: 
                       variants {
                         url
                         width
+                        height
                       }
                     }
                   }
@@ -1077,6 +1079,7 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                                     images {
                                       variants {
                                         url
+                                        height
                                         width
                                       }
                                     }
@@ -1364,6 +1367,7 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                     variants {
                       url
                       width
+                      height
                     }
                   }
                 }
@@ -1379,6 +1383,7 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                           variants {
                             url
                             width
+                            height
                           }
                         }
                       }

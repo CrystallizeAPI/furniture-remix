@@ -49,7 +49,7 @@ export default () => {
     return (
         <>
             {grid && (
-                <div className="w-full">
+                <div className="w-full mt-4">
                     <Grid grid={grid} />
                 </div>
             )}

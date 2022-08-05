@@ -66,20 +66,24 @@ const DefaultArticle = ({ document }: { document: any }) => {
                     __html: JSON.stringify(buildSchemaMarkupForBlogPost(document)),
                 }}
             />
-            <div className="2xl md:container md:px-6 px-4 mx-auto mt-40 mb-40">
+            <div className="2xl md:container md:px-6 px-4 mx-auto mt-20 mb-20">
                 <div className="max-w-[1000px]">
                     <p className="mb-4 text-md">{creationDate}</p>
                     <h1 className="text-6xl font-semibold mb-2">{title}</h1>
-                    <div className="md:w-3/4 w-full my-10 text-2xl leading-[1.8em]">
+                    <div className="md:w-3/4 w-full my-2 text-2xl leading-[1.8em]">
                         <ContentTransformer json={description} />
                     </div>
                 </div>
             </div>
-            <div className="container 2xl img-container overflow-hidden rounded-lg mt-5 w-screen mx-auto">
-                <Image {...media?.images?.[0]} sizes="100vw" />
+            <div className="container 2xl mt-5 w-screen mx-auto">
+                <div className="max-w-[1200px] img-container overflow-hidden rounded-lg">
+                    <Image {...media?.images?.[0]} sizes="100vw" />
+                </div>
             </div>
-            <div className="2xl container mx-auto frntr-story md:px-6 px-4">
-                <ParagraphCollection paragraphs={paragraphs} />
+            <div className="2xl container mx-auto frntr-story ">
+                <div className="max-w-[1000px] ">
+                    <ParagraphCollection paragraphs={paragraphs} />
+                </div>
             </div>
             {relatedArticles && (
                 <div className="2xl container px-6 mx-auto w-full mt-10">

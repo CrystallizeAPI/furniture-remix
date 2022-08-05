@@ -43,7 +43,10 @@ query FETCH_TENANT_CONFIG ($identifier: String!) {
     }
 }`;
 
-async function fetchTenantConfig(apiClient: ClientInterface, tenantIdentifier: string) {
+export async function fetchTenantConfig(
+    apiClient: ClientInterface,
+    tenantIdentifier: string,
+): Promise<{ currency: number; logo: { key: string; url: string } }> {
     const { tenant } = await apiClient.pimApi(QUERY_FETCH_TENANT_CONFIG, {
         identifier: tenantIdentifier,
     });

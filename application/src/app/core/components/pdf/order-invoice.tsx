@@ -1,5 +1,4 @@
 import { Document, Page, Text, Image, StyleSheet, View, Font } from '@react-pdf/renderer';
-import { totalmem } from 'os';
 import { getSymbolFromCode } from '~/lib/pricing/currencies';
 
 const styles = StyleSheet.create({

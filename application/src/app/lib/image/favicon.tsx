@@ -1,6 +1,4 @@
 import sharp from 'sharp';
-import { getHost } from '~/core-server/http-utils.server';
-import { getStoreFront } from '~/core-server/storefront.server';
 import { TStoreFront } from '@crystallize/js-storefrontaware-utils';
 
 export const FAVICON_VARIANTS = {
@@ -58,6 +56,7 @@ type FaviconOptions = {
     compressionLevel?: number;
     quality?: number;
 };
+
 export const generateFavicon = async (original: sharp.Sharp, options: FaviconOptions): Promise<Buffer> => {
     if (!options?.hasOwnProperty?.('size')) {
         throw new Error('Must pass size');
@@ -69,7 +68,11 @@ export const generateFavicon = async (original: sharp.Sharp, options: FaviconOpt
         ...options,
     };
     return original
-        .resize(opts.size)
+        .resize({
+            width: opts.size,
+            height: opts.size,
+            fit: sharp.fit.contain,
+        })
         .png({
             compressionLevel: opts.compressionLevel,
             quality: opts.quality,

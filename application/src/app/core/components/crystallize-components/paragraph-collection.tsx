@@ -5,7 +5,7 @@ export const ParagraphCollection = ({ paragraphs }: { paragraphs: any }) => {
         <>
             {paragraphs?.map((paragraph: any, index: number) => (
                 <div key={index}>
-                    <div className="mt-10 md:mt-40 lg:mx-10 mb-20 pt-5 max-w-[800px] frntr-paragraph mx-2">
+                    <div className="mt-10 md:mt-10 lg:mx-10 mb-20 pt-5 max-w-[800px] frntr-paragraph mx-2">
                         <div className="my-10 mx-auto">
                             <h2 className="font-bold mt-10 text-4xl">{paragraph?.title?.text}</h2>
                             <div className="frntr-content-transformer">

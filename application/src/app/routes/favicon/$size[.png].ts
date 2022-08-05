@@ -1,6 +1,12 @@
 import { LoaderFunction } from '@remix-run/node';
 import sharp from 'sharp';
+
+import { getHost } from '~/core-server/http-utils.server';
+import { getStoreFront } from '~/core-server/storefront.server';
+import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core-server/http-cache.server';
 import { SIZES, getLogoForRequestTenant, fetchImageBuffer, generateFavicon } from '~/lib/image/favicon';
+
+const CACHE_AGE = '1d';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const size = Number(params.size);
@@ -9,7 +15,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return new Response('Not found', { status: 404 });
     }
 
-    const logo = await getLogoForRequestTenant(request);
+    const { shared, secret } = await getStoreFront(getHost(request));
+    const logo = await getLogoForRequestTenant(secret);
 
     if (!logo) {
         return new Response('Not found', { status: 404 });
@@ -28,6 +35,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return new Response(resizedPngIcon, {
         status: 200,
         headers: {
+            ...StoreFrontAwaretHttpCacheHeaderTagger(CACHE_AGE, CACHE_AGE, ['favicon'], shared.config).headers,
             'Content-Length': `${resizedPngIcon.byteLength}`,
             'Content-Type': 'image/png',
         },

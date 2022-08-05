@@ -1,6 +1,7 @@
 import sharp from 'sharp';
 import { getHost } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
+import { TStoreFront } from '@crystallize/js-storefrontaware-utils';
 
 export const SIZES = [16, 32, 64, 128];
 
@@ -15,9 +16,10 @@ const QUERY_TENANT_LOGO = `query TENANT_LOGO ($identifier: String!) {
     }
 }`;
 
-export const getLogoForRequestTenant = async (request: Request): Promise<string | undefined> => {
-    const { secret } = await getStoreFront(getHost(request));
-    const result = await secret.apiClient.pimApi(QUERY_TENANT_LOGO, { identifier: secret.config.tenantIdentifier });
+export const getLogoForRequestTenant = async (storeFront: TStoreFront): Promise<string | undefined> => {
+    const result = await storeFront.apiClient.pimApi(QUERY_TENANT_LOGO, {
+        identifier: storeFront.config.tenantIdentifier,
+    });
     return result?.tenant?.get?.logo?.url;
 };
 

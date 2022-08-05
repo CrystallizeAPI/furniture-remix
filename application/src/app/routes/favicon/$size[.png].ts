@@ -1,16 +1,31 @@
 import { LoaderFunction } from '@remix-run/node';
-import sharp from 'sharp';
-
 import { getHost } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core-server/http-cache.server';
+
+export const FAVICON_VARIANTS = {
+    '16': {
+        size: 16,
+        rel: 'icon',
+    },
+    '32': {
+        size: 32,
+        rel: 'icon',
+    },
+    'apple-touch-icon': {
+        size: 180,
+        rel: 'apple-touch-icon',
+    },
+};
+
+export type FaviconVariant = keyof typeof FAVICON_VARIANTS;
+
 import {
-    FAVICON_VARIANTS,
-    FaviconVariant,
     getLogoForRequestTenant,
     fetchImageBuffer,
     generateFavicon,
-} from '~/lib/image/favicon';
+    sharpFromImageBuffer,
+} from '~/core-server/favicon.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const size = String(params.size);
@@ -32,7 +47,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return new Response('Not found', { status: 404 });
     }
 
-    const original = sharp(Buffer.from(arrayBuffer));
+    const original = sharpFromImageBuffer(Buffer.from(arrayBuffer));
 
     const resizedPngIcon = await generateFavicon(original, {
         size: FAVICON_VARIANTS[size as FaviconVariant].size,

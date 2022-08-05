@@ -1,34 +1,6 @@
 import sharp from 'sharp';
 import { TStoreFront } from '@crystallize/js-storefrontaware-utils';
 
-export const FAVICON_VARIANTS = {
-    '16': {
-        size: 16,
-        rel: 'icon',
-    },
-    '32': {
-        size: 32,
-        rel: 'icon',
-    },
-    'apple-touch-icon': {
-        size: 180,
-        rel: 'apple-touch-icon',
-    },
-};
-
-export type FaviconVariant = keyof typeof FAVICON_VARIANTS;
-
-/**
- * Render a list of favicons based on FAVICON_VARIANTS constant
- */
-export const Favicons = () => {
-    const linkTags = Object.entries(FAVICON_VARIANTS).map(([variant, meta]) => {
-        return <link rel={meta.rel} sizes={`${meta.size}x${meta.size}`} href={`/favicon/${variant}.png`} />;
-    });
-
-    return <>{linkTags}</>;
-};
-
 const QUERY_TENANT_LOGO = `query TENANT_LOGO ($identifier: String!) {
     tenant {
         get(identifier: $identifier) {
@@ -79,3 +51,7 @@ export const generateFavicon = async (original: sharp.Sharp, options: FaviconOpt
         })
         .toBuffer();
 };
+
+export function sharpFromImageBuffer(buffer: Buffer): sharp.Sharp {
+    return sharp(buffer);
+}

@@ -16,7 +16,7 @@ import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
 import { getCurrencyFromCode } from './lib/pricing/currencies';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.server';
 import { getHost, isSecure } from './core-server/http-utils.server';
-import { Favicons } from '~/lib/image/favicon';
+import { FAVICON_VARIANTS } from './routes/favicon/$size[.png]';
 
 export const meta: MetaFunction = () => {
     return {
@@ -133,6 +133,21 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </CrystallizeProvider>
         </StoreFrontConfigProvider>
     );
+};
+
+const Favicons: React.FC = () => {
+    const linkTags = Object.entries(FAVICON_VARIANTS).map(([variant, meta]) => {
+        return (
+            <link
+                key={`/favicon/${variant}.png`}
+                rel={meta.rel}
+                sizes={`${meta.size}x${meta.size}`}
+                href={`/favicon/${variant}.png`}
+            />
+        );
+    });
+
+    return <>{linkTags}</>;
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

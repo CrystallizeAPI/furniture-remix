@@ -12,8 +12,6 @@ import {
     generateFavicon,
 } from '~/lib/image/favicon';
 
-const CACHE_AGE = '1d';
-
 export const loader: LoaderFunction = async ({ request, params }) => {
     const size = String(params.size);
 
@@ -43,7 +41,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return new Response(resizedPngIcon, {
         status: 200,
         headers: {
-            ...StoreFrontAwaretHttpCacheHeaderTagger(CACHE_AGE, CACHE_AGE, ['favicon'], shared.config).headers,
+            ...StoreFrontAwaretHttpCacheHeaderTagger('1d', '1w', ['favicon'], shared.config).headers,
             'Content-Length': `${resizedPngIcon.byteLength}`,
             'Content-Type': 'image/png',
         },

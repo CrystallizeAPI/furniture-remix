@@ -256,6 +256,8 @@ async function fetchCampaignPage(apiClient: ClientInterface, path: string, versi
                     layout {
                       rowspan
                       colspan
+                      colIndex
+                      rowIndex
                     }
                     item {
                       name
@@ -1062,6 +1064,8 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
                               layout {
                                 rowspan
                                 colspan
+                                colIndex
+                                rowIndex
                               }
                               item {
                                 name

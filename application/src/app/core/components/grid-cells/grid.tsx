@@ -31,8 +31,8 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
         if (!component) {
             return {
                 ...styles,
-                gridColumn: `${cell.position.colIndex + 2} / span ${cell.layout.colspan}`,
-                gridRow: `${cell.position.rowIndex + 1} / span ${cell.layout.rowspan}`,
+                gridColumn: `${cell.layout.colIndex + 2} / span ${cell.layout.colspan}`,
+                gridRow: `${cell.layout.rowIndex + 1} / span ${cell.layout.rowspan}`,
             };
         }
         const isFullWidth = component?.content?.chunks[0]?.find((chunk: any) => chunk.id === 'use-full-width')?.content
@@ -41,8 +41,8 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
         if (!isFullWidth) {
             return {
                 ...styles,
-                gridColumn: `${cell.position.colIndex + 2} / span ${cell.layout.colspan}`,
-                gridRow: `${cell.position.rowIndex + 1} / span ${cell.layout.rowspan}`,
+                gridColumn: `${cell.layout.colIndex + 2} / span ${cell.layout.colspan}`,
+                gridRow: `${cell.layout.rowIndex + 1} / span ${cell.layout.rowspan}`,
             };
         }
 

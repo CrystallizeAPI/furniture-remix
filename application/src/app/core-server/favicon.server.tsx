@@ -44,6 +44,7 @@ export const generateFavicon = async (original: sharp.Sharp, options: FaviconOpt
             width: opts.size,
             height: opts.size,
             fit: sharp.fit.contain,
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
         .png({
             compressionLevel: opts.compressionLevel,

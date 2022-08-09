@@ -46,7 +46,7 @@ export type Tile = {
         videos?: any[];
     };
     isFullWidth?: boolean;
-    styling?: Record<string, Record<string, string>>;
+    styling?: any;
     cssPreset?: string;
 };
 

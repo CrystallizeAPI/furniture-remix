@@ -50,9 +50,9 @@ const DefaultArticle = ({ document }: { document: any }) => {
     };
 
     let title = getComponentContent('title')?.text;
-    let description = getComponentContent('description')?.json;
+    let intro = getComponentContent('intro')?.json;
     let media = getComponentContent('media')?.selectedComponent?.content;
-    let paragraphs = getComponentContent('body')?.paragraphs;
+    let paragraphs = getComponentContent('story')?.paragraphs;
     let relatedArticles = getComponentContent('up-next')?.items;
     let featuredProducts = getComponentContent('featured')?.items;
     const date = new Date(document.createdAt);
@@ -71,7 +71,7 @@ const DefaultArticle = ({ document }: { document: any }) => {
                     <p className="mb-4 text-md">{creationDate}</p>
                     <h1 className="text-6xl font-semibold mb-2">{title}</h1>
                     <div className="md:w-3/4 w-full my-2 text-2xl leading-[1.8em]">
-                        <ContentTransformer json={description} />
+                        <ContentTransformer json={intro} />
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@ export default function DocumentPage() {
     if (document.shape.identifier === 'curated-product-story') {
         return <CuratedProductStory document={document} />;
     }
-    if (document.shape.identifier === 'default-document') {
+    if (document.shape.identifier === 'story') {
         return <DefaultArticle document={document} />;
     }
     return <div> No renderer for type</div>;

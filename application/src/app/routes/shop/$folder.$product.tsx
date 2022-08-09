@@ -49,8 +49,7 @@ export default () => {
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
     let location = useLocation();
-    let title =
-        product?.components?.find((component: any) => component.type === 'singleLine')?.content?.text || product.name;
+    let title = product?.components?.find((component: any) => component.id === 'title')?.content?.text || product.name;
     let description = product?.components?.find((component: any) => component.type === 'richText')?.content?.plainText;
     const onVariantChange = (variant: any) => setSelectedVariant(variant);
 
@@ -70,7 +69,6 @@ export default () => {
                 }}
             />
             <div className="pl-6 md:px-6 mx-auto xl:container full">
-                {/* {showCart ? <Cart /> : null} */}
                 <div className="flex gap-20 lg:flex-row flex-col-reverse ">
                     <div className="lg:w-4/6 w-full img-container pr-6 md:pr-6">
                         <div className="img-container overflow-hidden rounded-md">

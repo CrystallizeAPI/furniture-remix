@@ -30,12 +30,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default () => {
     const { folder } = useLoaderData();
-    let title = folder.components.find((component: any) => component.type === 'singleLine')?.content?.text;
-    let description = folder.components.find((component: any) => component.type === 'richText')?.content?.plainText;
+    let title = folder.components.find((component: any) => component.id === 'title')?.content?.text;
+    let intro = folder.components.find((component: any) => component.id === 'intro')?.content?.plainText;
+
     return (
         <div className="container 2xl md:px-6 mx-auto w-full p-10">
             <h1 className="text-6xl font-bold mt-10 mb-4">{title}</h1>
-            <div className="flex gap-5">{description}</div>
+            <div className="flex gap-5">{intro}</div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-10 grid-flow-row flex flex-wrap">
                 {folder?.children.map((child: any) => (
                     <Document item={child} key={child.name} />

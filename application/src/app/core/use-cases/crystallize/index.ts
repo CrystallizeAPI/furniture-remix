@@ -86,7 +86,7 @@ async function fetchNavigation(apiClient: ClientInterface, path: string, languag
                     return {
                         __on: [
                             builder.onItem({
-                                ...builder.onComponent('description', 'RichText', {
+                                ...builder.onComponent('intro', 'RichText', {
                                     json: true,
                                 }),
                             }),

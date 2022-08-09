@@ -7,7 +7,7 @@ const DefaultDocument = ({ item }: { item: any }) => {
     const title = item?.components?.find((component: any) => component?.id === 'title')?.content?.text;
     const media = item?.components?.find((component: any) => component?.id === 'media')?.content?.selectedComponent
         ?.content;
-    const description = item?.components?.find((component: any) => component?.id === 'description')?.content?.plainText;
+    const intro = item?.components?.find((component: any) => component?.id === 'intro')?.content?.plainText;
     return (
         <Link
             to={item.path}
@@ -17,7 +17,7 @@ const DefaultDocument = ({ item }: { item: any }) => {
             <div className="flex flex-col justify-between items-stretch h-full overflow-hidden w-full">
                 <div className="px-10 pt-20 h-1/3 ">
                     {title && <h2 className="text-2xl font-bold mb-3">{title}</h2>}
-                    {description && <p className="embed-text">{description}</p>}
+                    {intro && <p className="embed-text">{intro}</p>}
                 </div>
                 <div className="pl-10 pt-10 max-w-full h-full min-h-[400px] img-container overflow-hidden rounded-t-l-md img-cover grow">
                     <Image

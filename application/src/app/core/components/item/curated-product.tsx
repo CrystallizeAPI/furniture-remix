@@ -15,8 +15,8 @@ export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
     let merchandising = getComponentContent(item?.components, 'merchandising')?.chunks?.map((merch: any) => {
         return {
             products: getComponentContent(merch, 'products')?.items,
-            hotspotX: getComponentContent(merch, 'hotspot-point-x'),
-            hotspotY: getComponentContent(merch, 'hotspot-point-y'),
+            hotspotX: getComponentContent(merch, 'hotspot-x'),
+            hotspotY: getComponentContent(merch, 'hotspot-y'),
         };
     });
 

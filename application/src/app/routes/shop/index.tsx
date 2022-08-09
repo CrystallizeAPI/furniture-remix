@@ -73,12 +73,8 @@ export default () => {
                             <div className="flex  flex-col sm:flex-row sm:items-center justify-between ">
                                 <div className="w-3/4 sm:w-2/4 leading-[1.5em]">
                                     <h2 className="font-bold text-2xl mb-3">{child.name}</h2>
-                                    <ContentTransformer
-                                        className="leading-1"
-                                        json={child?.description?.content?.json}
-                                    />
+                                    <ContentTransformer className="leading-1" json={child?.intro?.content?.json} />
                                 </div>
-
                                 <Link
                                     to={child?.path}
                                     prefetch="intent"

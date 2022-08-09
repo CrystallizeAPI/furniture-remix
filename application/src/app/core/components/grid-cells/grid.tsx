@@ -7,7 +7,7 @@ import { Slider } from '~/core/components/tiles/slider';
 import { GridCell, GridRenderingType } from '@crystallize/reactjs-components';
 import { HeroSlider } from '../tiles/hero-slider';
 
-const titeMapping = {
+const tileMapping = {
     banner: Banner,
     embed: Embed,
     slider: Slider,
@@ -58,7 +58,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
             <BaseGrid
                 grid={grid}
                 itemComponentMapping={itemMapping}
-                tileViewComponentMapping={titeMapping}
+                tileViewComponentMapping={tileMapping}
                 type={GridRenderingType.Div}
                 styleForCell={styleForCell}
                 style={{
@@ -68,11 +68,6 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                 options={{
                     background: {
                         style: {
-                            // position: 'absolute',
-                            // top: 0,
-                            // left: 0,
-                            // width: '100%',
-                            // height: '100%',
                             objectFit: 'cover',
                         },
                         imageProps: {

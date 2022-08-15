@@ -21,8 +21,8 @@ export function CuratedProductStory({ document }: { document: any }) {
     let merchandising = getComponentContent(document?.components, 'merchandising')?.chunks?.map((merch: any) => {
         return {
             products: getComponentContent(merch, 'products')?.items,
-            hotspotX: getComponentContent(merch, 'hotspot-point-x'),
-            hotspotY: getComponentContent(merch, 'hotspot-point-y'),
+            hotspotX: getComponentContent(merch, 'hotspot-x'),
+            hotspotY: getComponentContent(merch, 'hotspot-y'),
         };
     });
 

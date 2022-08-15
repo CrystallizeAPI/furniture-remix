@@ -10,7 +10,7 @@ export const ProductBody = ({ components }: { components: any }) => {
     return (
         <>
             {paragraphs && <ParagraphCollection paragraphs={paragraphs} />}
-            {propertiesTable && <PropertiesTable table={propertiesTable?.[0]} />}
+            {propertiesTable && propertiesTable.map((table: any) => <PropertiesTable table={table} />)}
             {dimensionsTable && <DimensionsTable dimensions={dimensionsTable?.[0]} />}
         </>
     );

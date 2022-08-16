@@ -1,6 +1,5 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch, useLoaderData } from '@remix-run/react';
 import { ErrorBoundaryComponent, HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { CatchBoundaryComponent } from '@remix-run/react/routeModules';
 import { Header } from '~/core/components/header';
 import { Footer } from './core/components/footer';
 import tailwindDefaultTheme from './styles/tailwind.default.css';
@@ -17,6 +16,7 @@ import { getCurrencyFromCode } from './lib/pricing/currencies';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.server';
 import { getHost, isSecure } from './core-server/http-utils.server';
 import { FAVICON_VARIANTS } from './routes/favicon/$size[.png]';
+import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
 
 export const meta: MetaFunction = () => {
     return {
@@ -117,7 +117,6 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <meta name="viewport" content="width=device-width,initial-scale=1" />
                             <Favicons />
                             <link rel="manifest" href="/site.webmanifest" />
-                            <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
                             <meta name="msapplication-TileColor" content="#da532c" />
                             <meta name="theme-color" content="#ffffff" />
 
@@ -146,12 +145,14 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const Favicons: React.FC = () => {
     const linkTags = Object.entries(FAVICON_VARIANTS).map(([variant, meta]) => {
+        const extra = meta.extra ?? {};
         return (
             <link
                 key={`/favicon/${variant}.png`}
                 rel={meta.rel}
                 sizes={`${meta.size}x${meta.size}`}
                 href={`/favicon/${variant}.png`}
+                {...extra}
             />
         );
     });

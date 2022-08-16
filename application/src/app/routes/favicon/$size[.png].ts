@@ -7,14 +7,24 @@ export const FAVICON_VARIANTS = {
     '16': {
         size: 16,
         rel: 'icon',
+        extra: {},
     },
     '32': {
         size: 32,
         rel: 'icon',
+        extra: {},
     },
     'apple-touch-icon': {
         size: 180,
         rel: 'apple-touch-icon',
+        extra: {},
+    },
+    'safari-pinned-tab': {
+        size: 16,
+        rel: 'mask-icon',
+        extra: {
+            color: '#5bbad5',
+        },
     },
 };
 
@@ -28,9 +38,9 @@ import {
 } from '~/core-server/favicon.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const size = String(params.size);
+    const size = Number(params.size);
 
-    if (!FAVICON_VARIANTS.hasOwnProperty(size)) {
+    if (![192, 256, 150].includes(size) && !FAVICON_VARIANTS.hasOwnProperty(size)) {
         return new Response('Not found', { status: 404 });
     }
 
@@ -49,9 +59,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const original = sharpFromImageBuffer(Buffer.from(arrayBuffer));
 
-    const resizedPngIcon = await generateFavicon(original, {
-        size: FAVICON_VARIANTS[size as FaviconVariant].size,
-    });
+    const resizedPngIcon = await generateFavicon(original, { size: size });
 
     return new Response(resizedPngIcon, {
         status: 200,

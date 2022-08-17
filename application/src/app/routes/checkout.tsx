@@ -30,9 +30,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default () => {
     const { isServerSideAuthenticated } = useLoaderData();
-    const { isAuthenticated, userInfos } = useAuth();
+    const { isAuthenticated } = useAuth();
     const { cart } = useLocalCart();
     const [isGuestCheckout, setIsGuestCheckout] = useState(false);
+    const [showPayments, setShowPayments] = useState(false);
 
     return (
         <div className="2xl lg:container lg:px-6 px-2 mx-auto min-h-[100vh]">
@@ -44,8 +45,11 @@ export default () => {
                             if (!isAuthenticated || !isServerSideAuthenticated) {
                                 return isGuestCheckout ? (
                                     <>
-                                        <AddressForm title="Guest Checkout" />
-                                        {cart.cartId !== '' && <Payments />}
+                                        <AddressForm
+                                            title="Guest Checkout"
+                                            onValidSubmit={() => setShowPayments(true)}
+                                        />
+                                        {cart.cartId !== '' && showPayments && <Payments />}
                                     </>
                                 ) : (
                                     <MagickLoginForm
@@ -57,8 +61,8 @@ export default () => {
                             }
                             return (
                                 <>
-                                    <AddressForm title="Address" />
-                                    {cart.cartId !== '' && <Payments />}
+                                    <AddressForm title="Address" onValidSubmit={() => setShowPayments(true)} />
+                                    {cart.cartId !== '' && showPayments && <Payments />}
                                 </>
                             );
                         })()}

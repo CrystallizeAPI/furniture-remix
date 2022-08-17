@@ -23,12 +23,12 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
 
     const alteredItems = cart.items.map((item) => {
         const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
-        const grossAmount = item.price.gross - (saving?.amount || 0);
-        const taxAmount = (grossAmount * (item.product?.vatType?.percent || 0)) / 100;
-        const netAmount = grossAmount - taxAmount;
+        const netAmount = item.price.net - (saving?.amount || 0);
+        const taxAmount = (netAmount * (item.product?.vatType?.percent || 0)) / 100;
+        const grossAmount = netAmount + taxAmount;
         const discount = {
             amount: saving?.amount || 0,
-            percent: ((saving?.amount || 0) / grossAmount) * 100,
+            percent: ((saving?.amount || 0) / netAmount) * 100,
         };
         totals.taxAmount += taxAmount;
         totals.gross += grossAmount;

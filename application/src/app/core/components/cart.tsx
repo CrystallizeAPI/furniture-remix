@@ -143,7 +143,7 @@ export const HydratedCart: React.FC = () => {
                                                     <>
                                                         <del className="text-red mx-2">
                                                             <CrystallizePrice currencyCode={contextState.currency.code}>
-                                                                {item.price.gross + saving.amount}
+                                                                {item.price.net + saving.amount}
                                                             </CrystallizePrice>
                                                         </del>
                                                         <small>({saving.quantity} for free!)</small>

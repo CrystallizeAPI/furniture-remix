@@ -1,10 +1,9 @@
 import { ChangeEvent } from 'react';
-import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { Payments } from '../payments';
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { Input } from '~/core/components/input';
+import { useAuth } from '~/core/hooks/useAuth';
 
-export type Guest = {
+export type Customer = {
     firstname: string;
     lastname: string;
     email: string;
@@ -14,9 +13,13 @@ export type Guest = {
     country: string;
 };
 
-export const GuestCheckoutForm: React.FC = () => {
-    const { cart } = useLocalCart();
-    const [customer] = useLocalStorage<Partial<Guest>>('customer', {});
+export const AddressForm: React.FC<{ title: string }> = ({ title }) => {
+    const { isAuthenticated, userInfos } = useAuth();
+    const [customer] = useLocalStorage<Partial<Customer>>('customer', {
+        email: userInfos?.email,
+        firstname: userInfos?.firstname,
+        lastname: userInfos?.lastname,
+    });
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         writeStorage('customer', {
             ...customer,
@@ -26,11 +29,16 @@ export const GuestCheckoutForm: React.FC = () => {
 
     return (
         <div className="flex flex-col gap-3">
-            <h1 className="font-bold text-2xl mt-5 mb-3">Guest Checkout</h1>
+            <h1 className="font-bold text-2xl mt-5 mb-3">{title}</h1>
+            {isAuthenticated && (
+                <p>
+                    Hello {userInfos?.firstname} {userInfos?.lastname} (<strong>{userInfos?.email}</strong>),
+                </p>
+            )}
             <form>
                 <div className="grid grid-cols-2 gap-3">
                     <Input
-                        defaultValue={customer.firstname}
+                        defaultValue={customer.firstname || userInfos?.firstname}
                         placeholder={'Frodo'}
                         label="First name"
                         name="firstname"
@@ -39,7 +47,7 @@ export const GuestCheckoutForm: React.FC = () => {
                     />
 
                     <Input
-                        defaultValue={customer.lastname}
+                        defaultValue={customer.lastname || userInfos?.lastname}
                         placeholder={'Baggins'}
                         label="Last name"
                         name="lastname"
@@ -49,7 +57,7 @@ export const GuestCheckoutForm: React.FC = () => {
                 </div>
                 <div className="mt-3">
                     <Input
-                        defaultValue={customer.email}
+                        defaultValue={customer.email || userInfos?.email}
                         label="Email"
                         placeholder={'Frodo.ringmaster@shireclub.com'}
                         name="email"
@@ -94,7 +102,6 @@ export const GuestCheckoutForm: React.FC = () => {
                     />
                 </div>
             </form>
-            {cart.cartId !== '' && <Payments isGuest={true} />}
         </div>
     );
 };

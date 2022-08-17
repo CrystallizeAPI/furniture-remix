@@ -9,7 +9,7 @@ import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
 import { ImageGallery } from '~/core/components/image-gallery';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { TopicLabels } from '~/core/components/topic-labels';
 import { Price } from '~/core/components/price';
 import { StockLocations } from '~/core/components/stock-location';
@@ -28,13 +28,10 @@ export let meta: MetaFunction = ({ data }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const url = new URL(request.url);
-    const preview = url.searchParams.get('preview');
-    const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}/${params.product}`;
     const { shared, secret } = await getStoreFront(getHost(request));
-
-    const product = await CrystallizeAPI.fetchProduct(secret.apiClient, path, version, 'en');
+    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const product = await api.fetchProduct(path);
     if (!product) {
         throw new Response('Product Not Found', {
             status: 404,

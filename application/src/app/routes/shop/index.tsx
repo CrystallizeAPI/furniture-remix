@@ -10,7 +10,7 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { getHost } from '~/core-server/http-utils.server';
 
@@ -27,15 +27,10 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const url = new URL(request.url);
-    const preview = url.searchParams.get('preview');
-    const version = preview ? 'draft' : 'published';
     const path = '/shop';
     const { shared, secret } = await getStoreFront(getHost(request));
-    const [folder, navigation] = await Promise.all([
-        CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en'),
-        CrystallizeAPI.fetchNavigation(secret.apiClient, path, 'en'),
-    ]);
+    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const [folder, navigation] = await Promise.all([api.fetchFolder(path), api.fetchNavigation(path)]);
 
     return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };

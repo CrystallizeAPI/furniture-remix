@@ -8,7 +8,7 @@ import {
 import { getHost } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { useAppContext } from '~/core/app-context/provider';
-import { ServiceAPI } from '~/core/use-cases/service-api';
+import { ServiceAPI } from '~/use-cases/service-api';
 import { Price } from '~/lib/pricing/pricing-component';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -45,6 +45,11 @@ export default () => {
 
     return (
         <div className="min-h-[70vh] items-center flex lg:w-content mx-auto w-full">
+            {!order && (
+                <div className="mt-4 flex gap-2">
+                    Loading the order <div className="loader " />
+                </div>
+            )}
             {order && (
                 <div className="w-3/4 mx-auto">
                     <div className="mt-10">

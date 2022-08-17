@@ -1,8 +1,9 @@
 import { ActionFunction, json } from '@remix-run/node';
 import { getHost } from '~/core-server/http-utils.server';
-import { buildCustomer, pushOrderSubHandler } from '~/core-server/orders';
+import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder.server';
 import { cartWrapperRepository } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
+import pushCustomerIfMissing from '~/use-cases/crystallize/pushCustomerIfMissing.server';
 
 export const action: ActionFunction = async ({ request: httpRequest }) => {
     const host = getHost(httpRequest);
@@ -17,7 +18,14 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
             status: 404,
         };
     }
-    const data = await pushOrderSubHandler(storefront, cartWrapper, buildCustomer(cartWrapper), {
+
+    const orderCustomer = buildCustomer(cartWrapper);
+    console.log(orderCustomer);
+    // we also need to check if the customer is already pushed to crystallize here
+    // we don't await here
+    pushCustomerIfMissing(storefront.apiClient, orderCustomer).catch(console.error);
+
+    const data = await pushOrderSubHandler(storefront.apiClient, cartWrapper, orderCustomer, {
         //@ts-ignore
         provider: 'custom',
         custom: {

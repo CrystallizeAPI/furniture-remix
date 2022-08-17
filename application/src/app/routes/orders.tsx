@@ -7,7 +7,7 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { ServiceAPI } from '~/core/use-cases/service-api';
+import { ServiceAPI } from '~/use-cases/service-api';
 import { Price } from '~/lib/pricing/pricing-component';
 import DefaultImage from '~/assets/defaultImage.svg';
 import { useAppContext } from '~/core/app-context/provider';

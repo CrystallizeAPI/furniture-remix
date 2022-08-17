@@ -7,7 +7,7 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { ServiceAPI } from '~/core/use-cases/service-api';
+import { ServiceAPI } from '~/use-cases/service-api';
 import { getHost } from '~/core-server/http-utils.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -89,9 +89,9 @@ export default () => {
                         <p className="mt-4 text-[#6D6B69]">
                             Id: <span className="font-italic">{cartId}</span>
                         </p>
-                        <p className="mt-4 flex gap-2">
+                        <div className="mt-4 flex gap-2">
                             <div className="loader " />
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>

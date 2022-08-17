@@ -1,7 +1,7 @@
 import { LoaderFunction, Response } from '@remix-run/node';
 import ReactPDF from '@react-pdf/renderer';
 import { Invoice } from '~/core/components/pdf/order-invoice';
-import { ServiceAPI } from '~/core/use-cases/service-api';
+import { ServiceAPI } from '~/use-cases/service-api';
 import { createOrderFetcher } from '@crystallize/js-api-client';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { getHost } from '~/core-server/http-utils.server';

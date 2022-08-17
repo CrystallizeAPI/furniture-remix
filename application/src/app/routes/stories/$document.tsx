@@ -10,17 +10,18 @@ import { Product } from '~/core/components/item/product';
 import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { CuratedProductStory } from './curated-product-story';
 import { buildSchemaMarkupForBlogPost } from '~/core/SchemaMarkupBuilder';
 import { getHost } from '~/core-server/http-utils.server';
+import fetchDocument from '~/use-cases/crystallize/fetchDocument';
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
 };
 
 type LoaderData = {
-    document: Awaited<ReturnType<typeof CrystallizeAPI.fetchDocument>>;
+    document: Awaited<ReturnType<typeof fetchDocument>>;
 };
 
 export let meta: MetaFunction = ({ data }) => {
@@ -28,12 +29,10 @@ export let meta: MetaFunction = ({ data }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const url = new URL(request.url);
-    const preview = url.searchParams.get('preview');
-    const version = preview ? 'draft' : 'published';
     const path = `/stories/${params.document}`;
     const { shared, secret } = await getStoreFront(getHost(request));
-    const document = await CrystallizeAPI.fetchDocument(secret.apiClient, path, version, 'en');
+    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const document = await api.fetchDocument(path);
     if (!document) {
         throw new Response('Document Not Found', {
             status: 404,

@@ -1,15 +1,15 @@
 import {
+    ClientInterface,
     createOrderPusher,
     CustomerInputRequest,
     OrderCreatedConfirmation,
     PaymentInputRequest,
 } from '@crystallize/js-api-client';
-import { TStoreFront } from '@crystallize/js-storefrontaware-utils';
 import { CartItem, CartWrapper } from '@crystallize/node-service-api-request-handlers';
 import { cartWrapperRepository } from '~/core-server/services.server';
 
 export const pushOrderSubHandler = async (
-    storeFront: TStoreFront,
+    apiClient: ClientInterface,
     cartWrapper: CartWrapper,
     customer: CustomerInputRequest,
     payment: PaymentInputRequest,
@@ -21,7 +21,7 @@ export const pushOrderSubHandler = async (
             status: 403,
         };
     }
-    const pusher = createOrderPusher(storeFront.apiClient);
+    const pusher = createOrderPusher(apiClient);
     const orderCreatedConfirmation = await pusher({
         customer,
         cart: cart.cart.items.map((item: CartItem) => {
@@ -57,29 +57,35 @@ export const pushOrderSubHandler = async (
 };
 
 export const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
+    const firstName = cartWrapper?.customer?.firstname || '';
+    const lastName = cartWrapper?.customer?.lastname || '';
+    const customerIdentifier = cartWrapper?.customer?.customerIdentifier || cartWrapper?.customer?.email || '';
     return {
-        identifier: cartWrapper?.customer?.email || '',
-        firstName: cartWrapper?.customer?.firstname || 'Unknown',
-        lastName: cartWrapper?.customer?.lastname || 'Unknown',
-        companyName: cartWrapper?.customer?.company || 'Unknown',
+        identifier: customerIdentifier,
+        firstName,
+        lastName,
         addresses: [
             {
                 //@ts-ignore
                 type: 'billing',
-                street: cartWrapper?.customer?.streetAddress || 'Unknown',
-                city: cartWrapper?.customer?.city || 'Unknown',
-                country: 'Unknown',
-                state: 'Unknown',
-                postalCode: cartWrapper?.customer?.zipCode || 'Unknown',
+                firstName,
+                lastName,
+                email: cartWrapper?.customer?.email || '',
+                street: cartWrapper?.customer?.streetAddress || '',
+                city: cartWrapper?.customer?.city || '',
+                country: cartWrapper?.customer?.country || '',
+                postalCode: cartWrapper?.customer?.zipCode || '',
             },
             {
                 //@ts-ignore
                 type: 'delivery',
-                street: cartWrapper?.customer?.streetAddress || 'Unknown',
-                city: cartWrapper?.customer?.city || 'Unknown',
-                country: 'Unknown',
-                state: 'Unknown',
-                postalCode: cartWrapper?.customer?.zipCode || 'Unknown',
+                firstName,
+                lastName,
+                email: cartWrapper?.customer?.email || '',
+                street: cartWrapper?.customer?.streetAddress || '',
+                city: cartWrapper?.customer?.city || '',
+                country: cartWrapper?.customer?.country || '',
+                postalCode: cartWrapper?.customer?.zipCode || '',
             },
         ],
     };

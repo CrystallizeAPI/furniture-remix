@@ -5,10 +5,10 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { Filter } from '~/core/components/filter';
-import { FilteredProducts, ProductsList } from '~/core/components/filter/filtered-products';
+import { FilteredProducts } from '~/core/components/filter/filtered-products';
 import sliderStyles from 'rc-slider/assets/index.css';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { Grid } from '~/core/components/grid-cells/grid';
 import { getHost } from '~/core-server/http-utils.server';
@@ -27,10 +27,10 @@ export let meta: MetaFunction = ({ data }) => {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const url = new URL(request.url);
-    const preview = url.searchParams.get('preview');
-    const version = preview ? 'draft' : 'published';
     const path = `/shop/${params.folder}`;
     const { shared, secret } = await getStoreFront(getHost(request));
+    const api = CrystallizeAPI(secret.apiClient, 'en', url.searchParams?.has('preview'));
+
     const searchParams = {
         orderBy: url.searchParams.get('orderBy'),
         filters: {
@@ -46,10 +46,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
     const [folder, products, priceRange] = await Promise.all([
-        CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en'),
-        CrystallizeAPI.searchOrderBy(secret.apiClient, path, searchParams.orderBy, searchParams.filters),
-
-        CrystallizeAPI.getPriceRange(secret.apiClient, path),
+        api.fetchFolder(path),
+        api.searchOrderBy(path, searchParams.orderBy, searchParams.filters),
+        api.fetchPriceRange(path),
     ]);
 
     if (!folder) {

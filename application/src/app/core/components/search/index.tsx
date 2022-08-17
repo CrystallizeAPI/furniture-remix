@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import SearchIcon from '~/assets/searchIcon.svg';
 import { DebounceInput } from 'react-debounce-input';
 import { Link } from '@remix-run/react';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { useStoreFront } from '~/core/storefront/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '~/core/app-context/provider';
@@ -14,7 +14,7 @@ export const SearchBar = () => {
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const { apiClient: client } = useStoreFront();
     const { state: appContextState } = useAppContext();
-
+    const api = CrystallizeAPI(client, 'en');
     //close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: any) => {
@@ -33,7 +33,7 @@ export const SearchBar = () => {
         const value = event.target.value;
         setSearchTerm(value);
         try {
-            setSuggestions(await CrystallizeAPI.search(client, value, 'en'));
+            setSuggestions(await api.search(value));
         } catch (error) {
             console.error(error);
         }

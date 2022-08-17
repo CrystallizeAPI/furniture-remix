@@ -9,10 +9,12 @@ import { Payments } from '~/core/components/payments';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { CheckoutCart } from '~/core/components/checkout-forms/cart';
 import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
-import { GuestCheckoutForm } from '~/core/components/checkout-forms/guest';
+import { AddressForm } from '~/core/components/checkout-forms/address';
 import { useState } from 'react';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { getHost } from '~/core-server/http-utils.server';
+import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
+import { useLoaderData } from '@remix-run/react';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -20,31 +22,31 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
-    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config));
+    return json(
+        { isServerSideAuthenticated: await isServerSideAuthenticated(request) },
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config),
+    );
 };
 
 export default () => {
-    const { isAuthenticated } = useAuth();
+    const { isServerSideAuthenticated } = useLoaderData();
+    const { isAuthenticated, userInfos } = useAuth();
     const { cart } = useLocalCart();
     const [isGuestCheckout, setIsGuestCheckout] = useState(false);
+
     return (
         <div className="2xl lg:container lg:px-6 px-2 mx-auto min-h-[100vh]">
             <div className="flex gap-20 lg:flex-row flex-col">
                 <CheckoutCart />
                 <div className="rounded pt-5 lg:px-10 lg:w-3/5 w-full px-3">
-                    <ClientOnly
-                        fallback={
-                            <MagickLoginForm
-                                enabledGuest={() => setIsGuestCheckout(true)}
-                                actionTitle="Register"
-                                title="Register or continue as guest?"
-                            />
-                        }
-                    >
+                    <ClientOnly>
                         {(() => {
-                            if (!isAuthenticated) {
+                            if (!isAuthenticated || !isServerSideAuthenticated) {
                                 return isGuestCheckout ? (
-                                    <GuestCheckoutForm />
+                                    <>
+                                        <AddressForm title="Guest Checkout" />
+                                        {cart.cartId !== '' && <Payments />}
+                                    </>
                                 ) : (
                                     <MagickLoginForm
                                         enabledGuest={() => setIsGuestCheckout(true)}
@@ -53,10 +55,12 @@ export default () => {
                                     />
                                 );
                             }
-                            if (cart.cartId !== '') {
-                                return <Payments isGuest={false} />;
-                            }
-                            return <></>;
+                            return (
+                                <>
+                                    <AddressForm title="Address" />
+                                    {cart.cartId !== '' && <Payments />}
+                                </>
+                            );
                         })()}
                     </ClientOnly>
                 </div>

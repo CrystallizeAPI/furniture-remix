@@ -5,7 +5,7 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { Document } from '~/core/components/item/document';
 import { getHost } from '~/core-server/http-utils.server';
@@ -19,12 +19,10 @@ export let meta: MetaFunction = ({ data }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const url = new URL(request.url);
-    const preview = url.searchParams.get('preview');
-    const version = preview ? 'draft' : 'published';
     const path = `/stories`;
     const { shared, secret } = await getStoreFront(getHost(request));
-    const folder = await CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en');
+    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const folder = await api.fetchFolder(path);
     return json({ folder }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 

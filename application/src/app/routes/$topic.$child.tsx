@@ -6,7 +6,7 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { getHost } from '~/core-server/http-utils.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -17,7 +17,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     let url = request.url;
     let value = `/${params.topic}/${params.child}`;
     const { shared, secret } = await getStoreFront(getHost(request));
-    let data = await CrystallizeAPI.searchByTopic(secret.apiClient, value, 'en');
+    const api = CrystallizeAPI(secret.apiClient, 'en');
+    let data = await api.searchByTopic(value);
     return json({ data, params }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [value], shared.config));
 };
 

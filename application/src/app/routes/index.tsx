@@ -6,13 +6,14 @@ import {
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/core/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Grid } from '~/core/components/grid-cells/grid';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { getHost } from '~/core-server/http-utils.server';
+import fetchCampaignPage from '~/use-cases/crystallize/fetchCampaignPage';
 
 type LoaderData = {
-    data: Awaited<ReturnType<typeof CrystallizeAPI.fetchCampaignPage>>;
+    data: Awaited<ReturnType<typeof fetchCampaignPage>>;
 };
 
 export let meta: MetaFunction = ({ data }: { data: LoaderData }) => {
@@ -31,12 +32,10 @@ export function links() {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const url = new URL(request.url);
-    const { shared, secret } = await getStoreFront(getHost(request));
     const path = `/frontpage`;
-    const preview = url.searchParams.get('preview');
-    const version = preview ? 'draft' : 'published';
-    const data = await CrystallizeAPI.fetchCampaignPage(secret.apiClient, path, version, 'en');
+    const { shared, secret } = await getStoreFront(getHost(request));
+    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const data = await api.fetchCampaignPage(path);
     return json<LoaderData>({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
 };
 

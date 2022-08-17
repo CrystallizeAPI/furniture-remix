@@ -7,7 +7,7 @@ import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
 import { getStoreFront } from './core-server/storefront.server';
-import { CrystallizeAPI } from './core/use-cases/crystallize';
+import { CrystallizeAPI } from './use-cases/crystallize';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import { StoreFrontConfigProvider } from './core/storefront/provider';
 import { AppContextProvider } from './core/app-context/provider';
@@ -57,10 +57,11 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export let loader: LoaderFunction = async ({ request }) => {
     const host = getHost(request);
     const { shared, secret } = await getStoreFront(host);
+    const api = CrystallizeAPI(secret.apiClient, 'en');
     const [folders, topics, tenantConfig] = await Promise.all([
-        CrystallizeAPI.fetchNavigation(secret.apiClient, '/', 'en'),
-        CrystallizeAPI.fetchTopicNavigation(secret.apiClient, 'en'),
-        CrystallizeAPI.fetchTenantConfig(secret.apiClient, secret.config.tenantIdentifier),
+        api.fetchNavigation('/'),
+        api.fetchTopicNavigation('/'),
+        api.fetchTenantConfig(secret.config.tenantIdentifier),
     ]);
     return json(
         {
@@ -204,7 +205,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }: { error: any })
                 <Links />
             </head>
             <body>
-                {error.message}
+                <ErrorComponent text={error.message} code={500} />
                 {/* add the UI you want your users to see */}
                 <Scripts />
             </body>
@@ -218,11 +219,7 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
         return (
             <Document>
                 <Layout>
-                    <div className="pl-6 md:px-6 mx-auto xl:container full">
-                        <h1 className="pt-8">
-                            {caught.status} {caught.statusText}
-                        </h1>
-                    </div>
+                    <ErrorComponent text={caught.statusText} code={caught.status} />
                 </Layout>
             </Document>
         );
@@ -236,27 +233,30 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
                 <Links />
             </head>
             <body>
-                <section className="flex items-center h-screen p-16">
-                    <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-                        <div className="max-w-md text-center">
-                            <h2 className="mb-8 font-extrabold text-9xl">
-                                <span className="sr-only">Error</span>404
-                            </h2>
-                            <p className="text-2xl font-semibold md:text-3xl mb-10">
-                                Sorry, we couldn't find this page.
-                            </p>
-                            <a
-                                rel="noopener noreferrer"
-                                href="/"
-                                className="px-8 py-3 font-semibold rounded bg-buttonBg2"
-                            >
-                                Back to homepage
-                            </a>
-                        </div>
-                    </div>
-                </section>
+                <ErrorComponent />
                 <Scripts />
             </body>
         </html>
+    );
+};
+
+export const ErrorComponent: React.FC<{ text?: string; code?: number }> = ({ text = 'Not Found', code = 404 }) => {
+    return (
+        <section className="flex items-center h-screen p-16">
+            <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
+                <div className="max-w-md text-center">
+                    <h2 className="mb-8 font-extrabold text-9xl">
+                        <span className="sr-only">{text}</span>
+                        {code}
+                    </h2>
+                    <p className="text-2xl font-semibold md:text-3xl mb-10">
+                        Sorry, we couldn't {code === 404 ? 'find' : 'load'} this page.
+                    </p>
+                    <a rel="noopener noreferrer" href="/" className="px-8 py-3 font-semibold rounded bg-buttonBg2">
+                        Back to homepage
+                    </a>
+                </div>
+            </div>
+        </section>
     );
 };

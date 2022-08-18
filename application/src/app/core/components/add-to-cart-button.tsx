@@ -8,24 +8,17 @@ export const AddToCartBtn: React.FC<{
     quantity?: any;
 }> = ({ variants, label = 'Add to cart', quantity }) => {
     const [showTada, setShowTada] = useState(false);
-    const { dispatch: contextDispatch } = useAppContext();
     const { add } = useLocalCart();
 
     const handleClick = () => {
         setShowTada(true);
-        contextDispatch.addItemsToCart(variants);
-
         for (let i = 0; i < variants.length; i++) {
-            const variant = variants[i];
-            if (!quantity) {
-                add(variant);
-            } else {
-                console.log(quantity);
-                const quantityForVariant = quantity.filter((object: any) => {
-                    return object.variant.id === variant.id;
-                });
-                add(variant, quantityForVariant[0].quantity);
-            }
+            add(variants[i]);
+        }
+        if (quantity.length > 0) {
+            quantity.map((item: any) => {
+                add(item.variant, item.qty);
+            });
         }
         setTimeout(() => {
             setShowTada(false);

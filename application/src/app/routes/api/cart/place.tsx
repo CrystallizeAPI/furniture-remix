@@ -24,11 +24,11 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
             };
         },
     });
-    const customerIdentifier = authUser?.email || body.customer?.email || 'unknow@unknow.com';
+    const customerIdentifier = authUser?.aud || body.customer?.email || 'unknow@unknow.com';
     const customer = {
         ...body.customer,
         // we enforce those 3 values from the Authentication, it might not be overridden in the Form
-        email: body.customer?.email || authUser?.email || 'unknow@unknow.com',
+        email: body.customer?.email || authUser?.aud || 'unknow@unknow.com',
         firstname: body.customer?.firstname || authUser.firstname,
         lastname: body.customer?.lastname || authUser.lastname,
         // then we decide of and customerIdentifier

@@ -42,7 +42,7 @@ export default () => {
                 <div className="rounded pt-5 lg:px-10 lg:w-3/5 w-full px-3">
                     <ClientOnly>
                         {(() => {
-                            if (!isAuthenticated || !isServerSideAuthenticated) {
+                            if (!isServerSideAuthenticated || !isAuthenticated) {
                                 return isGuestCheckout ? (
                                     <>
                                         <AddressForm

@@ -14,6 +14,8 @@ import { useAppContext } from '~/core/app-context/provider';
 import { getHost } from '~/core-server/http-utils.server';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import DownloadIcon from '~/assets/downloadIcon.svg';
+import { useLoaderData } from '@remix-run/react';
+import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -21,11 +23,15 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
-    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config));
+    return json(
+        { isServerSideAuthenticated: await isServerSideAuthenticated(request) },
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config),
+    );
 };
 
 export default () => {
     const { isAuthenticated } = useAuth();
+    const { isServerSideAuthenticated } = useLoaderData();
     const [orders, setOrders] = useState<any | null>(null);
 
     const { state } = useAppContext();
@@ -49,7 +55,7 @@ export default () => {
         <div className="container 2xl px-6 mx-auto w-full">
             <h1 className="text-2xl font-semibold my-10">Your Orders</h1>
             <ClientOnly>
-                {isAuthenticated ? (
+                {isAuthenticated && isServerSideAuthenticated ? (
                     <>
                         <div>
                             {orders &&

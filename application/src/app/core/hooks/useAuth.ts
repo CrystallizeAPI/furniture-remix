@@ -1,11 +1,11 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
-import { useLocation, useNavigate, useSearchParams } from '@remix-run/react';
+import { useLocation, useSearchParams } from '@remix-run/react';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useEffect } from 'react';
+
 export function useAuth() {
     const [token] = useLocalStorage<string>('jwt', '');
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
@@ -24,7 +24,8 @@ export function useAuth() {
             } catch (exception) {
                 console.log(exception);
             }
-            navigate(location.pathname, { replace: true });
+            // force reload here as we're playing with cookies.
+            window.location.href = location.pathname;
         }
     });
 
@@ -40,7 +41,7 @@ export function useAuth() {
                 lastname: decoded.lastname,
             };
         }
-    } catch (exception) {}
+    } catch (exception) { }
     return {
         login: (jwt: string) => {
             writeStorage('jwt', jwt);

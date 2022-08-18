@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { Cart } from '~/core/components/cart';
 import { useAppContext } from '../app-context/provider';
 
-export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: any; label?: string }) => {
+export const AddToCartBtn = ({
+    products,
+    label = 'Add to cart',
+    quantity,
+}: {
+    products: any;
+    label?: string;
+    quantity?: any;
+}) => {
     const [showTada, setShowTada] = useState(false);
     const { dispatch: contextDispatch } = useAppContext();
     const { add } = useLocalCart();
@@ -19,6 +26,9 @@ export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: an
             contextDispatch.addItemsToCart([products]);
             add(products);
         }
+        !!quantity.map((item: any) => {
+            add(item.variant, item.qty);
+        });
         setTimeout(() => {
             setShowTada(false);
         }, 1500);
@@ -26,7 +36,6 @@ export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: an
 
     return (
         <>
-            {/* {showTada && <Cart />} */}
             <button
                 className="bg-[#000] border px-10 py-3 relative overflow-hidden h-[50px] rounded text-[#fff] w-[200px] font-bold hover:bg-black-100"
                 onClick={() => {

@@ -1,5 +1,4 @@
 import { Document, Page, Text, Image, StyleSheet, View, Font } from '@react-pdf/renderer';
-import { getSymbolFromCode } from '~/lib/pricing/currencies';
 
 const styles = StyleSheet.create({
     page: {
@@ -132,7 +131,13 @@ export const Invoice = (data: any) => {
         month: 'long',
         day: 'numeric',
     });
-    let currency = getSymbolFromCode(order.total.currency.toUpperCase());
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: order.total.currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
     return (
         <Document>
@@ -197,8 +202,7 @@ export const Invoice = (data: any) => {
                                     marginLeft: '3%',
                                 }}
                             >
-                                {currency}
-                                {item.price?.gross}
+                                {formatter.format(item.price?.gross)}
                             </Text>
                         </View>
                     ))}
@@ -210,14 +214,8 @@ export const Invoice = (data: any) => {
                             <Text style={{ marginTop: 5 }}>Total:</Text>
                         </View>
                         <View>
-                            <Text>
-                                {currency}
-                                {order.total.gross - order.total.net}
-                            </Text>
-                            <Text style={{ marginTop: 5 }}>
-                                {currency}
-                                {order.total?.gross}
-                            </Text>
+                            <Text>{formatter.format(order.total.gross - order.total.net)}</Text>
+                            <Text style={{ marginTop: 5 }}>{formatter.format(order.total.gross)}</Text>
                         </View>
                     </View>
                 </View>

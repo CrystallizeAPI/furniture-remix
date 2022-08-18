@@ -1,6 +1,9 @@
 import { ActionFunction, json } from '@remix-run/node';
 import mjml2html from 'mjml';
+import { getHost } from '~/core-server/http-utils.server';
 import { createMailer } from '~/core-server/services.server';
+import { getStoreFront } from '~/core-server/storefront.server';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 
 export const action: ActionFunction = async ({ request }) => {
     if (request.method !== 'POST') {
@@ -10,12 +13,15 @@ export const action: ActionFunction = async ({ request }) => {
     let order = payload.order.get;
     const date = new Date(order.createdAt);
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const { secret } = await getStoreFront(getHost(request));
+    const api = CrystallizeAPI(secret.apiClient, 'en');
+    const tenantConfig = await api.fetchTenantConfig(secret.config.tenantIdentifier);
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: order.total.currency,
         minimumFractionDigits: 2,
-        maximumFractionDigits: 5,
+        maximumFractionDigits: 2,
     });
 
     const mailer = createMailer(`${process.env.MAILER_DSN}`);
@@ -57,7 +63,7 @@ export const action: ActionFunction = async ({ request }) => {
         <mj-body>
           <mj-section>
             <mj-column>
-              <mj-image width="150px" align="center" src="https://media.crystallize.com/superfast/22/5/16/1/logo-3skwkpbs.svg"></mj-image>
+              <mj-image width="150px" align="center" src=${tenantConfig.logo}></mj-image>
             </mj-column>
           </mj-section>
           <mj-section>

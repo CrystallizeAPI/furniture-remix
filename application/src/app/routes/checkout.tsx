@@ -15,6 +15,7 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { getHost } from '~/core-server/http-utils.server';
 import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
 import { useLoaderData } from '@remix-run/react';
+import { privateJson } from '~/core-server/privateJson.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -22,7 +23,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
-    return json(
+    return privateJson(
         { isServerSideAuthenticated: await isServerSideAuthenticated(request) },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config),
     );

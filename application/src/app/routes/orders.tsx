@@ -1,4 +1,4 @@
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { HeadersFunction, LoaderFunction } from '@remix-run/node';
 import { useEffect, useState } from 'react';
 import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
 import { useAuth } from '~/core/hooks/useAuth';
@@ -16,6 +16,7 @@ import { ClientOnly } from '@crystallize/reactjs-hooks';
 import DownloadIcon from '~/assets/downloadIcon.svg';
 import { useLoaderData } from '@remix-run/react';
 import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
+import { privateJson } from '~/core-server/privateJson.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -23,7 +24,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
-    return json(
+    return privateJson(
         { isServerSideAuthenticated: await isServerSideAuthenticated(request) },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config),
     );

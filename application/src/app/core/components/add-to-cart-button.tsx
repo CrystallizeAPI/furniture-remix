@@ -2,33 +2,31 @@ import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
 
-export const AddToCartBtn = ({
-    products,
-    label = 'Add to cart',
-    quantity,
-}: {
-    products: any;
+export const AddToCartBtn: React.FC<{
+    variants: any[];
     label?: string;
     quantity?: any;
-}) => {
+}> = ({ variants, label = 'Add to cart', quantity }) => {
     const [showTada, setShowTada] = useState(false);
     const { dispatch: contextDispatch } = useAppContext();
     const { add } = useLocalCart();
 
     const handleClick = () => {
         setShowTada(true);
-        if (Array.isArray(products)) {
-            contextDispatch.addItemsToCart(products);
-            for (let i = 0; i < products.length; i++) {
-                add(products[i]);
+        contextDispatch.addItemsToCart(variants);
+
+        for (let i = 0; i < variants.length; i++) {
+            const variant = variants[i];
+            if (!quantity) {
+                add(variant);
+            } else {
+                console.log(quantity);
+                const quantityForVariant = quantity.filter((object: any) => {
+                    return object.variant.id === variant.id;
+                });
+                add(variant, quantityForVariant[0].quantity);
             }
-        } else {
-            contextDispatch.addItemsToCart([products]);
-            add(products);
         }
-        !!quantity.map((item: any) => {
-            add(item.variant, item.qty);
-        });
         setTimeout(() => {
             setShowTada(false);
         }, 1500);

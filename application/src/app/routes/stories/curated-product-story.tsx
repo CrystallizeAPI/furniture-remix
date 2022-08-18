@@ -1,5 +1,5 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
-import { CuratedProduct } from '~/core/components/curated-product';
+import { CuratedProductItem } from '~/core/components/curated-product';
 import { useState } from 'react';
 import { AddToCartBtn } from '~/core/components/add-to-cart-button';
 import { Price } from '~/lib/pricing/pricing-component';
@@ -84,7 +84,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                                     activePoint === `hotspot-point-${i}` ? '1px solid #000' : '1px solid transparent',
                             }}
                         >
-                            <CuratedProduct
+                            <CuratedProductItem
                                 merch={merch}
                                 current={{ variants, setVariants }}
                                 quantity={{ quantity, setQuantity }}
@@ -95,7 +95,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                         <div className="text-2xl font-bold text-green2">
                             <Price currencyCode={appContextState.currency.code}>{totalAmountToPay}</Price>
                         </div>
-                        <AddToCartBtn products={variants} quantity={quantity} label="Add to cart" />
+                        <AddToCartBtn variants={variants} quantity={quantity} label="Add to cart" />
                     </div>
                 </div>
             </div>

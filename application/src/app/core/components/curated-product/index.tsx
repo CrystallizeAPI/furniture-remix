@@ -4,7 +4,7 @@ import { useLocation } from '@remix-run/react';
 import { Price } from '~/core/components/price';
 import { VariantSelector } from '~/core/components/variant-selector';
 
-export function CuratedProduct({ merch, current, quantity }: { merch: any; current: any; quantity: any }) {
+export function CuratedProductItem({ merch, current, quantity }: { merch: any; current: any; quantity: any }) {
     return (
         <>
             {merch.products?.map((product: any, productIndex: number) => (
@@ -80,8 +80,8 @@ const Product = ({ product, current, quantity }: { product: any; current: any; q
                                 -
                             </button>
                             <input
-                                defaultValue={qty}
                                 value={qty}
+                                type="text"
                                 className="py-2  px-4 bg-[#fff] text-sm w-[60px] text-center "
                                 onChange={(e) => setQty(e.target.value)}
                             />

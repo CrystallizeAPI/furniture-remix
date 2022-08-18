@@ -57,7 +57,10 @@ export function useLocalCart() {
                 return;
             }
             if (cart.items[variant.sku]) {
-                cart.items[variant.sku].quantity = quantity && cart.items[variant.sku].quantity ? cart.items[variant.sku].quantity + quantity : cart.items[variant.sku].quantity++;
+                cart.items[variant.sku].quantity =
+                    quantity && cart.items[variant.sku].quantity
+                        ? cart.items[variant.sku].quantity + quantity
+                        : cart.items[variant.sku].quantity++;
             } else {
                 cart.items[variant.sku] = {
                     sku: variant.sku,

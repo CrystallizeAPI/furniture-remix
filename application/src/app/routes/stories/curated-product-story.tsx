@@ -1,5 +1,5 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
-import { CuratedProduct } from '~/core/components/curated-product';
+import { CuratedProductItem } from '~/core/components/curated-product';
 import { useState } from 'react';
 import { AddToCartBtn } from '~/core/components/add-to-cart-button';
 import { Price } from '~/lib/pricing/pricing-component';
@@ -14,6 +14,7 @@ export function CuratedProductStory({ document }: { document: any }) {
     const [activePoint, setActivePoint] = useState('');
     let [variants, setVariants] = useState([]);
     const { state: appContextState } = useAppContext();
+    let [quantity, setQuantity] = useState([]);
 
     let title = getComponentContent(document?.components, 'title')?.text;
     let description = getComponentContent(document?.components, 'description')?.json;
@@ -27,6 +28,7 @@ export function CuratedProductStory({ document }: { document: any }) {
     });
 
     let totalAmountToPay = 0;
+
     variants.map((v: any) => {
         const price = v.priceVariants?.find((price: any) => price.identifier === 'sales')?.price || v.price;
         totalAmountToPay += price;
@@ -82,14 +84,18 @@ export function CuratedProductStory({ document }: { document: any }) {
                                     activePoint === `hotspot-point-${i}` ? '1px solid #000' : '1px solid transparent',
                             }}
                         >
-                            <CuratedProduct merch={merch} current={{ variants, setVariants }} />
+                            <CuratedProductItem
+                                merch={merch}
+                                current={{ variants, setVariants }}
+                                quantity={{ quantity, setQuantity }}
+                            />
                         </div>
                     ))}
                     <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">
                         <div className="text-2xl font-bold text-green2">
                             <Price currencyCode={appContextState.currency.code}>{totalAmountToPay}</Price>
                         </div>
-                        <AddToCartBtn products={variants} label={`Add ${variants?.length} to cart`} />
+                        <AddToCartBtn variants={variants} quantity={quantity} label="Add to cart" />
                     </div>
                 </div>
             </div>

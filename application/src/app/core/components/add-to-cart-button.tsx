@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { Cart } from '~/core/components/cart';
 import { useAppContext } from '../app-context/provider';
 
-export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: any; label?: string }) => {
+export const AddToCartBtn: React.FC<{
+    variants: any[];
+    label?: string;
+    quantity?: any;
+}> = ({ variants, label = 'Add to cart', quantity }) => {
     const [showTada, setShowTada] = useState(false);
-    const { dispatch: contextDispatch } = useAppContext();
     const { add } = useLocalCart();
 
     const handleClick = () => {
         setShowTada(true);
-        if (Array.isArray(products)) {
-            contextDispatch.addItemsToCart(products);
-            for (let i = 0; i < products.length; i++) {
-                add(products[i]);
-            }
-        } else {
-            contextDispatch.addItemsToCart([products]);
-            add(products);
+        for (let i = 0; i < variants.length; i++) {
+            add(variants[i]);
+        }
+        if (quantity.length > 0) {
+            quantity.map((item: any) => {
+                add(item.variant, item.qty);
+            });
         }
         setTimeout(() => {
             setShowTada(false);
@@ -26,7 +27,6 @@ export const AddToCartBtn = ({ products, label = 'Add to cart' }: { products: an
 
     return (
         <>
-            {/* {showTada && <Cart />} */}
             <button
                 className="bg-[#000] border px-10 py-3 relative overflow-hidden h-[50px] rounded text-[#fff] w-[200px] font-bold hover:bg-black-100"
                 onClick={() => {

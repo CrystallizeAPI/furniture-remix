@@ -52,18 +52,18 @@ export function useLocalCart() {
         isEmpty: () => {
             return Object.keys(cart.items).length === 0;
         },
-        add: (variant: any) => {
+        add: (variant: any, quantity: number = 1) => {
             if (isImmutable()) {
                 return;
             }
             if (cart.items[variant.sku]) {
-                cart.items[variant.sku].quantity++;
+                cart.items[variant.sku].quantity = cart.items[variant.sku].quantity + quantity;
             } else {
                 cart.items[variant.sku] = {
                     sku: variant.sku,
                     name: variant.name,
                     price: variant.price,
-                    quantity: 1,
+                    quantity: quantity,
                 };
             }
             update(cart);

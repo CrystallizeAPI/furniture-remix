@@ -4,19 +4,21 @@ import { useLocation } from '@remix-run/react';
 import { Price } from '~/core/components/price';
 import { VariantSelector } from '~/core/components/variant-selector';
 
-export function CuratedProduct({ merch, current }: { merch: any; current: any }) {
+export function CuratedProductItem({ merch, current, quantity }: { merch: any; current: any; quantity: any }) {
     return (
         <>
             {merch.products?.map((product: any, productIndex: number) => (
-                <Product product={product} current={current} key={productIndex} />
+                <Product product={product} current={current} key={productIndex} quantity={quantity} />
             ))}
         </>
     );
 }
 
-const Product = ({ product, current }: { product: any; current: any }) => {
+const Product = ({ product, current, quantity }: { product: any; current: any; quantity: any }) => {
     const primaryVariant = product.variants.find((v: any) => v.isDefault);
+    const [qty, setQtyState] = useState(1);
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
+
     let location = useLocation();
 
     const onVariantChange = (variant: any) => {
@@ -27,6 +29,7 @@ const Product = ({ product, current }: { product: any; current: any }) => {
                 newArr[indexOfVariant] = { ...variant };
                 return newArr;
             }
+
             return [...prevState, variant];
         });
 
@@ -36,6 +39,17 @@ const Product = ({ product, current }: { product: any; current: any }) => {
     useEffect(() => {
         current.setVariants((prevState: any) => [...prevState, primaryVariant]);
     }, [location.pathname]);
+
+    const setQty = (qty: any) => {
+        qty = qty ? parseInt(qty) : 0;
+        if (qty < 0) {
+            return;
+        }
+        setQtyState(qty);
+        quantity.setQuantity((prevState: any) => {
+            return [...prevState, { variant: selectedVariant, qty }];
+        });
+    };
 
     return (
         <>
@@ -56,6 +70,26 @@ const Product = ({ product, current }: { product: any; current: any }) => {
                         onVariantChange={onVariantChange}
                         renderingType="dropdown"
                     />
+                    <div className="flex flex-col">
+                        <span className="block text-xs pb-1 font-medium">Quantity</span>
+                        <div>
+                            <button
+                                className="py-2 px-4 bg-[#fff] text-sm hover:bg-grey-400"
+                                onClick={() => setQty(qty - 1)}
+                            >
+                                -
+                            </button>
+                            <input
+                                value={qty}
+                                type="text"
+                                className="py-2  px-4 bg-[#fff] text-sm w-[60px] text-center "
+                                onChange={(e) => setQty(e.target.value)}
+                            />
+                            <button className="py-2 px-4 bg-[#fff] text-sm " onClick={() => setQty(qty + 1)}>
+                                +
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

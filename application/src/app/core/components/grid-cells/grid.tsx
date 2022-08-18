@@ -71,7 +71,7 @@ export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
                             objectFit: 'cover',
                         },
                         imageProps: {
-                            sizes: '(max-width: 500px) 300px, 700px',
+                            sizes: '(max-width: 500px) 500px, 100vw',
                             loading: 'lazy',
                         },
                     },

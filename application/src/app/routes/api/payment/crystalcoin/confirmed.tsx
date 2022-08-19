@@ -20,7 +20,6 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
     }
 
     const orderCustomer = buildCustomer(cartWrapper);
-    console.log(orderCustomer);
     // we also need to check if the customer is already pushed to crystallize here
     // we don't await here
     pushCustomerIfMissing(storefront.apiClient, orderCustomer).catch(console.error);

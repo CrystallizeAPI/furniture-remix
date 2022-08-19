@@ -1,73 +1,62 @@
+import { Product, ProductVariant } from '@crystallize/js-api-client';
 import { Image } from '@crystallize/reactjs-components';
-import { useState, useEffect } from 'react';
-import { useLocation } from '@remix-run/react';
 import { Price } from '~/core/components/price';
 import { VariantSelector } from '~/core/components/variant-selector';
+import { VariantPack, VariantPackItem } from '../add-to-cart-button';
 
-export function CuratedProductItem({ merch, current, quantity }: { merch: any; current: any; quantity: any }) {
+export function CuratedProductItem({
+    merch,
+    pack,
+    updatePack,
+}: {
+    merch: any;
+    pack: VariantPack;
+    updatePack: Function;
+}) {
     return (
         <>
             {merch.products?.map((product: any, productIndex: number) => (
-                <Product product={product} current={current} key={productIndex} quantity={quantity} />
+                <Product product={product} pack={pack} key={productIndex} updatePack={updatePack} />
             ))}
         </>
     );
 }
 
-const Product = ({ product, current, quantity }: { product: any; current: any; quantity: any }) => {
-    const primaryVariant = product.variants.find((v: any) => v.isDefault);
-    const [qty, setQtyState] = useState(1);
-    let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
+const Product = ({ product, pack, updatePack }: { product: Product; pack: VariantPack; updatePack: Function }) => {
+    if (!product?.variants) {
+        return null;
+    }
 
-    let location = useLocation();
-
-    const onVariantChange = (variant: any) => {
-        current.setVariants((prevState: any) => {
-            const indexOfVariant = prevState.findIndex((a: any) => a.id === selectedVariant.id);
-            if (indexOfVariant > -1) {
-                let newArr = [...prevState];
-                newArr[indexOfVariant] = { ...variant };
-                return newArr;
-            }
-
-            return [...prevState, variant];
-        });
-
-        setSelectedVariant(variant);
-    };
-
-    useEffect(() => {
-        current.setVariants((prevState: any) => [...prevState, primaryVariant]);
-    }, [location.pathname]);
-
-    const setQty = (qty: any) => {
-        qty = qty ? parseInt(qty) : 0;
-        if (qty < 0) {
-            return;
-        }
-        setQtyState(qty);
-        quantity.setQuantity((prevState: any) => {
-            return [...prevState, { variant: selectedVariant, qty }];
-        });
-    };
+    const variantsIds = product.variants?.map((variant: ProductVariant) => variant.id) ?? [];
+    const selecedPackItem: VariantPackItem = pack.find((packItem: VariantPackItem) =>
+        variantsIds?.includes(packItem.variant.id),
+    ) || { variant: product.variants[0], quantity: 1 };
+    if (!selecedPackItem) {
+        return null;
+    }
 
     return (
         <>
             <div className="flex gap-2 justify-between flex-wrap items-center py-2">
                 <div className="flex items-center w-8/12">
                     <div className="w-[60px] h-[80px] img-container img-cover">
-                        <Image sizes="200px" {...selectedVariant?.images?.[0]} />
+                        <Image sizes="200px" {...selecedPackItem.variant?.images?.[0]} />
                     </div>
                     <div className="pl-4 pb-2">
-                        {selectedVariant.name}
-                        <Price variant={selectedVariant} size="small" />
+                        {selecedPackItem.variant.name}
+                        <Price variant={selecedPackItem.variant} size="small" />
                     </div>
                 </div>
                 <div className="flex gap-2">
                     <VariantSelector
                         variants={product.variants}
-                        selectedVariant={selectedVariant}
-                        onVariantChange={onVariantChange}
+                        selectedVariant={selecedPackItem.variant}
+                        onVariantChange={(variant: ProductVariant) => {
+                            updatePack(selecedPackItem, {
+                                variant,
+                                quantity: selecedPackItem.quantity,
+                            });
+                        }}
                         renderingType="dropdown"
                     />
                     <div className="flex flex-col">
@@ -75,17 +64,35 @@ const Product = ({ product, current, quantity }: { product: any; current: any; q
                         <div>
                             <button
                                 className="py-2 px-4 bg-[#fff] text-sm hover:bg-grey-400"
-                                onClick={() => setQty(qty - 1)}
+                                onClick={() =>
+                                    updatePack(selecedPackItem, {
+                                        ...selecedPackItem,
+                                        quantity: selecedPackItem.quantity - 1,
+                                    })
+                                }
                             >
                                 -
                             </button>
                             <input
-                                value={qty}
+                                value={selecedPackItem.quantity}
                                 type="text"
                                 className="py-2  px-4 bg-[#fff] text-sm w-[60px] text-center "
-                                onChange={(e) => setQty(e.target.value)}
+                                onChange={(e) =>
+                                    updatePack(selecedPackItem, {
+                                        ...selecedPackItem,
+                                        quantity: parseInt(e.target.value),
+                                    })
+                                }
                             />
-                            <button className="py-2 px-4 bg-[#fff] text-sm " onClick={() => setQty(qty + 1)}>
+                            <button
+                                className="py-2 px-4 bg-[#fff] text-sm "
+                                onClick={() =>
+                                    updatePack(selecedPackItem, {
+                                        ...selecedPackItem,
+                                        quantity: selecedPackItem.quantity + 1,
+                                    })
+                                }
+                            >
                                 +
                             </button>
                         </div>

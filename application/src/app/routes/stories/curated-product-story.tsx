@@ -1,9 +1,10 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import { CuratedProductItem } from '~/core/components/curated-product';
-import { useState } from 'react';
-import { AddToCartBtn } from '~/core/components/add-to-cart-button';
+import { useMemo, useState } from 'react';
+import { AddToCartBtn, VariantPack, VariantPackItem } from '~/core/components/add-to-cart-button';
 import { Price } from '~/lib/pricing/pricing-component';
 import { useAppContext } from '~/core/app-context/provider';
+import { Product } from '@crystallize/js-api-client';
 
 const getComponentContent = (components: any, id: string) => {
     let component = components.find((component: any) => component.id === id);
@@ -12,14 +13,11 @@ const getComponentContent = (components: any, id: string) => {
 
 export function CuratedProductStory({ document }: { document: any }) {
     const [activePoint, setActivePoint] = useState('');
-    let [variants, setVariants] = useState([]);
     const { state: appContextState } = useAppContext();
-    let [quantity, setQuantity] = useState([]);
-
-    let title = getComponentContent(document?.components, 'title')?.text;
-    let description = getComponentContent(document?.components, 'description')?.json;
-    let shoppableImage = getComponentContent(document?.components, 'shoppable-image')?.images?.[0];
-    let merchandising = getComponentContent(document?.components, 'merchandising')?.chunks?.map((merch: any) => {
+    const title = getComponentContent(document?.components, 'title')?.text;
+    const description = getComponentContent(document?.components, 'description')?.json;
+    const shoppableImage = getComponentContent(document?.components, 'shoppable-image')?.images?.[0];
+    const merchandising = getComponentContent(document?.components, 'merchandising')?.chunks?.map((merch: any) => {
         return {
             products: getComponentContent(merch, 'products')?.items,
             hotspotX: getComponentContent(merch, 'hotspot-x'),
@@ -27,12 +25,43 @@ export function CuratedProductStory({ document }: { document: any }) {
         };
     });
 
-    let totalAmountToPay = 0;
+    // construct the defaut pack from merch.products with quanity 1
+    const defaultPack = useMemo(
+        () =>
+            merchandising?.reduce((memo: VariantPack, merch: any) => {
+                merch.products.forEach((product: Product) => {
+                    if (!product.variants) {
+                        return;
+                    }
+                    const primaryVariant = product.variants.find((v: any) => v.isDefault);
+                    memo.push({
+                        variant: primaryVariant || product.variants[0],
+                        quantity: 1,
+                    });
+                });
+                return memo;
+            }, []),
+        [merchandising],
+    );
 
-    variants.map((v: any) => {
-        const price = v.priceVariants?.find((price: any) => price.identifier === 'sales')?.price || v.price;
-        totalAmountToPay += price;
-    });
+    const [pack, setPack] = useState<VariantPack>(defaultPack);
+    const totalAmountToPay = pack.reduce((memo: number, packitem: VariantPackItem) => {
+        const price =
+            packitem.variant.priceVariants?.find((price: any) => price.identifier === 'sales')?.price ||
+            packitem.variant.price;
+        return memo + (price || 0) * packitem.quantity;
+    }, 0);
+
+    const updatePack = (previous: VariantPackItem, next: VariantPackItem) => {
+        setPack(
+            pack.map((packitem: VariantPackItem) => {
+                if (previous.variant.id === packitem.variant.id) {
+                    return next;
+                }
+                return packitem;
+            }),
+        );
+    };
 
     return (
         <div className="2xl grid lg:grid-cols-5 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
@@ -84,18 +113,14 @@ export function CuratedProductStory({ document }: { document: any }) {
                                     activePoint === `hotspot-point-${i}` ? '1px solid #000' : '1px solid transparent',
                             }}
                         >
-                            <CuratedProductItem
-                                merch={merch}
-                                current={{ variants, setVariants }}
-                                quantity={{ quantity, setQuantity }}
-                            />
+                            <CuratedProductItem merch={merch} updatePack={updatePack} pack={pack} />
                         </div>
                     ))}
                     <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">
                         <div className="text-2xl font-bold text-green2">
                             <Price currencyCode={appContextState.currency.code}>{totalAmountToPay}</Price>
                         </div>
-                        <AddToCartBtn variants={variants} quantity={quantity} label="Add to cart" />
+                        <AddToCartBtn pack={pack} />
                     </div>
                 </div>
             </div>

@@ -1,25 +1,30 @@
+import { ProductVariant } from '@crystallize/js-api-client';
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
 
+export type VariantPack = VariantPackItem[];
+
+export type VariantPackItem = {
+    variant: ProductVariant;
+    quantity: number;
+};
+
 export const AddToCartBtn: React.FC<{
-    variants: any[];
+    pack: VariantPack;
     label?: string;
-    quantity?: any;
-}> = ({ variants, label = 'Add to cart', quantity }) => {
+}> = ({ pack, label = 'Add to cart' }) => {
     const [showTada, setShowTada] = useState(false);
+    const { dispatch: contextDispatch } = useAppContext();
     const { add } = useLocalCart();
 
     const handleClick = () => {
         setShowTada(true);
-        for (let i = 0; i < variants.length; i++) {
-            add(variants[i]);
-        }
-        if (quantity.length > 0) {
-            quantity.map((item: any) => {
-                add(item.variant, item.qty);
-            });
-        }
+        contextDispatch.addItemsToCart(pack.map((packitem: VariantPackItem) => packitem.variant));
+
+        pack.forEach((packitem: VariantPackItem) => {
+            add(packitem.variant, packitem.quantity);
+        });
         setTimeout(() => {
             setShowTada(false);
         }, 1500);

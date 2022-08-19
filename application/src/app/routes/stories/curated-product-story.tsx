@@ -28,8 +28,8 @@ export function CuratedProductStory({ document }: { document: any }) {
     // construct the defaut pack from merch.products with quanity 1
     const defaultPack = useMemo(
         () =>
-            merchandising?.reduce((memo: VariantPack, merch: any) => {
-                merch.products.forEach((product: Product) => {
+            merchandising?.reduce((memo: VariantPack, merch: any, merchIndex: number) => {
+                merch.products.forEach((product: Product, productIndex: number) => {
                     if (!product.variants) {
                         return;
                     }
@@ -37,6 +37,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                     memo.push({
                         variant: primaryVariant || product.variants[0],
                         quantity: 1,
+                        key: `${merchIndex}-${productIndex}`,
                     });
                 });
                 return memo;
@@ -55,8 +56,13 @@ export function CuratedProductStory({ document }: { document: any }) {
     const updatePack = (previous: VariantPackItem, next: VariantPackItem) => {
         setPack(
             pack.map((packitem: VariantPackItem) => {
-                if (previous.variant.id === packitem.variant.id) {
-                    return next;
+                if (previous.key === packitem.key) {
+                    // we got to preserve the key
+                    return {
+                        ...packitem,
+                        quantity: next.quantity,
+                        variant: next.variant,
+                    };
                 }
                 return packitem;
             }),
@@ -104,16 +110,23 @@ export function CuratedProductStory({ document }: { document: any }) {
                     <ContentTransformer json={description} />
                 </div>
                 <div className="sticky top-20">
-                    {merchandising.map((merch: any, i: number) => (
+                    {merchandising.map((merch: any, merchIndex: number) => (
                         <div
                             key={`merch-container-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
                             className="px-2 bg-grey overflow-hidden rounded-md my-2"
                             style={{
                                 border:
-                                    activePoint === `hotspot-point-${i}` ? '1px solid #000' : '1px solid transparent',
+                                    activePoint === `hotspot-point-${merchIndex}`
+                                        ? '1px solid #000'
+                                        : '1px solid transparent',
                             }}
                         >
-                            <CuratedProductItem merch={merch} updatePack={updatePack} pack={pack} />
+                            <CuratedProductItem
+                                merch={merch}
+                                updatePack={updatePack}
+                                pack={pack}
+                                merchIndex={merchIndex}
+                            />
                         </div>
                     ))}
                     <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">

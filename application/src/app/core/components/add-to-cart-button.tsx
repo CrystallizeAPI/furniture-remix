@@ -8,6 +8,7 @@ export type VariantPack = VariantPackItem[];
 export type VariantPackItem = {
     variant: ProductVariant;
     quantity: number;
+    key?: string; // a pack can have multiple items with the same variant...
 };
 
 export const AddToCartBtn: React.FC<{

@@ -4,33 +4,46 @@ import { Price } from '~/core/components/price';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { VariantPack, VariantPackItem } from '../add-to-cart-button';
 
-export function CuratedProductItem({
-    merch,
-    pack,
-    updatePack,
-}: {
+export const CuratedProductItem: React.FC<{
     merch: any;
+    merchIndex: number;
     pack: VariantPack;
     updatePack: Function;
-}) {
+}> = ({ merch, pack, merchIndex, updatePack }) => {
     return (
         <>
             {merch.products?.map((product: any, productIndex: number) => (
-                <Product product={product} pack={pack} key={productIndex} updatePack={updatePack} />
+                <Product
+                    product={product}
+                    pack={pack}
+                    key={productIndex}
+                    updatePack={updatePack}
+                    packKey={`${merchIndex}-${productIndex}`}
+                />
             ))}
         </>
     );
-}
+};
 
-const Product = ({ product, pack, updatePack }: { product: Product; pack: VariantPack; updatePack: Function }) => {
+const Product = ({
+    product,
+    pack,
+    updatePack,
+    packKey,
+}: {
+    product: Product;
+    pack: VariantPack;
+    updatePack: Function;
+    packKey: string;
+}) => {
     if (!product?.variants) {
         return null;
     }
 
-    const variantsIds = product.variants?.map((variant: ProductVariant) => variant.id) ?? [];
-    const selecedPackItem: VariantPackItem = pack.find((packItem: VariantPackItem) =>
-        variantsIds?.includes(packItem.variant.id),
-    ) || { variant: product.variants[0], quantity: 1 };
+    const selecedPackItem: VariantPackItem = pack.find((packItem: VariantPackItem) => packItem.key === packKey) || {
+        variant: product.variants[0],
+        quantity: 1,
+    };
     if (!selecedPackItem) {
         return null;
     }

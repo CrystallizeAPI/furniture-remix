@@ -1,7 +1,8 @@
 import { useRemoteCart } from '~/core/hooks/useRemoteCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { useAppContext } from '~/core/app-context/provider';
-import { DisplayPrice, Price as CrystallizePrice, Price } from '~/lib/pricing/pricing-component';
+import { Price } from '~/lib/pricing/pricing-component';
+import { CartItemPrice } from '../price';
 
 export const CheckoutCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
@@ -38,19 +39,7 @@ export const CheckoutCart: React.FC = () => {
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-md font-regular w-full">{item.variant.name}</p>
-                                    <p className="text-md font-semibold w-full">
-                                        <Price currencyCode={contextState.currency.code}>{item.price.gross}</Price>
-                                        {saving && (
-                                            <>
-                                                <del className="text-red mx-2">
-                                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                                        {item.price.net + saving.amount}
-                                                    </CrystallizePrice>
-                                                </del>
-                                                <small>({saving.quantity} for free!)</small>
-                                            </>
-                                        )}
-                                    </p>
+                                    <CartItemPrice item={item} saving={saving} />
                                 </div>
                             </div>
                         </div>
@@ -59,10 +48,12 @@ export const CheckoutCart: React.FC = () => {
             {total && (
                 <div className="flex flex-col gap-1  py-4 items-end">
                     <div className="flex text-grey3 text-sm justify-between w-60">
-                        <p>Net</p>
+                        <p>Discount</p>
                         <p>
                             <Price currencyCode={contextState.currency.code}>
-                                {total.net + total.discounts[0].amount}
+                                {total.discounts.reduce((memo: number, discount: any) => {
+                                    return memo + discount?.amount || 0;
+                                }, 0)}
                             </Price>
                         </p>
                     </div>
@@ -70,12 +61,6 @@ export const CheckoutCart: React.FC = () => {
                         <p>Tax amount</p>
                         <p>
                             <Price currencyCode={contextState.currency.code}>{total.taxAmount}</Price>
-                        </p>
-                    </div>
-                    <div className="flex text-grey3 text-sm justify-between w-60">
-                        <p>Discount</p>
-                        <p>
-                            <Price currencyCode={contextState.currency.code}>{total.discounts[0].amount}</Price>
                         </p>
                     </div>
                     <div className="flex font-bold mt-2 text-lg justify-between w-60">

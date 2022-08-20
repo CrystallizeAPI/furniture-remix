@@ -1,9 +1,10 @@
+import { ProductVariant } from '@crystallize/js-api-client';
 import { Currency } from '~/lib/pricing/currencies';
 
 export type Action = { type: 'ADD_ITEMS_TO_CART'; items: any[] } | { type: 'RESET_LAST_ADDED_ITEMS' };
 
 export type Actions = {
-    addItemsToCart: (items: any[]) => void;
+    addItemsToCart: (items: ProductVariant[]) => void;
     resetLastAddedItems: () => void;
 };
 export type Dispatch = (action: Action) => void;

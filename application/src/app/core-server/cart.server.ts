@@ -1,16 +1,34 @@
-import { Cart, CartWrapper, Price } from '@crystallize/node-service-api-request-handlers';
+import {
+    Cart,
+    cartPayload,
+    CartPayload,
+    CartWrapper,
+    handleCartRequestPayload,
+    Price,
+} from '@crystallize/node-service-api-request-handlers';
 import { extractDisountLotFromItemsBasedOnXForYTopic, groupSavingsPerSkus } from './discount.server';
 import { cartWrapperRepository } from './services.server';
 import { v4 as uuidv4 } from 'uuid';
+import { validatePayload } from './http-utils.server';
+import {
+    ClientInterface,
+    createProductHydrater,
+    Product,
+    ProductPriceVariant,
+    ProductVariant,
+} from '@crystallize/js-api-client';
+import { CrystallizeAPI } from '~/use-cases/crystallize';
 
 function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
     const { cart, total } = wrapper.cart;
     const lots = extractDisountLotFromItemsBasedOnXForYTopic(cart.items);
     const savings = groupSavingsPerSkus(lots);
 
-    let totals: Price = {
+    const existingDiscounts = total.discounts || [];
+
+    let newTotals: Price = {
         gross: 0,
-        currency: '',
+        currency: total.currency,
         net: 0,
         taxAmount: 0,
         discounts: [
@@ -28,13 +46,12 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
         const grossAmount = netAmount + taxAmount;
         const discount = {
             amount: saving?.amount || 0,
-            percent: ((saving?.amount || 0) / netAmount) * 100,
+            percent: ((saving?.amount || 0) / (netAmount + (saving?.amount || 0))) * 100,
         };
-        totals.taxAmount += taxAmount;
-        totals.gross += grossAmount;
-        totals.net += netAmount;
-        totals.currency = total.currency;
-        totals.discounts![0].amount += saving?.amount || 0;
+        newTotals.taxAmount += taxAmount;
+        newTotals.gross += grossAmount;
+        newTotals.net += netAmount;
+        newTotals.discounts![0].amount += discount.amount;
         return {
             ...item,
             price: {
@@ -42,7 +59,7 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
                 net: netAmount,
                 currency: item.price.currency,
                 taxAmount,
-                discounts: [discount],
+                discounts: item.price.discounts ? [...item.price.discounts, discount] : [discount],
             },
         };
     });
@@ -50,7 +67,16 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
     return {
         ...wrapper,
         cart: {
-            total: totals,
+            total: {
+                ...newTotals,
+                discounts: [
+                    ...existingDiscounts,
+                    {
+                        amount: newTotals.discounts![0].amount,
+                        percent: (1 - (newTotals.net + newTotals.discounts![0].amount) / newTotals.net) * 100,
+                    },
+                ],
+            },
             cart: {
                 items: alteredItems,
             },
@@ -95,4 +121,68 @@ export async function handleAndSaveCart(cart: Cart, providedCartId: string): Pro
         return storedCartWrapper || cartWrapper;
     }
     return cartWrapper;
+}
+
+export async function hydrateCart(apiClient: ClientInterface, body: any): Promise<Cart> {
+    const api = CrystallizeAPI(apiClient, 'en');
+    const tenantConfig = await api.fetchTenantConfig(apiClient.config.tenantIdentifier);
+    const currency = tenantConfig.currency;
+
+    return await handleCartRequestPayload(validatePayload<CartPayload>(body, cartPayload), {
+        hydraterBySkus: createProductHydrater(apiClient).bySkus,
+        currency,
+        perProduct: () => {
+            return {
+                topics: {
+                    name: true,
+                },
+            };
+        },
+        perVariant: () => {
+            return {
+                firstImage: {
+                    url: true,
+                },
+            };
+        },
+        selectPriceVariant: (
+            product: Product,
+            selectedVariant: ProductVariant,
+            currency: string,
+        ): ProductPriceVariant => {
+            // opinionated: if we have a `Sales` Price we take it
+            const variant = selectedVariant?.priceVariants?.find(
+                (price: ProductPriceVariant) =>
+                    price?.identifier === 'sales' && price?.currency?.toLowerCase() === currency.toLocaleLowerCase(),
+            );
+
+            return (
+                variant ??
+                selectedVariant?.priceVariants?.[0] ?? {
+                    price: selectedVariant?.price,
+                    identifier: 'undefined',
+                }
+            );
+        },
+        basePriceVariant: (
+            product: Product,
+            selectedVariant: ProductVariant,
+            currency: string,
+        ): ProductPriceVariant => {
+            // opinionated: if we have a `default` Price we take it
+            const variant = selectedVariant?.priceVariants?.find(
+                (price: ProductPriceVariant) =>
+                    price?.identifier === 'default' &&
+                    price?.currency?.toLocaleLowerCase() === currency.toLocaleLowerCase(),
+            );
+
+            return (
+                variant ??
+                selectedVariant?.priceVariants?.[0] ?? {
+                    price: selectedVariant?.price,
+                    identifier: 'undefined',
+                }
+            );
+        },
+    });
 }

@@ -8,7 +8,8 @@ export const Input: React.FC<{
     label: string;
     required: any;
     disabled?: boolean;
-}> = ({ placeholder, defaultValue, name, onChange, label, required, disabled = false }) => {
+    type?: string;
+}> = ({ placeholder, defaultValue, name, onChange, label, required, disabled = false, type = 'text' }) => {
     return (
         <label htmlFor={name} className="flex flex-col frntr-input">
             <span>
@@ -17,7 +18,7 @@ export const Input: React.FC<{
             </span>
             <input
                 defaultValue={defaultValue}
-                type={'text'}
+                type={type}
                 id={name}
                 placeholder={placeholder}
                 name={name}

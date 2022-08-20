@@ -7,7 +7,8 @@ import { useStoreFront } from '../storefront/provider';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
-import { Price } from '~/lib/pricing/pricing-component';
+import { ProductVariant } from '@crystallize/js-api-client';
+import { Price } from './price';
 
 function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
     if (typeof logo === 'string') {
@@ -72,19 +73,21 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
             {appContextState.latestAddedCartItems.length > 0 && (
                 <div className="border-[#dfdfdf] border rounded-md shadow fixed max-w-full sm:top-2 sm:right-2 bg-[#fff]  z-[60]  p-6">
                     <p className="font-bold text-md mb-3 pb-2">Added product(s) to cart</p>
-                    {appContextState.latestAddedCartItems.map((item: any, index: number) => (
-                        <div className="flex p-3 mt-1 items-center bg-grey2 gap-3" key={index}>
-                            <div className="max-w-[35px] max-h-[50px] img-container img-contain">
-                                <Image {...item.images?.[0]} size="100px" />
+                    {appContextState.latestAddedCartItems.map((item: ProductVariant, index: number) => {
+                        return (
+                            <div className="flex p-3 mt-1 items-center bg-grey2 gap-3" key={index}>
+                                <div className="max-w-[35px] max-h-[50px] img-container img-contain">
+                                    <Image {...item.images?.[0]} sizes="100px" />
+                                </div>
+                                <div>
+                                    <p className="text-sm">{item.name}</p>
+                                    <p className="text-sm font-bold">
+                                        <Price variant={item} size="small" />
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-sm">{item.name}</p>
-                                <p className="text-sm font-bold">
-                                    <Price currencyCode={appContextState.currency.code}>{item.price}</Price>
-                                </p>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                     <div className="flex gap-3 mt-3 items-center border-t pt-2 border-t-[#dfdfdf]">
                         <button className="bg-grey text-sm text-[#000] font-bold py-2 px-4 rounded-md">
                             <Link to={'/cart'}>Go to cart</Link>

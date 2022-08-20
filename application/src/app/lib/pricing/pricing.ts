@@ -3,7 +3,7 @@ import { Currency, CurrencyCode, getCurrencyFromCode } from './currencies';
 
 export type DisplayPrice = {
     default: number;
-    discounted: number;
+    discounted?: number;
     percent: number;
     currency: Currency;
 };
@@ -23,9 +23,8 @@ export default function displayPriceFor(
     const currency = getCurrencyFromCode(currencyCode);
     if (!priceVariants) {
         return {
-            default: variant?.price!,
-            discounted: 0,
-            percent: 0,
+            default: variant?.price ?? 0.0,
+            percent: 0.0,
             currency,
         };
     }
@@ -44,13 +43,12 @@ export default function displayPriceFor(
               (priceVariant: ProductPriceVariant) =>
                   priceVariant.identifier === idenfiers.discounted &&
                   priceVariant.currency?.toLocaleLowerCase() === currency.code.toLocaleLowerCase(),
-          )?.price || 0;
+          )?.price || undefined;
 
-    if (discountedPrice <= 0) {
+    if (!discountedPrice) {
         return {
             default: defaultPrice,
-            discounted: 0,
-            percent: 0,
+            percent: 0.0,
             currency,
         };
     }
@@ -58,7 +56,7 @@ export default function displayPriceFor(
     return {
         default: defaultPrice,
         discounted: discountedPrice,
-        percent: Math.round(((defaultPrice - discountedPrice) / defaultPrice) * 100),
+        percent: defaultPrice > 0 ? Math.round(((defaultPrice - discountedPrice) / defaultPrice) * 100) : 0.0,
         currency,
     };
 }

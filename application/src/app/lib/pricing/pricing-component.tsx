@@ -18,8 +18,9 @@ export const Price: React.FC<{
     return <span className={`crystallize-price ${className}`}>{formatter.format(children)}</span>;
 };
 
-export const DisplayPrice: React.FC<{ price: TDisplayPrice; className?: string }> = ({ price, className = '' }) => {
-    if (price.discounted > price.default) {
+// Generic display price component, often rewrited on project
+export const DiscountedPrice: React.FC<{ price: TDisplayPrice; className?: string }> = ({ price, className = '' }) => {
+    if (price.discounted) {
         return (
             <span className={`crystallize-discounted-price ${className}`}>
                 <del>

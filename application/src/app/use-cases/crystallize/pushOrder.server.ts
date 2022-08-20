@@ -34,9 +34,13 @@ export const pushOrderSubHandler = async (
                     gross: item.price.gross,
                     net: item.price.net,
                     currency: item.price.currency,
+                    discounts:
+                        item.price.discounts?.map((discount) => ({
+                            percent: discount?.percent || 0,
+                        })) || [],
                     tax: {
                         name: 'VAT',
-                        percent: (item.price.net / item.price.gross - 1) * 100,
+                        percent: item.price.gross > 0 ? (item.price.net / item.price.gross - 1) * 100 : 0.0,
                     },
                 },
             };
@@ -45,6 +49,10 @@ export const pushOrderSubHandler = async (
             currency: cart.total.currency,
             gross: cart.total.gross,
             net: cart.total.net,
+            discounts:
+                cart.total.discounts?.map((discount) => ({
+                    percent: discount?.percent || 0,
+                })) || [],
             tax: {
                 name: 'VAT',
                 percent: (cart.total.net / cart.total.gross - 1) * 100,

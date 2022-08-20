@@ -4,8 +4,10 @@ import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import trashIcon from '~/assets/trashIcon.svg';
-import { DisplayPrice, Price as CrystallizePrice, Price } from '~/lib/pricing/pricing-component';
+import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
+import { CartItemPrice } from './price';
+import { CartItem } from '@crystallize/node-service-api-request-handlers';
 
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
@@ -46,38 +48,6 @@ export type DiscountLot = {
     discount: { identifier: string };
 };
 export type Savings = Record<string, { quantity: number; amount: number }>;
-
-const DiscountsDebug: React.FC<{ discounts: DiscountLot[] }> = ({ discounts }) => {
-    const { state: contextState } = useAppContext();
-    return (
-        <div className="">
-            {discounts.map((discount: DiscountLot, index: number) => {
-                const {
-                    discount: { identifier },
-                    items,
-                } = discount;
-                return (
-                    <div key={index}>
-                        <h5>
-                            Discount <strong>{identifier}</strong> is applied
-                        </h5>
-                        {Object.keys(items).map((sku: string) => {
-                            const item = items[sku];
-                            return (
-                                <p key={`${index}-${sku}`}>
-                                    You get {item.quantity} {sku} for free. You saved{' '}
-                                    <Price currencyCode={contextState.currency.code}>
-                                        {item.quantity * item.price}
-                                    </Price>
-                                </p>
-                            );
-                        })}
-                    </div>
-                );
-            })}
-        </div>
-    );
-};
 
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
@@ -124,7 +94,7 @@ export const HydratedCart: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-3 min-h-[200px] ">
                     {cart &&
-                        cart.items.map((item: any, index: number) => {
+                        cart.items.map((item: CartItem, index: number) => {
                             const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
                             return (
                                 <div
@@ -135,21 +105,7 @@ export const HydratedCart: React.FC = () => {
                                         <Image {...item.variant.images?.[0]} sizes="100px" loading="lazy" />
                                         <div className="flex flex-col">
                                             <p className="text-xl font-semibold w-full">{item.variant.name}</p>
-                                            <p>
-                                                <CrystallizePrice currencyCode={contextState.currency.code}>
-                                                    {item.price.gross}
-                                                </CrystallizePrice>
-                                                {saving && (
-                                                    <>
-                                                        <del className="text-red mx-2">
-                                                            <CrystallizePrice currencyCode={contextState.currency.code}>
-                                                                {item.price.net + saving.amount}
-                                                            </CrystallizePrice>
-                                                        </del>
-                                                        <small>({saving.quantity} for free!)</small>
-                                                    </>
-                                                )}
-                                            </p>
+                                            <CartItemPrice item={item} saving={saving} />
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-[40px] items-center justify-center gap-3">
@@ -185,14 +141,15 @@ export const HydratedCart: React.FC = () => {
                                 </div>
                             );
                         })}
-                    {/* {lots && <DiscountsDebug discounts={lots} />} */}
                     {total && (
                         <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 text-sm justify-between w-60">
-                                <p>Net</p>
+                                <p>Discount</p>
                                 <p>
                                     <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {total.net + total.discounts[0].amount}
+                                        {total.discounts.reduce((memo: number, discount: any) => {
+                                            return memo + discount?.amount || 0;
+                                        }, 0)}
                                     </CrystallizePrice>
                                 </p>
                             </div>
@@ -204,29 +161,12 @@ export const HydratedCart: React.FC = () => {
                                     </CrystallizePrice>
                                 </p>
                             </div>
-                            <div className="flex text-grey3 text-sm justify-between w-60">
-                                <p>Discount</p>
-                                <p>
-                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {total.discounts[0].amount}
-                                    </CrystallizePrice>
-                                </p>
-                            </div>
                             <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
                                 <p>To pay</p>
                                 <p>
-                                    <DisplayPrice
-                                        price={{
-                                            default: total.gross,
-                                            discounted: total.gross,
-                                            percent: Math.round(
-                                                ((total.gross + total.discounts[0].amount - total.gross) /
-                                                    (total.gross + total.discounts[0].amount)) *
-                                                    100,
-                                            ),
-                                            currency: contextState.currency,
-                                        }}
-                                    />
+                                    <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        {total.gross}
+                                    </CrystallizePrice>
                                 </p>
                             </div>
                         </div>

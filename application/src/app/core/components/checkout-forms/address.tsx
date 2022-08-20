@@ -72,6 +72,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                         placeholder={'Frodo.ringmaster@shireclub.com'}
                         name="email"
                         required
+                        type="email"
                         onChange={handleChange}
                         disabled={isReadonly}
                     />

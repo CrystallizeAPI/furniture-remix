@@ -4,6 +4,7 @@ import {
     catalogueFetcherGraphqlBuilder,
     ClientInterface,
 } from '@crystallize/js-api-client';
+import _ from 'lodash';
 
 export const CrystallizeAPI = {
     fetchNavigation,
@@ -15,9 +16,7 @@ export const CrystallizeAPI = {
     fetchProduct,
     fetchFolder,
     searchOrderBy,
-    orderByPriceRange,
-    getPriceRange,
-    filterByPriceRange,
+    getPriceRangeAndAttributes,
     searchByTopic,
     fetchTenantConfig,
 };
@@ -1428,10 +1427,29 @@ async function fetchFolder(apiClient: ClientInterface, path: string, version: st
     ).catalogue;
 }
 
-async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any) {
+async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?: any, filters?: any, attributes?: any) {
     const field = orderBy?.split('_')[0] || 'NAME';
     const direction = orderBy?.split('_')[1] || 'ASC';
-    const priceRangeParams = fitlers.price;
+    const priceRangeParams = filters.price;
+
+    attributes = attributes.map((attribute: string) => {
+        return {
+            attribute: attribute.split('_')[0],
+            value: attribute.split('_')[1],
+        };
+    });
+
+    const attributeFilters = attributes.reduce(
+        (
+            acc: { [x: string]: { attribute: string; values: string[] } },
+            { attribute, value }: { attribute: string; value: string },
+        ) => {
+            acc[attribute] ??= { attribute, values: [] };
+            acc[attribute].values.push(value);
+            return acc;
+        },
+        [],
+    );
 
     const results = await apiClient.searchApi(
         `query SEARCH_ORDERBY(
@@ -1440,13 +1458,14 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
         $direction: OrderDirection!
         $min: Float
         $max: Float
+        $attributes: [VariantAttributeFilter!]
       ) {
         search(
           first: 100,
           orderBy: { field: $field, direction: $direction }
           filter: {
             type: PRODUCT
-            productVariants: {  priceRange: { min: $min, max: $max } }
+            productVariants: {  priceRange: { min: $min, max: $max }, attributes: $attributes }
             include: { paths: $path }
           }
         ) {
@@ -1484,55 +1503,14 @@ async function searchOrderBy(apiClient: ClientInterface, path: string, orderBy?:
             direction,
             min: priceRangeParams.min ? parseFloat(priceRangeParams.min) : 0.0,
             max: priceRangeParams.max ? parseFloat(priceRangeParams.max) : 0.0,
+            attributes: Object.values(attributeFilters) as [],
         },
     );
 
     return results?.search?.edges || [];
 }
 
-async function orderByPriceRange(apiClient: ClientInterface, path: string) {
-    return await apiClient.searchApi(
-        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!]) {
-        search(
-          first: 100,  
-          filter: {
-            type: PRODUCT
-            include: { paths: $path }
-          }
-        ) {
-          edges {
-            node {
-              name
-              path
-              ... on Product {
-                matchingVariant {
-                  isDefault
-                  price
-                  priceVariants {
-                    identifier
-                    name
-                    price
-                    currency
-                  }
-                  images {
-                    variants {
-                      url
-                      width
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }`,
-        {
-            path,
-        },
-    );
-}
-
-async function getPriceRange(apiClient: ClientInterface, path: string) {
+async function getPriceRangeAndAttributes(apiClient: ClientInterface, path: string) {
     return await apiClient.searchApi(
         `query GET_PRICE_RANGE($path: [String!]) {
         search(
@@ -1542,53 +1520,13 @@ async function getPriceRange(apiClient: ClientInterface, path: string) {
           }
         ) {
           aggregations {
-            price {
+            price: price {
               min
               max
             }
-          }
-        }
-      }
-      `,
-        {
-            path,
-        },
-    );
-}
-
-async function filterByPriceRange(apiClient: ClientInterface, path: string, min: string, max: string) {
-    return await apiClient.searchApi(
-        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
-        search(
-          first: 100,
-          filter: {
-            type: PRODUCT
-            include: { paths: $path }
-            productVariants: { priceRange: { min: $min, max: $max } }
-          }
-        ) {
-          edges {
-            node {
-              name
-              path
-              ... on Product {
-                matchingVariant {
-                  isDefault
-                  price
-                  priceVariants {
-                    identifier
-                    name
-                    price
-                    currency
-                  }
-                  images {
-                    variants {
-                      url
-                      width
-                    }
-                  }
-                }
-              }
+            attributes: variantAttributes {
+              attribute
+              value
             }
           }
         }
@@ -1596,8 +1534,6 @@ async function filterByPriceRange(apiClient: ClientInterface, path: string, min:
       `,
         {
             path,
-            min,
-            max,
         },
     );
 }

@@ -1,25 +1,30 @@
 import { Form, useLocation, useNavigate, useSubmit, useTransition } from '@remix-run/react';
 import _ from 'lodash';
 import React, { useRef } from 'react';
+import { AttributeFilter } from './attribute-filter';
 import { PriceRangeFilter } from './price-range-filter';
 
-export const Filter: React.FC<{ priceRange: any }> = ({ priceRange }) => {
+export const Filter: React.FC<{ aggregations: any }> = ({ aggregations }) => {
     const submit = useSubmit();
     const navigate = useNavigate();
     const location = useLocation();
     const formRef = useRef(null);
     const transition = useTransition();
-    const price = priceRange.search.aggregations.price;
+    const price = aggregations.search.aggregations.price;
+    const attributes = aggregations.search.aggregations.attributes;
+
     function handleChange(event: any) {
         submit(event.currentTarget, { replace: true });
     }
+
+    var grouped = _.groupBy(attributes, 'attribute');
+
     return (
         <div className="flex gap-5 mb-20 flex-wrap items-center justify-start">
             <Form method="get" onChange={handleChange} ref={formRef} className="flex gap-4 flex-wrap">
                 <label>
                     <select
                         name="orderBy"
-                        // className="bg-grey py-2 px-4 hover:cursor-pointer w-60"
                         className="w-60 bg-grey py-2 px-6 rounded-md text-md font-bold "
                         defaultValue={'NAME_ASC'}
                     >
@@ -35,6 +40,7 @@ export const Filter: React.FC<{ priceRange: any }> = ({ priceRange }) => {
                     </select>
                 </label>
                 <PriceRangeFilter min={price.min} max={price.max} formRef={formRef} />
+                <AttributeFilter formRef={formRef} attributes={grouped} />
             </Form>
             {transition.state === 'submitting' ? (
                 <p>loading...</p>

@@ -5,7 +5,7 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { Filter } from '~/core/components/filter';
-import { FilteredProducts, ProductsList } from '~/core/components/filter/filtered-products';
+import { FilteredProducts } from '~/core/components/filter/filtered-products';
 import sliderStyles from 'rc-slider/assets/index.css';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/core/use-cases/crystallize';
@@ -39,17 +39,22 @@ export const loader: LoaderFunction = async ({ request, params }) => {
                 max: url.searchParams.get('max'),
             },
         },
+        attributes: url.searchParams.getAll('attr'),
     };
-
     // we don't need to consider the preview params here.
     url.searchParams.delete('preview');
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
-    const [folder, products, priceRange] = await Promise.all([
+    const [folder, products, priceRangeAndAttributes] = await Promise.all([
         CrystallizeAPI.fetchFolder(secret.apiClient, path, version, 'en'),
-        CrystallizeAPI.searchOrderBy(secret.apiClient, path, searchParams.orderBy, searchParams.filters),
-
-        CrystallizeAPI.getPriceRange(secret.apiClient, path),
+        CrystallizeAPI.searchOrderBy(
+            secret.apiClient,
+            path,
+            searchParams.orderBy,
+            searchParams.filters,
+            searchParams.attributes,
+        ),
+        CrystallizeAPI.getPriceRangeAndAttributes(secret.apiClient, path),
     ]);
 
     if (!folder) {
@@ -60,13 +65,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 
     return json(
-        { products, folder, priceRange },
+        { products, folder, priceRangeAndAttributes },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config),
     );
 };
 
 export default () => {
-    const { folder, products, priceRange } = useLoaderData();
+    const { folder, products, priceRangeAndAttributes } = useLoaderData();
     let title =
         folder?.components.find((component: any) => component.type === 'singleLine')?.content?.text || folder.name;
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
@@ -86,7 +91,7 @@ export default () => {
                 </div>
             )}
             <div className="container 2xl mt-20 px-5 mx-auto w-full">
-                <Filter priceRange={priceRange} />
+                <Filter aggregations={priceRangeAndAttributes} />
                 <FilteredProducts products={products} />
             </div>
         </>

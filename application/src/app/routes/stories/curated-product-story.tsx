@@ -71,7 +71,7 @@ export function CuratedProductStory({ document }: { document: any }) {
 
     return (
         <div className="2xl grid lg:grid-cols-5 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
-            <div className="img-container lg:col-span-3 overflow-hidden self-start rounded-lg relative">
+            <div className="img-container lg:col-span-3 self-start rounded-lg relative">
                 <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                     {merchandising.map((merch: any, i: number) => (
                         <span
@@ -80,7 +80,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                             key={`hotspot-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
                             style={{ left: merch?.hotspotX?.number + `%`, top: merch?.hotspotY?.number + '%' }}
                         >
-                            <div className="rounded-sm overflow-hidden shadow-sm px-2 pt-2 ">
+                            <div className="rounded-sm shadow-sm px-2 pt-2 ">
                                 {merch.products?.map((product: any) => (
                                     <div className="flex items-center gap-2 pb-2" key={product.id}>
                                         <div className="img-container img-cover w-[30px] h-[40px]">

@@ -46,10 +46,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
 
-    const [folder, products, priceRange] = await Promise.all([
+    const [folder, products, priceRangeAndAttributes] = await Promise.all([
         api.fetchFolder(path),
-        api.searchOrderBy(path, searchParams.orderBy, searchParams.filters),
-        api.fetchPriceRange(path),
+        api.searchOrderBy(path, searchParams.orderBy, searchParams.filters, searchParams.attributes),
+        api.fetchPriceRangeAndAttributes(path),
     ]);
 
     if (!folder) {
@@ -59,7 +59,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         });
     }
 
-    return json({ products, folder }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
+    return json(
+        { products, folder, priceRangeAndAttributes },
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config),
+    );
 };
 
 export default () => {

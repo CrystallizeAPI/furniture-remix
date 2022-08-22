@@ -3,7 +3,7 @@ import fetchCampaignPage from './fetchCampaignPage';
 import fetchDocument from './fetchDocument';
 import fetchFolder from './fetchFolder';
 import fetchNavigation from './fetchNavigation';
-import fetchPriceRange from './fetchPriceRange';
+import fetchPriceRangeAndAttributes from './fetchPriceRangeAndAttributes';
 import fetchProduct from './fetchProduct';
 import fetchProducts from './fetchProducts';
 import fetchTenantConfig from './fetchTenantConfig';
@@ -25,9 +25,9 @@ export const CrystallizeAPI = (apiClient: ClientInterface, language: string, pre
         fetchDocument: (path: string) => fetchDocument(apiClient, path, version, language),
         fetchProduct: (path: string) => fetchProduct(apiClient, path, version, language),
         fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language),
-        fetchPriceRange: (path: string) => fetchPriceRange(apiClient, path),
+        fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
         search: (value: string) => search(apiClient, value, language),
-        searchOrderBy: (path: string, orderBy?: any, fitlers?: any) => searchOrderBy(apiClient, path, orderBy, fitlers),
+        searchOrderBy: (path: string, orderBy?: any, fitlers?: any, attributes?: any) => searchOrderBy(apiClient, path, orderBy, fitlers, attributes),
         searchOrderByPriceRange: (path: string) => searchOrderByPriceRange(apiClient, path),
         searchFilteredByPriceRange: (path: string, min: string, max: string) =>
             searchFilteredByPriceRange(apiClient, path, min, max),

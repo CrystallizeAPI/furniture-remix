@@ -10,9 +10,13 @@ export default async (apiClient: ClientInterface, path: string) => {
           }
         ) {
           aggregations {
-            price {
+            price: price {
               min
               max
+            }
+            attributes: variantAttributes {
+              attribute
+              value
             }
           }
         }

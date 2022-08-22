@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Product } from '~/core/components/item/product';
 export const FilteredProducts = ({ products }: { products: any }) => {
-    let [checked, setChecked] = useState(false);
+    let [checked, setChecked] = useState(true);
     let defaultVariants = products.filter((product: any) => product?.node?.matchingVariant?.isDefault === true);
     products = checked ? products : defaultVariants;
 
@@ -17,6 +17,7 @@ export const FilteredProducts = ({ products }: { products: any }) => {
                                 type="checkbox"
                                 className="opacity-0 h-0 w-0"
                                 onChange={(e) => setChecked(e.target.checked)}
+                                defaultChecked={checked}
                             />
                             <span className="slider"></span>
                         </label>

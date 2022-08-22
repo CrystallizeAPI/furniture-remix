@@ -27,7 +27,8 @@ export const CrystallizeAPI = (apiClient: ClientInterface, language: string, pre
         fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language),
         fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
         search: (value: string) => search(apiClient, value, language),
-        searchOrderBy: (path: string, orderBy?: any, fitlers?: any, attributes?: any) => searchOrderBy(apiClient, path, orderBy, fitlers, attributes),
+        searchOrderBy: (path: string, orderBy?: any, fitlers?: any, attributes?: any) =>
+            searchOrderBy(apiClient, path, orderBy, fitlers, attributes),
         searchOrderByPriceRange: (path: string) => searchOrderByPriceRange(apiClient, path),
         searchFilteredByPriceRange: (path: string, min: string, max: string) =>
             searchFilteredByPriceRange(apiClient, path, min, max),

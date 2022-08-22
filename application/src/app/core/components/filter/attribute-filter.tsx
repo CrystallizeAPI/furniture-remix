@@ -19,7 +19,7 @@ export const AttributeFilter: React.FC<{ attributes: any; formRef: any | null }>
                         <p className="text-md font-bold">Filter by attributes</p>
                         <img src={filterIcon} alt="" />
                     </div>
-                    {show ? (
+                    {show && (
                         <div className="absolute w-60 z-50">
                             {Object.keys(attributes).map((key) => (
                                 <div key={key} className="bg-grey px-5 py-2 border-bottom-2">
@@ -29,7 +29,6 @@ export const AttributeFilter: React.FC<{ attributes: any; formRef: any | null }>
                                             <input
                                                 type="checkbox"
                                                 value={`${key}_${item.value}`}
-                                                key={index}
                                                 name="attr"
                                                 defaultChecked={selectedAttributes.includes(`${key}_${item.value}`)}
                                             />
@@ -39,7 +38,7 @@ export const AttributeFilter: React.FC<{ attributes: any; formRef: any | null }>
                                 </div>
                             ))}
                         </div>
-                    ) : null}
+                    )}
                 </div>
             )}
         </>

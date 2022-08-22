@@ -20,8 +20,8 @@ export async function authenticate(request: Request): Promise<{ user: any } | un
             };
         }
         unauthorized(3);
-    } catch (exception) {
-        console.log(exception);
+    } catch (exception: any) {
+        console.log(exception.message);
         unauthorized(2);
     }
     unauthorized(4);

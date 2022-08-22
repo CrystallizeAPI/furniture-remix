@@ -3,7 +3,7 @@ import { useState } from 'react';
 import filterIcon from '~/assets/filterIcon.svg';
 import { useSearchParams } from '@remix-run/react';
 
-export const AttributeFilter: React.FC<{ attributes: any; formRef: any | null }> = ({ attributes, formRef }) => {
+export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) => {
     const [show, setShow] = useState(false);
     const [searchParams] = useSearchParams();
     const selectedAttributes = searchParams.getAll('attr');

@@ -21,7 +21,13 @@ export const Filter: React.FC<{ aggregations: any }> = ({ aggregations }) => {
 
     return (
         <div className="flex gap-5 mb-20 flex-wrap items-center justify-start">
-            <Form method="get" onChange={handleChange} ref={formRef} className="flex gap-4 flex-wrap">
+            <Form
+                method="get"
+                action={location.pathname}
+                onChange={handleChange}
+                ref={formRef}
+                className="flex gap-4 flex-wrap"
+            >
                 <label>
                     <select
                         name="orderBy"
@@ -40,7 +46,7 @@ export const Filter: React.FC<{ aggregations: any }> = ({ aggregations }) => {
                     </select>
                 </label>
                 <PriceRangeFilter min={price.min} max={price.max} formRef={formRef} />
-                <AttributeFilter formRef={formRef} attributes={grouped} />
+                <AttributeFilter attributes={grouped} />
             </Form>
             {transition.state === 'submitting' ? (
                 <p>loading...</p>

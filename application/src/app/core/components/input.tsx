@@ -6,7 +6,7 @@ export const Input: React.FC<{
     name: string;
     onChange: ChangeEventHandler<HTMLInputElement>;
     label: string;
-    required: any;
+    required?: any;
     disabled?: boolean;
     type?: string;
 }> = ({ placeholder, defaultValue, name, onChange, label, required, disabled = false, type = 'text' }) => {

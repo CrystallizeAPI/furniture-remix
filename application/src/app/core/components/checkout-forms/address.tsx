@@ -11,6 +11,7 @@ export type Customer = {
     city: string;
     zipCode: string;
     country: string;
+    additionalInfo?: string;
 };
 
 export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> = ({ title, onValidSubmit }) => {
@@ -113,6 +114,16 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                         placeholder={'3130'}
                         name="zipCode"
                         required
+                        onChange={handleChange}
+                        disabled={isReadonly}
+                    />
+                </div>
+                <div className="mt-3">
+                    <Input
+                        defaultValue={customer.additionalInfo}
+                        label="Additional information"
+                        placeholder={'Anything we should keep in mind before dispatching your order?'}
+                        name="additionalInfo"
                         onChange={handleChange}
                         disabled={isReadonly}
                     />

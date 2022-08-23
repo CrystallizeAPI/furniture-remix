@@ -50,64 +50,67 @@ const Product = ({
 
     return (
         <>
-            <div className="flex gap-2 justify-between flex-wrap items-center py-2">
-                <div className="flex items-center w-8/12">
-                    <div className="w-[60px] h-[80px] img-container img-cover">
+            <div className="border-b border-[#dfdfdf] w-full py-3 ">
+                <div className="grid w-full grid-cols-[0.35fr_1fr]">
+                    <div className="w-full img-container overflow-hidden rounded-md">
                         <Image sizes="200px" {...selecedPackItem.variant?.images?.[0]} />
                     </div>
-                    <div className="pl-4 pb-2">
-                        {selecedPackItem.variant.name}
-                        <Price variant={selecedPackItem.variant} size="small" />
-                    </div>
-                </div>
-                <div className="flex gap-2">
-                    <VariantSelector
-                        variants={product.variants}
-                        selectedVariant={selecedPackItem.variant}
-                        onVariantChange={(variant: ProductVariant) => {
-                            updatePack(selecedPackItem, {
-                                variant,
-                                quantity: selecedPackItem.quantity,
-                            });
-                        }}
-                        renderingType="dropdown"
-                    />
-                    <div className="flex flex-col">
-                        <span className="block text-xs pb-1 font-medium">Quantity</span>
-                        <div>
-                            <button
-                                className="py-2 px-4 bg-[#fff] text-sm hover:bg-grey-400"
-                                onClick={() =>
-                                    updatePack(selecedPackItem, {
-                                        ...selecedPackItem,
-                                        quantity: selecedPackItem.quantity - 1,
-                                    })
-                                }
-                            >
-                                -
-                            </button>
-                            <input
-                                value={selecedPackItem.quantity}
-                                type="text"
-                                className="py-2  px-4 bg-[#fff] text-sm w-[60px] text-center "
-                                onChange={(e) =>
-                                    updatePack(selecedPackItem, {
-                                        ...selecedPackItem,
-                                        quantity: parseInt(e.target.value),
-                                    })
-                                }
-                            />
-                            <button
-                                className="py-2 px-4 bg-[#fff] text-sm "
-                                onClick={() =>
-                                    updatePack(selecedPackItem, {
-                                        ...selecedPackItem,
-                                        quantity: selecedPackItem.quantity + 1,
-                                    })
-                                }
-                            >
-                                +
-                            </button>
+                    <div>
+                        <div className="gap-2 pl-4 flex ">
+                            <div className=" w-full">
+                                <div className="pb-1">{selecedPackItem.variant.name}</div>
+                                <Price variant={selecedPackItem.variant} size="small" />
+                            </div>
+                            <div className="flex flex-col-reverse max-w-[40px] w-full items-center justify-end ">
+                                <button
+                                    className="py-1 w-full block text-sm rounded-md border-transparent hover:bg-[#efefef]"
+                                    onClick={() =>
+                                        updatePack(selecedPackItem, {
+                                            ...selecedPackItem,
+                                            quantity: selecedPackItem.quantity - 1,
+                                        })
+                                    }
+                                >
+                                    -
+                                </button>
+                                <input
+                                    value={selecedPackItem.quantity}
+                                    type="text"
+                                    className="py-2  w-full w-full text-sm text-center hover:bg-[#efefef] active:bg-[#efefef]"
+                                    onChange={(e) =>
+                                        updatePack(selecedPackItem, {
+                                            ...selecedPackItem,
+                                            quantity: parseInt(e.target.value),
+                                        })
+                                    }
+                                />
+                                <button
+                                    className="py-1 w-full block text-sm rounded-md border-transparent hover:bg-[#efefef]"
+                                    onClick={() =>
+                                        updatePack(selecedPackItem, {
+                                            ...selecedPackItem,
+                                            quantity: selecedPackItem.quantity + 1,
+                                        })
+                                    }
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                        <div className="pl-4 mt-2 max-w-[100%]">
+                            <div className="grid grid-cols-1 grid-col-2 lg:grid-cols-1 xl:grid-cols-2 gap-2">
+                                <VariantSelector
+                                    variants={product.variants}
+                                    selectedVariant={selecedPackItem.variant}
+                                    onVariantChange={(variant: ProductVariant) => {
+                                        updatePack(selecedPackItem, {
+                                            variant,
+                                            quantity: selecedPackItem.quantity,
+                                        });
+                                    }}
+                                    renderingType="dropdown"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

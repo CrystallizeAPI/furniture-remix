@@ -34,7 +34,7 @@ export const AddToCartBtn: React.FC<{
     return (
         <>
             <button
-                className="bg-[#000] border px-10 py-3 relative overflow-hidden h-[50px] rounded text-[#fff] w-[200px] font-bold hover:bg-black-100"
+                className="bg-[#000] border px-10 py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] w-[200px] font-bold hover:bg-black-100"
                 onClick={() => {
                     handleClick();
                 }}

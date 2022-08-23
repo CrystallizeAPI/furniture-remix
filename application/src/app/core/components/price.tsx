@@ -13,9 +13,9 @@ export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> =
             percentage: 'text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-medium',
         },
         medium: {
-            default: 'text-4xl font-bold',
+            default: 'text-2xl font-bold',
             previous: 'line-through font-semibold pt-1 text-sm',
-            discount: 'text-4xl font-bold text-green2',
+            discount: 'text-2xl font-bold text-green2',
             percentage: 'text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-bold',
         },
     };

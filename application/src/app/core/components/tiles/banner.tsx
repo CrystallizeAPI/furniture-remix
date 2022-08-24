@@ -9,13 +9,13 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     return (
         <div
             className={` flex md:flex-row flex-col  w-full mx-auto  ${
-                isFullWidth ? 'container items-center px-10 pt-10  md:py-0 ' : 'pl-10 pt-20'
+                isFullWidth ? 'px-8 lg:px-10 max-w-[1600px] w-full items-center pt-10  md:py-0 ' : 'pl-10 pt-20'
             }`}
         >
             <div
                 className={`${
-                    !images?.length ? 'py-40' : isFullWidth ? 'w-full' : 'w-2/5'
-                } items-center pr-8 flex-column w-full relative z-10`}
+                    !images?.length ? 'py-40' : isFullWidth ? 'md:w-1/2' : 'w-2/5'
+                } items-center pr-8 flex-column relative z-10 `}
             >
                 {title && (
                     <h1

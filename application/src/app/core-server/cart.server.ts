@@ -128,6 +128,26 @@ export async function hydrateCart(apiClient: ClientInterface, body: any): Promis
     const tenantConfig = await api.fetchTenantConfig(apiClient.config.tenantIdentifier);
     const currency = tenantConfig.currency;
 
+    const pickStandardPrice = (
+        product: Product,
+        selectedVariant: ProductVariant,
+        currency: string,
+    ): ProductPriceVariant => {
+        // opinionated: if we have a `default` Price we take it
+        const variant = selectedVariant?.priceVariants?.find(
+            (price: ProductPriceVariant) =>
+                price?.identifier === 'default' &&
+                price?.currency?.toLocaleLowerCase() === currency.toLocaleLowerCase(),
+        );
+        return (
+            variant ??
+            selectedVariant?.priceVariants?.[0] ?? {
+                price: selectedVariant?.price,
+                identifier: 'undefined',
+            }
+        );
+    };
+
     return await handleCartRequestPayload(validatePayload<CartPayload>(body, cartPayload), {
         hydraterBySkus: createProductHydrater(apiClient).bySkus,
         currency,
@@ -155,34 +175,23 @@ export async function hydrateCart(apiClient: ClientInterface, body: any): Promis
                 (price: ProductPriceVariant) =>
                     price?.identifier === 'sales' && price?.currency?.toLowerCase() === currency.toLocaleLowerCase(),
             );
+            const standardPrice = pickStandardPrice(product, selectedVariant, currency);
+            if (!variant) {
+                return standardPrice;
+            }
 
-            return (
-                variant ??
-                selectedVariant?.priceVariants?.[0] ?? {
-                    price: selectedVariant?.price,
-                    identifier: 'undefined',
-                }
-            );
+            if (!variant?.price) {
+                return standardPrice;
+            }
+
+            return variant;
         },
         basePriceVariant: (
             product: Product,
             selectedVariant: ProductVariant,
             currency: string,
         ): ProductPriceVariant => {
-            // opinionated: if we have a `default` Price we take it
-            const variant = selectedVariant?.priceVariants?.find(
-                (price: ProductPriceVariant) =>
-                    price?.identifier === 'default' &&
-                    price?.currency?.toLocaleLowerCase() === currency.toLocaleLowerCase(),
-            );
-
-            return (
-                variant ??
-                selectedVariant?.priceVariants?.[0] ?? {
-                    price: selectedVariant?.price,
-                    identifier: 'undefined',
-                }
-            );
+            return pickStandardPrice(product, selectedVariant, currency);
         },
     });
 }

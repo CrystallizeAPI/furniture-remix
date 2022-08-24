@@ -3,18 +3,13 @@ import { Link } from '@remix-run/react';
 import { useAppContext } from '~/core/app-context/provider';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import displayPriceFor from '~/lib/pricing/pricing';
-import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
+import { Price } from '../price';
 
 export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
     const name = item?.defaultVariant?.name || item.name;
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
     const { state } = useAppContext();
-    const {
-        default: defaultPrice,
-        discounted: discountPrice,
-        percent: discountPercentage,
-        currency,
-    } = displayPriceFor(
+    const { percent: discountPercentage } = displayPriceFor(
         item?.defaultVariant,
         {
             default: 'default',
@@ -39,22 +34,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
             </div>
             <div className="pl-1 h-[1/4] ">
                 <h3 className="text-md">{name}</h3>
-                {discountPrice > 0 ? (
-                    <div className="flex items-center gap-3">
-                        <p className="text-md text-green2 font-bold">
-                            <CrystallizePrice currencyCode={currency.code}>{discountPrice}</CrystallizePrice>
-                        </p>
-                        <p className="text-sm line-through">
-                            <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
-                        </p>
-                    </div>
-                ) : (
-                    <div>
-                        <p className="text-md font-bold">
-                            <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
-                        </p>
-                    </div>
-                )}
+                <Price variant={item.defaultVariant} size="small" />
             </div>
         </Link>
     );

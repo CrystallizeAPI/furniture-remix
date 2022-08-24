@@ -23,7 +23,7 @@ export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> =
 
     return (
         <div>
-            {discountPrice && (
+            {discountPrice && discountPrice < defaultPrice ? (
                 <div className="flex flex-wrap  flex-col">
                     <div className={priceSize[size as keyof typeof priceSize].previous}>
                         <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
@@ -37,8 +37,7 @@ export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> =
                         </div>
                     </div>
                 </div>
-            )}
-            {!discountPrice && (
+            ) : (
                 <div className={priceSize[size as keyof typeof priceSize].default}>
                     <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
                 </div>

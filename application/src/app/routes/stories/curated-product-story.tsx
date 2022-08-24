@@ -8,7 +8,7 @@ import { Product } from '@crystallize/js-api-client';
 import { ProductBody } from '~/core/components/product-body';
 
 const getComponentContent = (components: any, id: string) => {
-    let component = components.find((component: any) => component.id === id);
+    const component = components.find((component: any) => component.id === id);
     return component?.content || null;
 };
 

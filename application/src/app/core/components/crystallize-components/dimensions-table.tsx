@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Arrow from '~/assets/arrow.svg';
 export const DimensionsTable = ({ dimensions }: { dimensions: any }) => {
-    let [open, toggle] = useState(false);
+    const [open, toggle] = useState(false);
 
     return (
         <div className="border-t border-[#dfdfdf] hover:bg-[#fefefe]">
@@ -16,19 +16,25 @@ export const DimensionsTable = ({ dimensions }: { dimensions: any }) => {
                     className={`w-[20px] h-[20px] mr-4 ${open ? '-scale-y-100' : 'scale-y-100	'}`}
                 />
             </button>
-            <div className={`rounded-md ${open ? 'h-auto -mt-4 mb-10' : 'h-0 overflow-hidden'}`}>
-                <div>
-                    {dimensions?.map((dimension: any) => (
-                        <div key={dimension?.id} className="flex justify-between py-4 px-2 odd:bg-[#efefef]">
-                            <p className="font-semibold text-md">{dimension?.name}</p>
-                            <p className="text-md">
-                                {dimension?.content?.number}
-                                {dimension?.content?.unit}
-                            </p>
-                        </div>
-                    ))}
+
+            {open && dimensions && dimensions.length > 0 && (
+                <div className="rounded-md h-auto -mt-4 mb-10">
+                    <div>
+                        {dimensions.map((dimension: any, index: number) => (
+                            <div
+                                key={`${index}-${dimension?.id}`}
+                                className="flex justify-between py-4 px-2 odd:bg-[#efefef]"
+                            >
+                                <p className="font-semibold text-md">{dimension?.name}</p>
+                                <p className="text-md">
+                                    {dimension?.content?.number}
+                                    {dimension?.content?.unit}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

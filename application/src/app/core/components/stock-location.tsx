@@ -1,7 +1,7 @@
 import StockIcon from '~/assets/stockIcon.svg';
 import { useState } from 'react';
 const StockIndicators = ({ location }: { location: any }) => {
-    const stock = location?.stock;
+    const stock = location?.stock || 0;
     if (stock < 1) {
         return (
             <>

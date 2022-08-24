@@ -31,7 +31,7 @@ export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
                     {title && <h2 className="text-2xl font-bold mb-3">{title}</h2>}
                     {description && <p className="embed-text">{description}</p>}
                 </div>
-                <div className="img-container ml-10 lg:col-span-3 self-start rounded-tl-lg relative">
+                <div className="img-container pl-10 w-full lg:col-span-3 self-start rounded-tl-lg relative">
                     <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                         {merchandising.map((merch: any, i: number) => (
                             <span

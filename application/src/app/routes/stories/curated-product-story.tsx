@@ -5,9 +5,10 @@ import { AddToCartBtn, VariantPack, VariantPackItem } from '~/core/components/ad
 import { Price } from '~/lib/pricing/pricing-component';
 import { useAppContext } from '~/core/app-context/provider';
 import { Product } from '@crystallize/js-api-client';
+import { ProductBody } from '~/core/components/product-body';
 
 const getComponentContent = (components: any, id: string) => {
-    let component = components.find((component: any) => component.id === id);
+    const component = components.find((component: any) => component.id === id);
     return component?.content || null;
 };
 
@@ -70,50 +71,54 @@ export function CuratedProductStory({ document }: { document: any }) {
     };
 
     return (
-        <div className="2xl grid lg:grid-cols-5 gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
-            <div className="img-container lg:col-span-3 self-start rounded-lg relative">
-                <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
-                    {merchandising.map((merch: any, i: number) => (
-                        <span
-                            onMouseOver={() => setActivePoint(`hotspot-point-${i}`)}
-                            onMouseLeave={() => setActivePoint('')}
-                            key={`hotspot-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
-                            style={{ left: merch?.hotspotX?.number + `%`, top: merch?.hotspotY?.number + '%' }}
-                        >
-                            <div className="rounded-sm shadow-sm px-2 pt-2 ">
-                                {merch.products?.map((product: any) => (
-                                    <div className="flex items-center gap-2 pb-2" key={product.id}>
-                                        <div className="img-container img-cover w-[30px] h-[40px]">
-                                            <Image
-                                                {...product?.defaultVariant?.firstImage}
-                                                sizes="100px"
-                                                loading="lazy"
-                                            />
-                                        </div>
-                                        <div>
-                                            <div className="text-xs">{product.name}</div>
-                                            <div className="text-xs font-bold">
-                                                {appContextState.currency.code} {product.defaultVariant.price}
+        <div className="flex flex-col-reverse lg:flex-row gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
+            <div className="lg:w-8/12">
+                <div className="img-container overflow-hidden self-start rounded-lg relative">
+                    <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
+                        {merchandising.map((merch: any, i: number) => (
+                            <span
+                                onMouseOver={() => setActivePoint(`hotspot-point-${i}`)}
+                                onMouseLeave={() => setActivePoint('')}
+                                key={`hotspot-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
+                                style={{ left: merch?.hotspotX?.number + `%`, top: merch?.hotspotY?.number + '%' }}
+                            >
+                                <div className="rounded-sm overflow-hidden shadow-sm px-2 pt-2 ">
+                                    {merch.products?.map((product: any) => (
+                                        <div className="flex items-center gap-2 pb-2" key={product.id}>
+                                            <div className="img-container img-cover w-[30px] h-[40px]">
+                                                <Image
+                                                    {...product?.defaultVariant?.firstImage}
+                                                    sizes="100px"
+                                                    loading="lazy"
+                                                />
+                                            </div>
+                                            <div>
+                                                <div className="text-xs">{product.name}</div>
+                                                <div className="text-xs font-bold">
+                                                    {appContextState.currency.code} {product.defaultVariant.price}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </span>
-                    ))}
+                                    ))}
+                                </div>
+                            </span>
+                        ))}
+                    </div>
+                    <Image {...shoppableImage} sizes="50vw" />
                 </div>
-                <Image {...shoppableImage} sizes="50vw" />
+                <ProductBody components={document?.components} />
             </div>
-            <div className="px-6 lg:col-span-2">
-                <h1 className="text-4xl font-semibold mb-2">{title}</h1>
-                <div className="lg:w-3/4 text-1xl leading-[1.4em] mb-5">
+
+            <div className="px-6 lg:w-4/12">
+                <h1 className="text-3xl font-semibold mb-2">{title}</h1>
+                <div className="border-b pb-4 mb-4 border-[#dfdfdf] text-1xl leading-[1.4em] mb-5">
                     <ContentTransformer json={description} />
                 </div>
                 <div className="sticky top-20">
                     {merchandising.map((merch: any, merchIndex: number) => (
                         <div
                             key={`merch-container-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
-                            className="px-2 bg-grey overflow-hidden rounded-md my-2"
+                            className="px-2 overflow-hidden rounded-md my-2"
                             style={{
                                 border:
                                     activePoint === `hotspot-point-${merchIndex}`
@@ -129,7 +134,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                             />
                         </div>
                     ))}
-                    <div className="flex pt-5 mt-5 border-solid border-t-[1px] border-[#dfdfdf] items-center justify-between">
+                    <div className="flex pt-5 mt-5 items-center justify-between">
                         <div className="text-2xl font-bold text-green2">
                             <Price currencyCode={appContextState.currency.code}>{totalAmountToPay}</Price>
                         </div>

@@ -51,7 +51,6 @@ export default () => {
 
     let relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
         ?.items;
-
     return (
         <>
             <script
@@ -62,18 +61,18 @@ export default () => {
             />
             <div className="pl-6 md:px-6 mx-auto xl:container full">
                 <div className="flex gap-20 lg:flex-row flex-col-reverse ">
-                    <div className="lg:w-4/6 w-full img-container pr-6 md:pr-6">
+                    <div className="lg:w-4/6 w-full pr-6 md:pr-6">
                         <div className="img-container overflow-hidden rounded-md">
                             <ImageGallery images={selectedVariant?.images} />
                         </div>
                         <ProductBody components={product?.components} />
                     </div>
                     <div className="lg:w-2/6 w-full">
-                        <div className="flex flex-col gap-4 sticky top-8">
+                        <div className="flex flex-col gap-2 sticky top-16 pb-10">
                             <div className="mb-2">{product.topics && <TopicLabels labels={product?.topics} />}</div>
                             <div className="pr-6 md:pr-6">
                                 <h1 className="font-bold text-4xl mb-2">{title}</h1>
-                                <p className="text-xl font-normal">{description}</p>
+                                <p className="text-md font-normal">{description}</p>
                             </div>
                             <VariantSelector
                                 variants={product.variants}
@@ -87,18 +86,16 @@ export default () => {
                                     <AddToCartBtn pack={[{ variant: selectedVariant, quantity: 1 }]} />
                                 </div>
                             )}
-
                             <div className="bg-[#dfdfdf] h-[1px] mt-5" />
-                            <div className="pr-6 md:pr-6">
-                                <StockLocations locations={selectedVariant?.stockLocations} />
-                            </div>
+                            <StockLocations locations={selectedVariant?.stockLocations} />
                         </div>
                     </div>
                 </div>
+
                 {relatedProducts && (
-                    <div className="w-full">
-                        <h3 className="font-bold mt-20 mb-10 text-xl">You might also be interested in</h3>
-                        <div className="gap-5 grid-col-2 lg:grid grid-cols-5 pb-5 flex flex-wrap">
+                    <div className="w-full border-t border-[#dfdfdf] pr-6 sm:pr-0">
+                        <h3 className="font-bold mt-20 mb-4 text-xl">You might also be interested in</h3>
+                        <div className="grid gap-5 grid-cols-2 grid md:grid-cols-4 lg:grid-cols-5 pb-5">
                             {relatedProducts?.map((item: any, index: number) => (
                                 <Product item={item} key={`${item?.id}-${index}`} />
                             ))}

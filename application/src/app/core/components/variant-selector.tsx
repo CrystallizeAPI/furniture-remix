@@ -84,8 +84,8 @@ export const VariantSelector = ({
 
                     return (
                         <div key={attribute} className="border-[#dfdfdf]">
-                            <p className="my-3 text-sm  font-semibold">{attribute}</p>
-                            <div className="flex mb-5 flex-nowrap md:flex-wrap gap-2 overflow-x-scroll py-4 px-1">
+                            <p className="mt-2 text-sm  font-semibold">{attribute}</p>
+                            <div className="flex mb-5 flex-nowrap md:flex-wrap gap-2 overflow-x-scroll py-2 px-1">
                                 {attr.map((value: string) => {
                                     const selectedAttributes = attributesToObject(selectedVariant);
                                     selectedAttributes[attribute] = value;
@@ -135,13 +135,12 @@ export const VariantSelector = ({
                     }
 
                     return (
-                        <div className="" key={attribute}>
-                            <label>
-                                <span className="block text-xs pb-1 font-medium">{attribute}</span>
-                                <select
-                                    onChange={(e) => handleSelectChange({ attribute, value: e.target.value })}
-                                    className="py-2 px-4 bg-[#fff] text-sm rounded-md min-w-[150px] "
-                                >
+                        <label key={attribute} className="block">
+                            <select
+                                onChange={(e) => handleSelectChange({ attribute, value: e.target.value })}
+                                className="py-2 min-w-full w-full px-4 bg-[#efefef] grow-0  text-sm rounded-md min-w-[150px] "
+                            >
+                                <optgroup label={attribute}>
                                     {attr?.map((value: any) => {
                                         const selectedAttributes = attributesToObject(selectedVariant);
                                         selectedAttributes[attribute] = value;
@@ -160,9 +159,9 @@ export const VariantSelector = ({
                                             </option>
                                         );
                                     })}
-                                </select>
-                            </label>
-                        </div>
+                                </optgroup>
+                            </select>
+                        </label>
                     );
                 })}
             </>

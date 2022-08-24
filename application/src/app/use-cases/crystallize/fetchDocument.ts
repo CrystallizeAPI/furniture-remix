@@ -198,6 +198,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                   json
                 }
                 images {
+                  url
                   variants {
                     url
                     width

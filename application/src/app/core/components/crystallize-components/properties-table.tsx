@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Arrow from '~/assets/arrow.svg';
 
 export const PropertiesTable = ({ table }: { table: any }) => {
-    const [open, toggle] = useState(false);
+    const [open, toggle] = useState(true);
     return (
         <div className="border-t border-[#dfdfdf] mt-20 hover:bg-[#fefefe]">
             <button

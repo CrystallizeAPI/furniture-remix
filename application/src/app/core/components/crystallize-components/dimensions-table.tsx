@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Arrow from '~/assets/arrow.svg';
 export const DimensionsTable = ({ dimensions }: { dimensions: any }) => {
-    const [open, toggle] = useState(false);
+    const [open, toggle] = useState(true);
 
     return (
         <div className="border-t border-[#dfdfdf] hover:bg-[#fefefe]">

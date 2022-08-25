@@ -13,7 +13,8 @@ export const ProductBody = ({ components }: { components: any }) => {
         <>
             {paragraphs && <ParagraphCollection paragraphs={paragraphs} />}
             <div className="mt-20">
-                {propertiesTable && propertiesTable.map((table: any) => <PropertiesTable table={table} />)}
+                {propertiesTable &&
+                    propertiesTable.map((table: any, index: number) => <PropertiesTable table={table} key={index} />)}
                 {dimensionsTable && <DimensionsTable dimensions={dimensionsTable?.[0]} />}
                 {downloadChunks && <Files chunks={downloadChunks} />}
             </div>

@@ -3,8 +3,8 @@ import {
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { useState } from 'react';
+import { useLoaderData, useLocation } from '@remix-run/react';
+import { useEffect, useState } from 'react';
 import { VariantSelector } from '~/core/components/variant-selector';
 import { ProductBody } from '~/core/components/product-body';
 import { ImageGallery } from '~/core/components/image-gallery';
@@ -48,9 +48,15 @@ export default () => {
     let title = product?.components?.find((component: any) => component.id === 'title')?.content?.text || product.name;
     let description = product?.components?.find((component: any) => component.type === 'richText')?.content?.plainText;
     const onVariantChange = (variant: any) => setSelectedVariant(variant);
+    let location = useLocation();
 
     let relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
         ?.items;
+
+    useEffect(() => {
+        setSelectedVariant(primaryVariant);
+    }, [location.pathname]);
+
     return (
         <>
             <script

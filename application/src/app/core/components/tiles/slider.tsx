@@ -3,6 +3,7 @@ import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { Product } from '../item/product';
 import { Document } from '../item/document';
+import { LinkRenderer } from '~/lib/linkRenderer';
 
 const itemMapping = {
     product: Product,
@@ -32,9 +33,7 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
                 {ctas &&
                     ctas.map((cta) => (
                         <button className="bg-ctaBlue px-8 py-4 rounded font-medium" key={cta.link}>
-                            <Link to={cta.link} prefetch="intent">
-                                {cta.text}
-                            </Link>
+                            <LinkRenderer link={cta.link} text={cta.text} />
                         </button>
                     ))}
             </div>

@@ -1,6 +1,7 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
+import { LinkRenderer } from '~/lib/linkRenderer';
 
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;
@@ -29,9 +30,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                 {ctas &&
                     ctas.map((cta) => (
                         <button className="bg-[#000] text-[#fff] px-8 py-4 rounded font-medium" key={cta.link}>
-                            <Link to={cta.link} prefetch="intent">
-                                {cta.text}
-                            </Link>
+                            <LinkRenderer link={cta.link} text={cta.text} />
                         </button>
                     ))}
             </div>

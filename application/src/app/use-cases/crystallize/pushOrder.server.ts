@@ -1,7 +1,7 @@
 import {
     ClientInterface,
     createOrderPusher,
-    CustomerInputRequest,
+    OrderCustomerInputRequest,
     OrderCreatedConfirmation,
     PaymentInputRequest,
 } from '@crystallize/js-api-client';
@@ -11,7 +11,7 @@ import { cartWrapperRepository } from '~/core-server/services.server';
 export const pushOrderSubHandler = async (
     apiClient: ClientInterface,
     cartWrapper: CartWrapper,
-    customer: CustomerInputRequest,
+    customer: OrderCustomerInputRequest,
     payment: PaymentInputRequest,
 ): Promise<OrderCreatedConfirmation> => {
     const cart = cartWrapper.cart;
@@ -65,7 +65,7 @@ export const pushOrderSubHandler = async (
     return orderCreatedConfirmation;
 };
 
-export const buildCustomer = (cartWrapper: CartWrapper): CustomerInputRequest => {
+export const buildCustomer = (cartWrapper: CartWrapper): OrderCustomerInputRequest => {
     const firstName = cartWrapper?.customer?.firstname || '';
     const lastName = cartWrapper?.customer?.lastname || '';
     const customerIdentifier = cartWrapper?.customer?.customerIdentifier || cartWrapper?.customer?.email || '';

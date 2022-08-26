@@ -1,34 +1,16 @@
-import { ClientInterface, customerInputRequest, CustomerInputRequest } from '@crystallize/js-api-client';
-import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import { ClientInterface, createCustomerManager, OrderCustomerInputRequest } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, orderCustomer: CustomerInputRequest): Promise<void> => {
+export default async (apiClient: ClientInterface, orderCustomer: OrderCustomerInputRequest): Promise<void> => {
     if (orderCustomer?.identifier === '') {
         return;
     }
-    const pimApi = apiClient.pimApi;
-
-    // this actually convert the enum
-    const checkInput = customerInputRequest.parse({
-        firstName: orderCustomer?.firstName,
-        lastName: orderCustomer?.lastName,
+    const idResponse = await apiClient.catalogueApi(`query { tenant { id } }`);
+    await createCustomerManager(apiClient).create({
+        tenantId: idResponse.tenant.id,
+        firstName: orderCustomer?.firstName || '',
+        lastName: orderCustomer?.lastName || '',
         identifier: orderCustomer?.identifier,
         addresses: orderCustomer?.addresses,
+        email: orderCustomer?.identifier || '',
     });
-    const result = await pimApi(`query { tenant { get(identifier: "${apiClient.config.tenantIdentifier}") { id } } }`);
-
-    const mutation = {
-        customer: {
-            create: {
-                __args: {
-                    input: {
-                        email: orderCustomer?.identifier,
-                        tenantId: result.tenant.get.id,
-                        ...checkInput,
-                    },
-                },
-                identifier: true,
-            },
-        },
-    };
-    await pimApi(jsonToGraphQLQuery({ mutation })).catch(() => {});
 };

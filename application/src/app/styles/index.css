@@ -13,6 +13,16 @@
     button:hover {
         transform: scale(1, 1);
     }
+    .frntr-accordination summary {
+        cursor: pointer;
+    }
+    .frntr-accordination .frntr-accordination-arrow {
+        transform: rotate(0);
+        transition: all 0.1s ease-in-out;
+    }
+    .frntr-accordination[open] .frntr-accordination-arrow {
+        transform: rotate(180deg);
+    }
     .order-item span {
         font-size: 11px;
         color: #565959;
@@ -456,6 +466,7 @@
     .frntr-content-transformer h2 {
         font-size: 1.4em;
     }
+
     .frntr-content-transformer blockquote {
         padding-left: 2em;
         font-size: 1.5rem;

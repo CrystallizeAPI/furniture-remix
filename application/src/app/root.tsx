@@ -180,7 +180,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <div>
                 <div>{children}</div>
             </div>
-            <Footer />
+            <footer className="2xl w-full mx-auto lg:p-8 lg:px-6">
+                <Footer />
+            </footer>
         </>
     );
 };

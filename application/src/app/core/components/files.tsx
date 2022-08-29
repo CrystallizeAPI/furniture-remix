@@ -37,7 +37,7 @@ export const Files = ({ chunks }: { chunks: any }) => (
                             {files.length > 0 && (
                                 <div className="flex text-sm flex-col">
                                     {files.map((file: any) => (
-                                        <a className="mt-1 underline truncate" href={file.url}>
+                                        <a className="mt-1 underline truncate" href={file.url} key={file.url}>
                                             ➞ {file?.title}
                                         </a>
                                     ))}

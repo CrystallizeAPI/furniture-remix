@@ -1,5 +1,5 @@
 import { Form, useLocation, useNavigate, useSubmit, useTransition } from '@remix-run/react';
-import _ from 'lodash';
+import groupBy from 'lodash/groupBy';
 import React, { useRef } from 'react';
 import { AttributeFilter } from './attribute-filter';
 import { PriceRangeFilter } from './price-range-filter';
@@ -17,7 +17,7 @@ export const Filter: React.FC<{ aggregations: any }> = ({ aggregations }) => {
         submit(event.currentTarget, { replace: true });
     }
 
-    var grouped = _.groupBy(attributes, 'attribute');
+    var grouped = groupBy(attributes, 'attribute');
 
     return (
         <div className="flex gap-5 mb-20 flex-wrap items-center justify-start">

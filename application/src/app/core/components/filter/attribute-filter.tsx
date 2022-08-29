@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { useState } from 'react';
 import filterIcon from '~/assets/filterIcon.svg';
 import { useSearchParams } from '@remix-run/react';
@@ -10,7 +10,7 @@ export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) =
 
     return (
         <>
-            {!_.isEmpty(attributes) && (
+            {!isEmpty(attributes) && (
                 <div>
                     <div
                         className="relative flex justify-between items-center w-60 bg-grey py-2 px-6 rounded-md hover:cursor-pointer"

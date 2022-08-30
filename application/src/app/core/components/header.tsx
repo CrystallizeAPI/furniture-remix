@@ -169,7 +169,7 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                                 </div>
                             </div>
 
-                            <div className="flex flex-auto items-center justify-end ">
+                            <div className="flex flex-auto items-center justify-end h-[40px] w-[100px]">
                                 <Link to="/orders" className="p-2 rounded-md hover:bg-[#efefef]">
                                     <img
                                         className="w-[30px] h-[30px]"

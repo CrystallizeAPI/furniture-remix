@@ -1,7 +1,7 @@
 import { DimensionsTable } from './crystallize-components/dimensions-table';
 import { ParagraphCollection } from './crystallize-components/paragraph-collection';
 import { PropertiesTable } from './crystallize-components/properties-table';
-import { Files } from '~/core/components/files';
+import { Files } from '~/core/components/crystallize-components/files';
 
 export const ProductBody = ({ components }: { components: any }) => {
     let paragraphs = components.find((component: any) => component.type === 'paragraphCollection')?.content?.paragraphs;

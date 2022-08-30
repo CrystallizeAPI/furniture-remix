@@ -72,8 +72,8 @@ export function CuratedProductStory({ document }: { document: any }) {
 
     return (
         <div className="flex flex-col-reverse lg:flex-row gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
-            <div className="lg:w-8/12">
-                <div className="img-container overflow-hidden self-start rounded-lg relative">
+            <div className="lg:w-8/12 h-[75vh]">
+                <div className="img-container overflow-hidden self-start rounded-lg relative h-[75vh]">
                     <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                         {merchandising.map((merch: any, i: number) => (
                             <span

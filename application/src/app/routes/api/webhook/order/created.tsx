@@ -63,7 +63,7 @@ export const action: ActionFunction = async ({ request }) => {
         <mj-body>
           <mj-section>
             <mj-column>
-              <mj-image width="150px" align="center" src=${tenantConfig.logo}></mj-image>
+              <mj-image width="150px" align="center" src=${tenantConfig.logo?.url}></mj-image>
             </mj-column>
           </mj-section>
           <mj-section>

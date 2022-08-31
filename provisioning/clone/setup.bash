@@ -20,7 +20,7 @@ cp -r ${PROJECT_PATH}/provisioning/clone/README.md ${PROJECT_PATH}/README.md
 
 echo "Running command ${PROJECT_PATH}"
 cd ${PROJECT_PATH}/application && cp .env.dist .env
-cd ${PROJECT_PATH}/application && npm install
+cd ${PROJECT_PATH}/application && npm install --no-progress --no-color
 
 #---
 

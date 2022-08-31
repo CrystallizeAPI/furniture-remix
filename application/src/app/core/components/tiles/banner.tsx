@@ -1,12 +1,11 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
-import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { LinkRenderer } from '~/lib/linkRenderer';
 
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;
     const { images } = content;
-    const { font } = styling;
+    const { font } = styling || {};
     return (
         <div
             className={` flex md:flex-row flex-col  w-full mx-auto  ${
@@ -21,7 +20,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                 {title && (
                     <h1
                         className={`text-[1em] leading-[1.2em] font-bold mb-3`}
-                        style={{ fontSize: font.size || '2rem' }}
+                        style={{ fontSize: font ? font.size : '2rem' }}
                     >
                         {title}
                     </h1>

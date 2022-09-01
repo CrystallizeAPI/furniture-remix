@@ -129,7 +129,7 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                     <div className="justify-between-full fixed z-40 bg-[#fff] w-full left-0 top-0">
                         <div className="flex flex-auto items-center mx-auto px-6 xl:container pt-3 pb-2">
                             <div className="flex mx-auto flex-auto justify-between items-center relative">
-                                <div className="flex gap-10 items-center">
+                                <div className="flex gap-4 md:gap-10 items-center">
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                             <TenantLogo
@@ -141,7 +141,7 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                                     <div
                                         className={`flex gap-10 lg:flex lg:items-center lg:flex-row flex-col lg:w-auto lg:h-auto lg:relative lg:px-0 lg:py-0 lg:mt-0 lg:top-0 ${
                                             isOpen ? 'block' : 'hidden'
-                                        } top-10 mt-5 bg-[#fff] w-full right-0 left-0 z-50 h-screen fixed left-0 bottom-0 px-20 py-10`}
+                                        } top-10 mt-5 bg-[#fff] w-full right-0 left-0 z-50 h-screen fixed left-0 bottom-0 px-10 py-10`}
                                     >
                                         <SearchBar />
                                         {navigation?.folders?.tree?.children

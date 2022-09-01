@@ -1,6 +1,7 @@
 {
     "private": true,
     "devDependencies": {
+        "@tailwindcss/line-clamp": "^0.4.0",
         "prettier": "2.6.0"
     },
     "scripts": {

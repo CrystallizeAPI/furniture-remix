@@ -1,7 +1,7 @@
 import Arrow from '~/assets/arrow.svg';
 
 export const PropertiesTable = ({ table }: { table: any }) => (
-    <details className="border-t border-[#dfdfdf] mt-20 hover:bg-[#fefefe] frntr-accordination">
+    <details className="border-t border-[#dfdfdf] mt-20 hover:bg-[#fefefe] frntr-accordination" open>
         <summary className="font-bold text-2xl py-10 flex items-center justify-between w-full">
             <span>{table?.title}</span>
             <img src={`${Arrow}`} alt="Arrow" className="frntr-accordination-arrow w-[20px] h-[20px] mr-4" />

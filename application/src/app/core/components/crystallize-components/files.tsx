@@ -3,7 +3,7 @@ import { ContentTransformer } from '@crystallize/reactjs-components/dist/content
 import Arrow from '~/assets/arrow.svg';
 
 export const Files = ({ chunks }: { chunks: any }) => (
-    <details className="border-t border-[#dfdfdf] hover:bg-[#fefefe] frntr-accordination min-h-fit">
+    <details className="border-t border-[#dfdfdf] hover:bg-[#fefefe] frntr-accordination min-h-fit" open>
         <summary className="font-bold text-2xl py-10 flex items-center justify-between w-full">
             <span>Manuals and specifications</span>
             <img src={`${Arrow}`} alt="Arrow" className="frntr-accordination-arrow w-[20px] h-[20px] mr-4" />

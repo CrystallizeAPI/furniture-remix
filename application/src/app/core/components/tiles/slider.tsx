@@ -44,6 +44,9 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
                         rewind: true,
                         perPage: spansOverAllColumns ? 5 : 2,
                         breakpoints: {
+                            1200: {
+                                perPage: 4,
+                            },
                             940: {
                                 perPage: 3,
                             },

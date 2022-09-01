@@ -81,11 +81,11 @@ export default () => {
                 <p className="w-3/5 mb-10">{description}</p>
             </div>
             {grid && (
-                <div className="w-full  mx-auto 2xl">
+                <div className="w-full mx-auto">
                     <Grid grid={grid} />
                 </div>
             )}
-            <div className="container 2xl mt-20 px-5 mx-auto w-full">
+            <div className={`container 2xl mt-2 px-5 mx-auto w-full ${grid ? 'mt-20 pt-10' : ''}`}>
                 <Filter aggregations={priceRangeAndAttributes} />
                 <FilteredProducts products={products} />
             </div>

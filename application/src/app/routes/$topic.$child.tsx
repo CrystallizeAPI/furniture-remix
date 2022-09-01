@@ -14,7 +14,6 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    let url = request.url;
     let value = `/${params.topic}/${params.child}`;
     const { shared, secret } = await getStoreFront(getHost(request));
     const api = CrystallizeAPI(secret.apiClient, 'en');

@@ -72,8 +72,8 @@ export function CuratedProductStory({ document }: { document: any }) {
 
     return (
         <div className="flex flex-col-reverse lg:flex-row gap-8 min-h-full container px-6 mx-auto mt-20 mb-40">
-            <div className="lg:w-8/12 h-[75vh]">
-                <div className="img-container overflow-hidden self-start rounded-lg relative h-[75vh]">
+            <div className="lg:w-7/12">
+                <div className="img-container overflow-hidden self-start rounded-lg relative">
                     <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
                         {merchandising.map((merch: any, i: number) => (
                             <span
@@ -109,7 +109,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                 <ProductBody components={document?.components} />
             </div>
 
-            <div className="px-6 lg:w-4/12">
+            <div className="px-6 lg:w-5/12">
                 <h1 className="text-3xl font-semibold mb-2">{title}</h1>
                 <div className="border-b pb-4 mb-4 border-[#dfdfdf] text-1xl leading-[1.4em] mb-5">
                     <ContentTransformer json={description} />

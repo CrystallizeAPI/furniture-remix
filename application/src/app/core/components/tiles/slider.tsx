@@ -1,5 +1,4 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { Product } from '../item/product';
 import { Document } from '../item/document';

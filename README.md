@@ -13,7 +13,7 @@ If you want to report or contribute, you should do it on the main repository: ht
 If you are NOT a contributor on this repository and you just want to clone the boilerplate and get started in a minute for your project please use the Crystallize CLI
 
 ```bash
-npx @crystallize/cli2 install furniture-remix
+npx @crystallize/cli-next@latest install my-project
 ```
 
 ## The following is for contributors.

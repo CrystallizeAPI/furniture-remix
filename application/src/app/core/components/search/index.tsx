@@ -46,7 +46,7 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className="xl:w-[340px] px-4 relative 270px">
+        <div className="xl:w-[340px] md:px-4 relative 270px">
             <div className="relative z-30 flex items-center justify-between bg-grey h-10 rounded-full overflow-hidden focus-within:border">
                 <DebounceInput
                     minLength={2}

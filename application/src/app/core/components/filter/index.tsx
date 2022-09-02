@@ -20,7 +20,7 @@ export const Filter: React.FC<{ aggregations: any }> = ({ aggregations }) => {
     var grouped = groupBy(attributes, 'attribute');
 
     return (
-        <div className="flex gap-5 mb-20 flex-wrap items-center justify-start">
+        <div className="flex gap-5 mb-10 flex-wrap items-center justify-start">
             <Form
                 method="get"
                 action={location.pathname}

@@ -14,7 +14,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
         >
             <div
                 className={`${
-                    !images?.length ? 'py-40' : isFullWidth ? 'md:w-1/2' : 'w-2/5'
+                    !images?.length ? 'py-40' : isFullWidth ? 'md:w-1/2' : 'md:w-2/5'
                 } items-center pr-8 flex-column relative z-10 `}
             >
                 {title && (

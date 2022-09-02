@@ -8,11 +8,11 @@ export const FilteredProducts = ({ products }: { products: any }) => {
     return (
         <div className="mt-10">
             <div className="flex justify-between items-center">
-                <h2 className="font-medium text-lg my-5">Found {products.length} products</h2>
+                <h2 className="font-medium text-md my-5">Found {products.length} products</h2>
                 {products.length > 0 && (
                     <div className="flex items-center gap-3">
-                        <span className="font-medium text-lg my-5">Show variants</span>
-                        <label className="relative inline-block w-[60px] h-[34px]">
+                        <span className="font-medium text-md my-5">Show variants</span>
+                        <label className="relative inline-block w-[46px] h-[24px]">
                             <input
                                 type="checkbox"
                                 className="opacity-0 h-0 w-0"

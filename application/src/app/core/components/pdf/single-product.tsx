@@ -123,8 +123,10 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                         >
                             Name
                         </Text>
-                        {variants?.[0]?.attributes?.map((attr) => (
-                            <Text style={{ ...styles.tableHeaderName, width: '20%' }}>{attr.attribute}</Text>
+                        {variants?.[0]?.attributes?.map((attr, index) => (
+                            <Text key={index} style={{ ...styles.tableHeaderName, width: '20%' }}>
+                                {attr.attribute}
+                            </Text>
                         ))}
                         <Text
                             style={{
@@ -146,8 +148,10 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                         >
                             <Image style={styles.tableCellImage} src={variant?.images![0]?.url} />
                             <Text style={styles.tableCellName}>{variant?.name}</Text>
-                            {variant?.attributes?.map((attr) => (
-                                <Text style={{ fontSize: 10, color: '#373567', width: '20%' }}>{attr?.value}</Text>
+                            {variant?.attributes?.map((attr, index) => (
+                                <Text key={index} style={{ fontSize: 10, color: '#373567', width: '20%' }}>
+                                    {attr?.value}
+                                </Text>
                             ))}
                             <Text
                                 style={{

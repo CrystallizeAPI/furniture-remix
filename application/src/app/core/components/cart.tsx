@@ -93,6 +93,7 @@ export const HydratedCart: React.FC = () => {
                     )}
                 </div>
                 <div className="flex flex-col gap-3 min-h-[200px] ">
+                    {!cart && <OptimisticHydratedCart />}
                     {cart &&
                         cart.items.map((item: CartItem, index: number) => {
                             const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
@@ -182,5 +183,72 @@ export const HydratedCart: React.FC = () => {
                 </div>
             </div>
         </ClientOnly>
+    );
+};
+
+export const OptimisticHydratedCart: React.FC = () => {
+    const { cart: cart, isImmutable } = useLocalCart();
+    const { state: contextState } = useAppContext();
+    let total = 0;
+    return (
+        <>
+            {Object.keys(cart.items).map((sku: string, index: number) => {
+                const item = cart.items[sku as keyof typeof cart];
+                total += item.quantity * item.price;
+                return (
+                    <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg ">
+                        <div className="flex cart-item gap-3 items-center">
+                            <Image sizes="100px" loading="lazy" />
+                            <div className="flex flex-col">
+                                <p className="text-xl font-semibold w-full">{item.name}</p>
+                                <CrystallizePrice currencyCode={contextState.currency.code}>
+                                    {item.price}
+                                </CrystallizePrice>
+                            </div>
+                        </div>
+                        <div className="flex flex-col w-[40px] items-center justify-center gap-3">
+                            {!isImmutable() && (
+                                <button className="font-semibold w-[25px] h-[25px] rounded-sm" disabled>
+                                    {' '}
+                                    +{' '}
+                                </button>
+                            )}
+
+                            <p className="text-center font-bold ">{item.quantity}</p>
+                            {!isImmutable() && (
+                                <button className="font-semibold w-[25px] h-[25px] rounded-sm" disabled>
+                                    {' '}
+                                    {item.quantity === 1 ? (
+                                        <img src={trashIcon} width="25" height="25" alt="Trash icon" />
+                                    ) : (
+                                        '-'
+                                    )}{' '}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
+            <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
+                <div className="flex text-grey3 text-sm justify-between w-60">
+                    <p>Discount</p>
+                    <p>
+                        <div className="loader" />
+                    </p>
+                </div>
+                <div className="flex text-grey3 text-sm justify-between w-60">
+                    <p>Tax amount</p>
+                    <p>
+                        <div className="loader" />
+                    </p>
+                </div>
+                <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
+                    <p>To pay</p>
+                    <p>
+                        <CrystallizePrice currencyCode={contextState.currency.code}>{total}</CrystallizePrice>
+                    </p>
+                </div>
+            </div>
+        </>
     );
 };

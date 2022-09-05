@@ -55,7 +55,6 @@ export default () => {
     useEffect(() => {
         setSelectedVariant(primaryVariant);
     }, [product]);
-    console.log({ product });
     return (
         <>
             <script

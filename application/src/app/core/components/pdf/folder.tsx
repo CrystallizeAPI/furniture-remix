@@ -39,7 +39,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                         borderStyle: 'solid',
                     }}
                 >
-                    {products.map((product, i) => {
+                    {products.map((product) => {
                         if (!product) return null;
                         const variant = product.node.matchingVariant;
                         const name = variant.name;
@@ -61,6 +61,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                         return (
                             <View
                                 wrap={false}
+                                key={`${sku}`}
                                 style={{
                                     width: '100%',
                                     display: 'flex',
@@ -113,7 +114,10 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                                         <Text style={{ marginTop: 5, fontSize: 10 }}>{sku}</Text>
                                         <View style={{ flexDirection: 'column', marginTop: 10 }}>
                                             {variant.attributes?.map((attr) => (
-                                                <Text style={{ fontSize: 10, marginTop: 5 }}>
+                                                <Text
+                                                    key={`${sku}-${attr.attribute}-${attr.value}`}
+                                                    style={{ fontSize: 10, marginTop: 5 }}
+                                                >
                                                     {attr.attribute}: {attr.value}
                                                 </Text>
                                             ))}

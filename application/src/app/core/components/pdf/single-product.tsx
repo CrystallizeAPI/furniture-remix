@@ -58,7 +58,6 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
         },
         defaultPriceCurrency,
     );
-    console.log({ description });
 
     return (
         <Document>
@@ -91,10 +90,10 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
             </Page>
 
             {!!story &&
-                story.paragraphs.map((paragraph, index) => {
+                story.paragraphs.map((paragraph, storyIndex) => {
                     const images = paragraph.images;
                     return (
-                        <Page style={{ height: '100%' }}>
+                        <Page style={{ height: '100%' }} key={`story-paragraph-#${storyIndex}`}>
                             <View style={{ flexDirection: 'row', height: '100%' }}>
                                 {images && (
                                     <View
@@ -105,8 +104,9 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        {images?.map((img, index) => (
+                                        {images?.map((img, imgIndex) => (
                                             <Image
+                                                key={`story-paragraph-#${storyIndex}-image-#${imgIndex}-${img.url}`}
                                                 src={img.url}
                                                 style={{
                                                     height: '100%',
@@ -155,7 +155,12 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                             Name
                         </Text>
                         {variants?.[0]?.attributes?.map((attr) => (
-                            <Text style={{ ...styles.tableHeaderName, width: '20%' }}>{attr.attribute}</Text>
+                            <Text
+                                key={`variants-attribute-header-${attr.attribute}`}
+                                style={{ ...styles.tableHeaderName, width: '20%' }}
+                            >
+                                {attr.attribute}
+                            </Text>
                         ))}
                         <Text
                             style={{
@@ -186,9 +191,18 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                                 }}
                             >
                                 <Image style={styles.tableCellImage} src={variant?.images![0]?.url} />
-                                <Text style={styles.tableCellName}>{variant?.name}</Text>
+                                <View style={{ ...styles.tableCellName, display: 'flex', flexDirection: 'column' }}>
+                                    <Text style={{ fontSize: 8, display: 'block' }}>{variant?.name}</Text>
+                                    <Text style={{ fontSize: 8, display: 'block' }}>{variant?.sku}</Text>
+                                </View>
+
                                 {variant?.attributes?.map((attr) => (
-                                    <Text style={{ fontSize: 10, color: '#000', width: '20%' }}>{attr?.value}</Text>
+                                    <Text
+                                        key={`attribute-value-${variant.sku}-${attr.value}`}
+                                        style={{ fontSize: 10, color: '#000', width: '20%' }}
+                                    >
+                                        {attr?.value}
+                                    </Text>
                                 ))}
 
                                 <View style={{ marginTop: 5, width: '30%', textAlign: 'right', marginRight: 10 }}>

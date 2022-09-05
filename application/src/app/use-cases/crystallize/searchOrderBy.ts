@@ -51,6 +51,11 @@ export default async (apiClient: ClientInterface, path: string, orderBy?: any, f
                   name
                   price
                   isDefault
+                  sku
+                  attributes {
+                    attribute
+                    value
+                  }
                   priceVariants {
                     identifier
                     name
@@ -58,6 +63,7 @@ export default async (apiClient: ClientInterface, path: string, orderBy?: any, f
                     currency
                   }
                   images {
+                    url
                     variants {
                       url
                       width

@@ -1,117 +1,148 @@
 import { Product } from '@crystallize/js-api-client';
-import { Document, Page, Text, Image, StyleSheet, View, Font } from '@react-pdf/renderer';
-Font.register({
-    family: 'Oswald',
-    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf',
-});
+import { Document, Page, Text, Image, StyleSheet, View, Font, Link } from '@react-pdf/renderer';
+import { styles } from './styles';
+import { ContentTransformer, NodeContent } from '@crystallize/reactjs-components/dist/content-transformer';
+import displayPriceFor from '~/lib/pricing/pricing';
+import { Price } from './shared';
 
-const styles = StyleSheet.create({
-    productPage: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFF7F0',
-    },
-    tablePage: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: '#FFF7F0',
-    },
-    image: {
-        height: 'auto',
-        width: '80%',
-        // maxHeight: "80%",
-    },
-    title: {
-        marginBottom: 15,
-        fontWeight: 'bold',
-        fontFamily: 'Oswald',
-        color: '#373567',
-        fontSize: 40,
-    },
-    productDescription: {
-        color: '#373567',
-        width: '60%',
-        fontSize: 16,
-        textAlign: 'center',
-        lineHeight: '140%',
-    },
-    price: {
-        color: '#373567',
-        marginTop: 15,
-        padding: 10,
-        backgroundColor: '#FEE8F0',
-        width: 50,
-        fontStyle: 'bold',
-        borderRadius: 8,
-        fontSize: 16,
-        textAlign: 'center',
-        lineHeight: '140%',
-    },
-    productName: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        marginBottom: 10,
-    },
-    productPrice: {
-        fontWeight: 'bold',
-        fontSize: 12,
-    },
-    table: {
-        justifyContent: 'flex-start',
-        flexDirection: 'column',
-        padding: '10%',
-    },
-    tableRow: {
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexDirection: 'row',
-        borderTopWidth: 1,
-        borderTopColor: '#dfdfdf',
-    },
-    tableCell: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        borderRadius: 4,
-    },
-    tableCellImage: {
-        width: 30,
-        height: 30,
-        marginRight: 10,
-    },
-    tableCellName: {
-        color: '#373567',
-        fontSize: 10,
-        minWidth: '35%',
-        paddingTop: 15,
-        paddingBottom: 15,
-        fontWeight: 900,
-    },
-    tableHeader: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        paddingBottom: 10,
-    },
-    tableHeaderName: {
-        fontSize: 8,
-        color: '#333',
-    },
-});
+const overrides = {
+    link: (props: any) => (
+        <Link src={props.metadata.href}>
+            <NodeContent {...props} />
+        </Link>
+    ),
+
+    div: (props: any) => (
+        <View>
+            <NodeContent {...props} />
+        </View>
+    ),
+    span: (props: any) => (
+        <View>
+            <NodeContent {...props} />
+        </View>
+    ),
+    paragraph: (props: any) => (
+        <Text style={{ fontSize: 12 }}>
+            <NodeContent {...props} />
+        </Text>
+    ),
+    quote: (props: any) => (
+        <Text style={{ fontSize: 16, padding: 15 }}>
+            "<NodeContent {...props} />
+            ""
+        </Text>
+    ),
+    'line-break': (props: any) => (
+        <Text style={{ fontSize: 16, width: '100%', display: 'block', height: 10 }}>
+            <NodeContent {...props} />
+        </Text>
+    ),
+};
 
 export const SingleProduct: React.FC<{ product: Product & { components: any[] } }> = ({ product }) => {
     const { name, variants } = product;
-    const defaultVariant = variants![0]!;
-    let description = product.components.find((component: any) => component.type === 'richText')?.content?.plainText;
+    const primaryVariant = product.variants.find((v: any) => v.isDefault);
+    const description = product.components.find((component: any) => component.type === 'richText')?.content?.plainText;
+    const story = product.components.find((component: any) => component.id === 'story')?.content;
+    const dimensions = product.components.find((component: any) => component.id === 'dimensions').content?.chunks;
+    const properties = product.components.find((component: any) => component.id === 'properties').content;
+    const productImages = primaryVariant?.images;
+    const defaultPriceCurrency = primaryVariant.priceVariants.find((p) => p.identifier === 'default')?.currency;
+
+    const price = displayPriceFor(
+        primaryVariant,
+        {
+            default: 'default',
+            discounted: 'sales',
+        },
+        defaultPriceCurrency,
+    );
+    console.log({ description });
+
     return (
         <Document>
             <Page style={styles.productPage}>
-                <Image style={styles.image} src={defaultVariant.images![0].url} />
-                <Text style={styles.title}>{name}</Text>
-                <Text style={styles.productDescription}>{description}</Text>
-                <Text style={styles.price}>${defaultVariant?.price}</Text>
+                <View
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'relative',
+                        borderRadius: 6,
+                        borderWidth: 1,
+                        borderStyle: 'solid',
+                        borderColor: '#dfdfdf',
+                        overflow: 'hidden',
+                    }}
+                >
+                    <Image style={styles.image} src={productImages![0].url} />
+                </View>
+                <View style={styles.productDescriptionContainer}>
+                    <Text style={styles.title}>{name}</Text>
+                    <Text style={styles.productDescription}>
+                        {!!description?.length &&
+                            (description?.[0].length < 152 ? description[0] : `${description?.[0].slice(0, 152)} ...`)}
+                    </Text>
+
+                    <Text style={styles.price}>
+                        <Price currencyCode={defaultPriceCurrency}>{price.default}</Price>
+                    </Text>
+                </View>
             </Page>
+
+            {!!story &&
+                story.paragraphs.map((paragraph, index) => {
+                    const images = paragraph.images;
+                    return (
+                        <Page style={{ height: '100%' }}>
+                            <View style={{ flexDirection: 'row', height: '100%' }}>
+                                {images && (
+                                    <View
+                                        style={{
+                                            minWidth: '50%',
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                        }}
+                                    >
+                                        {images?.map((img, index) => (
+                                            <Image
+                                                src={img.url}
+                                                style={{
+                                                    height: '100%',
+                                                    width: '100%',
+                                                    maxHeight: `${100 / images.length}%`,
+                                                    overflow: 'hidden',
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
+                                        ))}
+                                    </View>
+                                )}
+
+                                <View style={{ padding: images ? 35 : 100, width: '100%' }}>
+                                    <Text style={{ fontSize: 18, marginBottom: 15 }}>{paragraph.title?.text}</Text>
+                                    <Text style={{ fontSize: 14, lineHeight: 1.6 }}>
+                                        <ContentTransformer json={paragraph.body?.json} overrides={overrides} />
+                                    </Text>
+                                </View>
+                            </View>
+                        </Page>
+                    );
+                })}
             <Page style={styles.tablePage}>
+                {/* {dimensions && (
+                    <View style={styles.table}>
+                        <Text>asdsa</Text>
+                    </View>
+                )}
+                {properties && (
+                    <View style={styles.table}>
+                        {' '}
+                        <Text>asldksad</Text>
+                    </View>
+                )} */}
+
                 <View style={styles.table}>
                     <View style={styles.tableHeader}>
                         <Text
@@ -136,31 +167,57 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                         </Text>
                         <Text></Text>
                     </View>
-                    {variants?.map((variant, i) => (
-                        <View
-                            key={i}
-                            style={{
-                                ...styles.tableRow,
-                                backgroundColor: `${i % 2 ? 'transparent' : '#fff'}`,
-                            }}
-                        >
-                            <Image style={styles.tableCellImage} src={variant?.images![0]?.url} />
-                            <Text style={styles.tableCellName}>{variant?.name}</Text>
-                            {variant?.attributes?.map((attr) => (
-                                <Text style={{ fontSize: 10, color: '#373567', width: '20%' }}>{attr?.value}</Text>
-                            ))}
-                            <Text
+                    {variants?.map((variant, i) => {
+                        const variantPrice = displayPriceFor(
+                            variant,
+                            {
+                                default: 'default',
+                                discounted: 'sales',
+                            },
+                            defaultPriceCurrency,
+                        );
+
+                        return (
+                            <View
+                                key={i}
                                 style={{
-                                    ...styles.price,
-                                    marginTop: 0,
-                                    fontSize: 10,
-                                    padding: 5,
+                                    ...styles.tableRow,
+                                    backgroundColor: `${i % 2 ? 'transparent' : '#f7f7f7'}`,
                                 }}
                             >
-                                ${variant.price}
-                            </Text>
-                        </View>
-                    ))}
+                                <Image style={styles.tableCellImage} src={variant?.images![0]?.url} />
+                                <Text style={styles.tableCellName}>{variant?.name}</Text>
+                                {variant?.attributes?.map((attr) => (
+                                    <Text style={{ fontSize: 10, color: '#000', width: '20%' }}>{attr?.value}</Text>
+                                ))}
+
+                                <View style={{ marginTop: 5, width: '30%', textAlign: 'right', marginRight: 10 }}>
+                                    {variantPrice.discounted && variantPrice.discounted < variantPrice.default ? (
+                                        <View>
+                                            <Text style={{ fontSize: 10, fontWeight: 600 }}>
+                                                <Price currencyCode={variantPrice.currency.code}>
+                                                    {variantPrice.discounted}
+                                                </Price>
+                                            </Text>
+                                            <View>
+                                                <Text style={{ fontSize: 8, textDecoration: 'line-through' }}>
+                                                    <Price currencyCode={variantPrice.currency.code}>
+                                                        {variantPrice.default}
+                                                    </Price>
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    ) : (
+                                        <Text style={{ fontSize: 10, fontWeight: 600 }}>
+                                            <Price currencyCode={variantPrice.currency.code}>
+                                                {variantPrice.default}
+                                            </Price>
+                                        </Text>
+                                    )}
+                                </View>
+                            </View>
+                        );
+                    })}
                 </View>
             </Page>
         </Document>

@@ -1,6 +1,6 @@
 import { getCurrencyFromCode } from '~/lib/pricing/currencies';
 
-import { View } from '@react-pdf/renderer';
+import { Text } from '@react-pdf/renderer';
 
 export const Price: React.FC<{
     children: number;
@@ -16,5 +16,5 @@ export const Price: React.FC<{
         maximumFractionDigits: 5,
     });
 
-    return <View>{formatter.format(children)}</View>;
+    return <Text>{formatter.format(children)}</Text>;
 };

@@ -39,7 +39,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                         borderStyle: 'solid',
                     }}
                 >
-                    {products.map((product) => {
+                    {products.map((product, index) => {
                         if (!product) return null;
                         const variant = product.node.matchingVariant;
                         const name = variant.name;
@@ -73,7 +73,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                                     borderTopWidth: 1,
                                     borderColor: '#dfdfdf',
                                     borderStyle: 'solid',
-                                    backgroundColor: `${i % 2 ? '#f7f7f7' : 'transparent'}`,
+                                    backgroundColor: `${index % 2 ? '#f7f7f7' : 'transparent'}`,
                                 }}
                             >
                                 <View

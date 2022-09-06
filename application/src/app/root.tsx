@@ -69,6 +69,7 @@ export let loader: LoaderFunction = async ({ request }) => {
             currencyCode: tenantConfig.currency,
             logo: tenantConfig.logo,
             country: 'US',
+            isHTTPS: isSecure(request),
             storeFrontConfig: shared.config,
             navigation: {
                 folders,
@@ -95,6 +96,7 @@ type LoaderData = {
     currencyCode: string;
     country: string;
     navigation: any;
+    isHTTPS: boolean;
     logo: {
         key: string;
         url: string;
@@ -107,7 +109,7 @@ type LoaderData = {
     };
 };
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { storeFrontConfig, locale, currencyCode, country } = useLoaderData<LoaderData>();
+    const { isHTTPS, storeFrontConfig, locale, currencyCode, country } = useLoaderData<LoaderData>();
     return (
         <StoreFrontConfigProvider config={storeFrontConfig}>
             <CrystallizeProvider language="en" tenantIdentifier={storeFrontConfig.tenantIdentifier}>
@@ -135,7 +137,7 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             {children}
                             <ScrollRestoration />
                             <Scripts />
-                            <LiveReload port={443} />
+                            <LiveReload port={isHTTPS ? 443 : undefined} />
                         </body>
                     </html>
                 </AppContextProvider>

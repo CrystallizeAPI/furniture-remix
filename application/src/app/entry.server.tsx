@@ -1,6 +1,10 @@
+import { PassThrough } from 'stream';
 import type { EntryContext } from '@remix-run/node';
+import { Response } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
-import { renderToString } from 'react-dom/server';
+import { renderToPipeableStream } from 'react-dom/server';
+
+const ABORT_DELAY = 5000;
 
 export default function handleRequest(
     request: Request,
@@ -8,28 +12,50 @@ export default function handleRequest(
     responseHeaders: Headers,
     remixContext: EntryContext,
 ) {
-    let markup = renderToString(<RemixServer context={remixContext} url={request.url} />);
-    responseHeaders.set('Content-Type', 'text/html');
+    return new Promise((resolve, reject) => {
+        let didError = false;
 
-    let http2PushLinksHeaders = remixContext.matches
-        .flatMap(({ route: { module, imports } }) => [module, ...(imports || [])])
-        .filter(Boolean)
-        .concat([
-            remixContext.manifest.url,
-            remixContext.manifest.entry.module,
-            ...remixContext.manifest.entry.imports,
-        ]);
+        const { pipe, abort } = renderToPipeableStream(<RemixServer context={remixContext} url={request.url} />, {
+            onShellReady: () => {
+                const body = new PassThrough();
 
-    responseHeaders.set(
-        'Link',
-        (responseHeaders.has('Link') ? responseHeaders.get('Link') + ',' : '') +
-            http2PushLinksHeaders
-                .map((link: string) => `<${link}>; rel=preload; as=script; crossorigin=anonymous`)
-                .join(','),
-    );
+                responseHeaders.set('Content-Type', 'text/html');
+                let http2PushLinksHeaders = remixContext.matches
+                    .flatMap(({ route: { module, imports } }) => [module, ...(imports || [])])
+                    .filter(Boolean)
+                    .concat([
+                        remixContext.manifest.url,
+                        remixContext.manifest.entry.module,
+                        ...remixContext.manifest.entry.imports,
+                    ]);
 
-    return new Response('<!DOCTYPE html>' + markup, {
-        status: responseStatusCode,
-        headers: responseHeaders,
+                responseHeaders.set(
+                    'Link',
+                    (responseHeaders.has('Link') ? responseHeaders.get('Link') + ',' : '') +
+                        http2PushLinksHeaders
+                            .map((link: string) => `<${link}>; rel=preload; as=script; crossorigin=anonymous`)
+                            .join(','),
+                );
+
+                resolve(
+                    new Response(body, {
+                        headers: responseHeaders,
+                        status: didError ? 500 : responseStatusCode,
+                    }),
+                );
+
+                pipe(body);
+            },
+            onShellError: (err) => {
+                reject(err);
+            },
+            onError: (error) => {
+                didError = true;
+
+                console.error(error);
+            },
+        });
+
+        setTimeout(abort, ABORT_DELAY);
     });
 }

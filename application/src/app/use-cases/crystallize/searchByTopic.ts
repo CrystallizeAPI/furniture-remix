@@ -35,6 +35,7 @@ export default async (apiClient: ClientInterface, value: string, language: strin
                 }
                 ... on Product {
                   matchingVariant {
+                    name
                     isDefault
                     price
                     priceVariants {
@@ -42,6 +43,10 @@ export default async (apiClient: ClientInterface, value: string, language: strin
                       name
                       currency
                       price
+                    }
+                    attributes {
+                        attribute
+                        value
                     }
                     images {
                       variants {

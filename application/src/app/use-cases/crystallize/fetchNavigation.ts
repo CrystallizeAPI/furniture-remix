@@ -43,6 +43,10 @@ export default async (apiClient: ClientInterface, path: string, language: string
                                         identifier: true,
                                         name: true,
                                     },
+                                    attributes: {
+                                        attribute: true,
+                                        value: true,
+                                    },
                                     firstImage: {
                                         altText: true,
                                         variants: {

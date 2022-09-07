@@ -1,10 +1,10 @@
 import { Product } from '@crystallize/js-api-client';
-import { Document, Page, Text, Image, StyleSheet, View, Font, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, Image, View } from '@react-pdf/renderer';
 import { styles } from './styles';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from './shared';
 
-export const Folder: React.FC<{ folder: Product & { components: any[]; products: any[] } }> = ({
+export const Folder: React.FC<{ folder: Product & { components: any[] }; products: any[] }> = ({
     folder,
     products,
 }) => {
@@ -46,7 +46,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                         const image = variant.images?.[0].url;
                         const sku = variant.sku;
                         const defaultPriceCurrency = variant.priceVariants.find(
-                            (p) => p.identifier === 'default',
+                            (p: any) => p.identifier === 'default',
                         )?.currency;
 
                         const price = displayPriceFor(
@@ -113,7 +113,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[]; products:
                                         <Text style={{ marginTop: 5, fontSize: 16, fontWeight: 'bold' }}>{name}</Text>
                                         <Text style={{ marginTop: 5, fontSize: 10 }}>{sku}</Text>
                                         <View style={{ flexDirection: 'column', marginTop: 10 }}>
-                                            {variant.attributes?.map((attr) => (
+                                            {variant.attributes?.map((attr: any) => (
                                                 <Text
                                                     key={`${sku}-${attr.attribute}-${attr.value}`}
                                                     style={{ fontSize: 10, marginTop: 5 }}

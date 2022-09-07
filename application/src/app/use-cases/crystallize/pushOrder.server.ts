@@ -59,7 +59,7 @@ export const pushOrderSubHandler = async (
             },
         },
         payment: [payment],
-        meta: [{ key: 'Additional info', value: cartWrapper?.customer?.additionalInfo }],
+        meta: [{ key: 'Additional info', value: `${cartWrapper?.customer?.additionalInfo}` }],
     });
     cartWrapperRepository.attachOrderId(cartWrapper, orderCreatedConfirmation.id);
     return orderCreatedConfirmation;

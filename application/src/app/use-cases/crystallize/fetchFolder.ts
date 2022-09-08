@@ -42,8 +42,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
               selectedComponent {
                 name
                 content {
-
-                      ... on GridRelationsContent {
+                    ... on GridRelationsContent {
                         grids {
                           rows {
                             columns {
@@ -199,8 +198,8 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                                           }
                                           ...on SelectionContent {
                                               options {
-                                                  key
                                                   value
+                                                  key 
                                               }
                                           }
                                           ...on BooleanContent {
@@ -263,30 +262,187 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                   ... on ItemRelationsContent {
                     items {
                       name
+                      path
+                      type
                       shape {
                         identifier
                       }
                       components {
+                        type
+                        id
                         content {
-                          ... on SingleLineContent {
-                            text
-                          }
-                          ... on RichTextContent {
-                            plainText
-                          }
-                          ... on ComponentChoiceContent {
-                            selectedComponent {
-                              content {
-                                ... on ImageContent {
-                                  firstImage {
-                                    url
-                                  }
-                                }
-                              }
+                            ...on BooleanContent{
+                                value
                             }
+                            ... on SingleLineContent {
+                                text
+                            }
+                            ... on RichTextContent {
+                                plainText
+                            }
+                            ... on ImageContent {
+                                images {
+                                    url
+                                    altText
+                                    variants {
+                                      url
+                                      width
+                                      height
+                                    }
+                                }
+                            }
+                            ... on ComponentChoiceContent {
+                                selectedComponent {
+                                    name
+                                    content {
+                                        ...on SingleLineContent {
+                                            text
+                                        }
+                                        ... on VideoContent {
+                                            videos {
+                                                title
+                                                playlists
+                                                id
+                                                thumbnails {
+                                                    variants {
+                                                        url
+                                                        width
+                                                        height
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        ... on ImageContent {
+                                            images {
+                                              url
+                                              altText
+                                              variants {
+                                                url
+                                                width
+                                                height
+                                              }
+                                            } 
+                                        }
+                                        ... on ItemRelationsContent {
+                                            items {
+                                              name
+                                              type
+                                              path
+                                              components {
+                                                id
+                                                content {
+                                                  ...on SingleLineContent {
+                                                    text
+                                                  }
+                                                  ...on RichTextContent {
+                                                    plainText
+                                                  }
+                                                  ...on ComponentChoiceContent {
+                                                    selectedComponent {
+                                                      content {
+                                                        ...on ImageContent {
+                                                          firstImage {
+                                                            url
+                                                            altText
+                                                            variants {
+                                                              url
+                                                              width
+                                                              height
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                              ...on Product {
+                                                defaultVariant {
+                                                  price
+                                                  firstImage {
+                                                    url
+                                                    altText
+                                                    variants {
+                                                      url
+                                                      width
+                                                      height
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                    ... on ContentChunkContent {
+                                      chunks {
+                                        id  
+                                        content {
+                                          ... on NumericContent {
+                                            number
+                                            unit
+                                          }
+                                          ...on SingleLineContent{
+                                              text
+                                          }
+                                          ...on SelectionContent {
+                                              options {
+                                                  value
+                                                  key
+                                              }
+                                          }
+                                          ...on BooleanContent {
+                                              value
+                                          }
+                                          ... on ItemRelationsContent {
+                                            items {
+                                              name
+                                              type
+                                              path
+                                              ...on Product {
+                                                id
+                                                defaultVariant {
+                                                  price
+                                                  priceVariants {
+                                                    identifier
+                                                    name
+                                                    price
+                                                    currency
+                                                  }
+                                                  firstImage {
+                                                    url
+                                                    altText
+                                                    variants {
+                                                      url
+                                                      width
+                                                      height
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                          ...on PropertiesTableContent {
+                                              sections {
+                                                  title
+                                                  properties {
+                                                      key
+                                                      value
+                                                  }
+                                              }
+                                          }
+                                        }
+                                      }
+                                    }
+                                    ... on SelectionContent {
+                                      options {
+                                        value
+                                        key
+                                }
+                             }
                           }
-                        }
-                      }
+                       }
                     }
                   }
                 }
@@ -297,7 +453,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
         children {
           name
           path
-
+          type
           shape {
             identifier
           }

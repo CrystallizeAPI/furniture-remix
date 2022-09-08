@@ -12,9 +12,14 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { Grid } from '~/core/components/grid-cells/grid';
 import { getHost } from '~/core-server/http-utils.server';
+import { createGrid } from '~/lib/createGrid';
+import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export function links() {
-    return [{ rel: 'stylesheet', href: sliderStyles }];
+    return [
+        { rel: 'stylesheet', href: sliderStyles },
+        { rel: 'stylesheet', href: splideStyles },
+    ];
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -72,7 +77,7 @@ export default () => {
     let description = folder?.components.find((component: any) => component.type === 'richText')?.content?.plainText;
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
-    let grid = hero?.content?.grids?.[0];
+    let grid = hero?.content?.grids?.[0] || createGrid(hero?.content?.items);
 
     return (
         <>

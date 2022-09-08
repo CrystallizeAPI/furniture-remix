@@ -13,6 +13,7 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { getHost } from '~/core-server/http-utils.server';
+import { createGrid } from '~/lib/createGrid';
 
 export function links() {
     return [{ rel: 'stylesheet', href: splideStyles }];
@@ -39,7 +40,7 @@ export default () => {
     const { folder, navigation } = useLoaderData();
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
-    let grid = hero?.content?.grids?.[0];
+    let grid = hero?.content?.grids?.[0] || createGrid(hero?.content?.items);
 
     return (
         <>

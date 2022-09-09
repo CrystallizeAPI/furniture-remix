@@ -98,7 +98,7 @@ export const VariantSelector = ({
                                             key={value}
                                             onClick={(e) => onAttributeSelect({ attribute, value })}
                                             type="button"
-                                            className="w-2/6 md:w-1/6 md:py-2 py-4 rounded-lg text-text flex flex-col items-center text-xs font-medium overflow-hidden"
+                                            className="w-2/6 md:w-1/6 md:py-2 py-4 rounded-lg text-text flex flex-col items-center text-xs font-medium overflow-hidden variant-option"
                                             style={{
                                                 opacity: !mostSuitableVariant ? 0.2 : 1,
                                                 border:

@@ -19,6 +19,9 @@ const itemMapping = {
 };
 
 export const Grid: React.FC<{ grid: any }> = ({ grid }) => {
+    if ((grid?.rows?.length || 0) === 0) {
+        return null;
+    }
     const totalColumns = grid.rows[0].columns.reduce((acc: number, col: any) => acc + col.layout.colspan, 0);
     const colWidth = Math.round(1530 / totalColumns);
 

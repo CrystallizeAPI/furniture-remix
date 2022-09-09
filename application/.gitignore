@@ -5,3 +5,6 @@ storefrontconfig.json
 /public/build
 .env
 /src/app/styles/tailwind.*.css
+/test-results/
+/playwright-report/
+/playwright/.cache/

@@ -56,7 +56,7 @@ export default () => {
                         <Link
                             to={child?.path}
                             prefetch="intent"
-                            className="w-auto bg-grey py-2 sm:px-6 px-4 rounded-md sm:text-lg text-md font-bold"
+                            className="w-auto bg-grey py-2 sm:px-6 px-4 rounded-md sm:text-lg text-md font-bold category-link"
                             key={child.name}
                         >
                             {child.name}

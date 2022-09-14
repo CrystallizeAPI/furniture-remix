@@ -64,4 +64,8 @@ serve: stop ## Run all the local services you need
 	
 .PHONY: codeclean
 codeclean: ## Code Clean
-	@npm run prettier
+	@$(NPM) run prettier
+
+.PHONY: tests
+tests: ## Tests
+	@cd application && $(NPM) run test

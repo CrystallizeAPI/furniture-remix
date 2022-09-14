@@ -9,11 +9,11 @@ export const Payments: React.FC = () => {
                     <CrystalCoin />
                 </div>
                 <hr />
-                {
+                {window.ENV.STRIPE_PUBLIC_KEY && (
                     <div className="payment-method mt-4" style={{ minHeight: 200 }}>
                         <Stripe />
                     </div>
-                }
+                )}
             </div>
         </>
     );

@@ -77,7 +77,7 @@ export let loader: LoaderFunction = async ({ request }) => {
             },
             ENV: {
                 CRYSTALLIZE_TENANT_IDENTIFIER: shared.config.tenantIdentifier,
-                SERVICE_API_URL: `http${isSecure(request) ? 's' : ''}://${host}/api`,
+                SERVICE_API_URL: `http${isSecure(request) ? 's' : ''}://${request.headers.get('Host')!}/api`,
                 STRIPE_PUBLIC_KEY: shared.config.configuration.PUBLIC_KEY,
             },
         },

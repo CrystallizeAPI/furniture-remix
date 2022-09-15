@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { Link } from '@remix-run/react';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
-import { LinkRenderer } from '~/lib/linkRenderer';
+import { LinkRenderer } from '~/lib/grid-tile/linkRenderer';
 
 export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, content, ctas } = tile;

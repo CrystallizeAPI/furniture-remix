@@ -12,7 +12,7 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { Grid } from '~/core/components/grid-cells/grid';
 import { getHost } from '~/core-server/http-utils.server';
-import { createGrid } from '~/lib/createGrid';
+import { createGrid } from '~/lib/grid-tile/createGrid';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export function links() {

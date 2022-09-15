@@ -13,7 +13,7 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { getHost } from '~/core-server/http-utils.server';
-import { createGrid } from '~/lib/createGrid';
+import { createGrid } from '~/lib/grid-tile/createGrid';
 
 export function links() {
     return [{ rel: 'stylesheet', href: splideStyles }];

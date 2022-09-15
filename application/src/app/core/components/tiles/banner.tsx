@@ -1,6 +1,6 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
-import { LinkRenderer } from '~/lib/linkRenderer';
+import { LinkRenderer } from '~/lib/grid-tile/linkRenderer';
 
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;

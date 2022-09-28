@@ -30,7 +30,7 @@ clean: stop ## Clean non-essential files
 install:
 	@$(NPM) install
 	@cd application && cp .env.dist .env && cd ..
-	@cd application && $(NPM) install && cd ..	
+	@cd application && $(NPM) install && $(NPM) run playwright:install && cd ..	
 
 .PHONY: npmupdate
 npmupdate: ## npmupdate

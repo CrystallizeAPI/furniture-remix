@@ -1,60 +1,32 @@
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
-import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
-import { RelatedDocument } from '~/core/components/related-items/related-document';
-import { Product } from '~/core/components/item/product';
-import { ParagraphCollection } from '~/core/components/crystallize-components/paragraph-collection';
-import { Image } from '@crystallize/reactjs-components/dist/image';
-import { getStoreFront } from '~/core-server/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize';
-import { buildMetas } from '~/core/MicrodataBuilder';
-import { CuratedProductStory } from './curated-product-story';
-import { buildSchemaMarkupForBlogPost } from '~/core/SchemaMarkupBuilder';
-import { getHost } from '~/core-server/http-utils.server';
-import fetchDocument from '~/use-cases/crystallize/fetchDocument';
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-    return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
+import { ContentTransformer, Image } from '@crystallize/reactjs-components';
+import { buildSchemaMarkupForBlogPost } from '../SchemaMarkupBuilder';
+import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
+import { RelatedDocument } from '../components/related-items/related-document';
+import { Product } from '../components/item/product';
+import { fetchData as abstractStoryFetchData } from './AbstractStory';
+
+export type Story = any;
+
+export const fetchData = async (path: string, request: any, params: any): Promise<Story> => {
+    return abstractStoryFetchData(path, request, params);
 };
 
-type LoaderData = {
-    document: Awaited<ReturnType<typeof fetchDocument>>;
+export const PDF = ({ data }: { data: Story }) => {
+    return null;
 };
 
-export let meta: MetaFunction = ({ data }) => {
-    return buildMetas(data);
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
-    const path = `/stories/${params.document}`;
-    const { shared, secret } = await getStoreFront(getHost(request));
-    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
-    const document = await api.fetchDocument(path);
-    if (!document) {
-        throw new Response('Document Not Found', {
-            status: 404,
-            statusText: 'Document Not Found',
-        });
-    }
-    return json<LoaderData>({ document }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
-};
-
-const DefaultArticle = ({ document }: { document: any }) => {
+export default ({ data: story }: { data: Story }) => {
     const getComponentContent = (id: string) => {
-        let component = document.components.find((component: any) => component.id === id);
+        let component = story.components.find((component: any) => component.id === id);
         return component?.content || null;
     };
-
     let title = getComponentContent('title')?.text;
     let intro = getComponentContent('intro')?.json;
     let media = getComponentContent('media')?.selectedComponent?.content;
     let paragraphs = getComponentContent('story')?.paragraphs;
     let relatedArticles = getComponentContent('up-next')?.items;
     let featuredProducts = getComponentContent('featured')?.items;
-    const date = new Date(document.createdAt);
+    const date = new Date(story.createdAt);
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     return (
@@ -62,7 +34,7 @@ const DefaultArticle = ({ document }: { document: any }) => {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(buildSchemaMarkupForBlogPost(document)),
+                    __html: JSON.stringify(buildSchemaMarkupForBlogPost(story)),
                 }}
             />
             <div className="2xl md:container md:px-6 px-4 mx-auto mt-20 mb-20">
@@ -109,14 +81,3 @@ const DefaultArticle = ({ document }: { document: any }) => {
         </>
     );
 };
-
-export default function DocumentPage() {
-    const { document } = useLoaderData() as LoaderData;
-    if (document.shape.identifier === 'curated-product-story') {
-        return <CuratedProductStory document={document} />;
-    }
-    if (document.shape.identifier === 'story') {
-        return <DefaultArticle document={document} />;
-    }
-    return <div> No renderer for type</div>;
-}

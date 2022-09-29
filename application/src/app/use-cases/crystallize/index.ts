@@ -8,6 +8,7 @@ import fetchProduct from './fetchProduct';
 import fetchProducts from './fetchProducts';
 import fetchTenantConfig from './fetchTenantConfig';
 import fetchTopicNavigation from './fetchTopicNavigation';
+import fetchTreeMap from './fetchTreeMap';
 import search from './search';
 import searchByTopic from './searchByTopic';
 import searchFilteredByPriceRange from './searchFilteredByPriceRange';
@@ -19,6 +20,7 @@ export const CrystallizeAPI = (apiClient: ClientInterface, language: string, pre
     return {
         fetchTenantConfig: (tenantIdentifier: string) => fetchTenantConfig(apiClient, tenantIdentifier),
         fetchNavigation: (path: string) => fetchNavigation(apiClient, path, language),
+        fetchTreeMap: () => fetchTreeMap(apiClient, language),
         fetchTopicNavigation: (path: string) => fetchTopicNavigation(apiClient, path, language),
         fetchProducts: (path: string) => fetchProducts(apiClient, path, language),
         fetchCampaignPage: (path: string) => fetchCampaignPage(apiClient, path, version, language),

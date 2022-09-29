@@ -6,19 +6,30 @@ import { Price } from '~/lib/pricing/pricing-component';
 import { useAppContext } from '~/core/app-context/provider';
 import { Product } from '@crystallize/js-api-client';
 import { ProductBody } from '~/core/components/product-body';
+import { fetchData as abstractStoryFetchData } from './AbstractStory';
+
+export type CuratedStory = any;
+
+export const fetchData = async (path: string, request: any, params: any): Promise<CuratedStory> => {
+    return abstractStoryFetchData(path, request, params);
+};
+
+export const PDF = ({ data: story }: { data: CuratedStory }) => {
+    return null;
+};
 
 const getComponentContent = (components: any, id: string) => {
     const component = components.find((component: any) => component.id === id);
     return component?.content || null;
 };
 
-export function CuratedProductStory({ document }: { document: any }) {
+export default ({ data: story }: { data: CuratedStory }) => {
     const [activePoint, setActivePoint] = useState('');
     const { state: appContextState } = useAppContext();
-    const title = getComponentContent(document?.components, 'title')?.text;
-    const description = getComponentContent(document?.components, 'description')?.json;
-    const shoppableImage = getComponentContent(document?.components, 'shoppable-image')?.images?.[0];
-    const merchandising = getComponentContent(document?.components, 'merchandising')?.chunks?.map((merch: any) => {
+    const title = getComponentContent(story?.components, 'title')?.text;
+    const description = getComponentContent(story?.components, 'description')?.json;
+    const shoppableImage = getComponentContent(story?.components, 'shoppable-image')?.images?.[0];
+    const merchandising = getComponentContent(story?.components, 'merchandising')?.chunks?.map((merch: any) => {
         return {
             products: getComponentContent(merch, 'products')?.items,
             hotspotX: getComponentContent(merch, 'hotspot-x'),
@@ -106,7 +117,7 @@ export function CuratedProductStory({ document }: { document: any }) {
                     </div>
                     <Image {...shoppableImage} sizes="50vw" />
                 </div>
-                <ProductBody components={document?.components} />
+                <ProductBody components={story?.components} />
             </div>
 
             <div className="px-6 lg:w-5/12">
@@ -144,4 +155,4 @@ export function CuratedProductStory({ document }: { document: any }) {
             </div>
         </div>
     );
-}
+};

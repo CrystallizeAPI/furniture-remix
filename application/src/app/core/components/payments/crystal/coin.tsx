@@ -2,7 +2,7 @@ import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
-import { Customer } from '../checkout-forms/address';
+import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
 
 export const CrystalCoin: React.FC = () => {
@@ -20,12 +20,12 @@ export const CrystalCoin: React.FC = () => {
             disabled={paying}
             onClick={async () => {
                 setPaying(true);
-                await ServiceAPI.sendPaidOrder(cart, customer);
+                await ServiceAPI.sendPaidOrderWithCrystalCoin(cart, customer);
                 empty();
                 navigate(`/order/cart/${cart.cartId}`, { replace: true });
             }}
         >
-            Pay with Crystal Coins
+            {paying ? 'Processing payment...' : 'Pay with Crystal Coin'}
         </button>
     );
 };

@@ -68,7 +68,7 @@ export const CartItemPrice: React.FC<{ item: CartItem; saving: any; size?: strin
     return (
         <>
             <Price variant={item.variant} size={size} />
-            <p>
+            <div>
                 Total: <CrystallizePrice currencyCode={state.currency.code}>{item.price.gross}</CrystallizePrice>
                 {saving && (
                     <>
@@ -80,7 +80,7 @@ export const CartItemPrice: React.FC<{ item: CartItem; saving: any; size?: strin
                         <small>({saving.quantity} for free!)</small>
                     </>
                 )}
-            </p>
+            </div>
         </>
     );
 };

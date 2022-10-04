@@ -4,6 +4,7 @@ import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
+import { useStoreFront } from '~/core/storefront/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
 
@@ -45,7 +46,10 @@ const appearance = {
 };
 
 export const Stripe: React.FC = () => {
-    const stripePromise = loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
+    const { state } = useStoreFront();
+    const { config } = state;
+
+    const stripePromise = loadStripe(config.configuration.PUBLIC_KEY);
     const [clientSecret, setClientSecret] = useState<string>('');
     const { cart, isEmpty } = useLocalCart();
     useEffect(() => {

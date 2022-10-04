@@ -4,7 +4,7 @@ import {
     HttpCacheHeaderTaggerFromLoader,
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
+import { HeadersFunction, LoaderFunction } from '@remix-run/node';
 import { Payments } from '~/core/components/payments';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { CheckoutCart } from '~/core/components/checkout-forms/cart';

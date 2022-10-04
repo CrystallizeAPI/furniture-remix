@@ -63,6 +63,7 @@ export let loader: LoaderFunction = async ({ request }) => {
         api.fetchTopicNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
     ]);
+
     return json(
         {
             locale: 'en-US',
@@ -76,9 +77,7 @@ export let loader: LoaderFunction = async ({ request }) => {
                 topics,
             },
             ENV: {
-                CRYSTALLIZE_TENANT_IDENTIFIER: shared.config.tenantIdentifier,
                 SERVICE_API_URL: `http${isSecure(request) ? 's' : ''}://${request.headers.get('Host')!}/api`,
-                STRIPE_PUBLIC_KEY: shared.config.configuration.PUBLIC_KEY,
             },
         },
         {

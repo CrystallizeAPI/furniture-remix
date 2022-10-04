@@ -1,6 +1,7 @@
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { Customer } from '~/core/components/checkout-forms/address';
 import { LocalCart } from '~/core/hooks/useLocalCart';
+import { sendPaidOrderWithCrystalCard, sendPaidOrderWithCrystalCoin } from './payments/crystal';
 
 declare global {
     interface Window {
@@ -12,7 +13,8 @@ export const ServiceAPI = {
     fetchPaymentIntent,
     fetchOrders,
     fetchOrder,
-    sendPaidOrder,
+    sendPaidOrderWithCrystalCoin, // THIS SHOULD BE REMOVED IN A REAL PROJECT
+    sendPaidOrderWithCrystalCard, // THIS SHOULD BE REMOVED IN A REAL PROJECT
     placeCart,
     registerAndSendMagickLink,
     sendMagickLink,
@@ -31,15 +33,7 @@ async function fetchOrder(orderId: string) {
     return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders/' + orderId);
 }
 
-// in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider
-async function sendPaidOrder(cart: LocalCart, customer?: Partial<Customer>) {
-    const cartWrapper = await placeCart(cart, customer);
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/crystalcoin/confirmed', {
-        cartId: cartWrapper.cartId,
-    });
-}
-
-async function placeCart(cart: LocalCart, customer?: Partial<Customer>) {
+export async function placeCart(cart: LocalCart, customer: Partial<Customer>) {
     return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
         cartId: cart.cartId,
         locale: 'en',

@@ -232,15 +232,11 @@ export const OptimisticHydratedCart: React.FC = () => {
             <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                 <div className="flex text-grey3 text-sm justify-between w-60">
                     <p>Discount</p>
-                    <p>
-                        <div className="loader" />
-                    </p>
+                    <div className="loader" />
                 </div>
                 <div className="flex text-grey3 text-sm justify-between w-60">
                     <p>Tax amount</p>
-                    <p>
-                        <div className="loader" />
-                    </p>
+                    <div className="loader" />
                 </div>
                 <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
                     <p>To pay</p>

@@ -36,7 +36,7 @@ export const getStoreFront = async (hostname: string) => {
                 configuration: {
                     ACCESS_TOKEN_ID: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_ID}`,
                     ACCESS_TOKEN_SECRET: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET}`,
-                    // @TODO: ADD DEFAULT HERE
+                    CRYSTAL_PAYMENTS: `${process.env.CRYSTAL_PAYMENTS}`,
                 },
             });
         }

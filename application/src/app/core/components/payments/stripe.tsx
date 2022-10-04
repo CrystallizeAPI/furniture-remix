@@ -8,43 +8,6 @@ import { useStoreFront } from '~/core/storefront/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
 
-const appearance = {
-    theme: 'none',
-    labels: 'floating',
-    variables: {
-        fontFamily: 'ui-sans-serif, sans-serif',
-        fontLineHeight: '1.5',
-        fontSizeBase: '14px',
-        fontWeightNormal: '600',
-        borderRadius: '10px',
-        colorBackground: '#f9f9f9',
-        colorPrimaryText: '#000',
-        spacingUnit: '6px',
-    },
-    rules: {
-        '.Tab': {
-            border: '1px solid #E0E6EB',
-            boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02)',
-        },
-
-        '.Tab:hover': {
-            color: 'var(--colorText)',
-        },
-        '.Label': {
-            backgroundColor: 'red',
-        },
-        '.Tab--selected': {
-            borderColor: '#E0E6EB',
-            boxShadow:
-                '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
-        },
-
-        '.Input--invalid': {
-            boxShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 0 0 2px var(--colorDanger)',
-        },
-    },
-};
-
 export const Stripe: React.FC = () => {
     const { state } = useStoreFront();
     const { config } = state;

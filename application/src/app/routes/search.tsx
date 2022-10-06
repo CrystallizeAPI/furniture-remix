@@ -7,7 +7,7 @@ import {
 } from '~/core-server/http-cache.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale } from '~/core-server/http-utils.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -17,9 +17,12 @@ export const loader: LoaderFunction = async ({ request }) => {
     const { shared, secret } = await getStoreFront(getHost(request));
     const url = new URL(request.url);
     const params = url.searchParams.get('q');
-    const api = CrystallizeAPI(secret.apiClient, 'en');
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request));
     let data = await api.search(params ? params : '');
-    return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['search'], shared.config));
+    return json(
+        { data },
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['search'], shared.config.tenantIdentifier),
+    );
 };
 
 export default () => {

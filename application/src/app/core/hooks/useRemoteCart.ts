@@ -1,10 +1,11 @@
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useEffect, useState } from 'react';
-import { useFetchResult } from '@crystallize/reactjs-hooks';
+import { useAppContext } from '../app-context/provider';
+import { ServiceAPI } from '~/use-cases/service-api';
 
 export function useRemoteCart(): { loading: boolean; remoteCart: any | null } {
     const { cart, setWrappingData } = useLocalCart();
-    const { post, abort } = useFetchResult();
+    const { state: appContextState } = useAppContext();
     const [state, setState] = useState({
         loading: true,
         hydratedCart: null,
@@ -15,12 +16,8 @@ export function useRemoteCart(): { loading: boolean; remoteCart: any | null } {
                 ...state,
                 loading: true,
             });
-            const cartWrapper = await post<any>(window.ENV.SERVICE_API_URL + '/cart', {
-                locale: 'en',
-                items: Object.values(cart.items),
-                cartId: cart.cartId,
-                withImages: true,
-            });
+            const api = ServiceAPI(appContextState.locale, appContextState.serviceApiUrl);
+            const cartWrapper = await api.fetchRemoteCart(cart);
             if (cart.cartId !== cartWrapper.cartId || cart.state !== cartWrapper.state) {
                 setWrappingData(cartWrapper.cartId, cartWrapper.state);
             }
@@ -30,9 +27,6 @@ export function useRemoteCart(): { loading: boolean; remoteCart: any | null } {
                 hydratedCart: cartWrapper,
             });
         })();
-        return () => {
-            abort();
-        };
     }, [cart]);
 
     return {

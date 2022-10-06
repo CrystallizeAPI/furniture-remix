@@ -18,6 +18,7 @@ import {
     ProductVariant,
 } from '@crystallize/js-api-client';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
+import { useAppContext } from '~/core/app-context/provider';
 
 function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
     const { cart, total } = wrapper.cart;
@@ -123,8 +124,8 @@ export async function handleAndSaveCart(cart: Cart, providedCartId: string): Pro
     return cartWrapper;
 }
 
-export async function hydrateCart(apiClient: ClientInterface, body: any): Promise<Cart> {
-    const api = CrystallizeAPI(apiClient, 'en');
+export async function hydrateCart(apiClient: ClientInterface, locale: string, body: any): Promise<Cart> {
+    const api = CrystallizeAPI(apiClient, locale);
     const tenantConfig = await api.fetchTenantConfig(apiClient.config.tenantIdentifier);
     const currency = tenantConfig.currency;
 

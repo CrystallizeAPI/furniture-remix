@@ -1,4 +1,4 @@
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale, isPreview } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 
@@ -7,7 +7,7 @@ import CuratedStory from './CuratedStory';
 
 export const fetchData = async (path: string, request: any, params: any): Promise<unknown> => {
     const { secret } = await getStoreFront(getHost(request));
-    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request), isPreview(request));
     const document = await api.fetchDocument(path);
     if (!document) {
         throw new Response('Story Mot Found', {

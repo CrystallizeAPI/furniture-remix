@@ -12,7 +12,7 @@ import {
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale, isPreview } from '~/core-server/http-utils.server';
 import { createGrid } from '~/lib/grid-tile/createGrid';
 
 export function links() {
@@ -30,10 +30,13 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export const loader: LoaderFunction = async ({ request, params }) => {
     const path = '/shop';
     const { shared, secret } = await getStoreFront(getHost(request));
-    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request), isPreview(request));
     const [folder, navigation] = await Promise.all([api.fetchFolder(path), api.fetchNavigation(path)]);
 
-    return json({ folder, navigation }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
+    return json(
+        { folder, navigation },
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier),
+    );
 };
 
 export default () => {

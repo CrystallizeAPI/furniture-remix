@@ -1,11 +1,11 @@
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { FilteredProducts } from '../components/filter/filtered-products';
 
 export const fetchData = async (path: string, request: any, params: any): Promise<any> => {
     const { secret } = await getStoreFront(getHost(request));
-    const api = CrystallizeAPI(secret.apiClient, 'en');
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request));
     const data = await api.searchByTopic(path);
 
     return {

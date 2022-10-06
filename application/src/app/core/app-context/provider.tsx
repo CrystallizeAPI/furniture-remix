@@ -6,7 +6,7 @@ import { Actions, Dispatch, State } from './types';
 const StateContext = React.createContext<State | undefined>(undefined);
 const DispatchContext = React.createContext<Dispatch | undefined>(undefined);
 
-type InitialState = Omit<State, 'latestAddedCartItems' | 'Country'>;
+type InitialState = Omit<State, 'latestAddedCartItems'>;
 
 const initiateState = (initialState: InitialState): State => {
     return {

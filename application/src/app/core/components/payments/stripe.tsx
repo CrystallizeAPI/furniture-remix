@@ -10,15 +10,18 @@ import { Customer } from '../checkout-forms/address';
 
 export const Stripe: React.FC = () => {
     const { state } = useAppContext();
-    const { config } = state;
+    const variables = state.paymentImplementationVariables ? state.paymentImplementationVariables['stripe'] : {};
 
-    const stripePromise = loadStripe(config.configuration.PUBLIC_KEY);
+    if (!variables || !variables.PUBLIC_KEY) {
+        return null;
+    }
+    const stripePromise = loadStripe(variables.PUBLIC_KEY);
     const [clientSecret, setClientSecret] = useState<string>('');
     const { cart, isEmpty } = useLocalCart();
     useEffect(() => {
         (async () => {
             if (!isEmpty()) {
-                const data = await ServiceAPI.fetchPaymentIntent(cart);
+                const data = await ServiceAPI(state.locale, state.serviceApiUrl).fetchPaymentIntent(cart);
                 setClientSecret(data.key);
             }
         })();
@@ -36,6 +39,7 @@ export const Stripe: React.FC = () => {
 
 const StripCheckoutForm: React.FC = () => {
     const { cart, empty } = useLocalCart();
+    const { state: appState } = useAppContext();
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
@@ -58,7 +62,7 @@ const StripCheckoutForm: React.FC = () => {
 
         // before anything else we place the cart
         try {
-            await ServiceAPI.placeCart(cart, customer);
+            await ServiceAPI(appState.locale, appState.serviceApiUrl).placeCart(cart, customer);
         } catch (exception) {
             console.log(exception);
         }

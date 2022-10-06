@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared } = await getStoreFront(getHost(request));
     return json(
         { orderId: params.id },
-        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['order' + params.id], shared.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['order' + params.id], shared.config.tenantIdentifier),
     );
 };
 
@@ -33,7 +33,7 @@ export default () => {
         let timeout: ReturnType<typeof setTimeout>;
         (async () => {
             try {
-                setOrder(await ServiceAPI.fetchOrder(orderId));
+                setOrder(await ServiceAPI(contextState.locale, contextState.serviceApiUrl).fetchOrder(orderId));
             } catch (exception) {
                 timeout = setTimeout(() => {
                     setTryCount(tryCount + 1);

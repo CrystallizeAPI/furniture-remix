@@ -15,7 +15,8 @@ import searchFilteredByPriceRange from './searchFilteredByPriceRange';
 import searchOrderBy from './searchOrderBy';
 import searchOrderByPriceRange from './searchOrderByPriceRange';
 
-export const CrystallizeAPI = (apiClient: ClientInterface, language: string, previewMode: boolean = false) => {
+export const CrystallizeAPI = (apiClient: ClientInterface, locale: string, previewMode: boolean = false) => {
+    const language = locale.substring(0, 2);
     const version = previewMode ? 'draft' : 'published';
     return {
         fetchTenantConfig: (tenantIdentifier: string) => fetchTenantConfig(apiClient, tenantIdentifier),

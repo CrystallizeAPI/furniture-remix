@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
     return privateJson(
         { isServerSideAuthenticated: await isServerSideAuthenticated(request) },
-        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['orders'], shared.config.tenantIdentifier),
     );
 };
 
@@ -45,7 +45,7 @@ export default () => {
     useEffect(() => {
         (async () => {
             try {
-                setOrders(await ServiceAPI.fetchOrders());
+                setOrders(await ServiceAPI(state.locale, state.serviceApiUrl).fetchOrders());
             } catch (exception) {
                 console.log(exception);
             }

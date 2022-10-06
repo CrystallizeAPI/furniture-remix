@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale, isPreview } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { AddToCartBtn } from '../components/add-to-cart-button';
@@ -17,7 +17,7 @@ export type Product = any;
 
 export const fetchData = async (path: string, request: any, params: any): Promise<Product> => {
     const { secret } = await getStoreFront(getHost(request));
-    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request), isPreview(request));
     const product = await api.fetchProduct(path);
     if (!product) {
         throw new Response('Product Not Found', {

@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAppContext } from '~/core/app-context/provider';
 import { useAuth } from '~/core/hooks/useAuth';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Input } from '../input';
@@ -9,6 +10,7 @@ export const MagickLoginForm: React.FC<{
     actionTitle: string;
     onlyLogin?: boolean;
 }> = ({ enabledGuest, title, actionTitle, onlyLogin = false }) => {
+    const { state: appContextState } = useAppContext();
     const { isAuthenticated, userInfos, logout } = useAuth();
     const [formData, updateFormData] = useState({
         firstname: userInfos?.firstname || '',
@@ -50,10 +52,11 @@ export const MagickLoginForm: React.FC<{
             <form
                 onSubmit={async (event: FormEvent<HTMLFormElement>) => {
                     event.preventDefault();
+                    const api = ServiceAPI(appContextState.locale, appContextState.serviceApiUrl);
                     if (onlyLogin) {
-                        await ServiceAPI.sendMagickLink(formData.email, '/orders');
+                        await api.sendMagickLink(formData.email, '/orders');
                     } else {
-                        await ServiceAPI.registerAndSendMagickLink(formData);
+                        await api.registerAndSendMagickLink(formData);
                     }
                     alert('We sent you a magick link, check your email.');
                 }}

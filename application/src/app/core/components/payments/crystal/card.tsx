@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const CrystalCard: React.FC = () => {
     const { cart, isEmpty, empty } = useLocalCart();
+    const { state } = useAppContext();
     const [paying, setPaying] = useState(false);
     const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
     const navigate = useNavigate();
@@ -20,7 +22,11 @@ export const CrystalCard: React.FC = () => {
                 setPaying(true);
                 event.preventDefault();
                 const cardInfo = new FormData(event.target as HTMLFormElement);
-                await ServiceAPI.sendPaidOrderWithCrystalCard(cart, customer, Object.fromEntries(cardInfo.entries()));
+                await ServiceAPI(state.locale, state.serviceApiUrl).sendPaidOrderWithCrystalCard(
+                    cart,
+                    customer,
+                    Object.fromEntries(cardInfo.entries()),
+                );
                 empty();
                 navigate(`/order/cart/${cart.cartId}`, { replace: true });
             }}

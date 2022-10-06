@@ -30,7 +30,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared } = await getStoreFront(getHost(request));
     const renderer = PageRenderer.resolve('landing-page', request, params);
     const data = await renderer.fetchData(path, request, params);
-    return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
+    return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };
 
 export default () => {

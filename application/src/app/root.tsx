@@ -6,16 +6,15 @@ import tailwindDefaultTheme from './styles/tailwind.default.css';
 import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
-import { getStoreFront } from './core-server/storefront.server';
+import { buildStoreFrontConfiguration, getStoreFront } from './core-server/storefront.server';
 import { CrystallizeAPI } from './use-cases/crystallize';
-import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import { AppContextProvider } from './core/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
-import { getCurrencyFromCode } from './lib/pricing/currencies';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.server';
-import { getHost, isSecure } from './core-server/http-utils.server';
+import { getHost, getLocale, isSecure } from './core-server/http-utils.server';
 import { FAVICON_VARIANTS } from './routes/favicon/$size[.png]';
 import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
+import { StoreFrontConfiguration } from './core/contract/StoreFrontConfiguration';
 
 export const meta: MetaFunction = () => {
     return {
@@ -55,33 +54,33 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export let loader: LoaderFunction = async ({ request }) => {
     const host = getHost(request);
+    const locale = getLocale(request);
     const { shared, secret } = await getStoreFront(host);
-    const api = CrystallizeAPI(secret.apiClient, 'en');
+    const api = CrystallizeAPI(secret.apiClient, locale);
     const [folders, topics, tenantConfig] = await Promise.all([
         api.fetchNavigation('/'),
         api.fetchTopicNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
     ]);
-
+    const frontConfiguration = buildStoreFrontConfiguration(
+        locale,
+        `http${isSecure(request) ? 's' : ''}://${request.headers.get('Host')!}/api`,
+        shared.config,
+        tenantConfig,
+    );
     return json(
         {
-            locale: 'en-US',
-            currencyCode: tenantConfig.currency,
-            logo: tenantConfig.logo,
-            country: 'US',
             isHTTPS: isSecure(request),
-            storeFrontConfig: shared.config,
+            frontConfiguration,
             navigation: {
                 folders,
                 topics,
             },
-            ENV: {
-                SERVICE_API_URL: `http${isSecure(request) ? 's' : ''}://${request.headers.get('Host')!}/api`,
-            },
         },
         {
             headers: {
-                ...StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['shop'], shared.config).headers,
+                ...StoreFrontAwaretHttpCacheHeaderTagger('30s', '30s', ['shop'], shared.config.tenantIdentifier)
+                    .headers,
                 'X-SuperFast-Theme': shared.config.theme,
             },
         },
@@ -89,36 +88,17 @@ export let loader: LoaderFunction = async ({ request }) => {
 };
 
 type LoaderData = {
-    storeFrontConfig: TStoreFrontConfig;
-    locale: string;
-    currencyCode: string;
-    country: string;
+    frontConfiguration: StoreFrontConfiguration;
     navigation: any;
     isHTTPS: boolean;
-    logo: {
-        key: string;
-        url: string;
-        variants: Array<{
-            key: string;
-            url: string;
-            width: number;
-            height: number;
-        }>;
-    };
 };
+
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { isHTTPS, storeFrontConfig, locale, currencyCode, country } = useLoaderData<LoaderData>();
+    const { isHTTPS, frontConfiguration } = useLoaderData<LoaderData>();
     return (
-        <CrystallizeProvider language="en" tenantIdentifier={storeFrontConfig.tenantIdentifier}>
-            <AppContextProvider
-                initialState={{
-                    locale,
-                    country,
-                    currency: getCurrencyFromCode(currencyCode),
-                    config: storeFrontConfig,
-                }}
-            >
-                <html lang={locale.split('-')[0]}>
+        <CrystallizeProvider language="en" tenantIdentifier={frontConfiguration.crystallize.tenantIdentifier}>
+            <AppContextProvider initialState={frontConfiguration}>
+                <html lang={frontConfiguration.language}>
                     <head>
                         <meta charSet="utf-8" />
                         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -135,9 +115,9 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             }
                         </script>
                         <script defer src="https://pim.crystallize.com/static/frontend-preview-listener.js" />
-                        <link rel="stylesheet" href={getTailwindThemeForConfig(storeFrontConfig.theme)} />
+                        <link rel="stylesheet" href={getTailwindThemeForConfig(frontConfiguration.theme)} />
                     </head>
-                    <body data-theme={storeFrontConfig.theme}>
+                    <body data-theme={frontConfiguration.theme}>
                         {children}
                         <ScrollRestoration />
                         <Scripts />
@@ -167,20 +147,11 @@ const Favicons: React.FC = () => {
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { navigation, logo, ENV } = useLoaderData<
-        LoaderData & {
-            ENV: string;
-        }
-    >();
+    const { navigation } = useLoaderData<LoaderData>();
     return (
         <>
             <header className="2xl w-full mx-auto lg:p-8 lg:px-6">
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `window.ENV = ${JSON.stringify(ENV)}`,
-                    }}
-                ></script>
-                <Header navigation={navigation} logo={logo} />
+                <Header navigation={navigation} />
             </header>
             <div>
                 <div>{children}</div>

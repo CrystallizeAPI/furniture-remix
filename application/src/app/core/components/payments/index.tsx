@@ -5,10 +5,9 @@ import { Stripe } from './stripe';
 
 export const Payments: React.FC = () => {
     const { state } = useAppContext();
-    const { config } = state;
-    const paymentMethods = (config.configuration.CRYSTAL_PAYMENTS ?? '').split(',');
-    const hasCoin = paymentMethods.includes('coin');
-    const hasCard = paymentMethods.includes('card');
+    const paymentMethods = state.crystalPayments;
+    const hasCoin = state.paymentImplementations.includes('crystal') && paymentMethods.includes('coin');
+    const hasCard = state.paymentImplementations.includes('crystal') && paymentMethods.includes('card');
     return (
         <>
             <div className="payment-methods mt-5 w-full flex-row items-end justify-between">
@@ -18,12 +17,12 @@ export const Payments: React.FC = () => {
                     </div>
                 )}
 
-                {hasCoin && (
+                {hasCard && (
                     <div className="payment-method mb-4">
                         <CrystalCard />
                     </div>
                 )}
-                {config.configuration.PUBLIC_KEY && (
+                {state.paymentImplementations.includes('stripe') && (
                     <div className="payment-method mt-4" style={{ minHeight: 200 }}>
                         <Stripe />
                     </div>

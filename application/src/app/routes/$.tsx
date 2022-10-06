@@ -3,7 +3,7 @@ import {
     HttpCacheHeaderTaggerFromLoader,
     StoreFrontAwaretHttpCacheHeaderTagger,
 } from '~/core-server/http-cache.server';
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale, isPreview } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import PageRenderer from '~/core/pages/index';
@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const path = '/' + params['*'];
     const crystallizePath = path.replace('.pdf', '');
     const isPDF = path.endsWith('.pdf');
-    const api = CrystallizeAPI(secret.apiClient, 'en', new URL(request.url).searchParams?.has('preview'));
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request), isPreview(request));
     const map = await api.fetchTreeMap();
     const mappedKey = Object.keys(map).find((key: string) => key === crystallizePath);
     if (!mappedKey) {
@@ -41,12 +41,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         const pdf = await ReactPDF.renderToStream(<Component data={data} />);
         return new Response(pdf, {
             headers: {
-                ...StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config).headers,
+                ...StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier).headers,
                 'Content-Type': 'application/pdf',
             },
         });
     }
-    return json({ shapeIdentifier, data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config));
+    return json(
+        { shapeIdentifier, data },
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier),
+    );
 };
 
 // There is a know issue here, the PDF is not rendered correctly with Spat Route... as we have a default component

@@ -1,59 +1,44 @@
+import { CartWrapper } from '@crystallize/node-service-api-request-handlers';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { Customer } from '~/core/components/checkout-forms/address';
 import { LocalCart } from '~/core/hooks/useLocalCart';
 import { sendPaidOrderWithCrystalCard, sendPaidOrderWithCrystalCoin } from './payments/crystal';
 
-declare global {
-    interface Window {
-        ENV: Record<string, string>;
-    }
-}
-
-export const ServiceAPI = {
-    fetchPaymentIntent,
-    fetchOrders,
-    fetchOrder,
-    sendPaidOrderWithCrystalCoin, // THIS SHOULD BE REMOVED IN A REAL PROJECT
-    sendPaidOrderWithCrystalCard, // THIS SHOULD BE REMOVED IN A REAL PROJECT
-    placeCart,
-    registerAndSendMagickLink,
-    sendMagickLink,
-    fetchCart,
-};
-
-async function fetchPaymentIntent(cart: LocalCart): Promise<any> {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/payment/stripe/intent/create', { cartId: cart.cartId });
-}
-
-async function fetchOrders() {
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders');
-}
-
-async function fetchOrder(orderId: string) {
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/orders/' + orderId);
-}
-
-export async function placeCart(cart: LocalCart, customer: Partial<Customer>) {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/cart/place', {
+export function placeCart(serviceApiUrl: string, language: string, cart: LocalCart, customer: Partial<Customer>) {
+    return postJson<any>(serviceApiUrl + '/cart/place', {
         cartId: cart.cartId,
-        locale: 'en',
+        locale: language,
         items: Object.values(cart.items),
         customer,
     });
 }
 
-async function registerAndSendMagickLink(userInfos: any) {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/magicklink/register', userInfos);
-}
-
-async function sendMagickLink(email: string, callbackPath: string) {
-    return await postJson<any>(window.ENV.SERVICE_API_URL + '/magicklink/register?callbackPath=' + callbackPath, {
-        email,
-        firstname: '',
-        lastname: '',
-    });
-}
-
-async function fetchCart(cartId: string) {
-    return await getJson<any>(window.ENV.SERVICE_API_URL + '/cart/' + cartId);
-}
+export const ServiceAPI = (locale: string, serviceApiUrl: string) => {
+    const language = locale.split('-')[0];
+    return {
+        fetchPaymentIntent: (cart: LocalCart) =>
+            postJson<any>(serviceApiUrl + '/payment/stripe/intent/create', { cartId: cart.cartId }),
+        fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
+        fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),
+        placeCart: (cart: LocalCart, customer: Partial<Customer>) => placeCart(serviceApiUrl, language, cart, customer),
+        registerAndSendMagickLink: (userInfos: any) => postJson<any>(serviceApiUrl + '/magicklink/register', userInfos),
+        sendMagickLink: (email: string, callbackPath: string) =>
+            postJson<any>(serviceApiUrl + '/magicklink/register?callbackPath=' + callbackPath, {
+                email,
+                firstname: '',
+                lastname: '',
+            }),
+        fetchCart: (cartId: string) => getJson<any>(serviceApiUrl + '/cart/' + cartId),
+        fetchRemoteCart: (cart: LocalCart) =>
+            postJson<any>(serviceApiUrl + '/cart', {
+                locale: language,
+                items: Object.values(cart.items),
+                cartId: cart.cartId,
+                withImages: true,
+            }),
+        sendPaidOrderWithCrystalCoin: (cart: LocalCart, customer: Partial<Customer>) =>
+            sendPaidOrderWithCrystalCoin(serviceApiUrl, language, cart, customer),
+        sendPaidOrderWithCrystalCard: (cart: LocalCart, customer: Partial<Customer>, card: any) =>
+            sendPaidOrderWithCrystalCard(serviceApiUrl, language, cart, customer, card),
+    };
+};

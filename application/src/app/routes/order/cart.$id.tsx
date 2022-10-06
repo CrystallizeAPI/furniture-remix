@@ -9,6 +9,7 @@ import {
 import { getStoreFront } from '~/core-server/storefront.server';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { getHost } from '~/core-server/http-utils.server';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -18,7 +19,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared } = await getStoreFront(getHost(request));
     return json(
         { cartId: params.id },
-        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart' + params.id], shared.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart' + params.id], shared.config.tenantIdentifier),
     );
 };
 
@@ -26,6 +27,7 @@ export default () => {
     const { cart: localCart, empty } = useLocalCart();
     const { cartId } = useLoaderData();
     const [tryCount, setTryCount] = useState(0);
+    const { state: appContextState } = useAppContext();
     const navigate = useNavigate();
 
     const [orderGuestId, setOrderGuestId] = useState('');
@@ -37,7 +39,7 @@ export default () => {
                 if (localCart.cartId === cartId) {
                     empty();
                 }
-                const cart = await ServiceAPI.fetchCart(cartId);
+                const cart = await ServiceAPI(appContextState.locale, appContextState.serviceApiUrl).fetchCart(cartId);
                 if (cart?.extra?.orderId) {
                     if (cart?.customer?.isGuest === true) {
                         setOrderGuestId(cart.extra.orderId);

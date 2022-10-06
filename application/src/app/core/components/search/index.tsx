@@ -13,7 +13,10 @@ export const SearchBar = () => {
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const { state: appContextState } = useAppContext();
-    const api = CrystallizeAPI(createClient({ tenantIdentifier: appContextState.config.tenantIdentifier }), 'en');
+    const api = CrystallizeAPI(
+        createClient({ tenantIdentifier: appContextState.crystallize.tenantIdentifier }),
+        appContextState.locale,
+    );
     //close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: any) => {

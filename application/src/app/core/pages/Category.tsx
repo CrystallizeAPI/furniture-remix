@@ -1,4 +1,4 @@
-import { getHost } from '~/core-server/http-utils.server';
+import { getHost, getLocale, isPreview } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { createGrid } from '~/lib/grid-tile/createGrid';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
@@ -10,7 +10,7 @@ import { Folder } from '../components/pdf/folder';
 export const fetchData = async (path: string, request: any, params: any): Promise<any> => {
     const url = new URL(request.url);
     const { secret } = await getStoreFront(getHost(request));
-    const api = CrystallizeAPI(secret.apiClient, 'en', url.searchParams?.has('preview'));
+    const api = CrystallizeAPI(secret.apiClient, getLocale(request), isPreview(request));
 
     const searchParams = {
         orderBy: url.searchParams.get('orderBy'),

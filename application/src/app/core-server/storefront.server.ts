@@ -4,8 +4,12 @@ import {
     createStoreFront,
     createFilesystemAdapter,
     createMemoryAdapter,
+    TStoreFrontConfig,
 } from '@crystallize/js-storefrontaware-utils';
 import { configureStorage } from './storage.server';
+import { StoreFrontConfiguration } from '~/core/contract/StoreFrontConfiguration';
+import { getCurrencyFromCode } from '~/lib/pricing/currencies';
+import { CrystalFakePaymentImplementation, TenantConfiguration } from '~/core/contract/TenantConfiguration';
 
 const storage = configureStorage(process.env?.STORAGE_DSN, {
     prefix: 'superfast-',
@@ -36,7 +40,6 @@ export const getStoreFront = async (hostname: string) => {
                 configuration: {
                     ACCESS_TOKEN_ID: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_ID}`,
                     ACCESS_TOKEN_SECRET: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET}`,
-                    CRYSTAL_PAYMENTS: `${process.env.CRYSTAL_PAYMENTS}`,
                 },
             });
         }
@@ -56,4 +59,36 @@ export const getStoreFront = async (hostname: string) => {
 
     const [shared, secret] = await Promise.all([createStoreFront(adapter, false), createStoreFront(adapter, true)]);
     return { shared, secret };
+};
+
+export const buildStoreFrontConfiguration = (
+    locale: string,
+    serviceApiUrl: string,
+    storeFrontConfig: TStoreFrontConfig,
+    tenantConfig: TenantConfiguration,
+): StoreFrontConfiguration => {
+    return {
+        crystallize: {
+            tenantIdentifier: process.env.CRYSTALLIZE_TENANT_IDENTIFIER ?? storeFrontConfig.tenantIdentifier,
+        },
+        language: locale.split('-')[0],
+        locale: locale,
+        theme: process.env.STOREFRONT_THEME ?? storeFrontConfig.theme,
+        currency: getCurrencyFromCode((process.env.STOREFRONT_CURRENCY ?? tenantConfig.currency).toUpperCase()),
+        logo: tenantConfig.logo ?? {
+            key: 'superfast-originated-logo',
+            url: process.env.STOREFRONT_STATIC_LOGO_URL ?? storeFrontConfig.logo,
+            variants: [],
+        },
+        serviceApiUrl,
+        crystalPayments: process.env?.CRYSTAL_PAYMENTS
+            ? (process.env.CRYSTAL_PAYMENTS.split(',') as CrystalFakePaymentImplementation[])
+            : tenantConfig.crystalPayments,
+        paymentImplementations: ['crystal', 'stripe'],
+        paymentImplementationVariables: {
+            stripe: {
+                PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY ?? storeFrontConfig.configuration.PUBLIC_KEY,
+            },
+        },
+    };
 };

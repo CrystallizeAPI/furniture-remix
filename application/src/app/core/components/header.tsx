@@ -40,7 +40,7 @@ function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
     );
 }
 
-export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, logo }) => {
+export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { state: appContextState, dispatch: appContextDispatch } = useAppContext();
     let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
     let [isOpen, setIsOpen] = useState(false);
@@ -100,8 +100,8 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                             <Link to="/" prefetch="intent">
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                     <TenantLogo
-                                        logo={logo || appContextState.config.logo}
-                                        identifier={appContextState.config.identifier}
+                                        logo={appContextState.logo}
+                                        identifier={appContextState.crystallize.tenantIdentifier}
                                     />
                                 </div>
                             </Link>
@@ -131,8 +131,8 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                             <TenantLogo
-                                                logo={logo || appContextState.config.logo}
-                                                identifier={appContextState.config.identifier}
+                                                logo={appContextState.logo}
+                                                identifier={appContextState.crystallize.tenantIdentifier}
                                             />
                                         </div>
                                     </Link>

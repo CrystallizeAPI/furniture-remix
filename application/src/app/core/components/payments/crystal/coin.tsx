@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const CrystalCoin: React.FC = () => {
     const { cart, isEmpty, empty } = useLocalCart();
     const [paying, setPaying] = useState(false);
+    const { state } = useAppContext();
     const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
     const navigate = useNavigate();
     if (isEmpty()) {
@@ -20,7 +22,7 @@ export const CrystalCoin: React.FC = () => {
             disabled={paying}
             onClick={async () => {
                 setPaying(true);
-                await ServiceAPI.sendPaidOrderWithCrystalCoin(cart, customer);
+                await ServiceAPI(state.locale, state.serviceApiUrl).sendPaidOrderWithCrystalCoin(cart, customer);
                 empty();
                 navigate(`/order/cart/${cart.cartId}`, { replace: true });
             }}

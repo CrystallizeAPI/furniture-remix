@@ -12,6 +12,14 @@ export function getHost(request: Request): string {
     return request.headers.get('Host')!;
 }
 
+export function getLocale(request: Request): string {
+    return 'en-US';
+}
+
+export function isPreview(request: Request): boolean {
+    return new URL(request.url).searchParams?.has('preview');
+}
+
 export function validatePayload<T>(payload: unknown, schema: any | null): T {
     if (!schema) {
         return payload as T;

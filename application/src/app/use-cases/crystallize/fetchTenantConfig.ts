@@ -1,4 +1,5 @@
 import { ClientInterface } from '@crystallize/js-api-client';
+import { TenantConfiguration } from '~/core/contract/TenantConfiguration';
 
 const QUERY_FETCH_TENANT_CONFIG = `
 query FETCH_TENANT_CONFIG ($identifier: String!) {
@@ -21,10 +22,7 @@ query FETCH_TENANT_CONFIG ($identifier: String!) {
     }
 }`;
 
-export default async (
-    apiClient: ClientInterface,
-    tenantIdentifier: string,
-): Promise<{ currency: string; logo?: { key: string; url: string } }> => {
+export default async (apiClient: ClientInterface, tenantIdentifier: string): Promise<TenantConfiguration> => {
     try {
         const { tenant } = await apiClient.pimApi(QUERY_FETCH_TENANT_CONFIG, {
             identifier: tenantIdentifier,
@@ -38,12 +36,16 @@ export default async (
         )?.priceVariant?.get?.currency;
         return {
             currency,
+            crystalPayments: ['card', 'coin'],
+            paymentImplementations: ['crystal'],
             logo: tenant?.get?.logo,
         };
     } catch (error) {
         // we don't to break here, therefore we are returning a default config if the credentials are not working
         return {
             currency: 'USD',
+            crystalPayments: ['card', 'coin'],
+            paymentImplementations: ['crystal'],
         };
     }
 };

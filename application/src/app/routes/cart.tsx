@@ -13,7 +13,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
-    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart'], shared.config));
+    return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart'], shared.config.tenantIdentifier));
 };
 
 export default () => {

@@ -64,7 +64,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return new Response(resizedPngIcon, {
         status: 200,
         headers: {
-            ...StoreFrontAwaretHttpCacheHeaderTagger('1d', '1w', ['favicon'], shared.config).headers,
+            ...StoreFrontAwaretHttpCacheHeaderTagger('1d', '1w', ['favicon'], shared.config.tenantIdentifier).headers,
             'Content-Length': `${resizedPngIcon.byteLength}`,
             'Content-Type': 'image/png',
         },

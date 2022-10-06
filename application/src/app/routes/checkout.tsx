@@ -25,7 +25,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const { shared } = await getStoreFront(getHost(request));
     return privateJson(
         { isServerSideAuthenticated: await isServerSideAuthenticated(request) },
-        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config),
+        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['checkout'], shared.config.tenantIdentifier),
     );
 };
 

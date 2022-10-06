@@ -1,4 +1,4 @@
-import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
+import { StoreFrontConfiguration } from '~/core/contract/StoreFrontConfiguration';
 
 // From https://github.com/jkroso/parse-duration that we cannot installed on Remix
 const parse = (duration: string, format: string): number => {
@@ -170,13 +170,11 @@ export function StoreFrontAwaretHttpCacheHeaderTagger(
     maxAge: string,
     sharedMaxAge: string,
     tags: string[],
-    storeFrontConfig: TStoreFrontConfig,
+    prefix: string = '',
 ): HttpCacheHeaders | VarnishHttpCacheHeaders | FastlyHttpCacheHeaders {
     return HttpCacheHeaderTagger(
         maxAge,
         sharedMaxAge,
-        tags
-            .map((tag: string) => `${storeFrontConfig.identifier}-${tag}`)
-            .concat(storeFrontConfig.identifier, storeFrontConfig.tenantIdentifier),
+        tags.map((tag: string) => `${prefix}-${tag}`),
     );
 }

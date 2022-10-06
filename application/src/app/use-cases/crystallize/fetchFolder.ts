@@ -562,7 +562,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
     }
   `,
             {
-                language: 'en',
+                language,
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
             },

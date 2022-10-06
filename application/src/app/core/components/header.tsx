@@ -3,7 +3,6 @@ import { Link, useLocation } from '@remix-run/react';
 import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
-import { useStoreFront } from '../storefront/provider';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
@@ -42,7 +41,6 @@ function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
 }
 
 export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, logo }) => {
-    const { state: storeFrontState } = useStoreFront();
     const { state: appContextState, dispatch: appContextDispatch } = useAppContext();
     let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
     let [isOpen, setIsOpen] = useState(false);
@@ -102,8 +100,8 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                             <Link to="/" prefetch="intent">
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                     <TenantLogo
-                                        logo={logo || storeFrontState.config.logo}
-                                        identifier={storeFrontState.config.identifier}
+                                        logo={logo || appContextState.config.logo}
+                                        identifier={appContextState.config.identifier}
                                     />
                                 </div>
                             </Link>
@@ -133,8 +131,8 @@ export const Header: React.FC<{ navigation: any; logo: any }> = ({ navigation, l
                                     <Link to="/" prefetch="intent">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                             <TenantLogo
-                                                logo={logo || storeFrontState.config.logo}
-                                                identifier={storeFrontState.config.identifier}
+                                                logo={logo || appContextState.config.logo}
+                                                identifier={appContextState.config.identifier}
                                             />
                                         </div>
                                     </Link>

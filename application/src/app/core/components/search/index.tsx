@@ -3,18 +3,17 @@ import SearchIcon from '~/assets/searchIcon.svg';
 import { DebounceInput } from 'react-debounce-input';
 import { Link } from '@remix-run/react';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
-import { useStoreFront } from '~/core/storefront/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '~/core/app-context/provider';
+import { createClient } from '@crystallize/js-api-client';
 
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
-    const { apiClient: client } = useStoreFront();
     const { state: appContextState } = useAppContext();
-    const api = CrystallizeAPI(client, 'en');
+    const api = CrystallizeAPI(createClient({ tenantIdentifier: appContextState.config.tenantIdentifier }), 'en');
     //close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: any) => {

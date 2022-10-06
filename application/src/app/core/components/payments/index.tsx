@@ -1,10 +1,10 @@
-import { useStoreFront } from '../../storefront/provider';
+import { useAppContext } from '~/core/app-context/provider';
 import { CrystalCard } from './crystal/card';
 import { CrystalCoin } from './crystal/coin';
 import { Stripe } from './stripe';
 
 export const Payments: React.FC = () => {
-    const { state } = useStoreFront();
+    const { state } = useAppContext();
     const { config } = state;
     const paymentMethods = (config.configuration.CRYSTAL_PAYMENTS ?? '').split(',');
     const hasCoin = paymentMethods.includes('coin');

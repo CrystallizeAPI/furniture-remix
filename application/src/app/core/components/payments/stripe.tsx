@@ -3,13 +3,13 @@ import { useNavigate } from '@remix-run/react';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
+import { useAppContext } from '~/core/app-context/provider';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { useStoreFront } from '~/core/storefront/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
 
 export const Stripe: React.FC = () => {
-    const { state } = useStoreFront();
+    const { state } = useAppContext();
     const { config } = state;
 
     const stripePromise = loadStripe(config.configuration.PUBLIC_KEY);

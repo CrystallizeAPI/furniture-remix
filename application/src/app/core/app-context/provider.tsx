@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { FunctionComponent } from 'react';
-import { getCurrencyFromCode } from '~/lib/pricing/currencies';
 import { mapToReducerActions, Reducer } from './reducer';
 import { Actions, Dispatch, State } from './types';
 

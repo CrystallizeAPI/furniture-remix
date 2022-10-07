@@ -6,7 +6,7 @@ import { Video } from '@crystallize/reactjs-components';
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;
     const { images, videos } = content;
-    const { font } = styling || {};
+    const { font, button } = styling || {};
 
     return (
         <div
@@ -30,7 +30,15 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                 {description && <p className={`mt-2 mb-5 max-w-[400px] leading-[1.6em]`}>{description}</p>}
                 {ctas &&
                     ctas.map((cta) => (
-                        <button className="bg-[#000] text-[#fff] px-8 py-4 rounded font-medium" key={cta.link}>
+                        <button
+                            className="px-8 py-4 rounded font-medium"
+                            key={cta.link}
+                            style={{
+                                color: button.color ? button.color : '#fff',
+                                backgroundColor: button['background color'] ? button['background color'] : '#000',
+                                fontSize: button['font size'] ? button['font size'] : '1rem',
+                            }}
+                        >
                             <LinkRenderer link={cta.link} text={cta.text} />
                         </button>
                     ))}

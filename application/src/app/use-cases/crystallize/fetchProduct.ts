@@ -160,6 +160,18 @@ export default async (apiClient: ClientInterface, path: string, version: string,
         price
         currency
       }
+      description: component(id:"description") {
+        content {
+            ...on ComponentChoiceContent {
+                selectedComponent {
+                    id
+                    content {
+                        ...richText
+                    }
+                }
+            }
+        }
+      }
       attributes {
         value
         attribute

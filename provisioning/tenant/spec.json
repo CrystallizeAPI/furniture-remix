@@ -524,7 +524,8 @@
                                 "config": {
                                     "sections": [
                                         { "title": "Font", "keys": ["Size", "Color"] },
-                                        { "title": "Background", "keys": ["Color"] }
+                                        { "title": "Background", "keys": ["Color"] },
+                                        { "title": "Button", "keys": ["Color", "Background Color", "Font Size"] }
                                     ]
                                 }
                             },
@@ -1295,7 +1296,7 @@
                                     }
                                 },
                                 "dimensions": [],
-                                "downloads": [],
+                                "downloads": [{ "title": {}, "description": { "en": null } }],
                                 "meta": [
                                     {
                                         "title": { "en": "Baby T Coffee Machine" },

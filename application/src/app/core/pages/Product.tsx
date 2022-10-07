@@ -1,3 +1,4 @@
+import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { getHost, getLocale, isPreview } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
@@ -33,14 +34,32 @@ export const PDF = ({ data: product }: { data: Product }) => {
 };
 
 export default ({ data: product }: { data: Product }) => {
-    const primaryVariant = product.variants.find((v: any) => v.isDefault);
+    const location = useLocation();
+    const primaryVariant =
+        product.variants.find((v: any) => v.sku === location.hash.replace('#', '')) ??
+        product.variants.find((v: any) => v.isDefault) ??
+        product.variants[0];
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
-    let title = product?.components?.find((component: any) => component.id === 'title')?.content?.text || product.name;
-    let description = product?.components?.find((component: any) => component.type === 'richText')?.content?.plainText;
-    const onVariantChange = (variant: any) => setSelectedVariant(variant);
+    const title =
+        product?.components?.find((component: any) => component.id === 'title')?.content?.text || product.name;
 
-    let relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
+    const onVariantChange = (variant: any) => {
+        window.location.hash = variant.sku;
+        setSelectedVariant(variant);
+    };
+    const relatedProducts = product?.components?.find((component: any) => component.id === 'related-items')?.content
         ?.items;
+
+    let description = product?.components?.find((component: any) => component.type === 'richText')?.content?.plainText;
+    const selectedVariantDescription = selectedVariant?.description?.content?.selectedComponent?.content?.plainText;
+    const selectedVariantDescriptionType = selectedVariant?.description?.content?.selectedComponent?.id;
+
+    if (selectedVariantDescriptionType) {
+        description =
+            selectedVariantDescriptionType === 'extra'
+                ? description + ' ' + selectedVariantDescription
+                : selectedVariantDescription;
+    }
 
     useEffect(() => {
         setSelectedVariant(primaryVariant);

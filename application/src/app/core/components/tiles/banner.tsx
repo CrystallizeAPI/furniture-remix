@@ -1,11 +1,13 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { LinkRenderer } from '~/lib/grid-tile/linkRenderer';
+import { Video } from '@crystallize/reactjs-components';
 
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;
-    const { images } = content;
-    const { font } = styling || {};
+    const { images, videos } = content;
+    const { font, button } = styling || {};
+
     return (
         <div
             className={` flex md:flex-row flex-col  w-full mx-auto  ${
@@ -28,7 +30,15 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                 {description && <p className={`mt-2 mb-5 max-w-[400px] leading-[1.6em]`}>{description}</p>}
                 {ctas &&
                     ctas.map((cta) => (
-                        <button className="bg-[#000] text-[#fff] px-8 py-4 rounded font-medium" key={cta.link}>
+                        <button
+                            className="px-8 py-4 rounded font-medium"
+                            key={cta.link}
+                            style={{
+                                color: button?.color ? button.color : '#fff',
+                                backgroundColor: button?.['background color'] ? button['background color'] : '#000',
+                                fontSize: button?.['font size'] ? button['font size'] : '1rem',
+                            }}
+                        >
                             <LinkRenderer link={cta.link} text={cta.text} />
                         </button>
                     ))}
@@ -40,6 +50,15 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                         sizes="(max-width: 500px) 300px, 700px"
                         loading="lazy"
                         className="max-w-none w-full"
+                    />
+                </div>
+            )}
+            {videos && videos.length > 0 && (
+                <div className="md:w-8/12 w-full md:py-0">
+                    <Video
+                        {...videos[0]}
+                        className="max-w-none w-full"
+                        thumbnmailProps={{ sizes: '(max-width: 700px) 90vw, 700px' }}
                     />
                 </div>
             )}

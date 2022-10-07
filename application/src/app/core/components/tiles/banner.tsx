@@ -34,9 +34,9 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                             className="px-8 py-4 rounded font-medium"
                             key={cta.link}
                             style={{
-                                color: button.color ? button.color : '#fff',
-                                backgroundColor: button['background color'] ? button['background color'] : '#000',
-                                fontSize: button['font size'] ? button['font size'] : '1rem',
+                                color: button?.color ? button.color : '#fff',
+                                backgroundColor: button?.['background color'] ? button['background color'] : '#000',
+                                fontSize: button?.['font size'] ? button['font size'] : '1rem',
                             }}
                         >
                             <LinkRenderer link={cta.link} text={cta.text} />

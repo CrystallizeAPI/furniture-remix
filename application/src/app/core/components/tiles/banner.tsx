@@ -1,11 +1,13 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { LinkRenderer } from '~/lib/grid-tile/linkRenderer';
+import { Video } from '@crystallize/reactjs-components';
 
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;
-    const { images } = content;
+    const { images, videos } = content;
     const { font } = styling || {};
+
     return (
         <div
             className={` flex md:flex-row flex-col  w-full mx-auto  ${
@@ -40,6 +42,15 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                         sizes="(max-width: 500px) 300px, 700px"
                         loading="lazy"
                         className="max-w-none w-full"
+                    />
+                </div>
+            )}
+            {videos && videos.length > 0 && (
+                <div className="md:w-8/12 w-full md:py-0">
+                    <Video
+                        {...videos[0]}
+                        className="max-w-none w-full"
+                        thumbnmailProps={{ sizes: '(max-width: 700px) 90vw, 700px' }}
                     />
                 </div>
             )}

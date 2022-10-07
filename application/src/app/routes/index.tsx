@@ -9,6 +9,7 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { getHost } from '~/core-server/http-utils.server';
 import PageRenderer from '~/core/pages/index';
+import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export let meta: MetaFunction = ({ data }) => {
     return buildMetas(data);
@@ -22,7 +23,10 @@ export const headers: HeadersFunction = ({ parentHeaders, loaderHeaders }) => {
 };
 
 export function links() {
-    return [{ rel: 'stylesheet', href: splideStyles }];
+    return [
+        { rel: 'stylesheet', href: splideStyles },
+        { rel: 'stylesheet', href: videoStyles },
+    ];
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {

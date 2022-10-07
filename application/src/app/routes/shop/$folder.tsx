@@ -10,11 +10,13 @@ import { buildMetas } from '~/core/MicrodataBuilder';
 import { getHost } from '~/core-server/http-utils.server';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import PageRenderer from '~/core/pages/index';
+import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export function links() {
     return [
         { rel: 'stylesheet', href: sliderStyles },
         { rel: 'stylesheet', href: splideStyles },
+        { rel: 'stylesheet', href: videoStyles },
     ];
 }
 

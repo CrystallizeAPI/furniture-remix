@@ -14,10 +14,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     return abstractStoryFetchData(path, request, params);
 };
 
-export const PDF = ({ data: story }: { data: CuratedStory }) => {
-    return null;
-};
-
 const getComponentContent = (components: any, id: string) => {
     const component = components.find((component: any) => component.id === id);
     return component?.content || null;

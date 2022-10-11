@@ -14,10 +14,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     };
 };
 
-export const PDF = ({ data }: { data: any }) => {
-    return null;
-};
-
 export default ({ data }: { data: any }) => {
     const { products, topic } = data;
     let topicName = topic?.name || topic.path;

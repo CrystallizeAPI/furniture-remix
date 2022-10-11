@@ -18,10 +18,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     return document;
 };
 
-export const PDF = ({ data }: { data: any }) => {
-    return null;
-};
-
 export default ({ data: story }: { data: any }) => {
     if (story.shape.identifier === 'curated-product-story') {
         return <CuratedStory data={story} />;

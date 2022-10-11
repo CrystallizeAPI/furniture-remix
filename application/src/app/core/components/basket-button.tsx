@@ -10,7 +10,7 @@ export const BasketButton = ({}) => {
         quantity = Object.keys(cart.items).reduce((acc: number, key: string) => acc + cart.items[key].quantity, 0);
     }
     return (
-        <Link to="/cart" prefetch="intent" className="p-2 rounded-md hover:bg-[#efefef] relative">
+        <Link to="/cart" className="p-2 rounded-md hover:bg-[#efefef] relative">
             <img className="w-[30px] h-[30px]" src={`${BasketIcon}`} width="25" height="25" alt="Basket icon" />
             <ClientOnly>
                 <div className="absolute -top-2 -right-2 flex text-center items-center border-[4px] border-[#fff] justify-center rounded-sm bg-[#efefef] w-[24px] h-[24px]   text-600 text-[10px]">

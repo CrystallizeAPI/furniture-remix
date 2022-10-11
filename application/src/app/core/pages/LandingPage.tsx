@@ -6,13 +6,9 @@ import { Grid } from '~/core/components/grid-cells/grid';
 export type LandingPage = any;
 
 export const fetchData = async (path: string, request: any, params: any): Promise<LandingPage> => {
-    const { shared, secret } = await getStoreFront(getHost(request));
+    const { secret } = await getStoreFront(getHost(request));
     const api = CrystallizeAPI(secret.apiClient, getLocale(request), isPreview(request));
     return await api.fetchCampaignPage(path);
-};
-
-export const PDF = ({ data }: { data: any }) => {
-    return null;
 };
 
 export default ({ data }: { data: any }) => {

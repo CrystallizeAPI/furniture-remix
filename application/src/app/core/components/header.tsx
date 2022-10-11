@@ -97,7 +97,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                 {checkoutFlow.includes(location.pathname) ? (
                     <nav className="flex container px-4 mx-auto gap-20 flex-auto items-center justify-between mb-5 w-full">
                         <div className="flex flex-auto justify-between items-center w-1/4">
-                            <Link to="/" prefetch="intent">
+                            <Link to="/">
                                 <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                     <TenantLogo
                                         logo={appContextState.logo}
@@ -128,7 +128,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <div className="flex flex-auto items-center mx-auto px-6 xl:container pt-3 pb-2">
                             <div className="flex mx-auto flex-auto justify-between items-center relative">
                                 <div className="flex gap-4 md:gap-10 items-center">
-                                    <Link to="/" prefetch="intent">
+                                    <Link to="/">
                                         <div className="max-h-[80px] h-[30px] max-w-[100%] img-container">
                                             <TenantLogo
                                                 logo={appContextState.logo}

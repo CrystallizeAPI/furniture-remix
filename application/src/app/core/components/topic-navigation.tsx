@@ -14,7 +14,7 @@ export const TopicNavigation: React.FC<{ navigation: any }> = ({ navigation }) =
                         <span className="hidden lg:flex text-[0.6em] caret">▼</span>
                         <ul className="nav-dropdown" style={{ gridTemplateColumns: `repeat(${numberOfCols}, 1fr)` }}>
                             {topic.children?.map((child: any) => (
-                                <Link to={child.path} prefetch="intent" key={child.path}>
+                                <Link to={child.path} key={child.path}>
                                     <li className="hover:bg-grey text h-full text-sm w-full">{child.name}</li>
                                 </Link>
                             ))}

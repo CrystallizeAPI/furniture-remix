@@ -6,7 +6,6 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { AddToCartBtn } from '../components/add-to-cart-button';
 import { ImageGallery } from '../components/image-gallery';
 import { Product } from '../components/item/product';
-import { SingleProduct } from '../components/pdf/single-product';
 import { Price } from '../components/price';
 import { ProductBody } from '../components/product-body';
 import { StockLocations } from '../components/stock-location';
@@ -27,10 +26,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
         });
     }
     return product;
-};
-
-export const PDF = ({ data: product }: { data: Product }) => {
-    return <SingleProduct product={product} />;
 };
 
 export default ({ data: product }: { data: Product }) => {

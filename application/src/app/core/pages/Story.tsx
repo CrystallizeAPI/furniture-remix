@@ -11,10 +11,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     return abstractStoryFetchData(path, request, params);
 };
 
-export const PDF = ({ data }: { data: Story }) => {
-    return null;
-};
-
 export default ({ data: story }: { data: Story }) => {
     const getComponentContent = (id: string) => {
         let component = story.components.find((component: any) => component.id === id);

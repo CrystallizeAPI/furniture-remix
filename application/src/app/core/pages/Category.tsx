@@ -5,7 +5,6 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Filter } from '../components/filter';
 import { FilteredProducts } from '../components/filter/filtered-products';
 import { Grid } from '../components/grid-cells/grid';
-import { Folder } from '../components/pdf/folder';
 
 export const fetchData = async (path: string, request: any, params: any): Promise<any> => {
     const url = new URL(request.url);
@@ -26,7 +25,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     url.searchParams.delete('preview');
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
-
     const [folder, products, priceRangeAndAttributes] = await Promise.all([
         api.fetchFolder(path),
         api.searchOrderBy(path, searchParams.orderBy, searchParams.filters, searchParams.attributes),
@@ -41,11 +39,6 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     }
 
     return { products, folder, priceRangeAndAttributes };
-};
-
-export const PDF = ({ data }: { data: any }) => {
-    const { products, folder } = data;
-    return <Folder folder={folder} products={products} />;
 };
 
 export default ({ data }: { data: any }) => {

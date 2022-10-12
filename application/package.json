@@ -20,7 +20,7 @@
     "dependencies": {
         "@crystallize/js-api-client": "^1.1",
         "@crystallize/js-storefrontaware-utils": "^0.2.3",
-        "@crystallize/node-service-api-request-handlers": "^2.1",
+        "@crystallize/node-service-api-request-handlers": "^3.0.0",
         "@crystallize/reactjs-components": "^1.0",
         "@crystallize/reactjs-hooks": "^0.7.1",
         "@react-pdf/renderer": "^3",

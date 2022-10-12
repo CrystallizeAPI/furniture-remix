@@ -15,8 +15,9 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
     const mailer = createMailer(`${process.env.MAILER_DSN}`);
     const url = new URL(httpRequest.url);
     const callbackPath = url.searchParams.get('callbackPath') || '';
+    const payload: any = await httpRequest.json();
     const data = await handleMagickLinkRegisterPayload(
-        validatePayload(await httpRequest.json(), magickLinkUserInfosPayload),
+        validatePayload<MagickLinkUserInfosPayload>(payload, magickLinkUserInfosPayload),
         {
             mailer,
             jwtSecret: `${process.env.JWT_SECRET}`,

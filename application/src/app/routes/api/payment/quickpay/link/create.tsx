@@ -1,22 +1,22 @@
 import {
     Cart,
-    handleStripeCreatePaymentIntentRequestPayload,
-    stripePaymentIntentPayload,
+    handleQuickPayCreatePaymentLinkRequestPayload,
+    quickPayCreatePaymentLinkPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import { ActionFunction, json } from '@remix-run/node';
-import { getHost, validatePayload } from '~/core-server/http-utils.server';
+import { getHost, isSecure, validatePayload } from '~/core-server/http-utils.server';
 import { cartWrapperRepository } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 
 export const action: ActionFunction = async ({ request: httpRequest }) => {
     const host = getHost(httpRequest);
+    const baseUrl = `${isSecure(httpRequest) ? 'https' : 'http'}://${host}`;
     const { secret: storefront } = await getStoreFront(host);
-
     const body = await httpRequest.json();
-    const data = await handleStripeCreatePaymentIntentRequestPayload(
-        validatePayload(body, stripePaymentIntentPayload),
+    const data = await handleQuickPayCreatePaymentLinkRequestPayload(
+        validatePayload(body, quickPayCreatePaymentLinkPayload),
         {
-            secret_key: process.env.STRIPE_SECRET_KEY ?? storefront.config?.configuration?.SECRET_KEY ?? '',
+            api_key: process.env.QUICKPAY_API_KEY ?? storefront.config?.configuration?.QUICKPAY_API_KEY ?? '',
             fetchCart: async () => {
                 const cartId = body.cartId as string;
                 const cartWrapper = await cartWrapperRepository.find(cartId);
@@ -28,10 +28,16 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
                 }
                 return cartWrapper.cart;
             },
-            createIntentArguments: (cart: Cart) => {
+            createPaymentArguments: (cart: Cart) => {
+                const cartId = body.cartId as string;
                 return {
-                    amount: cart.total.net * 100, // in cents (not sure here if this is correct)
+                    amount: cart.total.net * 100, // in cents
                     currency: cart.total.currency,
+                    urls: {
+                        continue: `${baseUrl}/order/cart/${cartId}`,
+                        cancel: `${baseUrl}/order/cart/${cartId}`,
+                        callback: `${baseUrl}/api/webhook/payment/quickpay`,
+                    },
                 };
             },
         },

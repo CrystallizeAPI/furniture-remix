@@ -7,6 +7,7 @@ import { useAppContext } from '~/core/app-context/provider';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
+import logo from '~/assets/stripeLogo.svg';
 
 export const Stripe: React.FC = () => {
     const { state } = useAppContext();
@@ -21,7 +22,7 @@ export const Stripe: React.FC = () => {
     useEffect(() => {
         (async () => {
             if (!isEmpty()) {
-                const data = await ServiceAPI(state.locale, state.serviceApiUrl).fetchPaymentIntent(cart);
+                const data = await ServiceAPI(state.locale, state.serviceApiUrl).stripe.fetchPaymentIntent(cart);
                 setClientSecret(data.key);
             }
         })();
@@ -99,11 +100,10 @@ const StripCheckoutForm: React.FC = () => {
             <button
                 disabled={state.processing || !stripe || !elements}
                 id="submit"
-                className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5"
+                className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5 flex flex-row items-center"
             >
-                <span id="button-text">
-                    {state.processing ? <div className="spinner" id="spinner"></div> : 'Pay with Stripe'}
-                </span>
+                <span id="button-text">{state.processing ? 'Processing payment with...' : 'Pay with'}</span>
+                <img className="h-[30px]" src={`${logo}`} height="30" alt="Stripe" />
             </button>
         </form>
     );

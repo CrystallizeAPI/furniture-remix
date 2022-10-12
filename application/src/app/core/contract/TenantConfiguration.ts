@@ -14,5 +14,5 @@ export type TenantConfiguration = {
     };
     crystalPayments: CrystalFakePaymentImplementation[];
     paymentImplementations: PaymentImplementation[];
-    paymentImplementationVariables?: Record<PaymentImplementation, Record<string, string>>;
+    paymentImplementationVariables?: Partial<Record<PaymentImplementation, Record<string, string>>>;
 };

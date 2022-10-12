@@ -61,6 +61,10 @@ export const getStoreFront = async (hostname: string) => {
     return { shared, secret };
 };
 
+/**
+ *
+ * Client-side only, don't put any server-side secret here
+ */
 export const buildStoreFrontConfiguration = (
     locale: string,
     serviceApiUrl: string,
@@ -84,7 +88,7 @@ export const buildStoreFrontConfiguration = (
         crystalPayments: process.env?.CRYSTAL_PAYMENTS
             ? (process.env.CRYSTAL_PAYMENTS.split(',') as CrystalFakePaymentImplementation[])
             : tenantConfig.crystalPayments,
-        paymentImplementations: ['crystal', 'stripe'],
+        paymentImplementations: ['crystal', 'stripe', 'quickpay'],
         paymentImplementationVariables: {
             stripe: {
                 PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY ?? storeFrontConfig.configuration.PUBLIC_KEY,

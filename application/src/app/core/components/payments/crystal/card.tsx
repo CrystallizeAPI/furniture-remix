@@ -5,6 +5,7 @@ import { useLocalStorage } from '@rehooks/local-storage';
 import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
+import logo from '~/assets/orangeCLogo.svg';
 
 export const CrystalCard: React.FC = () => {
     const { cart, isEmpty, empty } = useLocalCart();
@@ -76,8 +77,14 @@ export const CrystalCard: React.FC = () => {
                     <input type="text" id="zip" placeholder="94122" name="zip" required className="bg-grey" />
                 </label>
             </div>
-            <button className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5" type="submit" disabled={paying}>
-                {paying ? 'Processing payment...' : 'Pay with Crystal Card'}
+            <button
+                className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5 flex flex-row items-center"
+                type="submit"
+                disabled={paying}
+            >
+                <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
+                <img className="w-[30px] h-[30px]" src={`${logo}`} width="25" height="25" alt="Crystal Card" />
+                <span>Crystal Card</span>
             </button>
         </form>
     );

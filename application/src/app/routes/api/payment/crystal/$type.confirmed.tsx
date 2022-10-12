@@ -76,12 +76,12 @@ export const action: ActionFunction = async ({ request: httpRequest, params }) =
         );
     }
 
-    const data = await pushOrderSubHandler(storefront.apiClient, cartWrapper, orderCustomer, {
+    const orderCreatedConfirmation = await pushOrderSubHandler(storefront.apiClient, cartWrapper, orderCustomer, {
         //@ts-ignore
         provider: 'custom',
         custom: {
             properties,
         },
     });
-    return json(data);
+    return json(orderCreatedConfirmation);
 };

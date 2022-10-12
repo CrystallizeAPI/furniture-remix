@@ -1,4 +1,3 @@
-import { CartWrapper } from '@crystallize/node-service-api-request-handlers';
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
 import { Customer } from '~/core/components/checkout-forms/address';
 import { LocalCart } from '~/core/hooks/useLocalCart';
@@ -16,8 +15,14 @@ export function placeCart(serviceApiUrl: string, language: string, cart: LocalCa
 export const ServiceAPI = (locale: string, serviceApiUrl: string) => {
     const language = locale.split('-')[0];
     return {
-        fetchPaymentIntent: (cart: LocalCart) =>
-            postJson<any>(serviceApiUrl + '/payment/stripe/intent/create', { cartId: cart.cartId }),
+        stripe: {
+            fetchPaymentIntent: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/stripe/intent/create', { cartId: cart.cartId }),
+        },
+        quickpay: {
+            fetchPaymentLink: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/quickpay/link/create', { cartId: cart.cartId }),
+        },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),
         placeCart: (cart: LocalCart, customer: Partial<Customer>) => placeCart(serviceApiUrl, language, cart, customer),
@@ -36,8 +41,10 @@ export const ServiceAPI = (locale: string, serviceApiUrl: string) => {
                 cartId: cart.cartId,
                 withImages: true,
             }),
+        // THIS SHOULD BE REMOVED IN A REAL PROJECT
         sendPaidOrderWithCrystalCoin: (cart: LocalCart, customer: Partial<Customer>) =>
             sendPaidOrderWithCrystalCoin(serviceApiUrl, language, cart, customer),
+        // THIS SHOULD BE REMOVED IN A REAL PROJECT
         sendPaidOrderWithCrystalCard: (cart: LocalCart, customer: Partial<Customer>, card: any) =>
             sendPaidOrderWithCrystalCard(serviceApiUrl, language, cart, customer, card),
     };

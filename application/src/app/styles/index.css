@@ -13,6 +13,7 @@
     button:hover {
         transform: scale(1, 1);
     }
+
     .frntr-accordination summary {
         cursor: pointer;
     }
@@ -489,7 +490,14 @@
     .frntr-content-transformer h2 {
         font-size: 1.4em;
     }
-
+    .frntr-content-transformer ol {
+        margin: 1rem 0;
+        padding-left: 1.2rem;
+        list-style: decimal;
+    }
+    .frntr-content-transformer ol li {
+        margin-bottom: 0.5rem;
+    }
     .frntr-content-transformer blockquote {
         padding-left: 2em;
         font-size: 1.5rem;

@@ -6,6 +6,22 @@ import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
 import logo from '~/assets/quickpayLogo.svg';
 
+export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
+    paying = false,
+    onClick,
+}) => {
+    return (
+        <button
+            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+            disabled={paying}
+            onClick={onClick}
+        >
+            <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
+            <img className="px-1 h-[30px]" src={`${logo}`} height="30" alt="Quickpay" />
+        </button>
+    );
+};
+
 export const QuickPayLink: React.FC = () => {
     const { cart, isEmpty, empty } = useLocalCart();
     const [paying, setPaying] = useState(false);
@@ -16,9 +32,8 @@ export const QuickPayLink: React.FC = () => {
     }
 
     return (
-        <button
-            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
-            disabled={paying}
+        <QuickPayLinkButton
+            paying={paying}
             onClick={async () => {
                 setPaying(true);
                 try {
@@ -29,9 +44,6 @@ export const QuickPayLink: React.FC = () => {
                     console.log(exception);
                 }
             }}
-        >
-            <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
-            <img className="px-1 h-[30px]" src={`${logo}`} height="30" alt="Quickpay" />
-        </button>
+        />
     );
 };

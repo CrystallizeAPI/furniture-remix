@@ -7,6 +7,24 @@ import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
 import logo from '~/assets/orangeCLogo.svg';
 
+export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
+    paying = false,
+    onClick,
+}) => {
+    return (
+        <button
+            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+            type={onClick ? 'button' : 'submit'}
+            disabled={paying}
+            onClick={onClick ? onClick : undefined}
+        >
+            <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
+            <img className="w-[30px] h-[30px]" src={`${logo}`} width="25" height="25" alt="Crystal Card" />
+            <span>Crystal Card</span>
+        </button>
+    );
+};
+
 export const CrystalCard: React.FC = () => {
     const { cart, isEmpty, empty } = useLocalCart();
     const { state } = useAppContext();
@@ -77,15 +95,8 @@ export const CrystalCard: React.FC = () => {
                     <input type="text" id="zip" placeholder="94122" name="zip" required className="bg-grey" />
                 </label>
             </div>
-            <button
-                className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5 flex flex-row items-center"
-                type="submit"
-                disabled={paying}
-            >
-                <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
-                <img className="w-[30px] h-[30px]" src={`${logo}`} width="25" height="25" alt="Crystal Card" />
-                <span>Crystal Card</span>
-            </button>
+            <br />
+            <CrystalCardButton paying={paying} />
         </form>
     );
 };

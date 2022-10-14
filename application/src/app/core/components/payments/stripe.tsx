@@ -9,6 +9,23 @@ import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
 import logo from '~/assets/stripeLogo.svg';
 
+export const StripeButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
+    paying = false,
+    onClick,
+}) => {
+    return (
+        <button
+            type={onClick ? 'button' : 'submit'}
+            disabled={paying}
+            onClick={onClick ? onClick : undefined}
+            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+        >
+            <span id="button-text">{paying ? 'Processing payment with...' : 'Pay with'}</span>
+            <img className="h-[30px]" src={`${logo}`} height="30" alt="Stripe" />
+        </button>
+    );
+};
+
 export const Stripe: React.FC = () => {
     const { state } = useAppContext();
     const variables = state.paymentImplementationVariables ? state.paymentImplementationVariables['stripe'] : {};
@@ -97,14 +114,8 @@ const StripCheckoutForm: React.FC = () => {
     return (
         <form id="stripe-payment-form" onSubmit={handleSubmit}>
             <PaymentElement id="payment-element" />
-            <button
-                disabled={state.processing || !stripe || !elements}
-                id="submit"
-                className="bg-[#000] text-[#fff] rounded-md px-8 py-4 mt-5 flex flex-row items-center"
-            >
-                <span id="button-text">{state.processing ? 'Processing payment with...' : 'Pay with'}</span>
-                <img className="h-[30px]" src={`${logo}`} height="30" alt="Stripe" />
-            </button>
+            <br />
+            <StripeButton paying={state.processing || !stripe || !elements} />
         </form>
     );
 };

@@ -91,7 +91,10 @@ export default ({ data: product }: { data: Product }) => {
                             {selectedVariant && (
                                 <div className="flex justify-between md:items-end sm:flex-row flex-col  sm:gap-1 gap-4">
                                     <Price variant={selectedVariant} />
-                                    <AddToCartBtn pack={[{ variant: selectedVariant, quantity: 1 }]} />
+                                    <AddToCartBtn
+                                        pack={[{ variant: selectedVariant, quantity: 1 }]}
+                                        stockLocations={selectedVariant?.stockLocations}
+                                    />
                                 </div>
                             )}
                             <div className="bg-[#dfdfdf] h-[1px] mt-5" />

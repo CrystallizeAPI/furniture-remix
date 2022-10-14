@@ -1,4 +1,15 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch, useLoaderData } from '@remix-run/react';
+import {
+    Links,
+    LiveReload,
+    Meta,
+    Outlet,
+    Scripts,
+    ScrollRestoration,
+    useCatch,
+    useLoaderData,
+    useLocation,
+    useParams,
+} from '@remix-run/react';
 import { ErrorBoundaryComponent, HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Header } from '~/core/components/header';
 import { Footer } from './core/components/footer';
@@ -76,6 +87,7 @@ export let loader: LoaderFunction = async ({ request }) => {
                 folders,
                 topics,
             },
+            host,
         },
         {
             headers: {
@@ -91,10 +103,13 @@ type LoaderData = {
     frontConfiguration: StoreFrontConfiguration;
     navigation: any;
     isHTTPS: boolean;
+    host: string;
 };
 
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { isHTTPS, frontConfiguration } = useLoaderData<LoaderData>();
+    const { isHTTPS, frontConfiguration, host } = useLoaderData<LoaderData>();
+    let location = useLocation();
+
     return (
         <CrystallizeProvider language="en" tenantIdentifier={frontConfiguration.crystallize.tenantIdentifier}>
             <AppContextProvider initialState={frontConfiguration}>
@@ -106,7 +121,7 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <link rel="manifest" href="/site.webmanifest" />
                         <meta name="msapplication-TileColor" content="#da532c" />
                         <meta name="theme-color" content="#ffffff" />
-
+                        <link href={`${host}${location?.pathname}`} rel="canonical" />
                         <Meta />
                         <Links />
                         <script suppressHydrationWarning={true} type="text/css">

@@ -23,6 +23,10 @@ export const ServiceAPI = (locale: string, serviceApiUrl: string) => {
             fetchPaymentLink: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/quickpay/link/create', { cartId: cart.cartId }),
         },
+        klarna: {
+            initiatePayment: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/klarna/payment/create', { cartId: cart.cartId }),
+        },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),
         placeCart: (cart: LocalCart, customer: Partial<Customer>) => placeCart(serviceApiUrl, language, cart, customer),

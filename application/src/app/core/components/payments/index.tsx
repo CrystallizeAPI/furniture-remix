@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAppContext } from '~/core/app-context/provider';
 import { CrystalCard, CrystalCardButton } from './crystal/card';
 import { CrystalCoin, CrystalCoinButton } from './crystal/coin';
+import { Klarna, KlarnaButton } from './klarna';
 import { QuickPayLink, QuickPayLinkButton } from './quickpaylink';
 import { Stripe, StripeButton } from './stripe';
 
@@ -36,6 +37,13 @@ export const Payments: React.FC = () => {
             button: StripeButton,
             renderOnLoad: false,
             enabled: state.paymentImplementations.includes('stripe'),
+        },
+        klarna: {
+            name: 'Klarna',
+            component: Klarna,
+            button: KlarnaButton,
+            renderOnLoad: false,
+            enabled: state.paymentImplementations.includes('klarna'),
         },
     };
     const [selectedPaymentMethodImplementation, setSelectedPaymentMethodImplementation] = useState<string | null>(null);
@@ -75,28 +83,6 @@ export const Payments: React.FC = () => {
                     );
                 })}
             </div>
-            {/* <div className="payment-methods mt-5 w-full flex-row items-end justify-between">
-                {hasCoin && (
-                    <div className="payment-method mb-4 bg-grey rounded p-6">
-                        <CrystalCoin />
-                    </div>
-                )}
-                {hasCard && (
-                    <div className="payment-method mb-4 bg-grey rounded p-6 ">
-                        <CrystalCard />
-                    </div>
-                )}
-                {state.paymentImplementations.includes('quickpay') && (
-                    <div className="payment-method mb-4 bg-grey rounded p-6">
-                        <QuickPayLink />
-                    </div>
-                )}
-                {state.paymentImplementations.includes('stripe') && (
-                    <div className="payment-method mb-4 bg-grey rounded p-6" style={{ minHeight: 200 }}>
-                        <Stripe />
-                    </div>
-                )}
-            </div> */}
         </>
     );
 };

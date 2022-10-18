@@ -25,7 +25,7 @@ export const action: ActionFunction = async ({ request: httpRequest, params }) =
     let properties = [
         {
             property: 'amount',
-            value: cartWrapper.cart.total.net.toFixed(2),
+            value: cartWrapper.cart.total.gross.toFixed(2),
         },
         {
             property: 'cartId',

@@ -31,7 +31,7 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
             createPaymentArguments: (cart: Cart) => {
                 const cartId = body.cartId as string;
                 return {
-                    amount: cart.total.net * 100, // in cents
+                    amount: cart.total.gross * 100, // in cents
                     currency: cart.total.currency,
                     urls: {
                         continue: `${baseUrl}/order/cart/${cartId}`,

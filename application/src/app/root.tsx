@@ -130,6 +130,7 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             }
                         </script>
                         <script defer src="https://pim.crystallize.com/static/frontend-preview-listener.js" />
+                        <script defer src="https://x.klarnacdn.net/kp/lib/v1/api.js" />
                         <link rel="stylesheet" href={getTailwindThemeForConfig(frontConfiguration.theme)} />
                     </head>
                     <body data-theme={frontConfiguration.theme}>

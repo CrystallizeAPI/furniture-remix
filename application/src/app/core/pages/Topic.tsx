@@ -7,16 +7,15 @@ export const fetchData = async (path: string, request: any, params: any): Promis
     const { secret } = await getStoreFront(getHost(request));
     const api = CrystallizeAPI(secret.apiClient, getLocale(request));
     const data = await api.searchByTopic(path);
-
     return {
-        products: data?.search?.edges,
+        products: data?.search?.edges ?? [],
         topic: data?.topics?.aggregations?.topics?.find((item: any) => item.path === path),
     };
 };
 
 export default ({ data }: { data: any }) => {
     const { products, topic } = data;
-    let topicName = topic?.name || topic.path;
+    let topicName = topic?.name || topic?.path;
     return (
         <div className="container 2xl mx-auto px-6 mt-10">
             <h1 className="capitalize font-bold text-4xl">{topicName}</h1>

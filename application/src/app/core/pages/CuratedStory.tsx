@@ -37,7 +37,7 @@ export default ({ data: story }: { data: CuratedStory }) => {
     const defaultPack = useMemo(
         () =>
             merchandising?.reduce((memo: VariantPack, merch: any, merchIndex: number) => {
-                merch.products.forEach((product: Product, productIndex: number) => {
+                merch?.products?.forEach((product: Product, productIndex: number) => {
                     if (!product.variants) {
                         return;
                     }

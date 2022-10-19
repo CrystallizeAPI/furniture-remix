@@ -1,7 +1,4 @@
-import {
-    handleQuickPayPaymentUpdateWebhookRequestPayload,
-    handleStripePaymentIntentWebhookRequestPayload,
-} from '@crystallize/node-service-api-request-handlers';
+import { handleQuickPayPaymentUpdateWebhookRequestPayload } from '@crystallize/node-service-api-request-handlers';
 import { ActionFunction, json } from '@remix-run/node';
 import { getHost } from '~/core-server/http-utils.server';
 import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder.server';

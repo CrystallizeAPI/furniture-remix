@@ -1,4 +1,4 @@
-export type PaymentImplementation = 'crystal' | 'stripe' | 'quickpay';
+export type PaymentImplementation = 'crystal' | 'stripe' | 'quickpay' | 'klarna';
 export type CrystalFakePaymentImplementation = 'card' | 'coin';
 export type TenantConfiguration = {
     currency: string;

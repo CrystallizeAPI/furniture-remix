@@ -30,7 +30,7 @@ export const action: ActionFunction = async ({ request: httpRequest }) => {
             },
             createIntentArguments: (cart: Cart) => {
                 return {
-                    amount: cart.total.net * 100, // in cents (not sure here if this is correct)
+                    amount: cart.total.gross * 100, // in cents (not sure here if this is correct)
                     currency: cart.total.currency,
                 };
             },

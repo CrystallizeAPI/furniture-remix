@@ -5,7 +5,7 @@ import { useLocalStorage } from '@rehooks/local-storage';
 import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
-import logo from '~/assets/pinkCLogo.svg';
+import logo from '~/assets/crystalcoin-logo.svg';
 
 export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
     paying = false,
@@ -13,13 +13,13 @@ export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Prom
 }) => {
     return (
         <button
-            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+            className="w-full text-white h-[70px]  mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
             disabled={paying}
             onClick={onClick}
         >
-            <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
-            <img className="w-[30px] h-[30px]" src={`${logo}`} width="25" height="25" alt="Crystal Coin" />
-            <span>Crystal Coin</span>
+            <img className="h-[35px]" src={`${logo}`} height="25" alt="Crystal Coin" />
+            <span className="text-textBlack">{paying ? 'Processing payment' : ''}</span>
+            <span className="text-black text-2xl"> ›</span>
         </button>
     );
 };

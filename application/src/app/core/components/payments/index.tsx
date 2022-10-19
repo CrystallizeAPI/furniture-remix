@@ -62,10 +62,10 @@ export const Payments: React.FC = () => {
 
     return (
         <>
-            <hr className="m-5" />
-            <p>We are showcasing different payment integrations:</p>
+            <h2 className="font-bold text-2xl mt-5 mb-1">Payment</h2>
+
             <br />
-            <div className="grid grid-cols-3 gap-1">
+            <div className="grid grid-cols-1 gap-1">
                 {Object.keys(paymentMethodImplementations).map((implementationKey) => {
                     const implementation =
                         paymentMethodImplementations[implementationKey as keyof typeof paymentMethodImplementations];

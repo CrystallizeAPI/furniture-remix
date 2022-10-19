@@ -5,7 +5,7 @@ import { useLocalStorage } from '@rehooks/local-storage';
 import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
-import logo from '~/assets/orangeCLogo.svg';
+import logo from '~/assets/crystalcard-logo.svg';
 
 export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,
@@ -13,14 +13,14 @@ export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Pro
 }) => {
     return (
         <button
-            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+            className="w-full h-[70px] text-white mt-2 rounded-md px-8 bg-grey flex flex-row justify-between items-center border border-transparent hover:border-black"
             type={onClick ? 'button' : 'submit'}
             disabled={paying}
             onClick={onClick ? onClick : undefined}
         >
-            <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
-            <img className="w-[30px] h-[30px]" src={`${logo}`} width="25" height="25" alt="Crystal Card" />
-            <span>Crystal Card</span>
+            <img className=" h-[35px]" src={`${logo}`} height="25" alt="Crystal Card" />
+            <span className="text-textBlack">{paying ? 'Processing payment ' : ''}</span>
+            <span className="text-black text-2xl"> ›</span>
         </button>
     );
 };

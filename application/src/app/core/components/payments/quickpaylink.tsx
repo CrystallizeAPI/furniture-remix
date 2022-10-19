@@ -12,12 +12,13 @@ export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Pro
 }) => {
     return (
         <button
-            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+            className="w-full h-[70px] text-white mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
             disabled={paying}
             onClick={onClick}
         >
-            <span>{paying ? 'Processing payment with...' : 'Pay with'}</span>
-            <img className="px-1 h-[30px]" src={`${logo}`} height="30" alt="Quickpay" />
+            <img className="px-1 h-[35px]" src={`${logo}`} height="30" alt="Quickpay" />
+            <span className="text-textBlack">{paying ? 'Processing payment' : ''}</span>
+            <span className="text-black text-2xl"> ›</span>
         </button>
     );
 };

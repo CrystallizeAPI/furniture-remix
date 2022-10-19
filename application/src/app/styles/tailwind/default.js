@@ -3,6 +3,8 @@ module.exports = {
     theme: {
         colors: {
             ctaBlue: '#BEE1E6',
+            black: '#0E0E0E',
+            white: '#ffffff',
             grey: '#F5F5F5',
             grey2: '#F9F9F9',
             grey3: '#8F8F8F',

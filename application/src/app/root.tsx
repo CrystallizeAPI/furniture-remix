@@ -8,7 +8,6 @@ import {
     useCatch,
     useLoaderData,
     useLocation,
-    useParams,
 } from '@remix-run/react';
 import { ErrorBoundaryComponent, HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Header } from '~/core/components/header';
@@ -130,7 +129,6 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             }
                         </script>
                         <script defer src="https://pim.crystallize.com/static/frontend-preview-listener.js" />
-                        <script defer src="https://x.klarnacdn.net/kp/lib/v1/api.js" />
                         <link rel="stylesheet" href={getTailwindThemeForConfig(frontConfiguration.theme)} />
                     </head>
                     <body data-theme={frontConfiguration.theme}>

@@ -46,17 +46,22 @@ export const Klarna: React.FC = () => {
     useEffect(() => {
         (async () => {
             if (!isEmpty()) {
-                const data = await ServiceAPI(state.locale, state.serviceApiUrl).klarna.initiatePayment(cart);
-                const methods = data.payment_method_categories;
-                //@ts-ignore
-                window.Klarna.Payments.init({
-                    client_token: data.client_token,
-                });
-                if (methods.length === 1) {
-                    setMethod(methods[0]);
-                } else {
-                    setMethodsChoices(methods);
-                }
+                const klarnaJS = document.createElement('script');
+                klarnaJS.src = 'https://x.klarnacdn.net/kp/lib/v1/api.js';
+                klarnaJS.onload = async () => {
+                    const data = await ServiceAPI(state.locale, state.serviceApiUrl).klarna.initiatePayment(cart);
+                    const methods = data.payment_method_categories;
+                    //@ts-ignore
+                    window.Klarna.Payments.init({
+                        client_token: data.client_token,
+                    });
+                    if (methods.length === 1) {
+                        setMethod(methods[0]);
+                    } else {
+                        setMethodsChoices(methods);
+                    }
+                };
+                document.head.appendChild(klarnaJS);
             }
         })();
     }, [cart.items]);

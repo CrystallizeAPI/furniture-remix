@@ -18,7 +18,7 @@ export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Pro
             disabled={paying}
             onClick={onClick ? onClick : undefined}
         >
-            <img className=" h-[35px]" src={`${logo}`} height="25" alt="Crystal Card" />
+            <img className=" h-[35px]" src={`${logo}`} height="35" alt="Crystal Card" />
             <span className="text-textBlack">{paying ? 'Processing payment ' : ''}</span>
             <span className="text-black text-2xl"> ›</span>
         </button>

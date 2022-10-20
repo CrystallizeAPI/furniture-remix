@@ -16,10 +16,13 @@ export const KlarnaButton: React.FC<{ paying?: boolean; onClick?: () => Promise<
             type={onClick ? 'button' : 'submit'}
             disabled={paying}
             onClick={onClick ? onClick : undefined}
-            className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
+            className="w-full text-white h-[70px] mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
         >
-            <span id="button-text">{paying ? 'Processing payment with...' : 'Pay with'}</span>
-            <img className="h-[30px] px-3" src={`${logo}`} height="30" alt="Klarna" />
+            <img className="h-[50px] px-1" src={`${logo}`} height="50" alt="Klarna" />
+            <span id="button-text" className="text-textBlack">
+                {paying ? 'Processing payment' : ''}
+            </span>
+            <span className="text-black text-2xl"> ›</span>
         </button>
     );
 };

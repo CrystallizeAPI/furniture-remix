@@ -20,7 +20,7 @@ export const StripeButton: React.FC<{ paying?: boolean; onClick?: () => Promise<
             onClick={onClick ? onClick : undefined}
             className="w-full text-white mt-2 h-[70px] rounded-md px-8 bg-grey flex flex-row justify-between items-center border border-transparent hover:border-black"
         >
-            <img className="h-[50px]" src={`${logo}`} height="30" alt="Stripe" />
+            <img className="h-[50px]" src={`${logo}`} height="50" alt="Stripe" />
             <span id="button-text" className="text-textBlack">
                 {paying ? 'Processing payment' : ''}
             </span>

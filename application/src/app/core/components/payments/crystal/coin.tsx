@@ -13,11 +13,11 @@ export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Prom
 }) => {
     return (
         <button
-            className="w-full text-white h-[70px]  mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
+            className="w-full text-white h-[70px] mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
             disabled={paying}
             onClick={onClick}
         >
-            <img className="h-[35px]" src={`${logo}`} height="25" alt="Crystal Coin" />
+            <img className="h-[35px]" src={`${logo}`} height="35" alt="Crystal Coin" />
             <span className="text-textBlack">{paying ? 'Processing payment' : ''}</span>
             <span className="text-black text-2xl"> ›</span>
         </button>

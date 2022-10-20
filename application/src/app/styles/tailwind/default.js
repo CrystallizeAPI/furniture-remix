@@ -1,7 +1,11 @@
+const common = require('./common.js');
+
 module.exports = {
-    presets: [require('./common.js')],
+    ...common,
     theme: {
+        ...common.theme,
         colors: {
+            ...common.theme.colors,
             ctaBlue: '#BEE1E6',
             black: '#0E0E0E',
             white: '#ffffff',
@@ -21,6 +25,7 @@ module.exports = {
             red: '#ef233c',
         },
         fontFamily: {
+            ...common.theme.fontFamily,
             text: ['Raleway', 'sans-serif'],
         },
     },

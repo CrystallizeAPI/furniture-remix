@@ -51,7 +51,7 @@ test.describe('Main Navigation Flow', () => {
             'Please knock on the door 1 time and then 2 times and then ring the bell 3 times',
         );
         await page.click('text=Next');
-        await page.click('text=Crystal Coin');
+        await page.click('button.crystal-coin');
 
         // test don't have access to API but we can test that the cart is placed
         await page.waitForResponse(async (response: Response) => {

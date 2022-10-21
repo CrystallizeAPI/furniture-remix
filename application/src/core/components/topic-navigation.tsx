@@ -7,7 +7,6 @@ export const TopicNavigation: React.FC<{ navigation: any }> = ({ navigation }) =
         <>
             {navigation?.tree?.map((topic: any) => {
                 const numberOfTopics = topic.children.length;
-                // console.log(columns);
                 const calculateColumns = numberOfTopics / 8;
                 const numberOfCols = calculateColumns <= 1 ? 1 : Math.round(calculateColumns);
                 return (

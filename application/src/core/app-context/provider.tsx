@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FunctionComponent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { buildLanguageMarketAwareLink } from '../LanguageAndMarket';
 import { mapToReducerActions, Reducer } from './reducer';
 import { Actions, Dispatch, State } from './types';
@@ -44,12 +45,19 @@ function useAppContextDispatch() {
     return context;
 }
 
-export function useAppContext(): { state: State; dispatch: Actions; path: (path: string) => string } {
+export function useAppContext(): {
+    state: State;
+    dispatch: Actions;
+    path: (path: string) => string;
+    _t: (key: string, options?: Record<string, any>) => string;
+} {
     const actions = mapToReducerActions(useAppContextDispatch());
     const state = useAppContextState();
+    const { t } = useTranslation();
     return {
         state,
         dispatch: actions,
+        _t: t,
         path: (path: string) => buildLanguageMarketAwareLink(path, state.language, state.market),
     };
 }

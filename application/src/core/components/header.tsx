@@ -8,6 +8,7 @@ import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { ProductVariant } from '@crystallize/js-api-client';
 import { Price } from './price';
+import { LanguageSwitcher } from './language-switcher';
 
 function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
     if (typeof logo === 'string') {
@@ -178,6 +179,7 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     />
                                 </Link>
                                 <BasketButton />
+                                <LanguageSwitcher />
                             </div>
                             <div className="z-50 p-[10px] h-[40px] text-center rounded-md cursor-pointer hover:bg-[#efefef] lg:hidden block">
                                 <button

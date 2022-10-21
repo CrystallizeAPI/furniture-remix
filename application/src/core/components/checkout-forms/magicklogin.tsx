@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppContext } from '~/core/app-context/provider';
 import { useAuth } from '~/core/hooks/useAuth';
@@ -10,7 +11,7 @@ export const MagickLoginForm: React.FC<{
     actionTitle: string;
     onlyLogin?: boolean;
 }> = ({ enabledGuest, title, actionTitle, onlyLogin = false }) => {
-    const { state: appContextState, path } = useAppContext();
+    const { state: appContextState, path, _t } = useAppContext();
     const { isAuthenticated, userInfos, logout } = useAuth();
     const [formData, updateFormData] = useState({
         firstname: userInfos?.firstname || '',
@@ -35,20 +36,22 @@ export const MagickLoginForm: React.FC<{
                             className="float-right bg-[#000] text-[#fff] px-4 py-2 rounded mt-2"
                             onClick={() => logout()}
                         >
-                            Logout
+                            {_t('logout')}
                         </button>
                         <p className="clear">
                             <em>
-                                Hello {userInfos?.firstname} {userInfos?.lastname} ({userInfos?.email})
+                                {_t('hello')} {userInfos?.firstname} {userInfos?.lastname} ({userInfos?.email})
                             </em>
                             <br />
-                            Is that still you? You lost the session, you have to login again.
+                            {_t('stillYourSession')}
                         </p>
                     </div>
                 </div>
             )}
-            <h1 className="font-bold text-2xl">{title.replace('Register', isAuthenticated ? 'Login' : 'Register')}</h1>
-            <p className="mb-5  text-lg">We'll send you a magick link.</p>
+            <h1 className="font-bold text-2xl">
+                {title.replace('Register', isAuthenticated ? _t('login') : _t('register'))}
+            </h1>
+            <p className="mb-5  text-lg">{_t('willSendYouMagickLink')}</p>
             <form
                 onSubmit={async (event: FormEvent<HTMLFormElement>) => {
                     event.preventDefault();
@@ -68,7 +71,7 @@ export const MagickLoginForm: React.FC<{
                     <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-2">
                         <Input
                             defaultValue={formData.firstname || userInfos?.firstname}
-                            label="First name"
+                            label={_t('address.firstname')}
                             placeholder="Luke"
                             name="firstname"
                             required
@@ -78,7 +81,7 @@ export const MagickLoginForm: React.FC<{
                         <Input
                             defaultValue={formData.lastname || userInfos?.lastname}
                             placeholder="Skywalker"
-                            label="Last name"
+                            label={_t('address.lastname')}
                             name="lastname"
                             required
                             onChange={handleChange}
@@ -89,7 +92,7 @@ export const MagickLoginForm: React.FC<{
                     <Input
                         defaultValue={formData.email || userInfos?.email}
                         placeholder="luke.skywalker@rebellion.inc"
-                        label="Email"
+                        label={_t('address.email')}
                         name="email"
                         required
                         onChange={handleChange}
@@ -106,11 +109,11 @@ export const MagickLoginForm: React.FC<{
                                 }
                             }}
                         >
-                            Guest Checkout
+                            {_t('guestCheckout')}
                         </button>
                     )}
                     <button type="submit" className="bg-[#000] text-[#fff] px-8 py-4 rounded mt-5 w-full">
-                        {actionTitle.replace('Register', isAuthenticated ? 'Login' : 'Register')}
+                        {actionTitle.replace('Register', isAuthenticated ? _t('login') : _t('register'))}
                     </button>
                 </div>
             </form>

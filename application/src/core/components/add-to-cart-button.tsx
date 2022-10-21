@@ -2,7 +2,6 @@ import { ProductVariant } from '@crystallize/js-api-client';
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
-import { StockLocations } from './stock-location';
 
 export type VariantPack = VariantPackItem[];
 
@@ -16,9 +15,9 @@ export const AddToCartBtn: React.FC<{
     pack: VariantPack;
     label?: string;
     stockLocations?: any[];
-}> = ({ pack, label = 'Add to cart', stockLocations }) => {
+}> = ({ pack, label = 'addToCart', stockLocations }) => {
     const [showTada, setShowTada] = useState(false);
-    const { dispatch: contextDispatch } = useAppContext();
+    const { dispatch: contextDispatch, _t } = useAppContext();
     const { add } = useLocalCart();
 
     const handleClick = () => {
@@ -48,7 +47,7 @@ export const AddToCartBtn: React.FC<{
                     className={`w-[200] transition-all left-0 top-0 h-full w-full flex items-center justify-center absolute
                     ${showTada ? 'scale-0' : 'scale-100'}`}
                 >
-                    {label}
+                    {_t(label)}
                 </span>
                 <span
                     className={`w-[200] text-3xl transition-all	left-0 top-0 h-full w-full flex items-center justify-center absolute ${

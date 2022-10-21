@@ -1,0 +1,80 @@
+{
+    "loading": "laster",
+    "browse": "Bla gjennom kategorier",
+    "view": "Se alle",
+    "relatedProducts": "Du kan også være interessert i",
+    "search": {
+        "placeholder": "Navn, SKU-er, kategorier",
+        "label": "Søk",
+        "foundResults": "Fant {{count}} samsvarende resultat",
+        "noResults": "Ingen resultater funnet",
+        "filterByAttributes": "Filtrer etter attributter",
+        "sort": "Sorter",
+        "showVariants": "Vis varianter",
+        "price": {
+            "lowToHigh": "Pris: lav til høy",
+            "highToLow": "Pris: Høy til lav",
+            "range": "Prisklasse"
+        },
+        "name": {
+            "ascending": "Navn stiger",
+            "descending": "Navn synkende"
+        },
+        "stock": {
+            "ascending": "Beholdningen stiger",
+            "descending": "Beholdningen synker"
+        },
+        "removeAllFilters": "Fjern alle filtre"
+    },
+    "addToCart": "Legg i handlevognen Legg til handlevognen",
+    "back": "tilbake tilbake",
+    "checkout": "Kasse",
+    "total": "Totalt",
+    "stock": {
+        "outOfStock": "Ikke på lager",
+        "inStock": "20+ på lager",
+        "lowStock": "Mindre enn 20 på lager",
+        "showLessAvailability": "Vis mindre tilgjengelighetsalternativer",
+        "showMoreAvailability": "Vis flere tilgjengelighetsalternativer ({{count}})"
+    },
+    "cart": {
+        "yourCart": "Din handlekurv",
+        "taxAmount": "Skattebeløp",
+        "discount": "Rabatt",
+        "toPay": "Å betale",
+        "empty": "Kurven din er tom.",
+        "whoaempty": "Woah, ingenting i handlekurven din ennå",
+        "itemAdded": "Yay! Varen er lagt i handlekurven 🎉",
+        "goto": "Gå til handlekurv",
+        "continue": "Fortsett til kassen",
+        "trylater": "Prøv å gå tilbake og finn noe vakkert før du kommer tilbake"
+    },
+    "dimensions": "Dimensjoner",
+    "specifications": "Manualer og spesifikasjoner",
+    "hello": "Hei hei",
+    "login": "Logg på",
+    "register": "Registrer deg",
+    "logout": "Logg ut",
+    "guestCheckout": "Gjestekasse",
+    "stillYourSession": "Er det fortsatt deg? Du mistet økten, du må logge på igjen.",
+    "willSendYouMagickLink": "Vi sender deg en magisk lenke.",
+    "address": {
+        "firstname": "FornavnFornavn",
+        "lastname": "Etternavn",
+        "email": "E-post",
+        "streetAddress": "Gateadresse",
+        "country": "Land",
+        "city": "By",
+        "zipCode": "Postnummer",
+        "additionalInfo": "Ytterligere informasjon",
+        "next": "Neste"
+    },
+    "payment": {
+        "title": "Betaling",
+        "cardNumber": "Kortnummer",
+        "expiration": "Utløp",
+        "country": "Land",
+        "zipCode": "Postnummer",
+        "processing": "Behandler betaling"
+    }
+}

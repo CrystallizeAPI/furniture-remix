@@ -11,11 +11,11 @@ export const CheckoutCart: React.FC = () => {
     const { remoteCart } = useRemoteCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
-    const { state: contextState } = useAppContext();
+    const { state: contextState, _t } = useAppContext();
 
     return (
         <div className="lg:w-2/5 w-full">
-            <h1 className="font-bold text-2xl mt-10 mb-5">Your cart</h1>
+            <h1 className="font-bold text-2xl mt-10 mb-5">{_t('cart.yourCart')}</h1>
             {!cart && <OptimisticHydratedCart />}
             {cart &&
                 cart.items.map((item: any, index: number) => {
@@ -40,7 +40,7 @@ export const CheckoutCart: React.FC = () => {
             {total && (
                 <div className="flex flex-col gap-1  py-4 items-end">
                     <div className="flex text-grey3 text-sm justify-between w-60">
-                        <p>Discount</p>
+                        <p>{_t('cart.discount')}</p>
                         <p>
                             <Price currencyCode={contextState.currency.code}>
                                 {total.discounts.reduce((memo: number, discount: any) => {
@@ -50,13 +50,13 @@ export const CheckoutCart: React.FC = () => {
                         </p>
                     </div>
                     <div className="flex text-grey3 text-sm justify-between w-60">
-                        <p>Tax amount</p>
+                        <p>{_t('cart.taxAmount')}</p>
                         <p>
                             <Price currencyCode={contextState.currency.code}>{total.taxAmount}</Price>
                         </p>
                     </div>
                     <div className="flex font-bold mt-2 text-lg justify-between w-60">
-                        <p>To pay</p>
+                        <p>{_t('cart.toPay')}</p>
                         <p>
                             <Price currencyCode={contextState.currency.code}>{total.gross}</Price>
                         </p>
@@ -69,7 +69,7 @@ export const CheckoutCart: React.FC = () => {
 
 export const OptimisticHydratedCart: React.FC = () => {
     const { cart: cart } = useLocalCart();
-    const { state: contextState } = useAppContext();
+    const { state: contextState, _t } = useAppContext();
     let total = 0;
     return (
         <ClientOnly>
@@ -98,15 +98,15 @@ export const OptimisticHydratedCart: React.FC = () => {
                 })}
                 <div className="flex flex-col gap-1  py-4 items-end">
                     <div className="flex text-grey3 text-sm justify-between w-60">
-                        <p>Discount</p>
+                        <p>{_t('cart.discount')}</p>
                         <div className="loader" />
                     </div>
                     <div className="flex text-grey3 text-sm justify-between w-60">
-                        <p>Tax amount</p>
+                        <p>{_t('cart.taxAmount')}</p>
                         <div className="loader" />
                     </div>
                     <div className="flex font-bold mt-2 text-lg justify-between w-60">
-                        <p>To pay</p>
+                        <p>{_t('cart.toPay')}</p>
                         <p>
                             <CrystallizePrice currencyCode={contextState.currency.code}>{total}</CrystallizePrice>
                         </p>

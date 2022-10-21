@@ -11,22 +11,22 @@ import { CartItem } from '@crystallize/node-service-api-request-handlers';
 
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
-    const { path } = useAppContext();
+    const { path, _t } = useAppContext();
     return (
         <div className="fixed rounded-md right-10 w-70 bottom-10 shadow-lg py-8 px-10 border border-[#dfdfdf] z-[999]">
-            <ClientOnly fallback={<p>Your basket is empty.</p>}>
+            <ClientOnly fallback={<p>{_t('cart.empty')}</p>}>
                 <>
                     {!isEmpty() && (
                         <>
-                            <h5>Yay! Item added to cart 🎉</h5>
+                            <h5>{_t('cart.itemAdded')}</h5>
 
                             <div className="flex gap-3 mt-3 items-center">
                                 <button className="bg-textBlack text-[#fff] py-2 px-4 rounded-md">
-                                    <Link to={path('/cart')}>Go to cart</Link>
+                                    <Link to={path('/cart')}>{_t('cart.goto')}</Link>
                                 </button>
                                 <button className="underline">
                                     {' '}
-                                    <Link to={path('/checkout')}>Continue to checkout</Link>
+                                    <Link to={path('/checkout')}>{_t('cart.continue')}</Link>
                                 </button>
                             </div>
                         </>
@@ -55,7 +55,7 @@ export const HydratedCart: React.FC = () => {
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
-    const { state: contextState, path } = useAppContext();
+    const { state: contextState, path, _t } = useAppContext();
 
     if (isEmpty()) {
         return (
@@ -68,12 +68,10 @@ export const HydratedCart: React.FC = () => {
                             </div>
                         </div>
                         <div className="mt-10">
-                            <div className="flex  pb-2 text-3xl font-semibold ">Woah, nothing in your cart yet</div>
-                            <div className="flex w-full">
-                                Try going back and find something beautiul before you come back
-                            </div>
+                            <div className="flex  pb-2 text-3xl font-semibold ">{_t('cart.whoaempty')}</div>
+                            <div className="flex w-full">{_t('cart.trylater')}</div>
                             <button className="bg-grey mt-3 py-2 px-5 rounded-md text-center text-xl font-semibold">
-                                <Link to={path('/')}>Back</Link>
+                                <Link to={path('/')}>{_t('back')}</Link>
                             </button>
                         </div>
                     </div>
@@ -88,7 +86,7 @@ export const HydratedCart: React.FC = () => {
                     <h1 className="font-bold text-2xl">Cart</h1>
                     {loading && (
                         <div className="flex items-center">
-                            <span className="pr-2">Loading...</span>
+                            <span className="pr-2">{_t('loading')}...</span>
                             <div className="loader" />
                         </div>
                     )}
@@ -146,7 +144,7 @@ export const HydratedCart: React.FC = () => {
                     {total && (
                         <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 text-sm justify-between w-60">
-                                <p>Discount</p>
+                                <p>{_t('cart.discount')}</p>
                                 <p>
                                     <CrystallizePrice currencyCode={contextState.currency.code}>
                                         {total.discounts.reduce((memo: number, discount: any) => {
@@ -156,7 +154,7 @@ export const HydratedCart: React.FC = () => {
                                 </p>
                             </div>
                             <div className="flex text-grey3 text-sm justify-between w-60">
-                                <p>Tax amount</p>
+                                <p>{_t('cart.taxAmount')}</p>
                                 <p>
                                     <CrystallizePrice currencyCode={contextState.currency.code}>
                                         {total.taxAmount}
@@ -164,7 +162,7 @@ export const HydratedCart: React.FC = () => {
                                 </p>
                             </div>
                             <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
-                                <p>To pay</p>
+                                <p>{_t('cart.toPay')}</p>
                                 <p>
                                     <CrystallizePrice currencyCode={contextState.currency.code}>
                                         {total.gross}
@@ -176,10 +174,10 @@ export const HydratedCart: React.FC = () => {
                 </div>
                 <div className="flex justify-between mt-10">
                     <button className="bg-grey py-2 px-5 rounded-md text-center font-semibold">
-                        <Link to={path('/')}>Back</Link>
+                        <Link to={path('/')}>{_t('back')}</Link>
                     </button>
                     <button className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100">
-                        <Link to={path('/checkout')}>Checkout</Link>
+                        <Link to={path('/checkout')}>{_t('checkout')}</Link>
                     </button>
                 </div>
             </div>
@@ -189,7 +187,7 @@ export const HydratedCart: React.FC = () => {
 
 export const OptimisticHydratedCart: React.FC = () => {
     const { cart: cart, isImmutable } = useLocalCart();
-    const { state: contextState } = useAppContext();
+    const { state: contextState, _t } = useAppContext();
     let total = 0;
     return (
         <>
@@ -232,15 +230,15 @@ export const OptimisticHydratedCart: React.FC = () => {
             })}
             <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                 <div className="flex text-grey3 text-sm justify-between w-60">
-                    <p>Discount</p>
+                    <p>{_t('cart.discount')}</p>
                     <div className="loader" />
                 </div>
                 <div className="flex text-grey3 text-sm justify-between w-60">
-                    <p>Tax amount</p>
+                    <p>{_t('cart.taxAmount')}</p>
                     <div className="loader" />
                 </div>
                 <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
-                    <p>To pay</p>
+                    <p>{_t('cart.toPay')}</p>
                     <p>
                         <CrystallizePrice currencyCode={contextState.currency.code}>{total}</CrystallizePrice>
                     </p>

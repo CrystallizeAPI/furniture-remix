@@ -12,11 +12,12 @@ export const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<any[]>([]);
-    const { state: appContextState, path } = useAppContext();
+    const { state: appContextState, path, _t } = useAppContext();
     const api = CrystallizeAPI({
         apiClient: createClient({ tenantIdentifier: appContextState.crystallize.tenantIdentifier }),
         language: appContextState.language,
     });
+
     //close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: any) => {
@@ -52,7 +53,7 @@ export const SearchBar = () => {
             <div className="relative z-30 flex items-center justify-between bg-grey h-10 rounded-full overflow-hidden focus-within:border">
                 <DebounceInput
                     minLength={2}
-                    placeholder="Names, skus, categories"
+                    placeholder={_t('search.placeholder')}
                     debounceTimeout={200}
                     onChange={handleChange}
                     className="bg-grey rounded-full overflow-hidden focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic "

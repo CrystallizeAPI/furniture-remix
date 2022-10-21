@@ -64,12 +64,13 @@ export const CartItemPrice: React.FC<{ item: CartItem; saving: any; size?: strin
     saving,
     size = 'small',
 }) => {
-    const { state } = useAppContext();
+    const { state, _t } = useAppContext();
     return (
         <>
             <Price variant={item.variant} size={size} />
             <div>
-                Total: <CrystallizePrice currencyCode={state.currency.code}>{item.price.gross}</CrystallizePrice>
+                {_t('total')}:{' '}
+                <CrystallizePrice currencyCode={state.currency.code}>{item.price.gross}</CrystallizePrice>
                 {saving && (
                     <>
                         <del className="text-red mx-2">

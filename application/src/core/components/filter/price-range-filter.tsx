@@ -10,7 +10,7 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
     formRef,
 }) => {
     const submit = useSubmit();
-    const { state: contextState } = useAppContext();
+    const { state: contextState, _t } = useAppContext();
     const [showSlider, setShowSlider] = useState(false);
     const [priceValue, setPriceValue] = useState({ min, max });
     function onRangeChange(newValue: any) {
@@ -31,7 +31,7 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
             <input type={'hidden'} name="max" defaultValue={max} ref={maxInput} />
 
             <p onClick={() => setShowSlider(!showSlider)} className="text-textBlack px-4 py-2">
-                Price range
+                {_t('search.price.range')}
             </p>
             {showSlider && (
                 <div className="absolute w-full bg-grey  px-4 py-2">

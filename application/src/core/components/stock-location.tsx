@@ -1,6 +1,8 @@
 import StockIcon from '~/assets/stockIcon.svg';
 import { useState } from 'react';
+import { useAppContext } from '../app-context/provider';
 const StockIndicators = ({ location }: { location: any }) => {
+    const { _t } = useAppContext();
     const stock = location?.stock || 0;
     if (stock < 1) {
         return (
@@ -10,7 +12,7 @@ const StockIndicators = ({ location }: { location: any }) => {
                     <p className="font-semibold">{location.name}</p>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#F42C04]" />
                 </div>
-                <p className="font-medium text-[#F42C04]">Out of stock</p>
+                <p className="font-medium text-[#F42C04]">{_t('stock.outOfStock')}</p>
             </>
         );
     }
@@ -22,7 +24,7 @@ const StockIndicators = ({ location }: { location: any }) => {
                     <p className="font-semibold">{location.name}</p>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#FFC60A]" />
                 </div>
-                <p className="font-medium text-[#E0AC00]">Less then 20 in stock</p>
+                <p className="font-medium text-[#E0AC00]">{_t('stock.lowStock')}</p>
             </>
         );
     }
@@ -33,14 +35,15 @@ const StockIndicators = ({ location }: { location: any }) => {
                 <p className="font-semibold">{location.name}</p>
                 <div className="w-2.5 h-2.5 rounded-full bg-green2" />
             </div>
-            <p className="font-medium text-green2 text-right">20+ in stock</p>
+            <p className="font-medium text-green2 text-right">{_t('stock.inStock')}</p>
         </>
     );
 };
 
 export const StockLocations = ({ locations }: { locations: any }) => {
-    if (!locations) return null;
     const [locationCountToShow, setLocationCountToShow] = useState(1);
+    const { _t } = useAppContext();
+    if (!locations) return null;
     return (
         <div>
             {locations?.slice(0, locationCountToShow).map((location: any) => (
@@ -58,9 +61,8 @@ export const StockLocations = ({ locations }: { locations: any }) => {
                     className="text-[#000] font-regular text-xs ml-7 mt-1 opacity-[0.6] hover:opacity-[1] underline"
                 >
                     {locationCountToShow == locations.length
-                        ? 'Show less availability options'
-                        : `
-                    Show more availability options (${locations.length - 1})`}
+                        ? _t('stock.showLessAvailability')
+                        : _t('stock.showMoreAvailability', { count: locations.length - 1 })}
                 </button>
             )}
         </div>

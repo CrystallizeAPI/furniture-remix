@@ -41,7 +41,6 @@ const createPageRenderer = () => {
                 case 'landing-page':
                     return buildRenderer<any>(LandingPagePage, LandingPageFetchData);
             }
-            console.log(request?.url);
             throw new Error(`No page renderer found for shape ${shapeIdentifier}`);
         },
     };

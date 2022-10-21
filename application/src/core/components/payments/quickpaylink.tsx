@@ -10,6 +10,7 @@ export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Pro
     paying = false,
     onClick,
 }) => {
+    const { _t } = useAppContext();
     return (
         <button
             className="w-full h-[70px] text-white mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
@@ -17,7 +18,7 @@ export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Pro
             onClick={onClick}
         >
             <img className="px-1 h-[35px]" src={`${logo}`} height="35" alt="Quickpay" />
-            <span className="text-textBlack">{paying ? 'Processing payment' : ''}</span>
+            <span className="text-textBlack">{paying ? _t('payment.processing') : ''}</span>
             <span className="text-black text-2xl"> ›</span>
         </button>
     );

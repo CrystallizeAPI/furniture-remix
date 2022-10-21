@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { Input } from '~/core/components/input';
 import { useAuth } from '~/core/hooks/useAuth';
+import { useAppContext } from '~/core/app-context/provider';
 
 export type Customer = {
     firstname: string;
@@ -16,6 +17,7 @@ export type Customer = {
 
 export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> = ({ title, onValidSubmit }) => {
     const [isReadonly, setToReadonly] = useState(false);
+    const { _t } = useAppContext();
     const { isAuthenticated, userInfos } = useAuth();
     const [customer] = useLocalStorage<Partial<Customer>>('customer', {
         email: userInfos?.email,
@@ -34,7 +36,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
             <h1 className="font-bold text-2xl mt-5 mb-3">{title}</h1>
             {isAuthenticated && (
                 <p>
-                    Hello {userInfos?.firstname} {userInfos?.lastname} (<strong>{userInfos?.email}</strong>),
+                    {_t('hello')} {userInfos?.firstname} {userInfos?.lastname} (<strong>{userInfos?.email}</strong>),
                 </p>
             )}
             <form
@@ -49,7 +51,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                     <Input
                         defaultValue={customer.firstname || userInfos?.firstname}
                         placeholder={'Frodo'}
-                        label="First name"
+                        label={_t('address.firstname')}
                         name="firstname"
                         required
                         onChange={handleChange}
@@ -59,7 +61,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                     <Input
                         defaultValue={customer.lastname || userInfos?.lastname}
                         placeholder={'Baggins'}
-                        label="Last name"
+                        label={_t('address.lastname')}
                         name="lastname"
                         required
                         onChange={handleChange}
@@ -69,7 +71,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                 <div className="mt-3">
                     <Input
                         defaultValue={customer.email || userInfos?.email}
-                        label="Email"
+                        label={_t('address.email')}
                         placeholder={'Frodo.ringmaster@shireclub.com'}
                         name="email"
                         required
@@ -81,7 +83,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                 <div className="mt-3">
                     <Input
                         defaultValue={customer.streetAddress}
-                        label="Street Address"
+                        label={_t('address.streetAddress')}
                         placeholder={'6th hole from the Brandybuck Family'}
                         name="streetAddress"
                         required
@@ -92,7 +94,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                 <div className="grid grid-cols-3 gap-3 mt-3">
                     <Input
                         defaultValue={customer.country}
-                        label="Country"
+                        label={_t('address.country')}
                         placeholder={'Middle Earth'}
                         name="country"
                         required
@@ -101,7 +103,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                     />
                     <Input
                         defaultValue={customer.city}
-                        label="City"
+                        label={_t('address.city')}
                         placeholder={'Shire'}
                         name="city"
                         required
@@ -110,7 +112,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                     />
                     <Input
                         defaultValue={customer.zipCode}
-                        label="Zip code"
+                        label={_t('address.zipCode')}
                         placeholder={'3130'}
                         name="zipCode"
                         required
@@ -121,7 +123,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                 <div className="mt-3">
                     <Input
                         defaultValue={customer.additionalInfo}
-                        label="Additional information"
+                        label={_t('address.additionalInfo')}
                         placeholder={'Anything we should keep in mind before dispatching your order?'}
                         name="additionalInfo"
                         onChange={handleChange}
@@ -134,7 +136,7 @@ export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> =
                         disabled={isReadonly}
                         type="submit"
                     >
-                        Next
+                        {_t('address.next')}
                     </button>
                 )}
             </form>

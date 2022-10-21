@@ -7,7 +7,7 @@ import { QuickPayLink, QuickPayLinkButton } from './quickpaylink';
 import { Stripe, StripeButton } from './stripe';
 
 export const Payments: React.FC = () => {
-    const { state } = useAppContext();
+    const { state, _t } = useAppContext();
     const paymentMethods = state.crystalPayments;
     const paymentMethodImplementations = {
         crystalCoin: {
@@ -62,7 +62,7 @@ export const Payments: React.FC = () => {
 
     return (
         <>
-            <h2 className="font-bold text-2xl mt-5 mb-1">Payment</h2>
+            <h2 className="font-bold text-2xl mt-5 mb-1">{_t('payment.title')}</h2>
 
             <br />
             <div className="grid grid-cols-1 gap-1">

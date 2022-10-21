@@ -47,7 +47,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default () => {
     const { folder, navigation } = useLoaderData();
-    const { path } = useAppContext();
+    const { path, _t } = useAppContext();
     const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
         ?.selectedComponent;
     let grid = hero?.content?.grids?.[0] || createGrid(hero?.content?.items);
@@ -61,7 +61,7 @@ export default () => {
             )}
             <div className="2xl container mx-auto px-4 md:px-10">
                 <div className="flex flex-wrap gap-4 pt-20 mb-10  items-center">
-                    <h2 className="font-medium text-md text-md w-full block">Browse categories</h2>
+                    <h2 className="font-medium text-md text-md w-full block">{_t('browse')}</h2>
                     {navigation?.tree?.children?.map((child: any) => (
                         <Link
                             to={path(child?.path)}
@@ -87,7 +87,7 @@ export default () => {
                                     className="w-auto bg-grey py-2 px-6 text-center rounded-md text-md font-bold hover:bg-black hover:text-white mt-6 sm:mt-0"
                                     key={child.name}
                                 >
-                                    View all {child.name.toLowerCase()}
+                                    {_t('view')} {child.name.toLowerCase()}
                                 </Link>
                             </div>
                             <CategoryList category={child} />

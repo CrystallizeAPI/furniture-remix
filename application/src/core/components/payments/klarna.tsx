@@ -11,6 +11,7 @@ export const KlarnaButton: React.FC<{ paying?: boolean; onClick?: () => Promise<
     paying = false,
     onClick,
 }) => {
+    const { _t } = useAppContext();
     return (
         <button
             type={onClick ? 'button' : 'submit'}
@@ -20,7 +21,7 @@ export const KlarnaButton: React.FC<{ paying?: boolean; onClick?: () => Promise<
         >
             <img className="h-[50px] px-1" src={`${logo}`} height="50" alt="Klarna" />
             <span id="button-text" className="text-textBlack">
-                {paying ? 'Processing payment' : ''}
+                {paying ? _t('payment.processing') : ''}
             </span>
             <span className="text-black text-2xl"> ›</span>
         </button>

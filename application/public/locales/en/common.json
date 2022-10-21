@@ -1,0 +1,80 @@
+{
+    "loading": "loading",
+    "browse": "Browse categories",
+    "view": "View all",
+    "relatedProducts": "You might also be interested in",
+    "search": {
+        "placeholder": "Names, SKUs, categories",
+        "label": "Search",
+        "foundResults": "Found {{count}} matching result",
+        "noResults": "No results found",
+        "filterByAttributes": "Filter by attributes",
+        "sort": "Sort",
+        "showVariants": "Show variants",
+        "price": {
+            "lowToHigh": "Price: Low to High",
+            "highToLow": "Price: High to low",
+            "range": "Price Range"
+        },
+        "name": {
+            "ascending": "Name ascending",
+            "descending": "Name descending"
+        },
+        "stock": {
+            "ascending": "Stock ascending",
+            "descending": "Stock descending"
+        },
+        "removeAllFilters": "Remove all filters"
+    },
+    "addToCart": "Add to cart",
+    "back": "Back",
+    "checkout": "Checkout",
+    "total": "Total",
+    "stock": {
+        "outOfStock": "Out of stock",
+        "inStock": "20+ in stock",
+        "lowStock": "Less then 20 in stock",
+        "showLessAvailability": "Show less availability options",
+        "showMoreAvailability": "Show more availability options ({{count}})"
+    },
+    "cart": {
+        "yourCart": "Your cart",
+        "taxAmount": "Tax Amout",
+        "discount": "Discount",
+        "toPay": "To pay",
+        "empty": "Your cart is empty.",
+        "whoaempty": "Woah, nothing in your cart yet",
+        "itemAdded": "Yay! Item added to cart 🎉",
+        "goto": "Go to cart",
+        "continue": "Continue to checkout",
+        "trylater": "Try going back and find something beautiul before you come back"
+    },
+    "dimensions": "Dimensions",
+    "specifications": "Manuals and specifications",
+    "hello": "Hello",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "guestCheckout": "Guest Checkout",
+    "stillYourSession": "Is that still you? You lost the session, you have to login again.",
+    "willSendYouMagickLink": "We'll send you a magick link.",
+    "address": {
+        "firstname": "First name",
+        "lastname": "Last name",
+        "email": "Email",
+        "streetAddress": "Street Address",
+        "country": "Country",
+        "city": "City",
+        "zipCode": "Zip code",
+        "additionalInfo": "Additional information",
+        "next": "Next"
+    },
+    "payment": {
+        "title": "Payment",
+        "cardNumber": "Card Number",
+        "expiration": "Expiration",
+        "country": "Country",
+        "zipCode": "Zip code",
+        "processing": "Processing payment"
+    }
+}

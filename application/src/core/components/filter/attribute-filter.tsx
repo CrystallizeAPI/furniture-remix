@@ -2,9 +2,11 @@ import isEmpty from 'lodash/isEmpty';
 import { useState } from 'react';
 import filterIcon from '~/assets/filterIcon.svg';
 import { useSearchParams } from '@remix-run/react';
+import { useAppContext } from '~/core/app-context/provider';
 
 export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) => {
     const [show, setShow] = useState(false);
+    const { _t } = useAppContext();
     const [searchParams] = useSearchParams();
     const selectedAttributes = searchParams.getAll('attr');
 
@@ -16,7 +18,7 @@ export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) =
                         className="relative flex justify-between items-center w-60 bg-grey py-2 px-6 rounded-md hover:cursor-pointer"
                         onClick={() => setShow(!show)}
                     >
-                        <p className="text-md font-bold">Filter by attributes</p>
+                        <p className="text-md font-bold">{_t('search.filterByAttributes')}</p>
                         <img src={filterIcon} alt="" />
                     </div>
                     {show && (

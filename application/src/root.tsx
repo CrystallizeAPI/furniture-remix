@@ -33,7 +33,14 @@ import { getContext } from './core-server/http-utils.server';
 import { FAVICON_VARIANTS } from './routes/$langMarket/favicon/$size[.png]';
 import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
 import { StoreFrontConfiguration } from './core/contract/StoreFrontConfiguration';
-import { availableLanguages, buildLanguageMarketAwareLink, isValidLanguageMarket } from './core/LanguageAndMarket';
+import {
+    availableLanguages,
+    buildLanguageMarketAwareLink,
+    displayableLanguages,
+    isValidLanguageMarket,
+} from './core/LanguageAndMarket';
+import { useTranslation } from 'react-i18next';
+import { useChangeLanguage } from 'remix-i18next';
 
 export const meta: MetaFunction = () => {
     return {
@@ -123,12 +130,18 @@ type LoaderData = {
 
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { isHTTPS, frontConfiguration, host } = useLoaderData<LoaderData>();
+    useChangeLanguage(frontConfiguration.language);
+    let { i18n } = useTranslation();
     let location = useLocation();
     const path = '/' + location.pathname.split('/').slice(2).join('/');
+
     return (
-        <CrystallizeProvider language="en" tenantIdentifier={frontConfiguration.crystallize.tenantIdentifier}>
+        <CrystallizeProvider
+            language={frontConfiguration.language}
+            tenantIdentifier={frontConfiguration.crystallize.tenantIdentifier}
+        >
             <AppContextProvider initialState={frontConfiguration}>
-                <html lang={frontConfiguration.language}>
+                <html lang={frontConfiguration.language} dir={i18n.dir()}>
                     <head>
                         <meta charSet="utf-8" />
                         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -139,12 +152,12 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <link href={`${host}${location?.pathname}`} rel="canonical" />
                         <Meta />
                         <Links />
-                        {availableLanguages.map((lang) => (
+                        {displayableLanguages.map((lang) => (
                             <link
-                                key={lang}
+                                key={lang.code}
                                 rel="alternate"
-                                hrefLang={lang}
-                                href={buildLanguageMarketAwareLink(path, lang)}
+                                hrefLang={lang.code}
+                                href={buildLanguageMarketAwareLink(path, lang.code)}
                             />
                         ))}
                         <script suppressHydrationWarning={true} type="text/css">

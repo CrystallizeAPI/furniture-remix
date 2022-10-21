@@ -11,6 +11,7 @@ export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Pro
     paying = false,
     onClick,
 }) => {
+    const { _t } = useAppContext();
     return (
         <button
             className="w-full h-[70px] text-white mt-2 rounded-md px-8 bg-grey flex flex-row justify-between items-center border border-transparent hover:border-black"
@@ -19,7 +20,7 @@ export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Pro
             onClick={onClick ? onClick : undefined}
         >
             <img className=" h-[35px]" src={`${logo}`} height="35" alt="Crystal Card" />
-            <span className="text-textBlack">{paying ? 'Processing payment ' : ''}</span>
+            <span className="text-textBlack">{paying ? _t('payment.processing') : ''}</span>
             <span className="text-black text-2xl"> ›</span>
         </button>
     );
@@ -27,7 +28,7 @@ export const CrystalCardButton: React.FC<{ paying?: boolean; onClick?: () => Pro
 
 export const CrystalCard: React.FC = () => {
     const { cart, isEmpty, empty } = useLocalCart();
-    const { state, path } = useAppContext();
+    const { state, path, _t } = useAppContext();
     const [paying, setPaying] = useState(false);
     const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
     const navigate = useNavigate();
@@ -51,7 +52,7 @@ export const CrystalCard: React.FC = () => {
         >
             <div className="grid grid-cols-3 gap-3">
                 <label htmlFor="number" className="flex flex-col frntr-input">
-                    <span>Card number*</span>
+                    <span>{_t('payment.cardNumber')}*</span>
                     <input
                         type="text"
                         id="number"
@@ -62,7 +63,7 @@ export const CrystalCard: React.FC = () => {
                     />
                 </label>
                 <label htmlFor="expiration" className="flex flex-col frntr-input">
-                    <span>Expiration</span>
+                    <span>{_t('payment.expiration')}</span>
                     <input
                         type="text"
                         id="expiration"
@@ -79,7 +80,7 @@ export const CrystalCard: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3">
                 <label htmlFor="country" className="flex flex-col frntr-input">
-                    <span>Country*</span>
+                    <span>{_t('payment.country')}*</span>
                     <input
                         type="text"
                         id="country"
@@ -90,7 +91,7 @@ export const CrystalCard: React.FC = () => {
                     />
                 </label>
                 <label htmlFor="zip" className="flex flex-col frntr-input">
-                    <span>Zipcode*</span>
+                    <span>{_t('payment.zipCode')}*</span>
                     <input type="text" id="zip" placeholder="94122" name="zip" required className="bg-grey" />
                 </label>
             </div>

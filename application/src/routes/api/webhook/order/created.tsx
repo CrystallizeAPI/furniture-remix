@@ -1,8 +1,9 @@
 import { ActionFunction, json } from '@remix-run/node';
 import mjml2html from 'mjml';
-import { getContext, getHost, getLocale } from '~/core-server/http-utils.server';
+import { getContext } from '~/core-server/http-utils.server';
 import { createMailer } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
+import { availableLanguages } from '~/core/LanguageAndMarket';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 
 export const action: ActionFunction = async ({ request }) => {
@@ -17,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const api = CrystallizeAPI({
         apiClient: secret.apiClient,
-        language: requestContext.language,
+        language: availableLanguages[0],
     });
     const tenantConfig = await api.fetchTenantConfig(secret.config.tenantIdentifier);
 

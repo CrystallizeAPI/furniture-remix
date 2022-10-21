@@ -43,16 +43,12 @@ export const action: ActionFunction = async ({ request, params }) => {
                 requestContext.language,
                 requestContext.market,
             );
-            const webhookLink = buildLanguageMarketAwareLink(
-                `/api/webhook/payment/klarna/${cartId}`,
-                requestContext.language,
-                requestContext.market,
-            );
+
             const data = {
                 ...getKlarnaOrderInfos(cart),
                 urls: {
                     confirmation: `${requestContext.baseUrl}${orderCartLink}`,
-                    authorization: `${requestContext.baseUrl}${webhookLink}`,
+                    authorization: `${requestContext.baseUrl}/api/webhook/payment/klarna/${cartId}`,
                 },
             };
             return data;

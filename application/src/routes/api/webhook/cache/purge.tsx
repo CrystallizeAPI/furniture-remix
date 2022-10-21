@@ -5,7 +5,6 @@ import { getStoreFront } from '~/core-server/storefront.server';
 export const action: ActionFunction = async ({ request }) => {
     const requestContext = getContext(request);
     const { secret: storefront } = await getStoreFront(requestContext.host);
-    const payload = await request.json();
     // we keep it simple for now and we purge all cache for the tenant identifier
     const keys = [storefront.config.tenantIdentifier];
     const response = await fetch(`https://api.fastly.com/service/${process.env.FASTLY_SERVICE_ID}/purge`, {

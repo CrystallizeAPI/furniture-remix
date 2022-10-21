@@ -35,18 +35,14 @@ export const action: ActionFunction = async ({ request, params }) => {
                     requestContext.language,
                     requestContext.market,
                 );
-                const webhookLink = buildLanguageMarketAwareLink(
-                    '/api/webhook/payment/quickpay',
-                    requestContext.language,
-                    requestContext.market,
-                );
+
                 return {
                     amount: cart.total.gross * 100, // in cents
                     currency: cart.total.currency,
                     urls: {
                         continue: `${requestContext.baseUrl}${orderCartLink}`,
                         cancel: `${requestContext.baseUrl}${orderCartLink}`,
-                        callback: `${requestContext.baseUrl}${webhookLink}`,
+                        callback: `${requestContext.baseUrl}/api/webhook/payment/quickpay`,
                     },
                 };
             },

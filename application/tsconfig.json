@@ -11,7 +11,7 @@
         "strict": true,
         "baseUrl": ".",
         "paths": {
-            "~/*": ["src/app/*"]
+            "~/*": ["src/*"]
         },
         "noEmit": true,
         "forceConsistentCasingInFileNames": true,

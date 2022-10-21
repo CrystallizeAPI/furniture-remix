@@ -26,7 +26,7 @@ test.describe('Main Navigation Flow', () => {
         expect(localStorageCheckout).toHaveProperty('cart');
 
         await page.waitForResponse(async (response: Response) => {
-            if (response.url().includes('/api/cart')) {
+            if (response.url().includes('api/cart')) {
                 return response.status() === 200;
             }
             return false;
@@ -55,7 +55,7 @@ test.describe('Main Navigation Flow', () => {
 
         // test don't have access to API but we can test that the cart is placed
         await page.waitForResponse(async (response: Response) => {
-            if (response.url().includes('/api/cart/place')) {
+            if (response.url().includes('api/cart/place')) {
                 return response.status() === 200;
             }
             return false;

@@ -1,5 +1,5 @@
 import { ContentTransformer } from '@crystallize/reactjs-components';
-import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { CategoryList } from '~/core/components/category-list';
 import { Grid } from '~/core/components/grid-cells/grid';
@@ -16,9 +16,9 @@ import { getContext } from '~/core-server/http-utils.server';
 import { createGrid } from '~/lib/grid-tile/createGrid';
 import { useAppContext } from '~/core/app-context/provider';
 
-export function links() {
+export const links: LinksFunction = () => {
     return [{ rel: 'stylesheet', href: splideStyles }];
-}
+};
 
 export let meta: MetaFunction = ({ data }) => {
     return buildMetas(data);

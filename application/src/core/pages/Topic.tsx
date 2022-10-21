@@ -11,6 +11,7 @@ export const fetchData = async (path: string, request: RequestContext, params: a
         isPreview: request.isPreview,
     });
     const data = await api.searchByTopic(path);
+    console.log(data);
     return {
         products: data?.search?.edges ?? [],
         topic: data?.topics?.aggregations?.topics?.find((item: any) => item.path === path),

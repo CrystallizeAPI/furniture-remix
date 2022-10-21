@@ -1,6 +1,13 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, path: string, orderBy?: any, fitlers?: any, attributes?: any) => {
+export default async (
+    apiClient: ClientInterface,
+    path: string,
+    language: string,
+    orderBy?: any,
+    fitlers?: any,
+    attributes?: any,
+) => {
     const field = orderBy?.split('_')[0] || 'NAME';
     const direction = orderBy?.split('_')[1] || 'ASC';
     const priceRangeParams = fitlers.price;
@@ -34,6 +41,7 @@ export default async (apiClient: ClientInterface, path: string, orderBy?: any, f
         $attributes: [VariantAttributeFilter!]
       ) {
         search(
+          language: "${language}"
           first: 100,
           orderBy: { field: $field, direction: $direction }
           filter: {

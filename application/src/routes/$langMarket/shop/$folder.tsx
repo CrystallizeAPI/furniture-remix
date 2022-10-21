@@ -1,4 +1,4 @@
-import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import {
     HttpCacheHeaderTaggerFromLoader,
@@ -12,13 +12,13 @@ import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.cs
 import PageRenderer from '~/core/pages/index';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
-export function links() {
+export const links: LinksFunction = () => {
     return [
         { rel: 'stylesheet', href: sliderStyles },
         { rel: 'stylesheet', href: splideStyles },
         { rel: 'stylesheet', href: videoStyles },
     ];
-}
+};
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

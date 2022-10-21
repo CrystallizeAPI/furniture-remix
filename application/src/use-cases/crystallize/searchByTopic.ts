@@ -12,6 +12,7 @@ export default async (apiClient: ClientInterface, value: string, language: strin
         }
       }
           search(
+            language: "${language}"
             first: 100,
             filter: {
               type: PRODUCT

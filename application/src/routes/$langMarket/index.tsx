@@ -1,4 +1,4 @@
-import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import {
     HttpCacheHeaderTaggerFromLoader,
     StoreFrontAwaretHttpCacheHeaderTagger,
@@ -22,12 +22,12 @@ export const headers: HeadersFunction = ({ parentHeaders, loaderHeaders }) => {
     };
 };
 
-export function links() {
+export const links: LinksFunction = () => {
     return [
         { rel: 'stylesheet', href: splideStyles },
         { rel: 'stylesheet', href: videoStyles },
     ];
-}
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);

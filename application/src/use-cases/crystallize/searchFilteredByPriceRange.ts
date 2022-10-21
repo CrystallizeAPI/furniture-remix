@@ -1,9 +1,10 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, path: string, min: string, max: string) => {
+export default async (apiClient: ClientInterface, path: string, language: string, min: string, max: string) => {
     return await apiClient.searchApi(
         `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
         search(
+          language: "${language}"  
           first: 100,
           filter: {
             type: PRODUCT

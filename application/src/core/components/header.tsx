@@ -11,10 +11,10 @@ import { Price } from './price';
 import { LanguageSwitcher } from './language-switcher';
 
 function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
-    if (typeof logo === 'string') {
+    if (logo.key === 'superfast-originated-logo') {
         return (
             <img
-                src={logo}
+                src={logo.url}
                 width="150"
                 height="30"
                 alt={identifier + ` logo`}

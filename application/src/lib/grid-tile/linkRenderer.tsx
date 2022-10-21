@@ -9,8 +9,6 @@ export const LinkRenderer: React.FC<{
             {text}
         </a>
     ) : (
-        <Link to={link} prefetch="intent">
-            {text}
-        </Link>
+        <Link to={link}>{text}</Link>
     );
 };

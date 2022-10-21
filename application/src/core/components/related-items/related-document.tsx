@@ -9,7 +9,7 @@ export const RelatedDocument = ({ document }: { document: any }) => {
         ?.content;
     return (
         <div className="pb-5 img-cover-hover">
-            <Link to={path(document.path)} prefetch="intent">
+            <Link to={path(document.path)}>
                 <div className="img-container img-cover rounded-md overflow-hidden">
                     <Image {...media?.images?.[0]} />
                 </div>

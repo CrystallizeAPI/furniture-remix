@@ -1,11 +1,15 @@
 import * as redis from 'redis';
-import { BackendStorage } from '@crystallize/node-service-api-request-handlers/dist/core/type';
+import { BackendStorage as HandlerBackendStorage } from '@crystallize/node-service-api-request-handlers/dist/core/type';
 
 export type StorageOptions = {
     prefix?: string;
 };
 
-function createRedisStorageEngine(dsn: string | undefined, options: StorageOptions = {}) {
+type BackendStorage = Pick<HandlerBackendStorage, 'get'> & {
+    set: (key: string, value: any, ttl?: number) => Promise<void>;
+};
+
+function createRedisStorageEngine(dsn: string | undefined, options: StorageOptions = {}): BackendStorage {
     const prefix = options?.prefix ?? '';
     let redisDSN = `${dsn || 'redis://127.0.0.1:6379'}`;
     const config = require('platformsh-config').config();
@@ -17,7 +21,7 @@ function createRedisStorageEngine(dsn: string | undefined, options: StorageOptio
     client.connect();
     return {
         get: async (key: string) => await client.get(`${prefix}${key}`),
-        set: async (key: string, value: any, ttl: number | false = false) => {
+        set: async (key: string, value: any, ttl?: number | undefined) => {
             await client.set(`${prefix}${key}`, value);
             if (ttl) {
                 client.expireAt(`${prefix}${key}`, Math.floor(Date.now() / 1000) + ttl);
@@ -26,7 +30,7 @@ function createRedisStorageEngine(dsn: string | undefined, options: StorageOptio
     };
 }
 
-function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}) {
+function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}): BackendStorage {
     const prefix = options?.prefix ?? '';
     const store = new Map();
     return {
@@ -36,7 +40,7 @@ function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}) {
             const { value, ttl } = hit;
             return !ttl || ttl > Date.now() / 1000 ? value : undefined;
         },
-        set: async (key: string, value: any, ttl: number | false = false) => {
+        set: async (key: string, value: any, ttl?: number) => {
             store.set(`${prefix}${key}`, {
                 value,
                 ttl: ttl && Math.floor(Date.now() / 1000) + ttl,

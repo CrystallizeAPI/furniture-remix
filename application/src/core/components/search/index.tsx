@@ -83,7 +83,11 @@ export const SearchBar = () => {
                                 >
                                     <div className="py-1 px-4 bg-[#fff] flex gap-2 items-center hover:bg-grey2">
                                         <div className="w-[25px] h-[35px] img-container rounded-sm img-cover border border-[#dfdfdf]">
-                                            <Image {...suggestion?.node?.matchingVariant?.images?.[0]} sizes="100px" />
+                                            <Image
+                                                {...suggestion?.node?.matchingVariant?.images?.[0]}
+                                                sizes="100px"
+                                                alt={suggestion?.node?.name}
+                                            />
                                         </div>
                                         <div className="flex justify-between w-full">
                                             <span className="text-sm ">{suggestion?.node?.name}</span>

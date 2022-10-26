@@ -53,7 +53,11 @@ const Product = ({
             <div className="border-b border-[#dfdfdf] w-full py-3 ">
                 <div className="grid w-full grid-cols-[0.35fr_1fr]">
                     <div className="w-full img-container overflow-hidden rounded-md">
-                        <Image sizes="200px" {...selecedPackItem.variant?.images?.[0]} />
+                        <Image
+                            sizes="200px"
+                            {...selecedPackItem.variant?.images?.[0]}
+                            alt={selecedPackItem.variant.name}
+                        />
                     </div>
                     <div>
                         <div className="gap-2 pl-4 flex ">

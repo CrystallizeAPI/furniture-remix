@@ -60,7 +60,7 @@ export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
                             </span>
                         ))}
                     </div>
-                    <Image {...shoppableImage} sizes="50vw" />
+                    <Image {...shoppableImage} sizes="50vw" alt={title} />
                 </div>
             </div>
         </Link>

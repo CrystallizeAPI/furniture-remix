@@ -39,8 +39,7 @@ import {
     displayableLanguages,
     isValidLanguageMarket,
 } from './core/LanguageAndMarket';
-import { useTranslation } from 'react-i18next';
-import { useChangeLanguage } from 'remix-i18next';
+import fetchTranslations from './use-cases/fetchTranslations.server';
 
 export const meta: MetaFunction = () => {
     return {
@@ -88,11 +87,13 @@ export let loader: LoaderFunction = async ({ request }) => {
         apiClient: secret.apiClient,
         language: requestContext.language,
     });
-    const [folders, topics, tenantConfig] = await Promise.all([
+    const [folders, topics, tenantConfig, translations] = await Promise.all([
         api.fetchNavigation('/'),
         api.fetchTopicNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
+        fetchTranslations(requestContext.language),
     ]);
+
     const apiPath = buildLanguageMarketAwareLink('/api', requestContext.language, requestContext.market);
     const frontConfiguration = buildStoreFrontConfiguration(
         requestContext.locale,
@@ -110,6 +111,8 @@ export let loader: LoaderFunction = async ({ request }) => {
                 folders,
                 topics,
             },
+            baseUrl: requestContext.baseUrl,
+            translations,
         },
         {
             headers: {
@@ -126,22 +129,21 @@ type LoaderData = {
     navigation: any;
     isHTTPS: boolean;
     host: string;
+    translations: any;
+    baseUrl: string;
 };
 
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { isHTTPS, frontConfiguration, host } = useLoaderData<LoaderData>();
-    useChangeLanguage(frontConfiguration.language);
-    let { i18n } = useTranslation();
+    const { isHTTPS, frontConfiguration, host, translations, baseUrl } = useLoaderData<LoaderData>();
     let location = useLocation();
     const path = '/' + location.pathname.split('/').slice(2).join('/');
-
     return (
         <CrystallizeProvider
             language={frontConfiguration.language}
             tenantIdentifier={frontConfiguration.crystallize.tenantIdentifier}
         >
-            <AppContextProvider initialState={frontConfiguration}>
-                <html lang={frontConfiguration.language} dir={i18n.dir()}>
+            <AppContextProvider initialState={frontConfiguration} translations={translations}>
+                <html lang={frontConfiguration.language}>
                     <head>
                         <meta charSet="utf-8" />
                         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -149,7 +151,7 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <link rel="manifest" href="/site.webmanifest" />
                         <meta name="msapplication-TileColor" content="#da532c" />
                         <meta name="theme-color" content="#ffffff" />
-                        <link href={`${host}${location?.pathname}`} rel="canonical" />
+                        <link href={`${baseUrl}${location?.pathname}`} rel="canonical" />
                         <Meta />
                         <Links />
                         {displayableLanguages.map((lang) => (
@@ -157,7 +159,7 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                 key={lang.code}
                                 rel="alternate"
                                 hrefLang={lang.code}
-                                href={buildLanguageMarketAwareLink(path, lang.code)}
+                                href={`${baseUrl}${buildLanguageMarketAwareLink(path, lang.code)}`}
                             />
                         ))}
                         <script suppressHydrationWarning={true} type="text/css">

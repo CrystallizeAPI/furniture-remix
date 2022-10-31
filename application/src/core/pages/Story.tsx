@@ -45,7 +45,7 @@ export default ({ data: story }: { data: Story }) => {
             </div>
             <div className="container 2xl mt-5 w-screen mx-auto">
                 <div className="max-w-[1200px] img-container overflow-hidden rounded-lg">
-                    <Image {...media?.images?.[0]} sizes="100vw" />
+                    <Image {...media?.images?.[0]} sizes="100vw" alt={title} />
                 </div>
             </div>
             <div className="2xl container mx-auto frntr-story ">

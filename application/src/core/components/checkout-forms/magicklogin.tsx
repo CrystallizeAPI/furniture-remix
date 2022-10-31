@@ -1,4 +1,3 @@
-import { t } from 'i18next';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppContext } from '~/core/app-context/provider';
 import { useAuth } from '~/core/hooks/useAuth';

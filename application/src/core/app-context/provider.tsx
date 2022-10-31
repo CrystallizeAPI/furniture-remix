@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { FunctionComponent } from 'react';
-import { useTranslation } from 'react-i18next';
 import { buildLanguageMarketAwareLink } from '../LanguageAndMarket';
 import { mapToReducerActions, Reducer } from './reducer';
 import { Actions, Dispatch, State } from './types';
 
 const StateContext = React.createContext<State | undefined>(undefined);
 const DispatchContext = React.createContext<Dispatch | undefined>(undefined);
+const TranslationsContext = React.createContext<Record<string, string> | undefined>(undefined);
 
 type InitialState = Omit<State, 'latestAddedCartItems'>;
 
@@ -20,12 +20,15 @@ const initiateState = (initialState: InitialState): State => {
 export const AppContextProvider: FunctionComponent<{
     children: React.ReactNode;
     initialState: InitialState;
-}> = ({ children, initialState }) => {
+    translations: Record<string, string>;
+}> = ({ children, initialState, translations }) => {
     const [state, dispatch] = React.useReducer(Reducer, initiateState(initialState));
     return (
-        <StateContext.Provider value={state}>
-            <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>
-        </StateContext.Provider>
+        <TranslationsContext.Provider value={translations}>
+            <StateContext.Provider value={state}>
+                <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>
+            </StateContext.Provider>
+        </TranslationsContext.Provider>
     );
 };
 
@@ -51,13 +54,28 @@ export function useAppContext(): {
     path: (path: string) => string;
     _t: (key: string, options?: Record<string, any>) => string;
 } {
+    const translationContext = React.useContext(TranslationsContext);
     const actions = mapToReducerActions(useAppContextDispatch());
     const state = useAppContextState();
-    const { t } = useTranslation();
+
+    const translate = (key: string, options?: Record<string, any>): string => {
+        if (!translationContext) {
+            return key;
+        }
+        const translated = translationContext[key as keyof typeof translationContext] || key;
+        if (!options) {
+            return translated;
+        }
+
+        return Object.entries(options).reduce((acc, [key, value]) => {
+            return acc.replace(`{{${key}}}`, value);
+        }, translated);
+    };
+
     return {
         state,
         dispatch: actions,
-        _t: t,
+        _t: translate,
         path: (path: string) => buildLanguageMarketAwareLink(path, state.language, state.market),
     };
 }

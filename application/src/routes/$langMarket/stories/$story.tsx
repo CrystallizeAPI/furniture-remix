@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
     const path = `/stories/${params.story}`;
     const { shared } = await getStoreFront(requestContext.host);
-    const renderer = PageRenderer.resolve('abstract-story', request, params);
+    const renderer = PageRenderer.resolve('abstract-story', requestContext, params);
     const data = await renderer.fetchData(path, requestContext, params);
     return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };

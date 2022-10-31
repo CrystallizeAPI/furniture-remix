@@ -102,7 +102,12 @@ export const HydratedCart: React.FC = () => {
                                     className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg "
                                 >
                                     <div className="flex cart-item gap-3 items-center">
-                                        <Image {...item.variant.images?.[0]} sizes="100px" loading="lazy" />
+                                        <Image
+                                            {...item.variant.images?.[0]}
+                                            sizes="100px"
+                                            loading="lazy"
+                                            alt={item.variant.name}
+                                        />
                                         <div className="flex flex-col">
                                             <p className="text-xl font-semibold w-full">{item.variant.name}</p>
                                             <CartItemPrice item={item} saving={saving} />
@@ -197,7 +202,7 @@ export const OptimisticHydratedCart: React.FC = () => {
                 return (
                     <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg ">
                         <div className="flex cart-item gap-3 items-center">
-                            <Image sizes="100px" loading="lazy" />
+                            <Image sizes="100px" loading="lazy" alt={item.name} />
                             <div className="flex flex-col">
                                 <p className="text-xl font-semibold w-full">{item.name}</p>
                                 <CrystallizePrice currencyCode={contextState.currency.code}>

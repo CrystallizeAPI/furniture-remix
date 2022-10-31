@@ -31,7 +31,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
                 </div>
             )}
             <div className="img-container img-contain img-border border-solid border border-[#dfdfdf] aspect-[3/4] bg-[#fff] rounded-md h-full overflow-hidden grow-1">
-                <Image {...image} sizes="300px" loading="lazy" />
+                <Image {...image} sizes="300px" loading="lazy" alt={name} />
             </div>
             <div className="pl-1">
                 <h3 className="text-md line-clamp-2 overflow-hidden">{name}</h3>

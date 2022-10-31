@@ -112,7 +112,7 @@ export default ({ data: story }: { data: CuratedStory }) => {
                             </span>
                         ))}
                     </div>
-                    <Image {...shoppableImage} sizes="50vw" />
+                    <Image {...shoppableImage} sizes="50vw" alt={title} />
                 </div>
                 <ProductBody components={story?.components} />
             </div>

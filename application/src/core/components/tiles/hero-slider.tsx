@@ -24,6 +24,7 @@ export const HeroSlider: React.FC<TileViewComponentProps> = ({ tile }) => {
                                 <Image
                                     {...image}
                                     loading="eager"
+                                    sizes="(max-width: 500px) 300px, 700px"
                                     className="h-[300px] sm:h-[400px] lg:h-[700px] [&>picture>img]:w-full [&>picture>img]:h-full [&>picture>img]:object-cover"
                                 />
                             </SplideSlide>

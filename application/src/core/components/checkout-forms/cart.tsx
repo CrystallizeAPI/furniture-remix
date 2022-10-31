@@ -30,7 +30,9 @@ export const CheckoutCart: React.FC = () => {
                                     <Image {...item?.variant.images?.[0]} sizes="100px" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <p className="text-md font-regular w-full">{item.variant.name}</p>
+                                    <p className="text-md font-regular w-full">
+                                        {item.variant.name} x {item.quantity}
+                                    </p>
                                     <CartItemPrice item={item} saving={saving} />
                                 </div>
                             </div>

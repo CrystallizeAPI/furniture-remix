@@ -62,6 +62,7 @@ export default async (apiClient: ClientInterface, path: string, version: any, la
                             variants {
                               url
                               width
+                              height
                             }
                           }
                         }

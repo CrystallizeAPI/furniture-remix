@@ -58,6 +58,7 @@ export const SearchBar = () => {
                     onChange={handleChange}
                     className="bg-grey rounded-full overflow-hidden focus:border-textBlack outline-none px-6 w-full placeholder:text-[14px] placeholder:italic "
                     onKeyDown={handleKeyPress}
+                    aria-label="Search"
                 />
                 <Link
                     to={path(`/search?q=${searchTerm}`)}

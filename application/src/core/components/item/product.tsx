@@ -34,7 +34,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
                 <Image {...image} sizes="300px" loading="lazy" alt={name} />
             </div>
             <div className="pl-1">
-                <h3 className="text-md line-clamp-2 overflow-hidden">{name}</h3>
+                <p className="text-md line-clamp-2 overflow-hidden">{name}</p>
             </div>
             <div className="flex gap-3 my-2">
                 {attributes?.map((attribute: { attribute: string; value: string }) => (

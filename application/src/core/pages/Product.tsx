@@ -111,7 +111,7 @@ export default ({ data: product }: { data: Product }) => {
 
                 {relatedProducts && (
                     <div className="w-full border-t border-[#dfdfdf] pr-6 sm:pr-0">
-                        <h3 className="font-bold mt-20 mb-4 text-xl">{_t('relatedProducts')}</h3>
+                        <h2 className="font-bold mt-20 mb-4 text-xl">{_t('relatedProducts')}</h2>
                         <div className="grid gap-5 grid-cols-2 grid md:grid-cols-4 lg:grid-cols-5 pb-5">
                             {relatedProducts?.map((item: any, index: number) => (
                                 <Product item={item} key={`${item?.id}-${index}`} />

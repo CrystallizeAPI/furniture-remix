@@ -1,8 +1,12 @@
 import Arrow from '~/assets/arrow.svg';
 import { useAppContext } from '~/core/app-context/provider';
+import { Dimensions } from '~/core/contracts/Dimensions';
 
-export const DimensionsTable = ({ dimensions }: { dimensions: any }) => {
+export const DimensionsTable: React.FC<{ dimensions: Dimensions }> = ({ dimensions }) => {
     const { _t } = useAppContext();
+    if (Object.keys(dimensions).length === 0) {
+        return null;
+    }
     return (
         <details className="border-t border-[#dfdfdf] hover:bg-[#fefefe] frntr-accordination" open>
             <summary className="font-bold text-2xl py-10 flex items-center justify-between w-full">
@@ -10,24 +14,22 @@ export const DimensionsTable = ({ dimensions }: { dimensions: any }) => {
                 <img src={`${Arrow}`} alt="Arrow" className="frntr-accordination-arrow w-[20px] h-[20px] mr-4" />
             </summary>
 
-            {dimensions && dimensions.length > 0 && (
-                <div className="rounded-md h-auto -mt-4 mb-10">
-                    <div>
-                        {dimensions.map((dimension: any, index: number) => (
-                            <div
-                                key={`${index}-${dimension?.id}`}
-                                className="flex justify-between py-4 px-2 odd:bg-[#efefef]"
-                            >
-                                <p className="font-semibold text-md">{dimension?.name}</p>
+            <div className="rounded-md h-auto -mt-4 mb-10">
+                <div>
+                    {Object.keys(dimensions).map((key, index) => {
+                        const dimension = dimensions[key];
+                        return (
+                            <div key={`${index}-${key}`} className="flex justify-between py-4 px-2 odd:bg-[#efefef]">
+                                <p className="font-semibold text-md">{dimension.title}</p>
                                 <p className="text-md">
-                                    {dimension?.content?.number}
-                                    {dimension?.content?.unit}
+                                    {dimension.value}
+                                    {dimension.unit}
                                 </p>
                             </div>
-                        ))}
-                    </div>
+                        );
+                    })}
                 </div>
-            )}
+            </div>
         </details>
     );
 };

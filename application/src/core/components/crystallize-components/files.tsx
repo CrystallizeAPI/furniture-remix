@@ -2,8 +2,9 @@ import FileDownloadIcon from '~/assets/documentDownloadIcon.svg';
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
 import Arrow from '~/assets/arrow.svg';
 import { useAppContext } from '~/core/app-context/provider';
+import { FileDownload } from '~/core/contracts/Files';
 
-export const Files = ({ chunks }: { chunks: any }) => {
+export const Files: React.FC<{ files: FileDownload[] }> = ({ files }) => {
     const { _t } = useAppContext();
     return (
         <details className="border-t border-[#dfdfdf] hover:bg-[#fefefe] frntr-accordination min-h-fit" open>
@@ -12,12 +13,9 @@ export const Files = ({ chunks }: { chunks: any }) => {
                 <img src={`${Arrow}`} alt="Arrow" className="frntr-accordination-arrow w-[20px] h-[20px] mr-4" />
             </summary>
 
-            {chunks && chunks.length > 0 && (
+            {files.length > 0 && (
                 <div className="grid gap-5 grid-col-1 sm:grid-cols-2  lg:grid-cols-2 xl:grid-cols-3 h-auto -mt-4 mb-10">
-                    {chunks.map((chunk: any, index: number) => {
-                        const title = chunk.find((cmp: any) => cmp.id === 'title')?.content?.text;
-                        const description = chunk.find((cmp: any) => cmp.id === 'description')?.content?.json;
-                        const files = chunk.find((cmp: any) => cmp.id === 'files')?.content?.files || [];
+                    {files.map((file, index) => {
                         return (
                             <div
                                 key={index}
@@ -31,17 +29,17 @@ export const Files = ({ chunks }: { chunks: any }) => {
                                         height="40"
                                         alt="User icon"
                                     />
-                                    <p className="font-semibold text-md">{title}</p>
+                                    <p className="font-semibold text-md">{file.title}</p>
                                     <div className="text-sm text-elipsis">
-                                        <ContentTransformer json={description} />
+                                        <ContentTransformer json={file.description?.json} />
                                     </div>
                                 </div>
 
                                 {files.length > 0 && (
                                     <div className="flex text-sm flex-col">
-                                        {files.map((file: any) => (
+                                        {file.files.map((file) => (
                                             <a className="mt-1 underline truncate" href={file.url} key={file.url}>
-                                                ➞ {file?.title}
+                                                ➞ {file.title}
                                             </a>
                                         ))}
                                     </div>

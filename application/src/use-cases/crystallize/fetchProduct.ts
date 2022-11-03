@@ -1,13 +1,8 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, path: string, version: string, language: string) => {
-    //should be using the createCatalogueFetcher
-    // just did this way to have everything for now
-
-    return (
-        await apiClient.catalogueApi(
-            `
-      query ($language: String!, $path: String!, $version: VersionLabel!) {
+export default async (apiClient: ClientInterface, path: string, version: string, language: string): Promise<any> => {
+    const data: { catalogue: any } = await apiClient.catalogueApi(
+        `query ($language: String!, $path: String!, $version: VersionLabel!) {
       catalogue(language: $language, path: $path, version: $version) {
         meta: component(id:"meta"){
           content {
@@ -106,7 +101,12 @@ export default async (apiClient: ClientInterface, path: string, version: string,
       path
       ...on Product {
         defaultVariant {
-          price
+          priceVariants {
+            identifier
+            name
+            price
+            currency
+          }
           images {
             variants {
               url
@@ -313,11 +313,12 @@ export default async (apiClient: ClientInterface, path: string, version: string,
   }  
 
 `,
-            {
-                language,
-                path,
-                version: version === 'draft' ? 'draft' : 'published',
-            },
-        )
-    ).catalogue;
+        {
+            language,
+            path,
+            version: version === 'draft' ? 'draft' : 'published',
+        },
+    );
+
+    return data.catalogue;
 };

@@ -1,4 +1,5 @@
-import { ProductPriceVariant, ProductVariant } from '@crystallize/js-api-client';
+import { ProductPriceVariant } from '@crystallize/js-api-client';
+import { ProductVariant } from '~/core/contracts/ProductVariant';
 import { Currency, CurrencyCode, getCurrencyFromCode } from './currencies';
 
 export type DisplayPrice = {
@@ -8,9 +9,10 @@ export type DisplayPrice = {
     currency: Currency;
 };
 
+/** @todo: MUST be EXTRACTED: as it used the Local to Project Type */
 export default function displayPriceFor(
     variant: ProductVariant,
-    idenfiers: { default: string; discounted: string } = {
+    identifiers: { default: string; discounted: string } = {
         default: 'default',
         discounted: 'sales',
     },
@@ -23,27 +25,21 @@ export default function displayPriceFor(
     const currency = getCurrencyFromCode(currencyCode);
     if (!priceVariants) {
         return {
-            default: variant?.price ?? 0.0,
+            default: 0.0,
             percent: 0.0,
             currency,
         };
     }
 
     const defaultPrice =
-        priceVariants?.find(
-            (priceVariant: ProductPriceVariant) =>
-                priceVariant.identifier === idenfiers.default &&
-                priceVariant.currency?.toLocaleLowerCase() === currency.code.toLocaleLowerCase(),
-        )?.price || 0;
-
-    // if there is a forced discount we take it
-    const discountedPrice = discount
-        ? discount.amount
-        : priceVariants?.find(
-              (priceVariant: ProductPriceVariant) =>
-                  priceVariant.identifier === idenfiers.discounted &&
-                  priceVariant.currency?.toLocaleLowerCase() === currency.code.toLocaleLowerCase(),
-          )?.price || undefined;
+        priceVariants[identifiers.default] && priceVariants[identifiers.default].currency.code === currency.code
+            ? priceVariants[identifiers.default].value
+            : 0.0;
+    const discountedPrice =
+        discount?.amount ||
+        (priceVariants[identifiers.discounted] && priceVariants[identifiers.discounted].currency.code === currency.code)
+            ? priceVariants[identifiers.discounted].value
+            : undefined;
 
     if (!discountedPrice) {
         return {

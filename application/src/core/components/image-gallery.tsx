@@ -1,14 +1,15 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image as ImageType } from '../contracts/Image';
 
-export const ImageGallery = ({ images }: { images: any }) => {
+export const ImageGallery: React.FC<{ images: ImageType[] }> = ({ images }) => {
     const galleryHasOddNubmer = images?.length % 2 || false;
     if (!images || images.length === 0) {
         return null;
     }
     return (
         <div className="frntr-img-gallery ">
-            {images.map((img: any, i: number) => {
-                if (!img.variants?.[0]) return null;
+            {images.map((img, i) => {
+                if (img.variants.length === 0) return null;
                 const isPortraitImg = img.variants[0].height > img.variants[0].width;
                 return (
                     <div key={i} className={`${isPortraitImg ? 'portrait' : 'landscape'} frntr-img`}>

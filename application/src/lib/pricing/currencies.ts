@@ -190,7 +190,7 @@ export const getCodeFromSymbol = (symbol: CurrencySymbol): CurrencyCode => {
 
 export const getCurrencyFromCode = (code: CurrencyCode | string): Currency => {
     return {
-        code: code as CurrencyCode,
-        symbol: getSymbolFromCode(code as CurrencyCode),
+        code: code.toUpperCase() as CurrencyCode,
+        symbol: getSymbolFromCode(code.toUpperCase() as CurrencyCode),
     };
 };

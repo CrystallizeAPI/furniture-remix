@@ -1,8 +1,9 @@
 import isEqual from 'lodash/isEqual';
 import { Image } from '@crystallize/reactjs-components/dist/image';
+import { ProductVariant } from '../contracts/ProductVariant';
 
-function reduceAttributes(variants: any) {
-    return variants.reduce((acc: any, variant: any) => {
+function reduceAttributes(variants: ProductVariant[]) {
+    return variants.reduce((acc: any, variant: ProductVariant) => {
         const attrs = acc;
         variant?.attributes?.forEach(({ attribute, value }: { attribute: string; value: string }) => {
             const currentAttribute = attrs[attribute];
@@ -28,21 +29,16 @@ function attributesToObject({ attributes }: { attributes: any }) {
     );
 }
 
-export const VariantSelector = ({
-    variants,
-    selectedVariant,
-    onVariantChange,
-    renderingType = 'default',
-}: {
-    variants: any;
-    selectedVariant: any;
+export const VariantSelector: React.FC<{
+    variants: ProductVariant[];
+    selectedVariant: ProductVariant;
     onVariantChange: Function;
     renderingType: string;
-}) => {
+}> = ({ variants, selectedVariant, onVariantChange, renderingType = 'default' }) => {
     const attributes = reduceAttributes(variants);
 
     let imageKeysForFiltering = [] as any;
-    variants.map((variant: any) => {
+    variants.map((variant) => {
         imageKeysForFiltering.push(variant?.images?.[0].key);
     });
 
@@ -53,7 +49,7 @@ export const VariantSelector = ({
 
         selectedAttributes[attribute] = value;
         // Get the most suitable variant
-        let variant = variants?.find((variant: any) => {
+        let variant = variants.find((variant) => {
             if (isEqual(selectedAttributes, attributesToObject(variant))) {
                 return true;
             }
@@ -61,7 +57,7 @@ export const VariantSelector = ({
         });
 
         if (!variant) {
-            variant = variants.find((variant: any) =>
+            variant = variants.find((variant) =>
                 variant.attributes.some((a: any) => a.attribute === attribute && a.value === value),
             );
         }
@@ -89,7 +85,7 @@ export const VariantSelector = ({
                                 {attr.map((value: string) => {
                                     const selectedAttributes = attributesToObject(selectedVariant);
                                     selectedAttributes[attribute] = value;
-                                    const mostSuitableVariant = variants.find((variant: any) =>
+                                    const mostSuitableVariant = variants.find((variant) =>
                                         isEqual(selectedAttributes, attributesToObject(variant)),
                                     );
 
@@ -153,12 +149,7 @@ export const VariantSelector = ({
                                         );
 
                                         return (
-                                            <option
-                                                key={value}
-                                                disabled={!mostSuitableVariant}
-                                                value={value}
-                                                // className="hover:bg-grey text "
-                                            >
+                                            <option key={value} disabled={!mostSuitableVariant} value={value}>
                                                 {value}
                                             </option>
                                         );

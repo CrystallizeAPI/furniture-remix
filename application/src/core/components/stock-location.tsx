@@ -1,9 +1,11 @@
 import StockIcon from '~/assets/stockIcon.svg';
 import { useState } from 'react';
 import { useAppContext } from '../app-context/provider';
-const StockIndicators = ({ location }: { location: any }) => {
+import { StockLocation } from '../contracts/StockLocation';
+
+const StockIndicators: React.FC<{ location: StockLocation }> = ({ location }) => {
     const { _t } = useAppContext();
-    const stock = location?.stock || 0;
+    const stock = location.stock || 0;
     if (stock < 1) {
         return (
             <>
@@ -40,13 +42,13 @@ const StockIndicators = ({ location }: { location: any }) => {
     );
 };
 
-export const StockLocations = ({ locations }: { locations: any }) => {
+export const StockLocations: React.FC<{ locations: StockLocation[] }> = ({ locations }) => {
     const [locationCountToShow, setLocationCountToShow] = useState(1);
     const { _t } = useAppContext();
-    if (!locations) return null;
+    if (locations.length === 0) return null;
     return (
         <div>
-            {locations?.slice(0, locationCountToShow).map((location: any) => (
+            {locations.slice(0, locationCountToShow).map((location) => (
                 <div key={location.identifier} className="flex pt-2 items-center gap-2 justify-between">
                     <StockIndicators location={location} />
                 </div>

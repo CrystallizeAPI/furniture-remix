@@ -1,5 +1,3 @@
-import { StoreFrontConfiguration } from '~/core/contract/StoreFrontConfiguration';
-
 // From https://github.com/jkroso/parse-duration that we cannot installed on Remix
 const parse = (duration: string, format: string): number => {
     const durationRegexp = /(-?(?:\d+\.?\d*|\d*\.?\d+)(?:e[-+]?\d+)?)\s*([\p{L}]*)/giu;

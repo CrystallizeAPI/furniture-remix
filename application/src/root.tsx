@@ -32,7 +32,7 @@ import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.
 import { getContext } from './core-server/http-utils.server';
 import { FAVICON_VARIANTS } from './routes/$langMarket/favicon/$size[.png]';
 import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
-import { StoreFrontConfiguration } from './core/contract/StoreFrontConfiguration';
+import { StoreFrontConfiguration } from './core/contracts/StoreFrontConfiguration';
 import {
     availableLanguages,
     buildLanguageMarketAwareLink,

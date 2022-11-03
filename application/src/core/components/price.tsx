@@ -1,8 +1,9 @@
-import { ProductVariant } from '@crystallize/js-api-client';
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
 import displayPriceFor, { DisplayPrice } from '~/lib/pricing/pricing';
 import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
+import { ProductVariant } from '../contracts/ProductVariant';
+import mapAPIProductVariantToProductVariant from '../../use-cases/mapper/mapAPIProductVariantToProductVariant';
 
 export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> = ({ price, size = 'medium' }) => {
     const priceSize = {
@@ -67,7 +68,7 @@ export const CartItemPrice: React.FC<{ item: CartItem; saving: any; size?: strin
     const { state, _t } = useAppContext();
     return (
         <>
-            <Price variant={item.variant} size={size} />
+            <Price variant={mapAPIProductVariantToProductVariant(item.variant)} size={size} />
             <div>
                 {_t('total')}:{' '}
                 <CrystallizePrice currencyCode={state.currency.code}>{item.price.gross}</CrystallizePrice>

@@ -1,5 +1,5 @@
 import { ClientInterface } from '@crystallize/js-api-client';
-import { TenantConfiguration } from '~/core/contract/TenantConfiguration';
+import { TenantConfiguration } from '~/core/contracts/TenantConfiguration';
 
 const QUERY_FETCH_TENANT_CONFIG = `
 query FETCH_TENANT_CONFIG ($identifier: String!) {

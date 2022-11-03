@@ -4,9 +4,12 @@ export const buildMetas = (data: any): HtmlMetaDescriptor => {
     const item = data?.data || data?.product || data?.folder || data?.document;
     const metaData =
         item?.meta?.content?.chunks?.[0] || item?.meta?.content?.chunks?.[0] || item?.meta?.content?.chunks?.[0];
-    const title = metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
-    const description = metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
-    const image = metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
+    const title = item?.title || metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
+    const description =
+        item?.description || metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
+    const image =
+        item?.defaultVariant?.images[0].url ||
+        metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
     const altDescription = item?.components?.find((comp: any) => comp.id === 'description')?.content?.plainText?.[0];
     let altImage =
         item?.variants?.[0]?.images?.[0]?.url ||

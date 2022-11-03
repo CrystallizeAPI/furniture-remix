@@ -1,5 +1,6 @@
 import { ClientInterface } from '@crystallize/js-api-client';
-import { RequestContext } from '~/core-server/http-utils.server';
+import { Product } from '~/core/contracts/Product';
+import mapFetchProductToProduct from '../mapper/mapFetchProductToProduct';
 import fetchCampaignPage from './fetchCampaignPage';
 import fetchDocument from './fetchDocument';
 import fetchFolder from './fetchFolder';
@@ -38,7 +39,8 @@ export const CrystallizeAPI = ({
         fetchProducts: (path: string) => fetchProducts(apiClient, path, language),
         fetchCampaignPage: (path: string) => fetchCampaignPage(apiClient, path, version, language),
         fetchDocument: (path: string) => fetchDocument(apiClient, path, version, language),
-        fetchProduct: (path: string) => fetchProduct(apiClient, path, version, language),
+        fetchProduct: (path: string): Promise<Product> =>
+            fetchProduct(apiClient, path, version, language).then(mapFetchProductToProduct),
         fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language),
         fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
         search: (value: string) => search(apiClient, value, language),

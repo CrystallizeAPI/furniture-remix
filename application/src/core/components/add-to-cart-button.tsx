@@ -1,7 +1,7 @@
-import { ProductVariant } from '@crystallize/js-api-client';
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
+import { ProductVariant } from '../contracts/ProductVariant';
 
 export type VariantPack = VariantPackItem[];
 
@@ -14,8 +14,7 @@ export type VariantPackItem = {
 export const AddToCartBtn: React.FC<{
     pack: VariantPack;
     label?: string;
-    stockLocations?: any[];
-}> = ({ pack, label = 'addToCart', stockLocations }) => {
+}> = ({ pack, label = 'addToCart' }) => {
     const [showTada, setShowTada] = useState(false);
     const { dispatch: contextDispatch, _t } = useAppContext();
     const { add } = useLocalCart();
@@ -32,7 +31,10 @@ export const AddToCartBtn: React.FC<{
         }, 1500);
     };
 
-    let defaultStock = stockLocations?.find((location) => location.identifier === 'default')?.stock;
+    let defaultStock = pack.reduce((memo: number, packitem: VariantPackItem) => {
+        const defaultStockLocation = packitem.variant.stockLocations.default;
+        return memo + defaultStockLocation.stock;
+    }, 0);
 
     return (
         <>

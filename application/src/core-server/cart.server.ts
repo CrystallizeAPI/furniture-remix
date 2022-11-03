@@ -166,6 +166,11 @@ export async function hydrateCart(apiClient: ClientInterface, language: string, 
             return {
                 firstImage: {
                     url: true,
+                    variants: {
+                        url: true,
+                        height: true,
+                        width: true,
+                    },
                 },
             };
         },

@@ -45,7 +45,36 @@ export const Klarna: React.FC = () => {
         return null;
     }
     const [methodsChoices, setMethodsChoices] = useState<KlarnaMethod[]>([]);
-    const [method, setMethod] = useState<KlarnaMethod | undefined>(undefined);
+
+    const triggerKlarna = async (method: KlarnaMethod) => {
+        //@ts-ignore
+        window.Klarna.Payments.load(
+            {
+                container: '#klarna-payments-container',
+                payment_method_category: method.identifier,
+            },
+            async () => {
+                await ServiceAPI({ language: state.language, serviceApiUrl: state.serviceApiUrl }).placeCart(
+                    cart,
+                    customer,
+                );
+                //@ts-ignore
+                window.Klarna.Payments.authorize(
+                    {
+                        payment_method_category: method.identifier,
+                    },
+                    {},
+                    function (res: any) {
+                        const approved = res.approved;
+                        if (approved) {
+                            empty();
+                            navigate(path(`/order/cart/${cart.cartId}`), { replace: true });
+                        }
+                    },
+                );
+            },
+        );
+    };
 
     useEffect(() => {
         (async () => {
@@ -64,7 +93,7 @@ export const Klarna: React.FC = () => {
                         client_token: data.client_token,
                     });
                     if (methods.length === 1) {
-                        setMethod(methods[0]);
+                        triggerKlarna(methods[0]);
                     } else {
                         setMethodsChoices(methods);
                     }
@@ -73,41 +102,6 @@ export const Klarna: React.FC = () => {
             }
         })();
     }, [cart.items]);
-
-    useEffect(() => {
-        if (!method) {
-            return;
-        }
-        (async () => {
-            //@ts-ignore
-            window.Klarna.Payments.load(
-                {
-                    container: '#klarna-payments-container',
-                    payment_method_category: method.identifier,
-                },
-                async () => {
-                    await ServiceAPI({ language: state.language, serviceApiUrl: state.serviceApiUrl }).placeCart(
-                        cart,
-                        customer,
-                    );
-                    //@ts-ignore
-                    window.Klarna.Payments.authorize(
-                        {
-                            payment_method_category: method.identifier,
-                        },
-                        {},
-                        function (res: any) {
-                            const approved = res.approved;
-                            if (approved) {
-                                empty();
-                                navigate(path(`/order/cart/${cart.cartId}`), { replace: true });
-                            }
-                        },
-                    );
-                },
-            );
-        })();
-    }, [method]);
 
     return (
         <>
@@ -119,7 +113,7 @@ export const Klarna: React.FC = () => {
                         {methodsChoices.map((method) => (
                             <div key={method.identifier} className="w-1/2">
                                 <button
-                                    onClick={() => setMethod(method)}
+                                    onClick={() => triggerKlarna(method)}
                                     className="bg-[#000] text-[#fff] rounded-md px-8 py-4 flex flex-row items-center"
                                 >
                                     <img

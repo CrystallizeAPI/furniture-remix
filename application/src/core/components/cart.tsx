@@ -52,7 +52,7 @@ export type Savings = Record<string, { quantity: number; amount: number }>;
 
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
-    const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart } = useLocalCart();
+    const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart, clone: cartClone } = useLocalCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
     const { state: contextState, path, _t } = useAppContext();
@@ -92,10 +92,26 @@ export const HydratedCart: React.FC = () => {
                     )}
                 </div>
                 <div className="flex flex-col gap-3 min-h-[200px] ">
+                    {isImmutable() && (
+                        <>
+                            <p className="text-red-500">{_t('cart.immutable')}</p>
+                            <a
+                                className="text-red-500"
+                                href="#"
+                                onClick={(event) => {
+                                    event.preventDefault();
+                                    cartClone();
+                                }}
+                            >
+                                {_t('cart.clone')}
+                            </a>
+                        </>
+                    )}
                     {!cart && <OptimisticHydratedCart />}
                     {cart &&
                         cart.items.map((item: CartItem, index: number) => {
                             const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
+                            console.log(item);
                             return (
                                 <div
                                     key={index}
@@ -103,7 +119,7 @@ export const HydratedCart: React.FC = () => {
                                 >
                                     <div className="flex cart-item gap-3 items-center">
                                         <Image
-                                            {...item.variant.images?.[0]}
+                                            {...item.variant.firstImage}
                                             sizes="100px"
                                             loading="lazy"
                                             alt={item.variant.name}
@@ -202,7 +218,7 @@ export const OptimisticHydratedCart: React.FC = () => {
                 return (
                     <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg ">
                         <div className="flex cart-item gap-3 items-center">
-                            <Image sizes="100px" loading="lazy" alt={item.name} />
+                            <Image />
                             <div className="flex flex-col">
                                 <p className="text-xl font-semibold w-full">{item.name}</p>
                                 <CrystallizePrice currencyCode={contextState.currency.code}>

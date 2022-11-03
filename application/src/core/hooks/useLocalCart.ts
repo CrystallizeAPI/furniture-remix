@@ -52,6 +52,12 @@ export function useLocalCart() {
         isEmpty: () => {
             return Object.keys(cart.items).length === 0;
         },
+        clone: () => {
+            update({
+                ...cart,
+                cartId: '',
+            });
+        },
         add: (variant: any, quantity: number = 1) => {
             if (isImmutable()) {
                 return;

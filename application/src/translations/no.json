@@ -47,7 +47,9 @@
         "itemAdded": "Yay! Varen er lagt i handlekurven 🎉",
         "goto": "Gå til handlekurv",
         "continue": "Fortsett til kassen",
-        "trylater": "Prøv å gå tilbake og finn noe vakkert før du kommer tilbake"
+        "trylater": "Prøv å gå tilbake og finn noe vakkert før du kommer tilbake",
+        "immutable": "Du har igangsatt, avsluttet eller kansellert en betaling, denne versjonen av handlekurven din er derfor låst.",
+        "clone": "Lag en ny handlekurv fra denne"
     },
     "dimensions": "Dimensjoner",
     "specifications": "Manualer og spesifikasjoner",

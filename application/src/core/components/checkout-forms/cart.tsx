@@ -12,7 +12,6 @@ export const CheckoutCart: React.FC = () => {
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
     const { state: contextState, _t } = useAppContext();
-
     return (
         <div className="lg:w-2/5 w-full">
             <h1 className="font-bold text-2xl mt-10 mb-5">{_t('cart.yourCart')}</h1>
@@ -27,7 +26,7 @@ export const CheckoutCart: React.FC = () => {
                         >
                             <div className="flex cart-item gap-3 items-center">
                                 <div className="img-container img-contain w-[60px] h-[60px]">
-                                    <Image {...item?.variant.images?.[0]} sizes="100px" alt={item.variant.name} />
+                                    <Image {...item?.variant.firstImage} sizes="100px" alt={item.variant.name} />
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-md font-regular w-full">

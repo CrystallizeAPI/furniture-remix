@@ -51,7 +51,7 @@ export default () => {
                                             title="Guest Checkout"
                                             onValidSubmit={() => setShowPayments(true)}
                                         />
-                                        {cart.cartId !== '' && showPayments && <Payments />}
+                                        {showPayments && <Payments />}
                                     </>
                                 ) : (
                                     <MagickLoginForm
@@ -64,7 +64,7 @@ export default () => {
                             return (
                                 <>
                                     <AddressForm title="Address" onValidSubmit={() => setShowPayments(true)} />
-                                    {cart.cartId !== '' && showPayments && <Payments />}
+                                    {showPayments && <Payments />}
                                 </>
                             );
                         })()}

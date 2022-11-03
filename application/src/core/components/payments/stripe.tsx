@@ -32,17 +32,29 @@ export const StripeButton: React.FC<{ paying?: boolean; onClick?: () => Promise<
 
 export const Stripe: React.FC = () => {
     const { state } = useAppContext();
-    const variables = state.paymentImplementationVariables ? state.paymentImplementationVariables['stripe'] : {};
+    const [clientSecret, setClientSecret] = useState<string>('');
+    const { cart, isEmpty } = useLocalCart();
+    const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
 
+    const variables = state.paymentImplementationVariables ? state.paymentImplementationVariables['stripe'] : {};
     if (!variables || !variables.PUBLIC_KEY) {
         return null;
     }
     const stripePromise = loadStripe(variables.PUBLIC_KEY);
-    const [clientSecret, setClientSecret] = useState<string>('');
-    const { cart, isEmpty } = useLocalCart();
+
     useEffect(() => {
         (async () => {
             if (!isEmpty()) {
+                // before anything else we place the cart
+                try {
+                    await ServiceAPI({ language: state.language, serviceApiUrl: state.serviceApiUrl }).placeCart(
+                        cart,
+                        customer,
+                    );
+                } catch (exception) {
+                    console.log(exception);
+                }
+
                 const data = await ServiceAPI({
                     language: state.language,
                     serviceApiUrl: state.serviceApiUrl,
@@ -64,7 +76,7 @@ export const Stripe: React.FC = () => {
 
 const StripCheckoutForm: React.FC = () => {
     const { cart, empty } = useLocalCart();
-    const { state: appState, path } = useAppContext();
+    const { path } = useAppContext();
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
@@ -73,7 +85,6 @@ const StripCheckoutForm: React.FC = () => {
         succeeded: boolean;
         processing: boolean;
     }>({ succeeded: false, error: null, processing: false });
-    const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -84,16 +95,6 @@ const StripCheckoutForm: React.FC = () => {
             ...state,
             processing: true,
         });
-
-        // before anything else we place the cart
-        try {
-            await ServiceAPI({ language: appState.language, serviceApiUrl: appState.serviceApiUrl }).placeCart(
-                cart,
-                customer,
-            );
-        } catch (exception) {
-            console.log(exception);
-        }
 
         const payload = await stripe.confirmPayment({
             elements,

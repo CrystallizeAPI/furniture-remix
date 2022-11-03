@@ -47,7 +47,9 @@
         "itemAdded": "Yay! Item added to cart 🎉",
         "goto": "Go to cart",
         "continue": "Continue to checkout",
-        "trylater": "Try going back and find something beautiul before you come back"
+        "trylater": "Try going back and find something beautiul before you come back",
+        "immutable": "You have initiated, finalized or cancelled a payment, this version of your cart is therefore locked.",
+        "clone": "Create a new cart from this one"
     },
     "dimensions": "Dimensions",
     "specifications": "Manuals and specifications",

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAppContext } from '~/core/app-context/provider';
+import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { CrystalCard, CrystalCardButton } from './crystal/card';
 import { CrystalCoin, CrystalCoinButton } from './crystal/coin';
 import { Klarna, KlarnaButton } from './klarna';
@@ -8,6 +9,7 @@ import { Stripe, StripeButton } from './stripe';
 
 export const Payments: React.FC = () => {
     const { state, _t } = useAppContext();
+    const { cart, isImmutable, clone: cartClone } = useLocalCart();
     const paymentMethods = state.crystalPayments;
     const paymentMethodImplementations = {
         crystalCoin: {
@@ -63,26 +65,46 @@ export const Payments: React.FC = () => {
     return (
         <>
             <h2 className="font-bold text-2xl mt-5 mb-1">{_t('payment.title')}</h2>
-
+            {isImmutable() && (
+                <>
+                    <p className="text-red-500">{_t('cart.immutable')}</p>
+                    <a
+                        className="text-red-500"
+                        href="#"
+                        onClick={(event) => {
+                            event.preventDefault();
+                            cartClone();
+                        }}
+                    >
+                        {_t('cart.clone')}
+                    </a>
+                </>
+            )}
             <br />
-            <div className="grid grid-cols-1 gap-1">
-                {Object.keys(paymentMethodImplementations).map((implementationKey) => {
-                    const implementation =
-                        paymentMethodImplementations[implementationKey as keyof typeof paymentMethodImplementations];
-                    if (!implementation.enabled) {
-                        return null;
-                    }
-                    if (implementation.renderOnLoad) {
-                        return <implementation.component key={implementationKey} />;
-                    }
-                    return (
-                        <implementation.button
-                            key={implementationKey}
-                            onClick={() => setSelectedPaymentMethodImplementation(implementationKey)}
-                        />
-                    );
-                })}
-            </div>
+
+            {!cart.cartId && <div className="loader" />}
+            {!isImmutable() && (
+                <div className="grid grid-cols-1 gap-1">
+                    {Object.keys(paymentMethodImplementations).map((implementationKey) => {
+                        const implementation =
+                            paymentMethodImplementations[
+                                implementationKey as keyof typeof paymentMethodImplementations
+                            ];
+                        if (!implementation.enabled) {
+                            return null;
+                        }
+                        if (implementation.renderOnLoad) {
+                            return <implementation.component key={implementationKey} />;
+                        }
+                        return (
+                            <implementation.button
+                                key={implementationKey}
+                                onClick={() => setSelectedPaymentMethodImplementation(implementationKey)}
+                            />
+                        );
+                    })}
+                </div>
+            )}
         </>
     );
 };

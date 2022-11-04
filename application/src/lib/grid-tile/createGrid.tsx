@@ -1,9 +1,9 @@
-export const createGrid = (items: any) => {
-    if (!items) {
+export const createGrid = (items: any[]) => {
+    if (items.length === 0) {
         return;
     }
     return {
-        rows: items?.map((item: any, index: number) => {
+        rows: items.map((item, index) => {
             return {
                 columns: [
                     {

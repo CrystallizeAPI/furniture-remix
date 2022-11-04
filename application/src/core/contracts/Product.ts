@@ -26,3 +26,14 @@ export type Product = Item & {
     defaultVariant: ProductVariant;
     variants: Array<ProductVariant>;
 };
+
+export type ProductSlim = Item & {
+    id: string;
+    variant: ProductVariant;
+    topics: Array<Topic>;
+};
+
+export type SearchByTopicsProductList = {
+    products: ProductSlim[];
+    topics: Topic[];
+};

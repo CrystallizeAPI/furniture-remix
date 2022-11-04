@@ -2,23 +2,32 @@ import { RequestContext } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { FilteredProducts } from '../components/filter/filtered-products';
+import { SearchByTopicsProductList } from '../contracts/Product';
+import { Topic } from '../contracts/Topic';
 
-export const fetchData = async (path: string, request: RequestContext, params: any): Promise<any> => {
+export const fetchData = async (
+    path: string,
+    request: RequestContext,
+    params: any,
+): Promise<SearchByTopicsProductList & { topic?: Topic }> => {
     const { secret } = await getStoreFront(request.host);
     const api = CrystallizeAPI({
         apiClient: secret.apiClient,
         language: request.language,
         isPreview: request.isPreview,
     });
-    const data = await api.searchByTopic(path);
+
+    const { products, topics } = await api.searchByTopic(path);
+    const topic = topics.find((topic) => topic.path === path);
     return {
-        products: data?.search?.edges ?? [],
-        topic: data?.topics?.aggregations?.topics?.find((item: any) => item.path === path),
+        products,
+        topics,
+        topic,
     };
 };
 
-export default ({ data }: { data: any }) => {
-    const { products, topic } = data;
+export default ({ data }: { data: SearchByTopicsProductList & { topic?: Topic } }) => {
+    const { products, topics, topic } = data;
     let topicName = topic?.name || topic?.path;
     return (
         <div className="container 2xl mx-auto px-6 mt-10">

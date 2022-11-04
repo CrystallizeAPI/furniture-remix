@@ -1,5 +1,5 @@
 import { Grid as BaseGrid } from '~/lib/grid-tile/grid';
-import { Product } from '~/core/components/item/product';
+import { ProductFromCell } from '~/core/components/item/product';
 import { Document } from '~/core/components/item/document';
 import { Banner } from '~/core/components/tiles/banner';
 import { Embed } from '~/core/components/tiles/embed';
@@ -14,7 +14,7 @@ const tileMapping = {
     heroslider: HeroSlider,
 };
 const itemMapping = {
-    product: Product,
+    product: ProductFromCell,
     document: Document,
 };
 

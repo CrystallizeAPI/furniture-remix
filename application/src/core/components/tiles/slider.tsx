@@ -1,11 +1,11 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
-import { Product } from '../item/product';
+import { ProductFromCell } from '../item/product';
 import { Document } from '../item/document';
 import { LinkRenderer } from '~/lib/grid-tile/linkRenderer';
 
 const itemMapping = {
-    product: Product,
+    product: ProductFromCell,
     document: Document,
 };
 

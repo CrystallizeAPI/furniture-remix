@@ -16,6 +16,7 @@ import searchFilteredByPriceRange from './searchFilteredByPriceRange';
 import searchOrderBy from './searchOrderBy';
 import searchOrderByPriceRange from './searchOrderByPriceRange';
 import mapFetchLandingPageToLandingPage from '../mapper/mapFetchLandingPageToLandingPage';
+import mapSearchProductToProductSlim from '../mapper/mapSearchProductToProductSlim';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -49,6 +50,6 @@ export const CrystallizeAPI = ({
         searchOrderByPriceRange: (path: string) => searchOrderByPriceRange(apiClient, path, language),
         searchFilteredByPriceRange: (path: string, min: string, max: string) =>
             searchFilteredByPriceRange(apiClient, path, language, min, max),
-        searchByTopic: (value: string) => searchByTopic(apiClient, value, language),
+        searchByTopic: (value: string) => searchByTopic(apiClient, value, language).then(mapSearchProductToProductSlim),
     };
 };

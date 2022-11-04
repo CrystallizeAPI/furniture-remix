@@ -3,23 +3,20 @@ import { Link } from '@remix-run/react';
 import { useAppContext } from '~/core/app-context/provider';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from '../price';
-import mapAPIProductVariantToProductVariant from '../../../use-cases/mapper/mapAPIProductVariantToProductVariant';
+import { ProductSlim } from '~/core/contracts/Product';
+import mapAPIProductVariantToProductVariant from '~/use-cases/mapper/mapAPIProductVariantToProductVariant';
 
-export const Product: React.FC<{ item: any }> = ({ item }) => {
-    const productVariant = mapAPIProductVariantToProductVariant(item.defaultVariant);
-    const name = item?.defaultVariant?.name || item.name;
-    const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
+export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
     const { state, path } = useAppContext();
     const { percent: discountPercentage } = displayPriceFor(
-        productVariant,
+        item.variant,
         {
             default: 'default',
             discounted: 'sales',
         },
         state.currency.code,
     );
-    const attributes = item?.defaultVariant?.attributes || item?.attributes;
-
+    const attributesKeys = Object.keys(item.variant.attributes);
     return (
         <Link
             to={path(item.path)}
@@ -32,21 +29,39 @@ export const Product: React.FC<{ item: any }> = ({ item }) => {
                 </div>
             )}
             <div className="img-container img-contain img-border border-solid border border-[#dfdfdf] aspect-[3/4] bg-[#fff] rounded-md h-full overflow-hidden grow-1">
-                <Image {...image} sizes="300px" loading="lazy" alt={name} />
+                <Image {...item.variant.images[0]} sizes="300px" loading="lazy" alt={item.name} />
             </div>
             <div className="pl-1">
-                <p className="text-md line-clamp-2 overflow-hidden">{name}</p>
+                <p className="text-md line-clamp-2 overflow-hidden">{item.name}</p>
             </div>
-            <div className="flex gap-3 my-2">
-                {attributes?.map((attribute: { attribute: string; value: string }) => (
-                    <div className="text-xs bg-grey py-1 px-3 rounded" key={attribute.value}>
-                        {attribute.value}
-                    </div>
-                ))}
-            </div>
+            {attributesKeys && (
+                <div className="flex gap-3 my-2">
+                    {attributesKeys.map((key) => (
+                        <div className="text-xs bg-grey py-1 px-3 rounded" key={key}>
+                            {item.variant.attributes[key]}
+                        </div>
+                    ))}
+                </div>
+            )}
+
             <div className="pl-1">
-                <Price variant={productVariant} size="small" />
+                <Price variant={item.variant} size="small" />
             </div>
         </Link>
+    );
+};
+
+export const ProductFromCell: React.FC<{ item: any }> = ({ item }) => {
+    const productVariant = mapAPIProductVariantToProductVariant(item.defaultVariant);
+    return (
+        <Product
+            item={{
+                id: item.id,
+                name: item.name,
+                path: item.path,
+                variant: productVariant,
+                topics: [],
+            }}
+        />
     );
 };

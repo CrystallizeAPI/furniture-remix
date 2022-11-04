@@ -6,6 +6,7 @@ import mapAPIPriceVariantsToPriceVariant from './mapAPIPriceVariantsToPriceVaria
 
 export default (variant: APIProductVariant): ProductVariant => {
     const priceVariants = mapAPIPriceVariantsToPriceVariant(variant.priceVariants ?? []);
+    const images = variant.images ?? (variant.firstImage ? [variant.firstImage] : []);
     return {
         id: variant.id,
         isDefault: !!variant.isDefault,
@@ -26,7 +27,7 @@ export default (variant: APIProductVariant): ProductVariant => {
                 },
                 {},
             ) || {},
-        images: typedImages(variant.images),
+        images: typedImages(images),
         attributes:
             variant.attributes?.reduce((memo: Record<string, string>, attribute) => {
                 return {

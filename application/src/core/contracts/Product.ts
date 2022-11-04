@@ -3,7 +3,6 @@ import { ProductVariant } from './ProductVariant';
 import { CrystallizePropertiesTable } from './PropertiesTable';
 import { Dimensions } from './Dimensions';
 import { FileDownload } from './FileDownload';
-import { RelatedItem } from './RelatedItem';
 import { Paragraph } from './Paragraph';
 import { Item } from './Item';
 import { SEO } from './SEO';
@@ -16,7 +15,7 @@ export type Product = Item & {
     specifications: Array<CrystallizePropertiesTable>;
     dimensions: Dimensions;
     downloads: Array<FileDownload>;
-    relatedItems: Array<RelatedItem>;
+    relatedItems: Array<ProductSlim>;
     topics: Array<Topic>;
     seo: SEO;
     vat: {

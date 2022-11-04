@@ -132,12 +132,11 @@ export default (
         relatedItems:
             relatedItems?.map((item) => {
                 return {
+                    id: item.id,
                     name: item.name,
                     path: item.path,
-                    defaultVariant: {
-                        priceVariants: mapAPIPriceVariantsToPriceVariant(item.defaultVariant.priceVariants),
-                        images: item.defaultVariant.images,
-                    },
+                    topics: [],
+                    variant: mapAPIProductVariantToProductVariant(item.defaultVariant),
                 };
             }) || [],
         topics:

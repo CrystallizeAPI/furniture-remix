@@ -16,7 +16,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
         },
         state.currency.code,
     );
-    const attributesKeys = Object.keys(item.variant.attributes);
+    const attributesKeys = Object.keys(item.variant.attributes ?? {});
     return (
         <Link
             to={path(item.path)}

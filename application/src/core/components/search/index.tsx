@@ -6,12 +6,14 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '~/core/app-context/provider';
 import { createClient } from '@crystallize/js-api-client';
+import { ProductSlim } from '~/core/contracts/Product';
+import { Price } from '../price';
 
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(true);
-    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [suggestions, setSuggestions] = useState<ProductSlim[]>([]);
     const { state: appContextState, path, _t } = useAppContext();
     const api = CrystallizeAPI({
         apiClient: createClient({ tenantIdentifier: appContextState.crystallize.tenantIdentifier }),
@@ -73,10 +75,10 @@ export const SearchBar = () => {
                     className="absolute rounded-xl bg-[#fff] -top-5 w-full pt-20 pb-2 border border-[#dfdfdf] left-0 overflow-y-scroll shadow-sm z-20"
                 >
                     <div className="max-h-[400px] overflow-y-scroll">
-                        {suggestions?.map((suggestion: any, index: number) => (
+                        {suggestions?.map((suggestion, index) => (
                             <div key={index}>
                                 <Link
-                                    to={path(suggestion?.node?.path)}
+                                    to={path(suggestion.path)}
                                     onClick={() => {
                                         setSuggestions([]);
                                     }}
@@ -85,16 +87,15 @@ export const SearchBar = () => {
                                     <div className="py-1 px-4 bg-[#fff] flex gap-2 items-center hover:bg-grey2">
                                         <div className="w-[25px] h-[35px] img-container rounded-sm img-cover border border-[#dfdfdf]">
                                             <Image
-                                                {...suggestion?.node?.matchingVariant?.images?.[0]}
+                                                {...suggestion.variant.images[0]}
                                                 sizes="100px"
-                                                alt={suggestion?.node?.name}
+                                                alt={suggestion.name}
                                             />
                                         </div>
                                         <div className="flex justify-between w-full">
-                                            <span className="text-sm ">{suggestion?.node?.name}</span>
+                                            <span className="text-sm ">{suggestion.name}</span>
                                             <span className="text-sm font-bold">
-                                                {appContextState.currency.code}{' '}
-                                                {suggestion?.node?.matchingVariant?.price}
+                                                <Price variant={suggestion.variant} size="small" />
                                             </span>
                                         </div>
                                     </div>

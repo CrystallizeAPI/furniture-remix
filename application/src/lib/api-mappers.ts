@@ -8,7 +8,7 @@ export function stringForRichTextComponentWithId(components: any[], id: string):
     return components?.find((component) => component.id === id)?.content?.plainText.join('\n');
 }
 
-type Paragraph = {
+export type Paragraph = {
     title?: {
         text?: string;
     };
@@ -28,7 +28,7 @@ export function paragraphsForParagraphCollectionComponentWithId(
     return components.find((component: any) => component.id === id)?.content?.paragraphs;
 }
 
-type Section = {
+export type Section = {
     title?: string;
     properties: Record<string, string>;
 };
@@ -51,7 +51,7 @@ export function sectionsForPropertyTableComponentWithId(components: any[], id: s
     });
 }
 
-type Chunk = {
+export type Chunk = {
     id?: string;
     type?: string;
     name?: string;

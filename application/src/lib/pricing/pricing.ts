@@ -1,4 +1,3 @@
-import { ProductPriceVariant } from '@crystallize/js-api-client';
 import { ProductVariant } from '~/core/contracts/ProductVariant';
 import { Currency, CurrencyCode, getCurrencyFromCode } from './currencies';
 

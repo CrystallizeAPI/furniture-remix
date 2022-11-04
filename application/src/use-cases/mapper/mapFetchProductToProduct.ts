@@ -1,10 +1,4 @@
-import {
-    Item,
-    ProductVariant as APIProductVariant,
-    ProductPriceVariant,
-    ProductStockLocation,
-    Product as APIProduct,
-} from '@crystallize/js-api-client';
+import { Item, ProductVariant as APIProductVariant, Product as APIProduct } from '@crystallize/js-api-client';
 import { Product } from '~/core/contracts/Product';
 import { ProductVariant } from '~/core/contracts/ProductVariant';
 import {
@@ -18,6 +12,7 @@ import {
 import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
 import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
 import mapAPIPriceVariantsToPriceVariant from './mapAPIPriceVariantsToPriceVariant';
+import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
 
 export default (
     data: Omit<APIProduct, 'variants'> &
@@ -152,33 +147,7 @@ export default (
                     path: topic.path,
                 };
             }) || [],
-        seo: !firstSeoChunk
-            ? {
-                  title: '',
-              }
-            : (firstSeoChunk.reduce(
-                  (memo: Record<string, string>, data: any) => {
-                      let value = undefined;
-                      switch (data.type) {
-                          case 'singleLine':
-                              value = data.content?.text || '';
-                              break;
-                          case 'richText':
-                              value = data.content?.plainText.join(' ');
-                              break;
-                          case 'images':
-                              value = data.content?.images?.[0]?.url;
-                              break;
-                      }
-                      return {
-                          ...memo,
-                          [data.id]: value,
-                      };
-                  },
-                  {
-                      title: '',
-                  },
-              ) as { title: string }),
+        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
         vat: {
             name: data.vatType?.name || 'Exempt.',
             rate: data.vatType?.percent || 0.0,

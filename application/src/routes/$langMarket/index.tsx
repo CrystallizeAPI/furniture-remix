@@ -12,7 +12,7 @@ import PageRenderer from '~/core/pages/index';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export let meta: MetaFunction = ({ data }) => {
-    return buildMetas(data);
+    return buildMetas(data.data);
 };
 
 export const headers: HeadersFunction = ({ parentHeaders, loaderHeaders }) => {

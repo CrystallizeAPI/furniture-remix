@@ -4,7 +4,7 @@ import { useAppContext } from '~/core/app-context/provider';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
 
-const DefaultDocument = ({ item }: { item: any }) => {
+const DefaultDocument: React.FC<{ item: any }> = ({ item }) => {
     const { path } = useAppContext();
     const title = item?.components?.find((component: any) => component?.id === 'title')?.content?.text;
     const media = item?.components?.find((component: any) => component?.id === 'media')?.content?.selectedComponent

@@ -2,14 +2,14 @@ import { Topic } from './Topic';
 import { ProductVariant } from './ProductVariant';
 import { CrystallizePropertiesTable } from './PropertiesTable';
 import { Dimensions } from './Dimensions';
-import { FileDownload } from './Files';
+import { FileDownload } from './FileDownload';
 import { RelatedItem } from './RelatedItem';
 import { Paragraph } from './Paragraph';
+import { Item } from './Item';
+import { SEO } from './SEO';
 
-export type Product = {
+export type Product = Item & {
     id: string;
-    path: string;
-    name: string;
     title: string;
     description?: string;
     story?: Array<Paragraph>;
@@ -18,11 +18,7 @@ export type Product = {
     downloads: Array<FileDownload>;
     relatedItems: Array<RelatedItem>;
     topics: Array<Topic>;
-    seo: {
-        title: string;
-        description?: string;
-        image?: string;
-    };
+    seo: SEO;
     vat: {
         name: string;
         rate: number;

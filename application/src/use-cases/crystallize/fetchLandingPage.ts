@@ -13,6 +13,7 @@ export default async (apiClient: ClientInterface, path: string, version: any, la
             ...on ContentChunkContent {
               chunks {
                 id
+                type
                 content {
                   ...on SingleLineContent {
                     text
@@ -30,7 +31,7 @@ export default async (apiClient: ClientInterface, path: string, version: any, la
             }
           }
         }
-        component(id: "grid") {
+        grids: component(id: "grid") {
           content {
             ... on GridRelationsContent {
               grids {

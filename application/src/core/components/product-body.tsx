@@ -4,7 +4,7 @@ import { PropertiesTable } from './crystallize-components/properties-table';
 import { Files } from '~/core/components/crystallize-components/files';
 import { Paragraph } from '../contracts/Paragraph';
 import { CrystallizePropertiesTable } from '../contracts/PropertiesTable';
-import { FileDownload } from '../contracts/Files';
+import { FileDownload } from '../contracts/FileDownload';
 import { Dimensions } from '../contracts/Dimensions';
 
 export const ProductBody: React.FC<{

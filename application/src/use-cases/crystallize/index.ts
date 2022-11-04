@@ -1,13 +1,12 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { Product } from '~/core/contracts/Product';
 import mapFetchProductToProduct from '../mapper/mapFetchProductToProduct';
-import fetchCampaignPage from './fetchCampaignPage';
+import fetchLandingPage from './fetchLandingPage';
 import fetchDocument from './fetchDocument';
 import fetchFolder from './fetchFolder';
 import fetchNavigation from './fetchNavigation';
 import fetchPriceRangeAndAttributes from './fetchPriceRangeAndAttributes';
 import fetchProduct from './fetchProduct';
-import fetchProducts from './fetchProducts';
 import fetchTenantConfig from './fetchTenantConfig';
 import fetchTopicNavigation from './fetchTopicNavigation';
 import fetchTreeMap from './fetchTreeMap';
@@ -16,6 +15,7 @@ import searchByTopic from './searchByTopic';
 import searchFilteredByPriceRange from './searchFilteredByPriceRange';
 import searchOrderBy from './searchOrderBy';
 import searchOrderByPriceRange from './searchOrderByPriceRange';
+import mapFetchLandingPageToLandingPage from '../mapper/mapFetchLandingPageToLandingPage';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -36,8 +36,8 @@ export const CrystallizeAPI = ({
         fetchNavigation: (path: string) => fetchNavigation(apiClient, path, language),
         fetchTreeMap: () => fetchTreeMap(apiClient, language),
         fetchTopicNavigation: (path: string) => fetchTopicNavigation(apiClient, path, language),
-        fetchProducts: (path: string) => fetchProducts(apiClient, path, language),
-        fetchCampaignPage: (path: string) => fetchCampaignPage(apiClient, path, version, language),
+        fetchLandingPage: (path: string) =>
+            fetchLandingPage(apiClient, path, version, language).then(mapFetchLandingPageToLandingPage),
         fetchDocument: (path: string) => fetchDocument(apiClient, path, version, language),
         fetchProduct: (path: string): Promise<Product> =>
             fetchProduct(apiClient, path, version, language).then(mapFetchProductToProduct),

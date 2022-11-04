@@ -1,16 +1,17 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
 import { useAppContext } from '~/core/app-context/provider';
-import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from '../price';
+import mapAPIProductVariantToProductVariant from '../../../use-cases/mapper/mapAPIProductVariantToProductVariant';
 
-export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
+export const Product: React.FC<{ item: any }> = ({ item }) => {
+    const productVariant = mapAPIProductVariantToProductVariant(item.defaultVariant);
     const name = item?.defaultVariant?.name || item.name;
     const image = item?.defaultVariant?.firstImage || item?.defaultVariant?.images?.[0];
     const { state, path } = useAppContext();
     const { percent: discountPercentage } = displayPriceFor(
-        item?.defaultVariant,
+        productVariant,
         {
             default: 'default',
             discounted: 'sales',
@@ -44,7 +45,7 @@ export const Product: React.FC<ItemViewComponentProps> = ({ item }) => {
                 ))}
             </div>
             <div className="pl-1">
-                <Price variant={item.defaultVariant} size="small" />
+                <Price variant={productVariant} size="small" />
             </div>
         </Link>
     );

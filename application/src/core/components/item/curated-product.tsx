@@ -1,9 +1,8 @@
 import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
 import { useAppContext } from '~/core/app-context/provider';
-import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 
-export const CuratedProduct: React.FC<ItemViewComponentProps> = ({ item }) => {
+export const CuratedProduct: React.FC<{ item: any }> = ({ item }) => {
     const { state: contextState, path } = useAppContext();
     const getComponentContent = (components: any, id: string) => {
         let component = components.find((component: any) => component.id === id);

@@ -18,7 +18,6 @@ import {
     ProductVariant,
 } from '@crystallize/js-api-client';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
-import { useAppContext } from '~/core/app-context/provider';
 
 function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
     const { cart, total } = wrapper.cart;

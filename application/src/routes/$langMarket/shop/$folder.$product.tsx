@@ -14,7 +14,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export let meta: MetaFunction = ({ data }) => {
-    return buildMetas(data);
+    return buildMetas(data.data);
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {

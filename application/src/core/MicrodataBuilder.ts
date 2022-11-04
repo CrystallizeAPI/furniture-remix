@@ -1,7 +1,8 @@
 import { HtmlMetaDescriptor } from '@remix-run/react';
 
 export const buildMetas = (data: any): HtmlMetaDescriptor => {
-    const item = data?.data || data?.product || data?.folder || data?.document;
+    const item = data?.product || data?.folder || data?.document || data?.data || data;
+
     const metaData =
         item?.meta?.content?.chunks?.[0] || item?.meta?.content?.chunks?.[0] || item?.meta?.content?.chunks?.[0];
     const title = item?.title || metaData?.find((meta: any) => meta.id === 'title')?.content?.text;
@@ -11,18 +12,23 @@ export const buildMetas = (data: any): HtmlMetaDescriptor => {
         item?.defaultVariant?.images[0].url ||
         metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
     const altDescription = item?.components?.find((comp: any) => comp.id === 'description')?.content?.plainText?.[0];
-    let altImage =
+    const altImage =
         item?.variants?.[0]?.images?.[0]?.url ||
         item?.components?.find((comp: any) => comp.id === 'shoppable-image')?.content?.images?.[0]?.variants?.[0]?.url;
+    const seo = {
+        title: item?.seo?.title || title || item?.name,
+        description: item?.seo?.description || description || altDescription,
+        image: item?.seo?.image || image || altImage,
+    };
 
     return {
-        title: title ? title : item?.name,
-        'og:title': title ? title : item?.name,
-        description: description || altDescription,
-        'og:description': description || altDescription,
-        'og:image': image || altImage,
-        'twitter:image': image || altImage,
+        title: seo.title,
+        'og:title': seo.title,
+        description: seo.description,
+        'og:description': seo.description,
+        'og:image': seo.image,
+        'twitter:image': seo.image,
         'twitter:card': 'summary_large_image',
-        'twitter:description': description || altDescription,
+        'twitter:description': seo.description,
     };
 };

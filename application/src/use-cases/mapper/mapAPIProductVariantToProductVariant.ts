@@ -27,6 +27,12 @@ export default (variant: APIProductVariant): ProductVariant => {
                 {},
             ) || {},
         images: typedImages(variant.images),
-        attributes: variant.attributes,
+        attributes:
+            variant.attributes?.reduce((memo: Record<string, string>, attribute) => {
+                return {
+                    ...memo,
+                    [attribute.attribute]: attribute.value || '',
+                };
+            }, {}) || {},
     };
 };

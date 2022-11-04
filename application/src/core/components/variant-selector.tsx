@@ -1,32 +1,27 @@
-import isEqual from 'lodash/isEqual';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { ProductVariant } from '../contracts/ProductVariant';
 
 function reduceAttributes(variants: ProductVariant[]) {
-    return variants.reduce((acc: any, variant: ProductVariant) => {
-        const attrs = acc;
-        variant?.attributes?.forEach(({ attribute, value }: { attribute: string; value: string }) => {
-            const currentAttribute = attrs[attribute];
-            if (!currentAttribute) {
-                attrs[attribute] = [value];
-                return;
+    return variants.reduce((acc: Record<string, string[]>, variant: ProductVariant) => {
+        Object.keys(variant.attributes).forEach((key) => {
+            const value = variant.attributes[key];
+            if (!acc[key]) {
+                acc[key] = [];
             }
-
-            const valueExists = currentAttribute.find((str: string) => str === value);
-            if (!valueExists) {
-                attrs[attribute].push(value);
+            if (!acc[key].includes(value)) {
+                acc[key].push(value);
             }
         });
-
-        return attrs;
+        return acc;
     }, {});
 }
 
-function attributesToObject({ attributes }: { attributes: any }) {
-    return Object.assign(
-        {},
-        ...attributes.map(({ attribute, value }: { attribute: string; value: string }) => ({ [attribute]: value })),
-    );
+function findMostSuitableVariant(variants: ProductVariant[], attributes: Record<string, string>) {
+    return variants.find((variant) => {
+        return Object.keys(attributes).every((key) => {
+            return variant.attributes[key] === attributes[key];
+        });
+    });
 }
 
 export const VariantSelector: React.FC<{
@@ -37,83 +32,61 @@ export const VariantSelector: React.FC<{
 }> = ({ variants, selectedVariant, onVariantChange, renderingType = 'default' }) => {
     const attributes = reduceAttributes(variants);
 
-    let imageKeysForFiltering = [] as any;
-    variants.map((variant) => {
-        imageKeysForFiltering.push(variant?.images?.[0].key);
-    });
-
-    const variantsHasUniqueImages = [...new Set(imageKeysForFiltering)]?.length > 1;
-
-    function onAttributeSelect({ attribute, value }: { attribute: string; value: string }) {
-        const selectedAttributes = attributesToObject(selectedVariant);
-
-        selectedAttributes[attribute] = value;
-        // Get the most suitable variant
-        let variant = variants.find((variant) => {
-            if (isEqual(selectedAttributes, attributesToObject(variant))) {
-                return true;
-            }
-            return false;
+    function onAttributeSelect(key: string, value: string) {
+        let variant = findMostSuitableVariant(variants, {
+            ...selectedVariant.attributes,
+            [key]: value,
         });
 
         if (!variant) {
             variant = variants.find((variant) =>
-                variant.attributes.some((a: any) => a.attribute === attribute && a.value === value),
+                Object.keys(variant.attributes).some((vkey) => vkey === key && variant.attributes[vkey] === value),
             );
         }
 
+        if (!variant) {
+            variant = variants.find((variant) => Object.keys(variant.attributes).some((vkey) => vkey === key));
+        }
         onVariantChange(variant);
     }
-    function handleSelectChange({ attribute, value }: { attribute: string; value: string }) {
-        onAttributeSelect({ attribute, value });
-    }
+
     const renderingTypes = {
         default: (
             <div>
-                {Object.keys(attributes).map((attribute) => {
-                    const attr = attributes[attribute];
-                    const selectedAttr = selectedVariant.attributes?.find((a: any) => a.attribute === attribute);
-
-                    if (!selectedAttr) {
-                        return null;
-                    }
-
+                {Object.keys(attributes).map((key) => {
+                    const values = attributes[key];
                     return (
-                        <div key={attribute} className="border-[#dfdfdf]">
-                            <p className="mt-2 text-sm  font-semibold">{attribute}</p>
+                        <div key={key} className="border-[#dfdfdf]">
+                            <p className="mt-2 text-sm  font-semibold">{key}</p>
                             <div className="flex mb-5 flex-nowrap md:flex-wrap gap-2 overflow-x-scroll py-2 px-1">
-                                {attr.map((value: string) => {
-                                    const selectedAttributes = attributesToObject(selectedVariant);
-                                    selectedAttributes[attribute] = value;
-                                    const mostSuitableVariant = variants.find((variant) =>
-                                        isEqual(selectedAttributes, attributesToObject(variant)),
-                                    );
-
+                                {values.map((value) => {
+                                    const mostSuitableVariant = findMostSuitableVariant(variants, {
+                                        ...selectedVariant.attributes,
+                                        [key]: value,
+                                    });
                                     return (
                                         <button
                                             key={value}
-                                            onClick={(e) => onAttributeSelect({ attribute, value })}
+                                            onClick={(e) => onAttributeSelect(key, value)}
                                             type="button"
                                             className="w-2/6 md:w-1/6 md:py-2 py-4 rounded-lg text-text flex flex-col items-center text-xs font-medium overflow-hidden variant-option"
                                             style={{
                                                 opacity: !mostSuitableVariant ? 0.2 : 1,
                                                 border:
-                                                    value === selectedAttr.value
+                                                    value === selectedVariant.attributes[key]
                                                         ? '1px solid #000'
                                                         : '1px solid #efefef',
                                             }}
                                         >
-                                            {variantsHasUniqueImages && attribute.toLowerCase() !== 'size' && (
-                                                <div className="img-container p-3 w-[80px] img-contain">
-                                                    {mostSuitableVariant?.images?.[0] && (
-                                                        <Image
-                                                            {...mostSuitableVariant.images[0]}
-                                                            sizes="100px"
-                                                            alt={mostSuitableVariant.name}
-                                                        />
-                                                    )}
-                                                </div>
-                                            )}
+                                            <div className="img-container p-3 w-[80px] img-contain">
+                                                {mostSuitableVariant?.images?.[0] && (
+                                                    <Image
+                                                        {...mostSuitableVariant.images[0]}
+                                                        sizes="100px"
+                                                        alt={mostSuitableVariant.name}
+                                                    />
+                                                )}
+                                            </div>
                                             {value}
                                         </button>
                                     );
@@ -126,28 +99,20 @@ export const VariantSelector: React.FC<{
         ),
         dropdown: (
             <>
-                {Object.keys(attributes).map((attribute) => {
-                    const attr = attributes[attribute];
-                    const selectedAttr = selectedVariant.attributes?.find((a: any) => a.attribute === attribute);
-
-                    if (!selectedAttr) {
-                        return null;
-                    }
-
+                {Object.keys(attributes).map((key) => {
+                    const values = attributes[key];
                     return (
-                        <label key={attribute} className="block">
+                        <label key={key} className="block">
                             <select
-                                onChange={(e) => handleSelectChange({ attribute, value: e.target.value })}
+                                onChange={(e) => onAttributeSelect(key, e.target.value)}
                                 className="py-2 min-w-full w-full px-4 bg-[#efefef] grow-0  text-sm rounded-md min-w-[150px] "
                             >
-                                <optgroup label={attribute}>
-                                    {attr?.map((value: any) => {
-                                        const selectedAttributes = attributesToObject(selectedVariant);
-                                        selectedAttributes[attribute] = value;
-                                        const mostSuitableVariant = variants.find((variant: any) =>
-                                            isEqual(selectedAttributes, attributesToObject(variant)),
-                                        );
-
+                                <optgroup label={key}>
+                                    {values.map((value: any) => {
+                                        const mostSuitableVariant = findMostSuitableVariant(variants, {
+                                            ...selectedVariant.attributes,
+                                            [key]: value,
+                                        });
                                         return (
                                             <option key={value} disabled={!mostSuitableVariant} value={value}>
                                                 {value}

@@ -1,4 +1,4 @@
-import ProductPage, { fetchData as ProductFetchData, Product } from './Product';
+import ProductPage, { fetchData as ProductFetchData } from './Product';
 import CategoryPage, { fetchData as CategoryFetchData } from './Category';
 import TopicPage, { fetchData as TopicFetchData } from './Topic';
 import CuratedStoryPage, { fetchData as CuratedStoryFetchData } from './CuratedStory';
@@ -27,7 +27,7 @@ const createPageRenderer = () => {
         resolve: (shapeIdentifier: string, request?: RequestContext, params?: any) => {
             switch (shapeIdentifier) {
                 case 'product':
-                    return buildRenderer<Product>(ProductPage, ProductFetchData);
+                    return buildRenderer<any>(ProductPage, ProductFetchData);
                 case 'category':
                     return buildRenderer<any>(CategoryPage, CategoryFetchData);
                 case 'story':

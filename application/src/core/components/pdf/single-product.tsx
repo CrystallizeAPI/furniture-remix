@@ -1,9 +1,9 @@
-import { Product } from '@crystallize/js-api-client';
-import { Document, Page, Text, Image, StyleSheet, View, Font, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, Image, View, Link } from '@react-pdf/renderer';
 import { styles } from './styles';
 import { ContentTransformer, NodeContent } from '@crystallize/reactjs-components/dist/content-transformer';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from './shared';
+import type { Product as ProductType } from '~/core/contracts/Product';
 
 const overrides = {
     link: (props: any) => (
@@ -40,23 +40,18 @@ const overrides = {
     ),
 };
 
-export const SingleProduct: React.FC<{ product: Product & { components: any[] } }> = ({ product }) => {
-    const { name, variants } = product;
-    const primaryVariant = product.variants.find((v: any) => v.isDefault);
-    const description = product.components.find((component: any) => component.type === 'richText')?.content?.plainText;
-    const story = product.components.find((component: any) => component.id === 'story')?.content;
-    const dimensions = product.components.find((component: any) => component.id === 'dimensions').content?.chunks;
-    const properties = product.components.find((component: any) => component.id === 'properties').content;
-    const productImages = primaryVariant?.images;
-    const defaultPriceCurrency = primaryVariant.priceVariants.find((p) => p.identifier === 'default')?.currency;
-
+export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) => {
+    const primaryVariant =
+        product.variants.find((v: any) => v.sku === location.hash.replace('#', '')) ?? product.defaultVariant;
+    let description = product.defaultVariant.description || product.description;
+    const currency = product.defaultVariant.priceVariants.default.currency;
     const price = displayPriceFor(
         primaryVariant,
         {
             default: 'default',
             discounted: 'sales',
         },
-        defaultPriceCurrency,
+        currency.code,
     );
 
     return (
@@ -74,23 +69,23 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                         overflow: 'hidden',
                     }}
                 >
-                    <Image style={styles.image} src={productImages![0].url} />
+                    <Image style={styles.image} src={product.defaultVariant.images[0].url} />
                 </View>
                 <View style={styles.productDescriptionContainer}>
-                    <Text style={styles.title}>{name}</Text>
+                    <Text style={styles.title}>{product.name}</Text>
                     <Text style={styles.productDescription}>
                         {!!description?.length &&
                             (description?.[0].length < 152 ? description[0] : `${description?.[0].slice(0, 152)} ...`)}
                     </Text>
 
                     <Text style={styles.price}>
-                        <Price currencyCode={defaultPriceCurrency}>{price.default}</Price>
+                        <Price currencyCode={currency.code}>{price.default}</Price>
                     </Text>
                 </View>
             </Page>
 
-            {!!story &&
-                story.paragraphs.map((paragraph, storyIndex) => {
+            {product.story &&
+                product.story.map((paragraph, storyIndex) => {
                     const images = paragraph.images;
                     return (
                         <Page style={{ height: '100%' }} key={`story-paragraph-#${storyIndex}`}>
@@ -121,7 +116,7 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                                 )}
 
                                 <View style={{ padding: images ? 35 : 100, width: '100%' }}>
-                                    <Text style={{ fontSize: 18, marginBottom: 15 }}>{paragraph.title?.text}</Text>
+                                    <Text style={{ fontSize: 18, marginBottom: 15 }}>{paragraph.title}</Text>
                                     <Text style={{ fontSize: 14, lineHeight: 1.6 }}>
                                         <ContentTransformer json={paragraph.body?.json} overrides={overrides} />
                                     </Text>
@@ -131,18 +126,6 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                     );
                 })}
             <Page style={styles.tablePage}>
-                {/* {dimensions && (
-                    <View style={styles.table}>
-                        <Text>asdsa</Text>
-                    </View>
-                )}
-                {properties && (
-                    <View style={styles.table}>
-                        {' '}
-                        <Text>asldksad</Text>
-                    </View>
-                )} */}
-
                 <View style={styles.table}>
                     <View style={styles.tableHeader}>
                         <Text
@@ -154,12 +137,12 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                         >
                             Name
                         </Text>
-                        {variants?.[0]?.attributes?.map((attr) => (
+                        {Object.keys(product.defaultVariant.attributes).map((key) => (
                             <Text
-                                key={`variants-attribute-header-${attr.attribute}`}
+                                key={`variants-attribute-header-${key}`}
                                 style={{ ...styles.tableHeaderName, width: '20%' }}
                             >
-                                {attr.attribute}
+                                {product.defaultVariant.attributes[key]}
                             </Text>
                         ))}
                         <Text
@@ -172,14 +155,14 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                         </Text>
                         <Text></Text>
                     </View>
-                    {variants?.map((variant, i) => {
+                    {product.variants.map((variant, i) => {
                         const variantPrice = displayPriceFor(
                             variant,
                             {
                                 default: 'default',
                                 discounted: 'sales',
                             },
-                            defaultPriceCurrency,
+                            currency.code,
                         );
 
                         return (
@@ -196,12 +179,12 @@ export const SingleProduct: React.FC<{ product: Product & { components: any[] } 
                                     <Text style={{ fontSize: 8, display: 'block' }}>{variant?.sku}</Text>
                                 </View>
 
-                                {variant?.attributes?.map((attr) => (
+                                {Object.keys(variant.attributes).map((key) => (
                                     <Text
-                                        key={`attribute-value-${variant.sku}-${attr.value}`}
+                                        key={`attribute-value-${variant.sku}-${key}`}
                                         style={{ fontSize: 10, color: '#000', width: '20%' }}
                                     >
-                                        {attr?.value}
+                                        {variant.attributes[key]}
                                     </Text>
                                 ))}
 

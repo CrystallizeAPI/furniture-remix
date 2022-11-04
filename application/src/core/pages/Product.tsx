@@ -1,4 +1,3 @@
-import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { RequestContext } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
@@ -16,7 +15,14 @@ import { VariantSelector } from '../components/variant-selector';
 import { buildSchemaMarkup } from '../SchemaMarkupBuilder';
 import { ProductVariant } from '../contracts/ProductVariant';
 
-export const fetchData = async (path: string, request: RequestContext, params: any): Promise<ProductType> => {
+export const fetchData = async (
+    path: string,
+    request: RequestContext,
+    params: any,
+): Promise<{
+    product: ProductType;
+    preSelectedSku: string;
+}> => {
     const { secret } = await getStoreFront(request.host);
     const api = CrystallizeAPI({
         apiClient: secret.apiClient,
@@ -30,28 +36,24 @@ export const fetchData = async (path: string, request: RequestContext, params: a
             statusText: 'Product Not Found',
         });
     }
-    return product;
+    return {
+        product,
+        preSelectedSku: request.url.searchParams.get('sku') ?? '',
+    };
 };
 
-export default ({ data: product }: { data: ProductType }) => {
-    const location = useLocation();
+export default ({ data }: { data: Awaited<ReturnType<typeof fetchData>> }) => {
     const { _t } = useAppContext();
-    const primaryVariant =
-        product.variants.find((v: any) => v.sku === location.hash.replace('#', '')) ?? product.defaultVariant;
+    const { product, preSelectedSku } = data;
+
+    const primaryVariant = product.variants.find((variant) => variant.sku === preSelectedSku) ?? product.defaultVariant;
     let [selectedVariant, setSelectedVariant] = useState(primaryVariant);
-
-    const onVariantChange = (variant: ProductVariant) => {
-        window.location.hash = variant.sku;
-        setSelectedVariant(variant);
-    };
-
-    let description = selectedVariant.description || product.description;
+    const description = selectedVariant.description || product.description;
 
     useEffect(() => {
         setSelectedVariant(primaryVariant);
     }, [product]);
 
-    console.log(product.relatedItems);
     return (
         <>
             <script
@@ -83,7 +85,12 @@ export default ({ data: product }: { data: ProductType }) => {
                             <VariantSelector
                                 variants={product.variants}
                                 selectedVariant={selectedVariant}
-                                onVariantChange={onVariantChange}
+                                onVariantChange={(variant: ProductVariant) => {
+                                    const url = new URL(window.location.href);
+                                    url.searchParams.set('sku', variant.sku);
+                                    window.history.pushState({}, '', url);
+                                    setSelectedVariant(variant);
+                                }}
                                 renderingType="default"
                             />
                             {selectedVariant && (

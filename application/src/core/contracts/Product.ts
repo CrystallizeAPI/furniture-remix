@@ -1,6 +1,4 @@
-import { RichText } from './RichText';
 import { Topic } from './Topic';
-import { Image } from './Image';
 import { ProductVariant } from './ProductVariant';
 import { CrystallizePropertiesTable } from './PropertiesTable';
 import { Dimensions } from './Dimensions';

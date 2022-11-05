@@ -1,11 +1,12 @@
 import { Link } from '@remix-run/react';
 import { useAppContext } from '../app-context/provider';
+import { Tree } from '../contracts/Tree';
 
-export const TopicNavigation: React.FC<{ navigation: any }> = ({ navigation }) => {
+export const TopicNavigation: React.FC<{ navigation: Tree[] }> = ({ navigation }) => {
     const { path } = useAppContext();
     return (
         <>
-            {navigation?.tree?.map((topic: any) => {
+            {navigation.map((topic) => {
                 const numberOfTopics = topic.children.length;
                 const calculateColumns = numberOfTopics / 8;
                 const numberOfCols = calculateColumns <= 1 ? 1 : Math.round(calculateColumns);

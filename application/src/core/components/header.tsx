@@ -8,6 +8,7 @@ import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from './price';
 import { LanguageSwitcher } from './language-switcher';
+import { Tree } from '../contracts/Tree';
 
 function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
     if (logo.key === 'superfast-originated-logo') {
@@ -40,7 +41,12 @@ function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
     );
 }
 
-export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
+export const Header: React.FC<{
+    navigation: {
+        folders: Tree[];
+        topics: Tree[];
+    };
+}> = ({ navigation }) => {
     const { state: appContextState, dispatch: appContextDispatch, path } = useAppContext();
     let checkoutFlow = ['/cart', '/checkout', '/confirmation'];
     let [isOpen, setIsOpen] = useState(false);
@@ -142,11 +148,11 @@ export const Header: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         } top-10 mt-5 bg-[#fff] w-full right-0 left-0 z-50 h-screen fixed left-0 bottom-0 px-10 py-10`}
                                     >
                                         <SearchBar />
-                                        {navigation?.folders?.tree?.children
-                                            .filter((item: any) => {
+                                        {navigation.folders
+                                            .filter((item) => {
                                                 return (
-                                                    item.__typename === 'Folder' &&
-                                                    item.children?.length > 0 &&
+                                                    item.type === 'folder' &&
+                                                    item.children.length > 0 &&
                                                     !item.name.startsWith('_')
                                                 );
                                             })

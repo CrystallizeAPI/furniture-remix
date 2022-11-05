@@ -13,8 +13,8 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { getContext } from '~/core-server/http-utils.server';
-import { createGrid } from '~/lib/grid-tile/createGrid';
 import { useAppContext } from '~/core/app-context/provider';
+import { Shop } from '~/core/contracts/Shop';
 
 export const links: LinksFunction = () => {
     return [{ rel: 'stylesheet', href: splideStyles }];
@@ -37,60 +37,54 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         language: requestContext.language,
         isPreview: requestContext.isPreview,
     });
-    const [folder, navigation] = await Promise.all([api.fetchFolder(path), api.fetchNavigation(path)]);
+    const shop = await api.fetchShop(path);
 
-    return json(
-        { folder, navigation },
-        StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier),
-    );
+    return json({ shop }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };
 
 export default () => {
-    const { folder, navigation } = useLoaderData();
+    const { shop } = useLoaderData() as { shop: Shop };
     const { path, _t } = useAppContext();
-    const hero = folder.components.find((component: any) => component.id === 'hero-content')?.content
-        ?.selectedComponent;
-    let grid = hero?.content?.grids?.[0] || createGrid(hero?.content?.items);
 
     return (
         <>
-            {grid && (
+            {shop.hero && (
                 <div className="w-full mt-4">
-                    <Grid grid={grid} />
+                    <Grid grid={shop.hero} />
                 </div>
             )}
             <div className="2xl container mx-auto px-4 md:px-10">
                 <div className="flex flex-wrap gap-4 pt-20 mb-10  items-center">
                     <h2 className="font-medium text-md text-md w-full block">{_t('browse')}</h2>
-                    {navigation?.tree?.children?.map((child: any) => (
+                    {shop.categories.map((category) => (
                         <Link
-                            to={path(child?.path)}
+                            to={path(category.path)}
                             prefetch="intent"
                             className="w-auto bg-grey py-2 sm:px-6 px-4 rounded-md sm:text-lg text-md font-bold category-link"
-                            key={child.name}
+                            key={category.name}
                         >
-                            {child.name}
+                            {category.name}
                         </Link>
                     ))}
                 </div>
                 <div>
-                    {navigation?.tree?.children?.map((child: any) => (
-                        <div className="border-t border-[#dfdfdf] py-20" key={child.path}>
+                    {shop.categories.map((category) => (
+                        <div className="border-t border-[#dfdfdf] py-20" key={category.path}>
                             <div className="flex  flex-col sm:flex-row sm:items-center justify-between ">
                                 <div className="w-3/4 sm:w-2/4 leading-[1.5em]">
-                                    <h2 className="font-bold text-2xl mb-3">{child.name}</h2>
-                                    <ContentTransformer className="leading-1" json={child?.intro?.content?.json} />
+                                    <h2 className="font-bold text-2xl mb-3">{category.name}</h2>
+                                    <ContentTransformer className="leading-1" json={category.description?.json} />
                                 </div>
                                 <Link
-                                    to={path(child?.path)}
+                                    to={path(category.path)}
                                     prefetch="intent"
                                     className="w-auto bg-grey py-2 px-6 text-center rounded-md text-md font-bold hover:bg-black hover:text-white mt-6 sm:mt-0"
-                                    key={child.name}
+                                    key={category.name}
                                 >
-                                    {_t('view')} {child.name.toLowerCase()}
+                                    {_t('view')} {category.name.toLowerCase()}
                                 </Link>
                             </div>
-                            <CategoryList category={child} />
+                            <CategoryList products={category.products} />
                         </div>
                     ))}
                 </div>

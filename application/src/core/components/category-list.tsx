@@ -1,15 +1,10 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { Product } from '~/core/components/item/product';
+import { ProductSlim } from '../contracts/Product';
 
-export const CategoryList = ({ category }: { category: any }) => {
-    let title = category?.components?.find((component: any) => component.type === 'singleLine')?.content?.text;
-    let description = category?.components?.find((component: any) => component.type === 'richText')?.content
-        ?.plainText?.[0];
-
+export const CategoryList: React.FC<{ products: ProductSlim[] }> = ({ products }) => {
     return (
         <div className="my-10 w-full">
-            <h2 className="text-2xl font-bold">{title}</h2>
-            <p className="w-3/5 mb-3 mt-2">{description}</p>
             <div className="w-full">
                 <Splide
                     options={{
@@ -31,10 +26,10 @@ export const CategoryList = ({ category }: { category: any }) => {
                     }}
                     className="splide "
                 >
-                    {category?.children?.slice(0, 12)?.map((child: any) => {
+                    {products.slice(0, 12)?.map((product) => {
                         return (
-                            <SplideSlide key={`${category.name}-${child.path}`} className="slide items-stretch pb-10">
-                                <Product item={child} />
+                            <SplideSlide key={`${product.name}-${product.path}`} className="slide items-stretch pb-10">
+                                <Product item={product} />
                             </SplideSlide>
                         );
                     })}

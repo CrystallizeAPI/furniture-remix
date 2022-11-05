@@ -40,6 +40,7 @@ import {
     isValidLanguageMarket,
 } from './core/LanguageAndMarket';
 import fetchTranslations from './use-cases/fetchTranslations.server';
+import { Tree } from './core/contracts/Tree';
 
 export const meta: MetaFunction = () => {
     return {
@@ -87,9 +88,8 @@ export let loader: LoaderFunction = async ({ request }) => {
         apiClient: secret.apiClient,
         language: requestContext.language,
     });
-    const [folders, topics, tenantConfig, translations] = await Promise.all([
+    const [navigation, tenantConfig, translations] = await Promise.all([
         api.fetchNavigation('/'),
-        api.fetchTopicNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
         fetchTranslations(requestContext.language),
     ]);
@@ -107,10 +107,7 @@ export let loader: LoaderFunction = async ({ request }) => {
             isHTTPS: requestContext.isSecure,
             host: requestContext.host,
             frontConfiguration,
-            navigation: {
-                folders,
-                topics,
-            },
+            navigation,
             baseUrl: requestContext.baseUrl,
             translations,
         },
@@ -126,7 +123,10 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 type LoaderData = {
     frontConfiguration: StoreFrontConfiguration;
-    navigation: any;
+    navigation: {
+        folders: Tree[];
+        topics: Tree[];
+    };
     isHTTPS: boolean;
     host: string;
     translations: any;

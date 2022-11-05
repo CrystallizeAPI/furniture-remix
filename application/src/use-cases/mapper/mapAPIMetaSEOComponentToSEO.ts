@@ -17,6 +17,9 @@ export default (chunk?: Chunk[]) => {
                           break;
                       case 'images':
                           value = data.content?.images?.[0]?.url;
+                          if (!value) {
+                              value = data.content?.firstImage?.url;
+                          }
                           break;
                   }
                   return {

@@ -11,6 +11,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
             ...on ContentChunkContent {
               chunks {
                 id
+                type
                 content {
                   ...on SingleLineContent {
                     text
@@ -62,6 +63,10 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                                 ...on Product {
                                   defaultVariant {
                                     price
+                                    attributes {
+                                        value
+                                        attribute
+                                    }
                                     priceVariants {
                                       identifier
                                       name
@@ -562,7 +567,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
     }
   `,
             {
-                language,
+                language: 'en',
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
             },

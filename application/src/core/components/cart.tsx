@@ -111,7 +111,6 @@ export const HydratedCart: React.FC = () => {
                     {cart &&
                         cart.items.map((item: CartItem, index: number) => {
                             const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
-                            console.log(item);
                             return (
                                 <div
                                     key={index}

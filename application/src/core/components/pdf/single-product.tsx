@@ -41,10 +41,9 @@ const overrides = {
 };
 
 export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) => {
-    const primaryVariant =
-        product.variants.find((v: any) => v.sku === location.hash.replace('#', '')) ?? product.defaultVariant;
-    let description = product.defaultVariant.description || product.description;
-    const currency = product.defaultVariant.priceVariants.default.currency;
+    const primaryVariant = product.defaultVariant;
+    let description = primaryVariant.description || product.description;
+    const currency = primaryVariant.priceVariants.default.currency;
     const price = displayPriceFor(
         primaryVariant,
         {

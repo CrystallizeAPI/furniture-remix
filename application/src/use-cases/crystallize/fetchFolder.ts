@@ -5,7 +5,9 @@ export default async (apiClient: ClientInterface, path: string, version: string,
         await apiClient.catalogueApi(
             `query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(language: $language, path: $path, version: $version) {
+        id
         name
+        path
         meta: component(id:"meta"){
           content {
             ...on ContentChunkContent {

@@ -1,16 +1,11 @@
-import { Product } from '@crystallize/js-api-client';
 import { Document, Page, Text, Image, View } from '@react-pdf/renderer';
 import { styles } from './styles';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from './shared';
+import { Cateogry } from '~/core/contracts/Category';
+import { ProductSlim } from '~/core/contracts/Product';
 
-export const Folder: React.FC<{ folder: Product & { components: any[] }; products: any[] }> = ({
-    folder,
-    products,
-}) => {
-    const { components } = folder;
-    let title = components.find((component: any) => component.type === 'singleLine')?.content?.text || folder.name;
-    let description = components.find((component: any) => component.type === 'richText')?.content?.plainText;
+export const Folder: React.FC<{ category: Cateogry; products: ProductSlim[] }> = ({ category, products }) => {
     return (
         <Document>
             <Page style={{ ...styles.productPage, alignItems: 'center', justifyContent: 'center' }}>
@@ -22,8 +17,8 @@ export const Folder: React.FC<{ folder: Product & { components: any[] }; product
                         padding: 35,
                     }}
                 >
-                    <Text style={{ color: '#fff', marginBottom: 15 }}>{title}</Text>
-                    <Text style={{ color: '#fff', fontSize: 12, lineHeight: 1.4 }}>{description}</Text>
+                    <Text style={{ color: '#fff', marginBottom: 15 }}>{category.title}</Text>
+                    <Text style={{ color: '#fff', fontSize: 12, lineHeight: 1.4 }}>{category.description}</Text>
                 </View>
             </Page>
             <Page style={{ ...styles.productPage }}>
@@ -41,13 +36,11 @@ export const Folder: React.FC<{ folder: Product & { components: any[] }; product
                 >
                     {products.map((product, index) => {
                         if (!product) return null;
-                        const variant = product.node.matchingVariant;
+                        const variant = product.variant;
                         const name = variant.name;
                         const image = variant.images?.[0].url;
                         const sku = variant.sku;
-                        const defaultPriceCurrency = variant.priceVariants.find(
-                            (p: any) => p.identifier === 'default',
-                        )?.currency;
+                        const defaultPriceCurrency = variant.priceVariants.default.currency;
 
                         const price = displayPriceFor(
                             variant,
@@ -55,7 +48,7 @@ export const Folder: React.FC<{ folder: Product & { components: any[] }; product
                                 default: 'default',
                                 discounted: 'sales',
                             },
-                            defaultPriceCurrency,
+                            defaultPriceCurrency.code,
                         );
 
                         return (
@@ -113,12 +106,9 @@ export const Folder: React.FC<{ folder: Product & { components: any[] }; product
                                         <Text style={{ marginTop: 5, fontSize: 16, fontWeight: 'bold' }}>{name}</Text>
                                         <Text style={{ marginTop: 5, fontSize: 10 }}>{sku}</Text>
                                         <View style={{ flexDirection: 'column', marginTop: 10 }}>
-                                            {variant.attributes?.map((attr: any) => (
-                                                <Text
-                                                    key={`${sku}-${attr.attribute}-${attr.value}`}
-                                                    style={{ fontSize: 10, marginTop: 5 }}
-                                                >
-                                                    {attr.attribute}: {attr.value}
+                                            {Object.keys(variant.attributes).map((key) => (
+                                                <Text key={`${sku}-${key}`} style={{ fontSize: 10, marginTop: 5 }}>
+                                                    {key}: {variant.attributes[key]}
                                                 </Text>
                                             ))}
                                         </View>

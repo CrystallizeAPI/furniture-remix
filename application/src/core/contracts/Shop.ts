@@ -5,9 +5,9 @@ import { RichText } from './RichText';
 import { SEO } from './SEO';
 
 export type Shop = Item & {
-    title?: string;
-    description?: string;
-    hero: Grid;
+    title: string;
+    description: string;
+    hero?: Grid;
     seo: SEO;
     categories: Array<
         Item & {

@@ -20,6 +20,7 @@ import mapSearchByTopicProductToProductSlim from '../mapper/mapSearchByTopicProd
 import mapSearchProductToProductSlim from '../mapper/mapSearchProductToProductSlim';
 import mapNavigationToTree from '../mapper/mapNavigationToTree';
 import mapFetchShopToShop from '../mapper/mapFetchShopToShop';
+import mapFetchFolderToCategory from '../mapper/mapFetchFolderToCategory';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -44,6 +45,7 @@ export const CrystallizeAPI = ({
         fetchDocument: (path: string) => fetchDocument(apiClient, path, version, language),
         fetchProduct: (path: string): Promise<Product> =>
             fetchProduct(apiClient, path, version, language).then(mapFetchProductToProduct),
+        fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language).then(mapFetchFolderToCategory),
         fetchShop: (path: string) =>
             Promise.all([
                 fetchFolder(apiClient, path, version, language),
@@ -52,10 +54,11 @@ export const CrystallizeAPI = ({
         fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
         search: (value: string) => search(apiClient, value, language).then(mapSearchProductToProductSlim),
         searchOrderBy: (path: string, orderBy?: any, fitlers?: any, attributes?: any) =>
-            searchOrderBy(apiClient, path, language, orderBy, fitlers, attributes),
-        searchOrderByPriceRange: (path: string) => searchOrderByPriceRange(apiClient, path, language),
+            searchOrderBy(apiClient, path, language, orderBy, fitlers, attributes).then(mapSearchProductToProductSlim),
+        searchOrderByPriceRange: (path: string) =>
+            searchOrderByPriceRange(apiClient, path, language).then(mapSearchProductToProductSlim),
         searchFilteredByPriceRange: (path: string, min: string, max: string) =>
-            searchFilteredByPriceRange(apiClient, path, language, min, max),
+            searchFilteredByPriceRange(apiClient, path, language, min, max).then(mapSearchProductToProductSlim),
         searchByTopic: (value: string) =>
             searchByTopic(apiClient, value, language).then(mapSearchByTopicProductToProductSlim),
     };

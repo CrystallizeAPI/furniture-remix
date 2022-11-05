@@ -12,8 +12,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared } = await getStoreFront(requestContext.host);
     const shapeIdentifier = 'product';
     const renderer = PageRenderer.resolve(shapeIdentifier, requestContext, params);
-    const product = await renderer.fetchData(path, requestContext, params);
-    const pdf = await ReactPDF.renderToStream(<SingleProduct product={product} />);
+    const data = await renderer.fetchData(path, requestContext, params);
+    const pdf = await ReactPDF.renderToStream(<SingleProduct product={data.product} />);
     return new Response(pdf, {
         headers: {
             ...StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier).headers,

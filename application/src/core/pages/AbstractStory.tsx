@@ -2,10 +2,18 @@ import { RequestContext } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 
-import Story from './Story';
 import CuratedStory from './CuratedStory';
+import { DocumentType, Story as typedStory } from '../contracts/Documents';
+import { CuratedStory as typedCuratedStory } from '../contracts/Documents';
+import Story from './Story';
 
-export const fetchData = async (path: string, request: RequestContext, params: any): Promise<unknown> => {
+export const fetchData = async (
+    path: string,
+    request: RequestContext,
+    params: any,
+): Promise<{
+    document: DocumentType;
+}> => {
     const { secret } = await getStoreFront(request.host);
     const api = CrystallizeAPI({
         apiClient: secret.apiClient,
@@ -19,15 +27,17 @@ export const fetchData = async (path: string, request: RequestContext, params: a
             statusText: 'Story Not Found',
         });
     }
-    return document;
+    return { document };
 };
 
-export default ({ data: story }: { data: any }) => {
-    if (story.shape.identifier === 'curated-product-story') {
-        return <CuratedStory data={story} />;
+export default ({ data }: { data: Awaited<ReturnType<typeof fetchData>> }) => {
+    const { document } = data;
+
+    if (document.shape === 'curated-product-story') {
+        return <CuratedStory data={document} />;
     }
-    if (story.shape.identifier === 'story') {
-        return <Story data={story} />;
+    if (document.shape === 'story') {
+        return <Story data={document} />;
     }
     return <div> No renderer for type</div>;
 };

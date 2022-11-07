@@ -1,8 +1,6 @@
 import ProductPage, { fetchData as ProductFetchData } from './Product';
 import CategoryPage, { fetchData as CategoryFetchData } from './Category';
 import TopicPage, { fetchData as TopicFetchData } from './Topic';
-import CuratedStoryPage, { fetchData as CuratedStoryFetchData } from './CuratedStory';
-import StoryPage, { fetchData as StoryFetchData } from './Story';
 import AbstractStoryPage, { fetchData as AbstractFetchData } from './AbstractStory';
 import LandingPagePage, { fetchData as LandingPageFetchData } from './LandingPage';
 import { RequestContext } from '~/core-server/http-utils.server';
@@ -30,10 +28,6 @@ const createPageRenderer = () => {
                     return buildRenderer<any>(ProductPage, ProductFetchData);
                 case 'category':
                     return buildRenderer<any>(CategoryPage, CategoryFetchData);
-                case 'story':
-                    return buildRenderer<any>(StoryPage, StoryFetchData);
-                case 'curated-product-story':
-                    return buildRenderer<any>(CuratedStoryPage, CuratedStoryFetchData);
                 case 'abstract-story':
                     return buildRenderer<any>(AbstractStoryPage, AbstractFetchData);
                 case '_topic':

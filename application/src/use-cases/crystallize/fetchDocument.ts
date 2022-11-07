@@ -74,7 +74,12 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                       ...on Product {
                         id
                         defaultVariant {
-                          price
+                          priceVariants {
+                            identifier
+                            name
+                            price
+                            currency
+                        }
                           firstImage {
                             url
                             altText
@@ -156,6 +161,12 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                 path
                 ...on Product {
                   defaultVariant {
+                    priceVariants {
+                        identifier
+                        name
+                        price
+                        currency
+                    }
                     images {
                       variants {
                         url

@@ -78,3 +78,21 @@ export function chunksForChunkComponentWithId(components: any[], id: string): Ch
 export function itemsForItemRelationComponentWithId(components: any[], id: string): any[] | undefined {
     return components.find((component: any) => component.id === id)?.content?.items;
 }
+
+export function choiceComponentWithId(components: any[], id: string): any | undefined {
+    const component = components.find((component: any) => component.id === id)?.content?.selectedComponent;
+    if (!component) {
+        return undefined;
+    }
+
+    return {
+        id: component.id,
+        content: component.content,
+    };
+}
+
+export function stringForNumericComponentWithId(components: any[], id: string): string | undefined {
+    const component = components.find((component: any) => component.id === id)?.content;
+
+    return component;
+}

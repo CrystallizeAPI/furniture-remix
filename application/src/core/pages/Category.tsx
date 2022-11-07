@@ -1,6 +1,5 @@
 import { RequestContext } from '~/core-server/http-utils.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { createGrid } from '~/lib/grid-tile/createGrid';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Filter } from '../components/filter';
 import { FilteredProducts } from '../components/filter/filtered-products';

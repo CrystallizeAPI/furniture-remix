@@ -3,9 +3,9 @@ import { RichText } from './RichText';
 import { SEO } from './SEO';
 import { Video } from './Video';
 import { Paragraph } from './Paragraph';
+import { ProductSlim } from './Product';
 
-export type Story = {
-    id: string;
+export interface Story {
     path: string;
     name: string;
     title: string;
@@ -13,16 +13,31 @@ export type Story = {
     createdAt: string;
     updatedAt: string;
     shape: string;
-    media: Image[] | Video[];
-    story: Paragraph[];
-    upNext: Array<any>;
-    featuredProducts: Array<{
-        name: string;
-        path: string;
-        defaultVariant: {
-            price: number;
-            images: Image[];
+    media: {
+        id: string;
+        content: {
+            images?: Array<Image>;
+            videos?: Array<Video>;
+        };
+    };
+    story?: Array<Paragraph>;
+    relatedArticles?: any;
+    featuredProducts?: Array<ProductSlim>;
+    seo?: SEO;
+}
+
+export interface CuratedStory extends Omit<Story, 'featuredProducts'> {
+    merchandising?: Array<{
+        products: any[];
+        hotspotX: {
+            number?: string;
+            unit?: string;
+        };
+        hotspotY: {
+            number?: string;
+            unit?: string;
         };
     }>;
-    seo: SEO;
-};
+}
+
+export type DocumentType = Story | CuratedStory;

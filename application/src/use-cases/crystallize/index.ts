@@ -1,6 +1,7 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { Product } from '~/core/contracts/Product';
 import mapFetchProductToProduct from '../mapper/mapFetchProductToProduct';
+import mapFetchDocumentToStory from '../mapper/mapFetchDocumentToStory';
 import fetchLandingPage from './fetchLandingPage';
 import fetchDocument from './fetchDocument';
 import fetchFolder from './fetchFolder';
@@ -42,7 +43,8 @@ export const CrystallizeAPI = ({
         fetchTreeMap: () => fetchTreeMap(apiClient, language),
         fetchLandingPage: (path: string) =>
             fetchLandingPage(apiClient, path, version, language).then(mapFetchLandingPageToLandingPage),
-        fetchDocument: (path: string) => fetchDocument(apiClient, path, version, language),
+        fetchDocument: (path: string) =>
+            fetchDocument(apiClient, path, version, language).then(mapFetchDocumentToStory),
         fetchProduct: (path: string): Promise<Product> =>
             fetchProduct(apiClient, path, version, language).then(mapFetchProductToProduct),
         fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language).then(mapFetchFolderToCategory),

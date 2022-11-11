@@ -93,7 +93,7 @@ export let loader: LoaderFunction = async ({ request }) => {
         api.fetchNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
         fetchTranslations(requestContext.language),
-        api.fetchFooter('/footer'),
+        api.fetchFooter('/footer3'),
     ]);
 
     const apiPath = buildLanguageMarketAwareLink('/api', requestContext.language, requestContext.market);

@@ -69,8 +69,8 @@ export default ({ data: story }: { data: CuratedStory }) => {
                             <span
                                 onMouseOver={() => setActivePoint(`hotspot-point-${i}`)}
                                 onMouseLeave={() => setActivePoint('')}
-                                key={`hotspot-${merch?.hotspotX?.number}-${merch?.hotspotY?.number}`}
-                                style={{ left: merch?.hotspotX?.number + `%`, top: merch?.hotspotY?.number + '%' }}
+                                key={`hotspot-${merch?.x}-${merch?.y}`}
+                                style={{ left: merch?.x + `%`, top: merch?.y + '%' }}
                             >
                                 <div className="rounded-sm overflow-hidden shadow-sm px-2 pt-2 ">
                                     {merch.products?.map((product: any, index: number) => (
@@ -94,7 +94,7 @@ export default ({ data: story }: { data: CuratedStory }) => {
                             </span>
                         ))}
                     </div>
-                    <Image {...story?.media?.content?.images?.[0]} sizes="50vw" alt={story.title} />
+                    <Image {...story?.medias?.images?.[0]} sizes="50vw" alt={story.title} />
                 </div>
                 <div className="max-w-[1000px] ">{story.story && <ParagraphCollection paragraphs={story.story} />}</div>
             </div>
@@ -102,7 +102,7 @@ export default ({ data: story }: { data: CuratedStory }) => {
             <div className="px-6 lg:w-5/12">
                 <h1 className="text-3xl font-semibold mb-2">{story.title}</h1>
                 <div className="border-b pb-4 mb-4 border-[#dfdfdf] text-1xl leading-[1.4em] mb-5">
-                    {/* <ContentTransformer json={story.intro} /> */}
+                    <ContentTransformer json={story.description?.json} />
                 </div>
                 {/* <div className="sticky top-20">
                     {story.merchandising?.map((merch: any, merchIndex: number) => (

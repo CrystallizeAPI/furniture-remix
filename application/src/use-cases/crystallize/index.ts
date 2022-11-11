@@ -11,6 +11,7 @@ import fetchPriceRangeAndAttributes from './fetchPriceRangeAndAttributes';
 import fetchProduct from './fetchProduct';
 import fetchTenantConfig from './fetchTenantConfig';
 import fetchTreeMap from './fetchTreeMap';
+import fetchFooter from './fetchFooter';
 import search from './search';
 import searchByTopic from './searchByTopic';
 import searchFilteredByPriceRange from './searchFilteredByPriceRange';
@@ -24,6 +25,7 @@ import mapFetchShopToShop from '../mapper/mapFetchShopToShop';
 import mapFetchFolderToCategory from '../mapper/mapFetchFolderToCategory';
 import fetchFolderWithChildren from './fetchFolderWithChildren';
 import mapFetchFolderWithChildrenToCategoryWithChildren from '../mapper/mapFetchFolderWithChildrenToCategoryWithChildren';
+import mapAPIFooterToFooter from '../mapper/mapAPIFooterToFooter';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -59,6 +61,7 @@ export const CrystallizeAPI = ({
                 fetchFolder(apiClient, path, version, language),
                 fetchHierarchy(apiClient, path, language),
             ]).then(mapFetchShopToShop),
+        fetchFooter: (path: string) => fetchFooter(apiClient, path, version, language).then(mapAPIFooterToFooter),
         fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
         search: (value: string) => search(apiClient, value, language).then(mapSearchProductToProductSlim),
         searchOrderBy: (path: string, orderBy?: any, fitlers?: any, attributes?: any) =>

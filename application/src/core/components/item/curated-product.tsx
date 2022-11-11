@@ -7,8 +7,8 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
     const { state: contextState, path } = useAppContext();
 
     const title = item.title;
-    const description = item.description.plainText;
-    const shoppableImage = item.medias.images?.[0];
+    const description = item.description?.plainText;
+    const shoppableImage = item.medias?.images?.[0];
     let merchandising = item.merchandising;
 
     return (
@@ -24,7 +24,7 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                 </div>
                 <div className="img-container pl-10 w-full lg:col-span-3 self-start rounded-tl-lg relative">
                     <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
-                        {merchandising.map((merch, i) => (
+                        {merchandising?.map((merch, i) => (
                             <span
                                 key={`hotspot-${merch.x}-${merch.y}`}
                                 style={{ left: merch.y + `%`, top: merch.y + '%' }}

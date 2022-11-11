@@ -9,37 +9,7 @@ import { Image } from '@crystallize/reactjs-components';
 import { Price } from './price';
 import { LanguageSwitcher } from './language-switcher';
 import { Tree } from '../contracts/Tree';
-
-function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
-    if (logo.key === 'superfast-originated-logo') {
-        return (
-            <img
-                src={logo.url}
-                width="150"
-                height="30"
-                alt={identifier + ` logo`}
-                style={{
-                    width: 'auto',
-                    height: '100%',
-                }}
-                loading="eager"
-            />
-        );
-    }
-    return (
-        <Image
-            {...logo}
-            sizes="150px"
-            alt={identifier + ` logo`}
-            className="w-auto h-full"
-            style={{
-                width: 'auto',
-                height: '100%',
-            }}
-            loading="eager"
-        />
-    );
-}
+import { TenantLogo } from '~/lib/tenant-logo';
 
 export const Header: React.FC<{
     navigation: {

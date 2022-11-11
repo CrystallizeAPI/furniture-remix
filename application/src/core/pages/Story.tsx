@@ -23,13 +23,13 @@ export default ({ data: story }: { data: Story }) => {
                     </div>
                 </div>
             </div>
-            {story.media?.id === 'image' && (
-                <div className="container 2xl mt-5 w-screen mx-auto">
-                    <div className="max-w-[1200px] img-container overflow-hidden rounded-lg">
-                        <Image {...story.media?.content?.images?.[0]} sizes="100vw" alt={story.title} />
-                    </div>
+
+            <div className="container 2xl mt-5 w-screen mx-auto">
+                <div className="max-w-[1200px] img-container overflow-hidden rounded-lg">
+                    <Image {...story.medias?.images?.[0]} sizes="100vw" alt={story.title} />
                 </div>
-            )}
+            </div>
+
             <div className="2xl container mx-auto frntr-story ">
                 <div className="max-w-[1000px] ">{story.story && <ParagraphCollection paragraphs={story.story} />}</div>
             </div>

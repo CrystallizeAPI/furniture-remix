@@ -41,6 +41,7 @@ import {
 } from './core/LanguageAndMarket';
 import fetchTranslations from './use-cases/fetchTranslations.server';
 import { Tree } from './core/contracts/Tree';
+import { Footer as FooterType } from './core/contracts/Footer';
 
 export const meta: MetaFunction = () => {
     return {
@@ -88,10 +89,11 @@ export let loader: LoaderFunction = async ({ request }) => {
         apiClient: secret.apiClient,
         language: requestContext.language,
     });
-    const [navigation, tenantConfig, translations] = await Promise.all([
+    const [navigation, tenantConfig, translations, footer] = await Promise.all([
         api.fetchNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
         fetchTranslations(requestContext.language),
+        api.fetchFooter('/footer'),
     ]);
 
     const apiPath = buildLanguageMarketAwareLink('/api', requestContext.language, requestContext.market);
@@ -110,6 +112,7 @@ export let loader: LoaderFunction = async ({ request }) => {
             navigation,
             baseUrl: requestContext.baseUrl,
             translations,
+            footer,
         },
         {
             headers: {
@@ -131,6 +134,7 @@ type LoaderData = {
     host: string;
     translations: any;
     baseUrl: string;
+    footer: FooterType;
 };
 
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -201,7 +205,8 @@ const Favicons: React.FC = () => {
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { navigation } = useLoaderData<LoaderData>();
+    const { navigation, footer } = useLoaderData<LoaderData>();
+
     return (
         <>
             <header className="2xl w-full mx-auto lg:p-8 lg:px-6">
@@ -211,7 +216,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <div>{children}</div>
             </div>
             <footer className="2xl w-full mx-auto lg:p-8 lg:px-6">
-                <Footer />
+                <Footer footer={footer} />
             </footer>
         </>
     );

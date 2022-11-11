@@ -10,7 +10,6 @@ import { Price } from '~/lib/pricing/pricing-component';
 export default ({ data: story }: { data: CuratedStory }) => {
     const [activePoint, setActivePoint] = useState('');
     const { state: appContextState } = useAppContext();
-
     // construct the defaut pack from merch.products with quanity 1
     const defaultPack = useMemo(
         () =>

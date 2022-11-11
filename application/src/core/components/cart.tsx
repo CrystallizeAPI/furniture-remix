@@ -133,7 +133,11 @@ export const HydratedCart: React.FC = () => {
                                             <button
                                                 className="font-semibold w-[25px] h-[25px] rounded-sm"
                                                 onClick={() => {
-                                                    addToCart(item.variant);
+                                                    addToCart({
+                                                        sku: item.variant.sku,
+                                                        name: item.variant.name!,
+                                                        price: item.variant.price!,
+                                                    });
                                                 }}
                                             >
                                                 {' '}
@@ -165,29 +169,23 @@ export const HydratedCart: React.FC = () => {
                         <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                             <div className="flex text-grey3 text-sm justify-between w-60">
                                 <p>{_t('cart.discount')}</p>
-                                <p>
-                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {total.discounts.reduce((memo: number, discount: any) => {
-                                            return memo + discount?.amount || 0;
-                                        }, 0)}
-                                    </CrystallizePrice>
-                                </p>
+                                <CrystallizePrice currencyCode={contextState.currency.code}>
+                                    {total.discounts.reduce((memo: number, discount: any) => {
+                                        return memo + discount?.amount || 0;
+                                    }, 0)}
+                                </CrystallizePrice>
                             </div>
                             <div className="flex text-grey3 text-sm justify-between w-60">
                                 <p>{_t('cart.taxAmount')}</p>
-                                <p>
-                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {total.taxAmount}
-                                    </CrystallizePrice>
-                                </p>
+                                <CrystallizePrice currencyCode={contextState.currency.code}>
+                                    {total.taxAmount}
+                                </CrystallizePrice>
                             </div>
                             <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
                                 <p>{_t('cart.toPay')}</p>
-                                <p>
-                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {total.gross}
-                                    </CrystallizePrice>
-                                </p>
+                                <CrystallizePrice currencyCode={contextState.currency.code}>
+                                    {total.gross}
+                                </CrystallizePrice>
                             </div>
                         </div>
                     )}

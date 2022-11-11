@@ -55,9 +55,9 @@ export const Header: React.FC<{
                                 </div>
                                 <div>
                                     <p className="text-sm">{item.name}</p>
-                                    <p className="text-sm font-bold">
+                                    <div className="text-sm font-bold">
                                         <Price variant={item} size="small" />
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         );

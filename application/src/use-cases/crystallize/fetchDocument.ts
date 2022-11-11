@@ -77,7 +77,9 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                       ...on Product {
                         id
                         defaultVariant {
+                            id
                             name
+                            sku
                           priceVariants {
                             identifier
                             name

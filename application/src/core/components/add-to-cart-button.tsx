@@ -24,7 +24,14 @@ export const AddToCartBtn: React.FC<{
         contextDispatch.addItemsToCart(pack.map((packitem: VariantPackItem) => packitem.variant));
 
         pack.forEach((packitem: VariantPackItem) => {
-            add(packitem.variant, packitem.quantity);
+            add(
+                {
+                    name: packitem.variant.name,
+                    sku: packitem.variant.sku,
+                    price: packitem.variant.priceVariants.default.value,
+                },
+                packitem.quantity,
+            );
         });
         setTimeout(() => {
             setShowTada(false);

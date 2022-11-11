@@ -58,29 +58,36 @@ export function useLocalCart() {
                 cartId: '',
             });
         },
-        add: (variant: any, quantity: number = 1) => {
+        add: (
+            item: {
+                name: string;
+                sku: string;
+                price: number;
+            },
+            quantity: number = 1,
+        ) => {
             if (isImmutable()) {
                 return;
             }
-            if (cart.items[variant.sku]) {
-                cart.items[variant.sku].quantity = cart.items[variant.sku].quantity + quantity;
+            if (cart.items[item.sku]) {
+                cart.items[item.sku].quantity = cart.items[item.sku].quantity + quantity;
             } else {
-                cart.items[variant.sku] = {
-                    sku: variant.sku,
-                    name: variant.name,
-                    price: variant.price,
+                cart.items[item.sku] = {
+                    sku: item.sku,
+                    name: item.name,
+                    price: item.price,
                     quantity: quantity,
                 };
             }
             update(cart);
         },
-        remove: (variant: any) => {
+        remove: (item: { sku: string }) => {
             if (isImmutable()) {
                 return;
             }
-            if (cart.items[variant.sku]) {
-                if (cart.items[variant.sku].quantity >= 1) {
-                    cart.items[variant.sku].quantity--;
+            if (cart.items[item.sku]) {
+                if (cart.items[item.sku].quantity >= 1) {
+                    cart.items[item.sku].quantity--;
                 }
             }
             const items = Object.keys(cart.items).reduce((accumulator: any, key: any) => {

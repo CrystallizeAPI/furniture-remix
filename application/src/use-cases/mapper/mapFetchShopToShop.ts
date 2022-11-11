@@ -12,7 +12,7 @@ import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProduc
 export default (data: any): Shop => {
     const [folder, hierarchy] = data;
 
-    const hero = choiceComponentWithId(data.components, 'hero-content');
+    const hero = choiceComponentWithId(folder.components, 'hero-content');
     const grid = hero?.content?.grids?.[0] || (hero?.content?.items ? createGrid(hero?.content?.items) : null);
 
     const firstSeoChunk = folder.meta.content.chunks[0];

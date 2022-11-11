@@ -2,7 +2,8 @@ import { ClientInterface } from '@crystallize/js-api-client';
 
 export default async (apiClient: ClientInterface, path: string, version: string, language: string): Promise<any> => {
     const data: { catalogue: any } = await apiClient.catalogueApi(
-        `query ($language: String!, $path: String!, $version: VersionLabel!) {
+        `#graphql
+    query ($language: String!, $path: String!, $version: VersionLabel!) {
       catalogue(language: $language, path: $path, version: $version) {
         meta: component(id:"meta"){
           content {

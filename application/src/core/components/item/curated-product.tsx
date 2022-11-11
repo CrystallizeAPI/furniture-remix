@@ -7,8 +7,8 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
     const { state: contextState, path } = useAppContext();
 
     const title = item.title;
-    const description = item.description?.plainText;
-    const shoppableImage = item.medias?.images?.[0];
+    const description = item.description.plainText;
+    const shoppableImage = item.medias.images?.[0];
     let merchandising = item.merchandising;
 
     return (
@@ -24,13 +24,13 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                 </div>
                 <div className="img-container pl-10 w-full lg:col-span-3 self-start rounded-tl-lg relative">
                     <div className="absolute h-full w-full frntr-hotspot frntr-hotspot-microformat">
-                        {merchandising?.map((merch, i) => (
+                        {merchandising.map((merch, i) => (
                             <span
                                 key={`hotspot-${merch.x}-${merch.y}`}
                                 style={{ left: merch.y + `%`, top: merch.y + '%' }}
                             >
                                 <div className="rounded-sm shadow-sm px-2 pt-2 ">
-                                    {merch.products?.map((product: any) => (
+                                    {merch.products.map((product) => (
                                         <div className="flex items-center gap-2 pb-2" key={product.id}>
                                             <div className="img-container img-cover w-[30px] h-[40px]">
                                                 <Image {...product.variant.images?.[0]} sizes="100px" loading="lazy" />
@@ -38,7 +38,8 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                                             <div>
                                                 <div className="text-xs">{product.name}</div>
                                                 <div className="text-xs font-bold">
-                                                    {contextState.currency.code} {product.variant.price}
+                                                    {contextState.currency.code}{' '}
+                                                    {product.variant.priceVariants.default.value}
                                                 </div>
                                             </div>
                                         </div>

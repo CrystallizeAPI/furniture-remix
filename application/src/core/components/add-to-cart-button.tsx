@@ -32,8 +32,8 @@ export const AddToCartBtn: React.FC<{
     };
 
     let defaultStock = pack.reduce((memo: number, packitem: VariantPackItem) => {
-        const defaultStockLocation = packitem.variant.stockLocations.default;
-        return memo + defaultStockLocation.stock;
+        const defaultStockLocation = packitem.variant?.stockLocations?.default;
+        return memo + (defaultStockLocation?.stock || 0);
     }, 0);
 
     return (

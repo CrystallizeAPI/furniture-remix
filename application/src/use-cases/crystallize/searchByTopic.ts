@@ -2,7 +2,8 @@ import { ClientInterface } from '@crystallize/js-api-client';
 
 export default async (apiClient: ClientInterface, value: string, language: string) => {
     return await apiClient.searchApi(
-        `query SEARCH_BY_TOPIC($value: String!) {
+        `#graphql
+        query SEARCH_BY_TOPIC($value: String!) {
       topics: search(language: "${language}"){
         aggregations {
           topics {

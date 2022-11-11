@@ -2,7 +2,8 @@ import { ClientInterface } from '@crystallize/js-api-client';
 
 export default async (apiClient: ClientInterface, path: string, language: string, min: string, max: string) => {
     return await apiClient.searchApi(
-        `query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
+        `#graphql
+        query SEARCH_ORDER_BY_PRICE_RANGE($path: [String!], $min: Float, $max: Float) {
         search(
           language: "${language}"  
           first: 100,

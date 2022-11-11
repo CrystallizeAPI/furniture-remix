@@ -1,9 +1,5 @@
 import { Footer } from '~/core/contracts/Footer';
-import {
-    chunksForChunkComponentWithId,
-    stringForRichTextComponentWithId,
-    stringForSingleLineComponentWithId,
-} from '~/lib/api-mappers';
+import { chunksForChunkComponentWithId, stringForSingleLineComponentWithId } from '~/lib/api-mappers';
 import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
 
 export default (data: any): Footer => {

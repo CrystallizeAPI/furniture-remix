@@ -10,7 +10,7 @@ export default (variant: APIProductVariant): ProductVariant => {
     return {
         id: variant.id,
         isDefault: !!variant.isDefault,
-        name: variant.name || 'Unknown',
+        name: variant.name || 'Unknow',
         sku: variant.sku,
         priceVariants,
         stockLocations:

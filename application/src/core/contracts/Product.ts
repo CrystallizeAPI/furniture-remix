@@ -29,6 +29,7 @@ export type Product = Item & {
 export type ProductSlim = Item & {
     id: string;
     variant: ProductVariant;
+    variants?: ProductVariant[];
     topics: Array<Topic>;
 };
 

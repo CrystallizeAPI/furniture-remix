@@ -2,7 +2,8 @@ import { ClientInterface } from '@crystallize/js-api-client';
 
 export default async (apiClient: ClientInterface, value: string, language: string): Promise<any[]> => {
     const data = await apiClient.searchApi(
-        `query Search ($searchTerm: String!){
+        `#graphql
+        query Search ($searchTerm: String!){
                         search(language:"${language}", first: 100, filter: { 
                             searchTerm: $searchTerm, 
                             type: PRODUCT, 

@@ -3,6 +3,7 @@ import { Product } from '~/core/contracts/Product';
 import { ProductVariant } from '~/core/contracts/ProductVariant';
 import {
     chunksForChunkComponentWithId,
+    flattenRichText,
     itemsForItemRelationComponentWithId,
     paragraphsForParagraphCollectionComponentWithId,
     sectionsForPropertyTableComponentWithId,
@@ -30,7 +31,7 @@ export default (
         data?.variants?.map((variant) => {
             const mappedVariant = mapAPIProductVariantToProductVariant(variant);
             let description = productDescription;
-            const variantDescription = variant?.description?.content?.selectedComponent?.content?.plainText;
+            const variantDescription = variant?.description?.content?.selectedComponent?.content?.plainText?.join('');
             const variantDescriptionType = variant?.description?.content?.selectedComponent?.id;
             if (variantDescriptionType) {
                 description =
@@ -56,9 +57,7 @@ export default (
             story?.map((paragraph) => {
                 return {
                     title: paragraph.title?.text || '',
-                    body: {
-                        json: paragraph.body?.json,
-                    },
+                    body: flattenRichText(paragraph.body),
                     images: typedImages(paragraph.images),
                 };
             }) || [],

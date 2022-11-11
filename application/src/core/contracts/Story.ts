@@ -10,8 +10,6 @@ import { ProductListHostpot } from './ProductListHostpot';
 export type CommonStory = Item & {
     title: string;
     description: RichText;
-    createdAt: string;
-    updatedAt: string;
     medias: {
         images: Array<Image>;
         videos: Array<Video>;
@@ -23,6 +21,7 @@ export type CommonStory = Item & {
 
 export type Story = CommonStory & {
     featuredProducts: Array<ProductSlim>;
+    createdAt: string;
     type: 'story';
 };
 

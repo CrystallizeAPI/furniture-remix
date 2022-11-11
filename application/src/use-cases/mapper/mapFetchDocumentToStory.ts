@@ -6,6 +6,7 @@ import {
     itemsForItemRelationComponentWithId,
     chunksForChunkComponentWithId,
     numericValueForComponentWithId,
+    flattenRichText,
 } from '~/lib/api-mappers';
 import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
 import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
@@ -20,24 +21,20 @@ export default (data: any): Story | CuratedStory => {
 };
 
 //@todo: we need to create a Mapper for the common properties of the Story and CuratedStory
-
 const documentToStory = (data: any): Story => {
     const media = choiceComponentWithId(data.components, 'media');
     const firstSeoChunk = chunksForChunkComponentWithId(data.components, 'meta')?.[0];
     const relatedArticles = itemsForItemRelationComponentWithId(data.components, 'up-next') || [];
     const featuedProducts = itemsForItemRelationComponentWithId(data.components, 'featured');
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');
-    const date = new Date(data.createdAt);
-    const creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     const dto: Story = {
         type: 'story',
         path: data.path,
         name: data.name,
         title: stringForSingleLineComponentWithId(data.components, 'title') || data.name!,
-        description: data.components.find((c: any) => c.id === 'intro')?.content,
-        createdAt: creationDate,
-        updatedAt: data.updatedAt,
+        description: flattenRichText(data.components.find((c: any) => c.id === 'intro')?.content),
+        createdAt: data.createdAt,
         medias: {
             images: media?.id === 'image' ? typedImages(media.content.images) : [],
             videos: media?.id === 'video' ? [] : [], // @todo: to be implemented
@@ -46,7 +43,7 @@ const documentToStory = (data: any): Story => {
             story?.map((paragraph) => {
                 return {
                     title: paragraph.title?.text || '',
-                    body: paragraph.body!,
+                    body: flattenRichText(paragraph.body),
                     images: typedImages(paragraph.images),
                 };
             }) || [],
@@ -67,17 +64,14 @@ const documentToStory = (data: any): Story => {
 };
 
 const documentToCuratedStory = (data: any): CuratedStory => {
-    const intro = data.components.find((c: any) => c.id === 'description')?.content;
+    const intro = flattenRichText(data.components.find((c: any) => c.id === 'description')?.content);
     const media = data.components.find((c: any) => c.id === 'shoppable-image')?.content;
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');
     const firstSeoChunk = chunksForChunkComponentWithId(data.components, 'meta')?.[0];
-
     const dto: CuratedStory = {
         type: 'curated-product-story',
         title: stringForSingleLineComponentWithId(data.components, 'title') || data.name!,
         description: intro,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
         path: data.path,
         name: data.name,
         medias: {
@@ -94,6 +88,7 @@ const documentToCuratedStory = (data: any): CuratedStory => {
                                 name: product.name,
                                 path: product.path,
                                 variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
+                                variants: product.variants.map(mapAPIProductVariantToProductVariant),
                                 topics: [],
                             };
                         }) || [],
@@ -105,7 +100,7 @@ const documentToCuratedStory = (data: any): CuratedStory => {
             story?.map((paragraph) => {
                 return {
                     title: paragraph.title?.text || '',
-                    body: paragraph.body!,
+                    body: flattenRichText(paragraph.body),
                     images: typedImages(paragraph.images),
                 };
             }) || [],

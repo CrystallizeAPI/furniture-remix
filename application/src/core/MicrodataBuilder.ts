@@ -15,9 +15,10 @@ export const buildMetas = (data: any): HtmlMetaDescriptor => {
     const altImage =
         item?.variants?.[0]?.images?.[0]?.url ||
         item?.components?.find((comp: any) => comp.id === 'shoppable-image')?.content?.images?.[0]?.variants?.[0]?.url;
+
     const seo = {
         title: item?.seo?.title || title || item?.name,
-        description: item?.seo?.description || description || altDescription,
+        description: item?.seo?.description || description?.plainText || description || altDescription,
         image: item?.seo?.image || image || altImage,
     };
 

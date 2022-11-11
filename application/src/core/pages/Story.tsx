@@ -16,7 +16,13 @@ export default ({ data: story }: { data: Story }) => {
             />
             <div className="2xl md:container md:px-6 px-4 mx-auto mt-20 mb-20">
                 <div className="max-w-[1000px]">
-                    <p className="mb-4 text-md">{story.createdAt}</p>
+                    <p className="mb-4 text-md">
+                        {new Date(story.createdAt).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </p>
                     <h1 className="text-6xl font-semibold mb-2">{story.title}</h1>
                     <div className="md:w-3/4 w-full my-2 text-2xl leading-[1.8em]">
                         <ContentTransformer json={story.description.json} />

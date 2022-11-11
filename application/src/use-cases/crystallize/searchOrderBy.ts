@@ -32,7 +32,8 @@ export default async (
     );
 
     const results = await apiClient.searchApi(
-        `query SEARCH_ORDERBY(
+        `#graphql
+        query SEARCH_ORDERBY(
         $path: [String!]
         $field: OrderField!
         $direction: OrderDirection!

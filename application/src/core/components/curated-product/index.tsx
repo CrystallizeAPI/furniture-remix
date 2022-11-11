@@ -2,17 +2,19 @@ import { Product, ProductVariant } from '@crystallize/js-api-client';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from '~/core/components/price';
 import { VariantSelector } from '~/core/components/variant-selector';
+import { ProductSlim } from '~/core/contracts/Product';
+import { ProductListHostpot } from '~/core/contracts/ProductListHostpot';
 import { VariantPack, VariantPackItem } from '../add-to-cart-button';
 
 export const CuratedProductItem: React.FC<{
-    merch: any;
+    merch: ProductListHostpot;
     merchIndex: number;
     pack: VariantPack;
     updatePack: Function;
 }> = ({ merch, pack, merchIndex, updatePack }) => {
     return (
         <>
-            {merch.products?.map((product: any, productIndex: number) => (
+            {merch.products.map((product, productIndex) => (
                 <Product
                     product={product}
                     pack={pack}
@@ -31,7 +33,7 @@ const Product = ({
     updatePack,
     packKey,
 }: {
-    product: Product;
+    product: ProductSlim;
     pack: VariantPack;
     updatePack: Function;
     packKey: string;

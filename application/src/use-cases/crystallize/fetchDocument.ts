@@ -3,7 +3,8 @@ import { ClientInterface } from '@crystallize/js-api-client';
 export default async (apiClient: ClientInterface, path: string, version: string, language: string) => {
     return (
         await apiClient.catalogueApi(
-            `query ($language: String!, $path: String!, $version: VersionLabel) {
+            `#graphql
+query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
@@ -58,6 +59,8 @@ export default async (apiClient: ClientInterface, path: string, version: string,
             ...on ContentChunkContent {
               chunks {
                 id
+                name
+                type
                 content {
                   ... on SingleLineContent {
                     text
@@ -74,6 +77,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                       ...on Product {
                         id
                         defaultVariant {
+                            name
                           priceVariants {
                             identifier
                             name
@@ -88,6 +92,11 @@ export default async (apiClient: ClientInterface, path: string, version: string,
                               width
                               height
                             }
+                          }
+                        stockLocations {
+                            identifier
+                            name
+                            stock
                           }
                         }
                         variants {

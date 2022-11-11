@@ -8,15 +8,17 @@ export function stringForRichTextComponentWithId(components: any[], id: string):
     return components?.find((component) => component.id === id)?.content?.plainText.join('\n');
 }
 
+type RichText = {
+    json?: any;
+    html?: string[];
+    plainText?: string[];
+};
+
 export type Paragraph = {
     title?: {
         text?: string;
     };
-    body?: {
-        json?: any;
-        html?: string;
-        plainText?: string;
-    };
+    body?: RichText;
     images?: Image[];
     videos?: any[];
 };
@@ -103,4 +105,16 @@ export function numericValueForComponentWithId(components: any[], id: string): n
     const component = components.find((component: any) => component.id === id)?.content?.number;
 
     return component;
+}
+
+export function flattenRichText(richText?: RichText): {
+    html?: string;
+    plainText?: string;
+    json?: any;
+} {
+    return {
+        plainText: richText?.plainText?.join(''),
+        json: richText?.json,
+        html: richText?.html?.join(''),
+    };
 }

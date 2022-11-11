@@ -1,7 +1,7 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TenantConfiguration } from '~/core/contracts/TenantConfiguration';
 
-const QUERY_FETCH_TENANT_CONFIG = `
+const QUERY_FETCH_TENANT_CONFIG = `#graphql
 query FETCH_TENANT_CONFIG ($identifier: String!) {
     tenant {
         get(identifier: $identifier) {

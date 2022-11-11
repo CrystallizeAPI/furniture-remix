@@ -2,8 +2,17 @@ import { Image } from '@crystallize/reactjs-components';
 import { Link } from '@remix-run/react';
 import { useAppContext } from '~/core/app-context/provider';
 import { StorySlim, CuratedStorySlim } from '~/core/contracts/Story';
+import {
+    choiceComponentWithId,
+    chunksForChunkComponentWithId,
+    itemsForItemRelationComponentWithId,
+    numericValueForComponentWithId,
+    stringForSingleLineComponentWithId,
+} from '~/lib/api-mappers';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
+import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
+import mapAPIProductVariantToProductVariant from '~/use-cases/mapper/mapAPIProductVariantToProductVariant';
 
 const DefaultDocument: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ item }) => {
     const { path } = useAppContext();
@@ -38,11 +47,61 @@ export const Document: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ ite
     return <DefaultDocument item={item} />;
 };
 
-//@todo: not done yet!
-// we need to convert from a Tile data to  StorySlim | CuratedStorySlim see like in the ProductFromCell
 export const DocumentFromCell: React.FC<ItemViewComponentProps> = ({ item }) => {
+    const common = {
+        name: item.name,
+        path: item.path,
+        title: stringForSingleLineComponentWithId(item.components, 'title') || item.name!,
+    };
+
     if (item.shape.identifier === 'curated-product-story') {
-        return <CuratedProduct item={item} />;
+        const intro = item.components.find((c: any) => c.id === 'description')?.content;
+        const media = item.components.find((c: any) => c.id === 'shoppable-image')?.content;
+        return (
+            <Document
+                item={{
+                    ...common,
+                    description: intro,
+                    type: 'curated-product-story',
+                    medias: {
+                        images: typedImages(media.images),
+                        videos: [],
+                    },
+                    merchandising:
+                        chunksForChunkComponentWithId(item.components, 'merchandising')?.map((chunk) => {
+                            return {
+                                products:
+                                    itemsForItemRelationComponentWithId(chunk, 'products')?.map((product: any) => {
+                                        return {
+                                            id: product.id,
+                                            name: product.name,
+                                            path: product.path,
+                                            variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
+                                            topics: [],
+                                        };
+                                    }) || [],
+                                x: numericValueForComponentWithId(chunk, 'hotspot-x') || 0,
+                                y: numericValueForComponentWithId(chunk, 'hotspot-y') || 0,
+                            };
+                        }) || [],
+                }}
+            />
+        );
     }
-    return <DefaultDocument item={item} />;
+
+    const intro = item.components.find((c: any) => c.id === 'intro')?.content;
+    const media = choiceComponentWithId(item.components, 'media');
+    return (
+        <Document
+            item={{
+                ...common,
+                description: intro,
+                type: 'story',
+                medias: {
+                    images: media ? typedImages(media.content.images) : [],
+                    videos: [],
+                },
+            }}
+        />
+    );
 };

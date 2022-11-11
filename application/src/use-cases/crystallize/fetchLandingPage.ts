@@ -3,7 +3,8 @@ import { ClientInterface } from '@crystallize/js-api-client';
 export default async (apiClient: ClientInterface, path: string, version: any, language: string) => {
     return (
         await apiClient.catalogueApi(
-            `query ($language: String!, $path: String!, $version: VersionLabel) {
+            `#graphql
+query ($language: String!, $path: String!, $version: VersionLabel) {
     catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name

@@ -1,17 +1,17 @@
-import { CuratedStory, Story } from '~/core/contracts/Documents';
+import { CuratedStory, Story } from '~/core/contracts/Story';
 import {
     choiceComponentWithId,
     stringForSingleLineComponentWithId,
     paragraphsForParagraphCollectionComponentWithId,
     itemsForItemRelationComponentWithId,
     chunksForChunkComponentWithId,
-    stringForNumericComponentWithId,
+    numericValueForComponentWithId,
 } from '~/lib/api-mappers';
 import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
 import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
 import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
 
-export default (data: any): Story => {
+export default (data: any): Story | CuratedStory => {
     if (data.shape.identifier === 'curated-product-story') {
         return documentToCuratedStory(data);
     }
@@ -19,32 +19,34 @@ export default (data: any): Story => {
     return documentToStory(data);
 };
 
+//@todo: we need to create a Mapper for the common properties of the Story and CuratedStory
+
 const documentToStory = (data: any): Story => {
     const media = choiceComponentWithId(data.components, 'media');
     const firstSeoChunk = chunksForChunkComponentWithId(data.components, 'meta')?.[0];
-    const relatedArticles = itemsForItemRelationComponentWithId(data.components, 'up-next');
+    const relatedArticles = itemsForItemRelationComponentWithId(data.components, 'up-next') || [];
     const featuedProducts = itemsForItemRelationComponentWithId(data.components, 'featured');
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');
     const date = new Date(data.createdAt);
     const creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const intro = data.components.find((c: any) => c.id === 'intro')?.content?.json;
 
-    const dto = {
+    const dto: Story = {
+        type: 'story',
         path: data.path,
-        shape: data.shape.identifier,
         name: data.name,
         title: stringForSingleLineComponentWithId(data.components, 'title') || data.name!,
-        intro: intro || data.name!,
+        description: data.components.find((c: any) => c.id === 'intro')?.content,
         createdAt: creationDate,
         updatedAt: data.updatedAt,
-        media,
+        medias: {
+            images: media?.id === 'image' ? typedImages(media.content.images) : [],
+            videos: media?.id === 'video' ? [] : [], // @todo: to be implemented
+        },
         story:
             story?.map((paragraph) => {
                 return {
                     title: paragraph.title?.text || '',
-                    body: {
-                        json: paragraph.body?.json,
-                    },
+                    body: paragraph.body!,
                     images: typedImages(paragraph.images),
                 };
             }) || [],
@@ -65,43 +67,50 @@ const documentToStory = (data: any): Story => {
 };
 
 const documentToCuratedStory = (data: any): CuratedStory => {
-    const merchandising = chunksForChunkComponentWithId(data.components, 'merchandising');
-    const media = data.components.find((c: any) => c.id === 'shoppable-image');
-    const intro = data.components.find((c: any) => c.id === 'description')?.content?.json;
+    const intro = data.components.find((c: any) => c.id === 'description')?.content;
+    const media = data.components.find((c: any) => c.id === 'shoppable-image')?.content;
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');
+    const firstSeoChunk = chunksForChunkComponentWithId(data.components, 'meta')?.[0];
 
-    const dto = {
+    const dto: CuratedStory = {
+        type: 'curated-product-story',
         title: stringForSingleLineComponentWithId(data.components, 'title') || data.name!,
-        intro,
+        description: intro,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
-        shape: data.shape.identifier,
         path: data.path,
         name: data.name,
-        media,
+        medias: {
+            images: typedImages(media.images),
+            videos: [],
+        },
         merchandising:
-            merchandising?.map((chunk) => {
+            chunksForChunkComponentWithId(data.components, 'merchandising')?.map((chunk) => {
                 return {
                     products:
                         itemsForItemRelationComponentWithId(chunk, 'products')?.map((product: any) => {
                             return {
-                                product,
+                                id: product.id,
+                                name: product.name,
+                                path: product.path,
+                                variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
+                                topics: [],
                             };
                         }) || [],
-                    hotspotX: stringForNumericComponentWithId(chunk, 'hotspot-x') || {},
-                    hotspotY: stringForNumericComponentWithId(chunk, 'hotspot-y') || {},
+                    x: numericValueForComponentWithId(chunk, 'hotspot-x') || 0,
+                    y: numericValueForComponentWithId(chunk, 'hotspot-y') || 0,
                 };
             }) || [],
         story:
             story?.map((paragraph) => {
                 return {
                     title: paragraph.title?.text || '',
-                    body: {
-                        json: paragraph.body?.json,
-                    },
+                    body: paragraph.body!,
                     images: typedImages(paragraph.images),
                 };
             }) || [],
+        relatedArticles: [],
+        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
     };
     return dto;
 };

@@ -22,6 +22,8 @@ import mapSearchProductToProductSlim from '../mapper/mapSearchProductToProductSl
 import mapNavigationToTree from '../mapper/mapNavigationToTree';
 import mapFetchShopToShop from '../mapper/mapFetchShopToShop';
 import mapFetchFolderToCategory from '../mapper/mapFetchFolderToCategory';
+import fetchFolderWithChildren from './fetchFolderWithChildren';
+import mapFetchFolderWithChildrenToCategoryWithChildren from '../mapper/mapFetchFolderWithChildrenToCategoryWithChildren';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -48,6 +50,10 @@ export const CrystallizeAPI = ({
         fetchProduct: (path: string): Promise<Product> =>
             fetchProduct(apiClient, path, version, language).then(mapFetchProductToProduct),
         fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language).then(mapFetchFolderToCategory),
+        fetchFolderWithChildren: (path: string) =>
+            fetchFolderWithChildren(apiClient, path, version, language).then(
+                mapFetchFolderWithChildrenToCategoryWithChildren,
+            ),
         fetchShop: (path: string) =>
             Promise.all([
                 fetchFolder(apiClient, path, version, language),

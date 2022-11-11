@@ -79,7 +79,15 @@ export function itemsForItemRelationComponentWithId(components: any[], id: strin
     return components.find((component: any) => component.id === id)?.content?.items;
 }
 
-export function choiceComponentWithId(components: any[], id: string): any | undefined {
+export function choiceComponentWithId(
+    components: any[],
+    id: string,
+):
+    | {
+          id: string;
+          content: any;
+      }
+    | undefined {
     const component = components.find((component: any) => component.id === id)?.content?.selectedComponent;
     if (!component) {
         return undefined;
@@ -91,8 +99,8 @@ export function choiceComponentWithId(components: any[], id: string): any | unde
     };
 }
 
-export function stringForNumericComponentWithId(components: any[], id: string): string | undefined {
-    const component = components.find((component: any) => component.id === id)?.content;
+export function numericValueForComponentWithId(components: any[], id: string): number | undefined {
+    const component = components.find((component: any) => component.id === id)?.content?.number;
 
     return component;
 }

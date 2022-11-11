@@ -8,7 +8,7 @@ import { Product } from '@crystallize/js-api-client';
 import { ProductBody } from '~/core/components/product-body';
 import { fetchData as abstractStoryFetchData } from './AbstractStory';
 import { RequestContext } from '~/core-server/http-utils.server';
-import { CuratedStory } from '../contracts/Documents';
+import { CuratedStory } from '../contracts/Story';
 import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
 
 export default ({ data: story }: { data: CuratedStory }) => {

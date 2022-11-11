@@ -3,41 +3,36 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 
 import CuratedStory from './CuratedStory';
-import { DocumentType, Story as typedStory } from '../contracts/Documents';
-import { CuratedStory as typedCuratedStory } from '../contracts/Documents';
+import { Story as StoryType, CuratedStory as CuratedStoryType } from '../contracts/Story';
 import Story from './Story';
 
 export const fetchData = async (
     path: string,
     request: RequestContext,
     params: any,
-): Promise<{
-    document: DocumentType;
-}> => {
+): Promise<StoryType | CuratedStoryType> => {
     const { secret } = await getStoreFront(request.host);
     const api = CrystallizeAPI({
         apiClient: secret.apiClient,
         language: request.language,
         isPreview: request.isPreview,
     });
-    const document = await api.fetchDocument(path);
-    if (!document) {
+    const story = await api.fetchDocument(path);
+    if (!story) {
         throw new Response('Story Mot Found', {
             status: 404,
             statusText: 'Story Not Found',
         });
     }
-    return { document };
+    return story;
 };
 
-export default ({ data }: { data: Awaited<ReturnType<typeof fetchData>> }) => {
-    const { document } = data;
-
-    if (document.shape === 'curated-product-story') {
-        return <CuratedStory data={document} />;
+export default ({ data: story }: { data: Awaited<ReturnType<typeof fetchData>> }) => {
+    if (story.type === 'curated-product-story') {
+        return <CuratedStory data={story} />;
     }
-    if (document.shape === 'story') {
-        return <Story data={document} />;
+    if (story.type === 'story') {
+        return <Story data={story} />;
     }
     return <div> No renderer for type</div>;
 };

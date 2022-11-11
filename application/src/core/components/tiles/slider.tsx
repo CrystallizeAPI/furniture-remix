@@ -1,12 +1,12 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { TileViewComponentProps } from '~/lib/grid-tile/types';
 import { ProductFromCell } from '../item/product';
-import { Document } from '../item/document';
+import { DocumentFromCell } from '../item/document';
 import { LinkRenderer } from '~/lib/grid-tile/linkRenderer';
 
 const itemMapping = {
     product: ProductFromCell,
-    document: Document,
+    document: DocumentFromCell,
 };
 
 export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {

@@ -3,7 +3,7 @@ import { buildSchemaMarkupForBlogPost } from '../SchemaMarkupBuilder';
 import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
 import { RelatedDocument } from '../components/related-items/related-document';
 import { Product } from '../components/item/product';
-import { Story } from '../contracts/Documents';
+import { Story } from '../contracts/Story';
 
 export default ({ data: story }: { data: Story }) => {
     return (
@@ -19,7 +19,7 @@ export default ({ data: story }: { data: Story }) => {
                     <p className="mb-4 text-md">{story.createdAt}</p>
                     <h1 className="text-6xl font-semibold mb-2">{story.title}</h1>
                     <div className="md:w-3/4 w-full my-2 text-2xl leading-[1.8em]">
-                        <ContentTransformer json={story.intro} />
+                        <ContentTransformer json={story.description.json} />
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ import { ActionFunction } from '@remix-run/node';
 import { authenticate, isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
 import { handleAndPlaceCart, hydrateCart } from '~/core-server/cart.server';
 import { getContext } from '~/core-server/http-utils.server';
-import { privateJson } from '~/core-server/privateJson.server';
+import { privateJson } from '~/bridge/privateJson.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 
 export const action: ActionFunction = async ({ request }) => {

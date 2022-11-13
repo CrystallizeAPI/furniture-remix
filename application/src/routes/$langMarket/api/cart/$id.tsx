@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/node';
-import { privateJson } from '~/core-server/privateJson.server';
+import { privateJson } from '~/bridge/privateJson.server';
 import { cartWrapperRepository } from '~/core-server/services.server';
 
 export const loader: LoaderFunction = async ({ params }) => {

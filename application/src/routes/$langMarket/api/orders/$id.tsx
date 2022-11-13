@@ -3,7 +3,7 @@ import { handleOrderRequestPayload } from '@crystallize/node-service-api-request
 import { LoaderFunction } from '@remix-run/node';
 import { authenticate } from '~/core-server/authentication.server';
 import { getContext } from '~/core-server/http-utils.server';
-import { privateJson } from '~/core-server/privateJson.server';
+import { privateJson } from '~/bridge/privateJson.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {

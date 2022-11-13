@@ -16,7 +16,7 @@ import { ClientOnly } from '@crystallize/reactjs-hooks';
 import DownloadIcon from '~/assets/downloadIcon.svg';
 import { useLoaderData } from '@remix-run/react';
 import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
-import { privateJson } from '~/core-server/privateJson.server';
+import { privateJson } from '~/bridge/privateJson.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

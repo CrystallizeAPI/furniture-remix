@@ -15,7 +15,7 @@ import { getStoreFront } from '~/core-server/storefront.server';
 import { getContext } from '~/core-server/http-utils.server';
 import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
 import { useLoaderData } from '@remix-run/react';
-import { privateJson } from '~/core-server/privateJson.server';
+import { privateJson } from '~/bridge/privateJson.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

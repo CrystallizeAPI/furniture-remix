@@ -1,5 +1,5 @@
 import { Image } from '@crystallize/reactjs-components';
-import { Link } from '@remix-run/react';
+import Link from '~/bridge/Link';
 import { useAppContext } from '~/core/app-context/provider';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from '../price';

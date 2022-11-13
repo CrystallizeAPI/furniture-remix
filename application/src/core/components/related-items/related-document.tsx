@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react';
+import Link from '~/bridge/Link';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { useAppContext } from '~/core/app-context/provider';
 

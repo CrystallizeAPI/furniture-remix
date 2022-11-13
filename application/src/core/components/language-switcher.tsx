@@ -1,4 +1,4 @@
-import { useLocation } from '@remix-run/react';
+import useLocation from '~/bridge/useLocation';
 import { useAppContext } from '../app-context/provider';
 import { buildLanguageMarketAwareLink, displayableLanguages } from '../LanguageAndMarket';
 

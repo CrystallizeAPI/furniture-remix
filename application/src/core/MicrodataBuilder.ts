@@ -1,6 +1,4 @@
-import { HtmlMetaDescriptor } from '@remix-run/react';
-
-export const buildMetas = (data: any): HtmlMetaDescriptor => {
+export const buildMetas = (data: any) => {
     const item = data?.product || data?.folder || data?.document || data?.data || data;
 
     const metaData =

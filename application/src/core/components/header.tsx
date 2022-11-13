@@ -1,5 +1,5 @@
 import UserIcon from '~/assets/userIcon.svg';
-import { Link, useLocation } from '@remix-run/react';
+import Link from '~/bridge/Link';
 import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
@@ -10,6 +10,7 @@ import { Price } from './price';
 import { LanguageSwitcher } from './language-switcher';
 import { Tree } from '../contracts/Tree';
 import { TenantLogo } from '~/lib/tenant-logo';
+import useLocation from '~/bridge/useLocation';
 
 export const Header: React.FC<{
     navigation: {

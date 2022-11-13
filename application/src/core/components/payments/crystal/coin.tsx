@@ -1,11 +1,11 @@
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
 import logo from '~/assets/crystalcoin-logo.svg';
+import useNavigate from '~/bridge/useNavigate';
 
 export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
     paying = false,

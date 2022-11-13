@@ -1,5 +1,4 @@
 import useLocalStorage from '@rehooks/local-storage';
-import { useNavigate } from '@remix-run/react';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
 import logo from '~/assets/stripeLogo.svg';
+import useNavigate from '~/bridge/useNavigate';
 
 export const StripeButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,

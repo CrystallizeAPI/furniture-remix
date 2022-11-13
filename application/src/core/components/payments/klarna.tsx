@@ -1,11 +1,11 @@
 import { Customer } from '../checkout-forms/address';
 import useLocalStorage from '@rehooks/local-storage';
-import { useNavigate } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import logo from '~/assets/klarnaLogo.svg';
 import { useAppContext } from '~/core/app-context/provider';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
+import useNavigate from '~/bridge/useNavigate';
 
 export const KlarnaButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,
@@ -106,7 +106,7 @@ export const Klarna: React.FC = () => {
     return (
         <>
             <div id="klarna-payments-container" />
-            {methodsChoices.length > 0 && !method && (
+            {methodsChoices.length > 0 && (
                 <>
                     <p>Klarna Payment Methods: </p>
                     <div className="flex flex-row flex-wrap">

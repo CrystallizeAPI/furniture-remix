@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react';
+import Link from '~/bridge/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';

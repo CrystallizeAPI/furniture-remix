@@ -1,8 +1,8 @@
 import BasketIcon from '~/assets/basketIcon.svg';
-import { Link } from '@remix-run/react';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useAppContext } from '../app-context/provider';
+import Link from '~/bridge/Link';
 
 export const BasketButton = ({}) => {
     const { cart, isEmpty } = useLocalCart();

@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react';
+import Link from '~/bridge/Link';
 
 export const LinkRenderer: React.FC<{
     link: string;

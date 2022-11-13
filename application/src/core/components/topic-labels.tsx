@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react';
+import Link from '~/bridge/Link';
 import { useAppContext } from '../app-context/provider';
 import { Topic } from '../contracts/Topic';
 

@@ -1,14 +1,15 @@
 import { ProductSlim } from '~/core/contracts/Product';
-import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
+import { DataMapper } from '..';
 
 export default (data: any): ProductSlim[] => {
+    const mapper = DataMapper();
     return (
         data.map(({ node }: any) => {
             return {
                 id: node.id,
                 name: node.name,
                 path: node.path,
-                variant: mapAPIProductVariantToProductVariant(node.matchingVariant),
+                variant: mapper.API.Object.APIProductVariantToProductVariant(node.matchingVariant),
                 topics:
                     node.topics?.map((topic: any) => {
                         return {

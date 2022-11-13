@@ -5,9 +5,10 @@ import {
     stringForSingleLineComponentWithId,
 } from '~/lib/api-mappers';
 import { createGrid } from '~/lib/grid-tile/createGrid';
-import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
+import { DataMapper } from '..';
 
 export default (data: any): Cateogry => {
+    const mapper = DataMapper();
     const hero = choiceComponentWithId(data.components, 'hero-content');
     const grid = hero?.content?.grids?.[0] || (hero?.content?.items ? createGrid(hero?.content?.items) : null);
     const firstSeoChunk = data.meta.content.chunks[0];
@@ -22,7 +23,7 @@ export default (data: any): Cateogry => {
                   ...grid,
               }
             : undefined,
-        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
+        seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
     };
 
     return dto;

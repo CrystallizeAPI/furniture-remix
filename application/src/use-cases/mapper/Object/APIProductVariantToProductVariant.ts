@@ -1,11 +1,11 @@
 import { ProductStockLocation, ProductVariant as APIProductVariant } from '@crystallize/js-api-client';
 import { ProductVariant } from '~/core/contracts/ProductVariant';
 import { StockLocation } from '~/core/contracts/StockLocation';
-import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
-import mapAPIPriceVariantsToPriceVariant from './mapAPIPriceVariantsToPriceVariant';
+import { DataMapper } from '..';
 
 export default (variant: APIProductVariant): ProductVariant => {
-    const priceVariants = mapAPIPriceVariantsToPriceVariant(variant.priceVariants ?? []);
+    const mapper = DataMapper();
+    const priceVariants = mapper.API.Object.APIPriceVariantsToPriceVariant(variant.priceVariants ?? []);
     const images = variant.images ?? (variant.firstImage ? [variant.firstImage] : []);
     return {
         id: variant.id,
@@ -27,7 +27,7 @@ export default (variant: APIProductVariant): ProductVariant => {
                 },
                 {},
             ) || {},
-        images: typedImages(images),
+        images: mapper.API.Object.APIImageToImage(images),
         attributes:
             variant.attributes?.reduce((memo: Record<string, string>, attribute) => {
                 return {

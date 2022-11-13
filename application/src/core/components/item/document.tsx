@@ -11,8 +11,7 @@ import {
 } from '~/lib/api-mappers';
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
-import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
-import mapAPIProductVariantToProductVariant from '~/use-cases/mapper/mapAPIProductVariantToProductVariant';
+import { DataMapper } from '~/use-cases/mapper';
 
 const DefaultDocument: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ item }) => {
     const { path } = useAppContext();
@@ -48,6 +47,7 @@ export const Document: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ ite
 };
 
 export const DocumentFromCell: React.FC<ItemViewComponentProps> = ({ item }) => {
+    const mapper = DataMapper();
     const common = {
         name: item.name,
         path: item.path,
@@ -64,7 +64,7 @@ export const DocumentFromCell: React.FC<ItemViewComponentProps> = ({ item }) => 
                     description: intro,
                     type: 'curated-product-story',
                     medias: {
-                        images: typedImages(media.images),
+                        images: mapper.API.Object.APIImageToImage(media.images),
                         videos: [],
                     },
                     merchandising:
@@ -76,7 +76,9 @@ export const DocumentFromCell: React.FC<ItemViewComponentProps> = ({ item }) => 
                                             id: product.id,
                                             name: product.name,
                                             path: product.path,
-                                            variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
+                                            variant: mapper.API.Object.APIProductVariantToProductVariant(
+                                                product.defaultVariant,
+                                            ),
                                             topics: [],
                                         };
                                     }) || [],
@@ -98,7 +100,7 @@ export const DocumentFromCell: React.FC<ItemViewComponentProps> = ({ item }) => 
                 description: intro,
                 type: 'story',
                 medias: {
-                    images: media ? typedImages(media.content.images) : [],
+                    images: media ? mapper.API.Object.APIImageToImage(media.content.images) : [],
                     videos: [],
                 },
             }}

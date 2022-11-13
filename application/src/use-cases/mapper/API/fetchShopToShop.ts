@@ -6,12 +6,11 @@ import {
     stringForSingleLineComponentWithId,
 } from '~/lib/api-mappers';
 import { createGrid } from '~/lib/grid-tile/createGrid';
-import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
-import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
+import { DataMapper } from '..';
 
 export default (data: any): Shop => {
+    const mapper = DataMapper();
     const [folder, hierarchy] = data;
-
     const hero = choiceComponentWithId(folder.components, 'hero-content');
     const grid = hero?.content?.grids?.[0] || (hero?.content?.items ? createGrid(hero?.content?.items) : null);
 
@@ -27,7 +26,7 @@ export default (data: any): Shop => {
                   ...grid,
               }
             : undefined,
-        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
+        seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
         categories: hierarchy.tree.children.map((child: any) => {
             return {
                 name: child.name,
@@ -38,7 +37,7 @@ export default (data: any): Shop => {
                         id: product.id,
                         name: product.name,
                         path: product.path,
-                        variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
+                        variant: mapper.API.Object.APIProductVariantToProductVariant(product.defaultVariant),
                         topics: [],
                     };
                 }),

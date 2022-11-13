@@ -1,8 +1,9 @@
 import { Footer } from '~/core/contracts/Footer';
 import { chunksForChunkComponentWithId, flattenRichText, stringForSingleLineComponentWithId } from '~/lib/api-mappers';
-import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
+import { DataMapper } from '..';
 
 export default (data: any): Footer => {
+    const mapper = DataMapper();
     if (data === null) {
         return {
             copyright: '',
@@ -33,7 +34,7 @@ export default (data: any): Footer => {
             socialLinks?.map((socialLink: any) => {
                 const logo = socialLink.find((c: any) => c.id === 'logo')?.content;
                 return {
-                    logo: typedImages(logo.images),
+                    logo: mapper.API.Object.APIImageToImage(logo.images),
                     url: stringForSingleLineComponentWithId(socialLink, 'url') || '',
                 };
             }) || [],
@@ -45,7 +46,7 @@ export default (data: any): Footer => {
                     return {
                         title: stringForSingleLineComponentWithId(card, 'title') || '',
                         link: stringForSingleLineComponentWithId(card, 'link') || '',
-                        image: typedImages(image.images) || image.url,
+                        image: mapper.API.Object.APIImageToImage(image.images) || image.url,
                     };
                 }) || [],
         },

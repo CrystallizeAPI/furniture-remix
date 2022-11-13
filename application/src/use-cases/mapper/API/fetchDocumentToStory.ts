@@ -8,20 +8,18 @@ import {
     numericValueForComponentWithId,
     flattenRichText,
 } from '~/lib/api-mappers';
-import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
-import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
-import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
+import { DataMapper, DataMapperInterface } from '..';
 
 export default (data: any): Story | CuratedStory => {
+    const mapper = DataMapper();
     if (data.shape.identifier === 'curated-product-story') {
-        return documentToCuratedStory(data);
+        return documentToCuratedStory(mapper, data);
     }
-
-    return documentToStory(data);
+    return documentToStory(mapper, data);
 };
 
 //@todo: we need to create a Mapper for the common properties of the Story and CuratedStory
-const documentToStory = (data: any): Story => {
+const documentToStory = (mapper: DataMapperInterface, data: any): Story => {
     const media = choiceComponentWithId(data.components, 'media');
     const firstSeoChunk = chunksForChunkComponentWithId(data.components, 'meta')?.[0];
     const relatedArticles = itemsForItemRelationComponentWithId(data.components, 'up-next') || [];
@@ -36,7 +34,7 @@ const documentToStory = (data: any): Story => {
         description: flattenRichText(data.components.find((c: any) => c.id === 'intro')?.content),
         createdAt: data.createdAt,
         medias: {
-            images: media?.id === 'image' ? typedImages(media.content.images) : [],
+            images: media?.id === 'image' ? mapper.API.Object.APIImageToImage(media.content.images) : [],
             videos: media?.id === 'video' ? [] : [], // @todo: to be implemented
         },
         story:
@@ -44,7 +42,7 @@ const documentToStory = (data: any): Story => {
                 return {
                     title: paragraph.title?.text || '',
                     body: flattenRichText(paragraph.body),
-                    images: typedImages(paragraph.images),
+                    images: mapper.API.Object.APIImageToImage(paragraph.images),
                 };
             }) || [],
         relatedArticles,
@@ -55,15 +53,15 @@ const documentToStory = (data: any): Story => {
                     name: item.name,
                     path: item.path,
                     topics: [],
-                    variant: mapAPIProductVariantToProductVariant(item.defaultVariant),
+                    variant: mapper.API.Object.APIProductVariantToProductVariant(item.defaultVariant),
                 };
             }) || [],
-        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
+        seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
     };
     return dto;
 };
 
-const documentToCuratedStory = (data: any): CuratedStory => {
+const documentToCuratedStory = (mapper: DataMapperInterface, data: any): CuratedStory => {
     const intro = flattenRichText(data.components.find((c: any) => c.id === 'description')?.content);
     const media = data.components.find((c: any) => c.id === 'shoppable-image')?.content;
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');
@@ -75,7 +73,7 @@ const documentToCuratedStory = (data: any): CuratedStory => {
         path: data.path,
         name: data.name,
         medias: {
-            images: typedImages(media.images),
+            images: mapper.API.Object.APIImageToImage(media.images),
             videos: [],
         },
         merchandising:
@@ -87,8 +85,8 @@ const documentToCuratedStory = (data: any): CuratedStory => {
                                 id: product.id,
                                 name: product.name,
                                 path: product.path,
-                                variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
-                                variants: product.variants.map(mapAPIProductVariantToProductVariant),
+                                variant: mapper.API.Object.APIProductVariantToProductVariant(product.defaultVariant),
+                                variants: product.variants.map(mapper.API.Object.APIProductVariantToProductVariant),
                                 topics: [],
                             };
                         }) || [],
@@ -101,11 +99,11 @@ const documentToCuratedStory = (data: any): CuratedStory => {
                 return {
                     title: paragraph.title?.text || '',
                     body: flattenRichText(paragraph.body),
-                    images: typedImages(paragraph.images),
+                    images: mapper.API.Object.APIImageToImage(paragraph.images),
                 };
             }) || [],
         relatedArticles: [],
-        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
+        seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
     };
     return dto;
 };

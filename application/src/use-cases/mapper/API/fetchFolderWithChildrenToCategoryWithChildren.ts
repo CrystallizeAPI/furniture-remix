@@ -7,11 +7,11 @@ import {
     numericValueForComponentWithId,
     stringForSingleLineComponentWithId,
 } from '~/lib/api-mappers';
-import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
-import mapFetchFolderToCategory from './mapFetchFolderToCategory';
-import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
+import mapFetchFolderToCategory from './fetchFolderToCategory';
+import { DataMapper } from '..';
 
 export default (data: any): CateogryWithChildren => {
+    const mapper = DataMapper();
     return {
         ...mapFetchFolderToCategory(data),
         children: data.children.map((child: any): CuratedStorySlim | StorySlim => {
@@ -28,7 +28,7 @@ export default (data: any): CateogryWithChildren => {
                     description: intro,
                     type: 'curated-product-story',
                     medias: {
-                        images: typedImages(media.images),
+                        images: mapper.API.Object.APIImageToImage(media.images),
                         videos: [],
                     },
                     merchandising:
@@ -40,7 +40,9 @@ export default (data: any): CateogryWithChildren => {
                                             id: product.id,
                                             name: product.name,
                                             path: product.path,
-                                            variant: mapAPIProductVariantToProductVariant(product.defaultVariant),
+                                            variant: mapper.API.Object.APIProductVariantToProductVariant(
+                                                product.defaultVariant,
+                                            ),
                                             topics: [],
                                         };
                                     }) || [],
@@ -57,7 +59,7 @@ export default (data: any): CateogryWithChildren => {
                     description: intro,
                     type: 'story',
                     medias: {
-                        images: media?.id === 'image' ? typedImages(media.content.images) : [],
+                        images: media?.id === 'image' ? mapper.API.Object.APIImageToImage(media.content.images) : [],
                         videos: media?.id === 'video' ? [] : [], // @todo: to be implemented
                     },
                 };

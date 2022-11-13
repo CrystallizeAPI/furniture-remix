@@ -4,7 +4,7 @@ import { useAppContext } from '~/core/app-context/provider';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from '../price';
 import { ProductSlim } from '~/core/contracts/Product';
-import mapAPIProductVariantToProductVariant from '~/use-cases/mapper/mapAPIProductVariantToProductVariant';
+import { DataMapper } from '~/use-cases/mapper';
 
 export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
     const { state, path } = useAppContext();
@@ -52,7 +52,8 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
 };
 
 export const ProductFromCell: React.FC<{ item: any }> = ({ item }) => {
-    const productVariant = mapAPIProductVariantToProductVariant(item.defaultVariant);
+    const mapper = DataMapper();
+    const productVariant = mapper.API.Object.APIProductVariantToProductVariant(item.defaultVariant);
     return (
         <Product
             item={{

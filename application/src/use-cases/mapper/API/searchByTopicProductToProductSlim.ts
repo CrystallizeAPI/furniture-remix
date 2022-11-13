@@ -1,9 +1,10 @@
 import { SearchByTopicsProductList } from '~/core/contracts/Product';
-import mapSearchProductToProductSlim from './mapSearchProductToProductSlim';
+import { DataMapper } from '..';
 
 export default (data: any): SearchByTopicsProductList => {
+    const mapper = DataMapper();
     return {
-        products: mapSearchProductToProductSlim(data.search.edges),
+        products: mapper.API.Call.searchProductToProductSlim(data.search.edges),
         topics:
             data?.topics?.aggregations?.topics.map((topic: any) => {
                 return {

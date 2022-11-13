@@ -1,7 +1,5 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { Product } from '~/core/contracts/Product';
-import mapFetchProductToProduct from '../mapper/mapFetchProductToProduct';
-import mapFetchDocumentToStory from '../mapper/mapFetchDocumentToStory';
 import fetchLandingPage from './fetchLandingPage';
 import fetchDocument from './fetchDocument';
 import fetchFolder from './fetchFolder';
@@ -17,15 +15,8 @@ import searchByTopic from './searchByTopic';
 import searchFilteredByPriceRange from './searchFilteredByPriceRange';
 import searchOrderBy from './searchOrderBy';
 import searchOrderByPriceRange from './searchOrderByPriceRange';
-import mapFetchLandingPageToLandingPage from '../mapper/mapFetchLandingPageToLandingPage';
-import mapSearchByTopicProductToProductSlim from '../mapper/mapSearchByTopicProductToProductSlim';
-import mapSearchProductToProductSlim from '../mapper/mapSearchProductToProductSlim';
-import mapNavigationToTree from '../mapper/mapNavigationToTree';
-import mapFetchShopToShop from '../mapper/mapFetchShopToShop';
-import mapFetchFolderToCategory from '../mapper/mapFetchFolderToCategory';
+import { DataMapper } from '../mapper';
 import fetchFolderWithChildren from './fetchFolderWithChildren';
-import mapFetchFolderWithChildrenToCategoryWithChildren from '../mapper/mapFetchFolderWithChildrenToCategoryWithChildren';
-import mapAPIFooterToFooter from '../mapper/mapAPIFooterToFooter';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -41,36 +32,44 @@ export const CrystallizeAPI = ({
     isPreview = false,
 }: CrystallizeAPIContext) => {
     const version = isPreview ? 'draft' : 'published';
+    const mapper = DataMapper({ language, locale });
     return {
         fetchTenantConfig: (tenantIdentifier: string) => fetchTenantConfig(apiClient, tenantIdentifier),
-        fetchNavigation: (path: string) => fetchNavigation(apiClient, path, language).then(mapNavigationToTree),
+        fetchNavigation: (path: string) =>
+            fetchNavigation(apiClient, path, language).then(mapper.API.Call.fetchNavigationToTree),
         fetchTreeMap: () => fetchTreeMap(apiClient, language),
         fetchLandingPage: (path: string) =>
-            fetchLandingPage(apiClient, path, version, language).then(mapFetchLandingPageToLandingPage),
+            fetchLandingPage(apiClient, path, version, language).then(mapper.API.Call.fetchLandingPageToLandingPage),
         fetchDocument: (path: string) =>
-            fetchDocument(apiClient, path, version, language).then(mapFetchDocumentToStory),
+            fetchDocument(apiClient, path, version, language).then(mapper.API.Call.fetchDocumentToStory),
         fetchProduct: (path: string): Promise<Product> =>
-            fetchProduct(apiClient, path, version, language).then(mapFetchProductToProduct),
-        fetchFolder: (path: string) => fetchFolder(apiClient, path, version, language).then(mapFetchFolderToCategory),
+            fetchProduct(apiClient, path, version, language).then(mapper.API.Call.fetchProductToProduct),
+        fetchFolder: (path: string) =>
+            fetchFolder(apiClient, path, version, language).then(mapper.API.Call.fetchFolderToCategory),
         fetchFolderWithChildren: (path: string) =>
             fetchFolderWithChildren(apiClient, path, version, language).then(
-                mapFetchFolderWithChildrenToCategoryWithChildren,
+                mapper.API.Call.fetchFolderToCategory(true),
             ),
         fetchShop: (path: string) =>
             Promise.all([
                 fetchFolder(apiClient, path, version, language),
                 fetchHierarchy(apiClient, path, language),
-            ]).then(mapFetchShopToShop),
-        fetchFooter: (path: string) => fetchFooter(apiClient, path, version, language).then(mapAPIFooterToFooter),
+            ]).then(mapper.API.Call.fetchShopToShop),
+        fetchFooter: (path: string) =>
+            fetchFooter(apiClient, path, version, language).then(mapper.API.Call.fetchFooterToFooter),
         fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
-        search: (value: string) => search(apiClient, value, language).then(mapSearchProductToProductSlim),
+        search: (value: string) => search(apiClient, value, language).then(mapper.API.Call.searchProductToProductSlim),
         searchOrderBy: (path: string, orderBy?: any, fitlers?: any, attributes?: any) =>
-            searchOrderBy(apiClient, path, language, orderBy, fitlers, attributes).then(mapSearchProductToProductSlim),
+            searchOrderBy(apiClient, path, language, orderBy, fitlers, attributes).then(
+                mapper.API.Call.searchProductToProductSlim,
+            ),
         searchOrderByPriceRange: (path: string) =>
-            searchOrderByPriceRange(apiClient, path, language).then(mapSearchProductToProductSlim),
+            searchOrderByPriceRange(apiClient, path, language).then(mapper.API.Call.searchProductToProductSlim),
         searchFilteredByPriceRange: (path: string, min: string, max: string) =>
-            searchFilteredByPriceRange(apiClient, path, language, min, max).then(mapSearchProductToProductSlim),
+            searchFilteredByPriceRange(apiClient, path, language, min, max).then(
+                mapper.API.Call.searchProductToProductSlim,
+            ),
         searchByTopic: (value: string) =>
-            searchByTopic(apiClient, value, language).then(mapSearchByTopicProductToProductSlim),
+            searchByTopic(apiClient, value, language).then(mapper.API.Call.searchByTopicProductToProductSlim),
     };
 };

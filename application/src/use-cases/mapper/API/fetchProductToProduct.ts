@@ -10,15 +10,13 @@ import {
     stringForRichTextComponentWithId,
     stringForSingleLineComponentWithId,
 } from '~/lib/api-mappers';
-import typedImages from '~/use-cases/mapper/mapAPIImageToImage';
-import mapAPIProductVariantToProductVariant from './mapAPIProductVariantToProductVariant';
-import mapAPIPriceVariantsToPriceVariant from './mapAPIPriceVariantsToPriceVariant';
-import mapAPIMetaSEOComponentToSEO from './mapAPIMetaSEOComponentToSEO';
+import { DataMapper } from '..';
 
 export default (
     data: Omit<APIProduct, 'variants'> &
         Item & { components: any } & { variants: Array<APIProductVariant & { components: any; description: any }> },
 ): Product => {
+    const mapper = DataMapper();
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');
     const sections = sectionsForPropertyTableComponentWithId(data.components, 'properties');
     const firstDimensionsChunk = chunksForChunkComponentWithId(data.components, 'dimensions')?.[0];
@@ -29,7 +27,7 @@ export default (
 
     const variants: ProductVariant[] =
         data?.variants?.map((variant) => {
-            const mappedVariant = mapAPIProductVariantToProductVariant(variant);
+            const mappedVariant = mapper.API.Object.APIProductVariantToProductVariant(variant);
             let description = productDescription;
             const variantDescription = variant?.description?.content?.selectedComponent?.content?.plainText?.join('');
             const variantDescriptionType = variant?.description?.content?.selectedComponent?.id;
@@ -58,7 +56,7 @@ export default (
                 return {
                     title: paragraph.title?.text || '',
                     body: flattenRichText(paragraph.body),
-                    images: typedImages(paragraph.images),
+                    images: mapper.API.Object.APIImageToImage(paragraph.images),
                 };
             }) || [],
         specifications:
@@ -135,7 +133,7 @@ export default (
                     name: item.name,
                     path: item.path,
                     topics: [],
-                    variant: mapAPIProductVariantToProductVariant(item.defaultVariant),
+                    variant: mapper.API.Object.APIProductVariantToProductVariant(item.defaultVariant),
                 };
             }) || [],
         topics:
@@ -145,7 +143,7 @@ export default (
                     path: topic.path,
                 };
             }) || [],
-        seo: mapAPIMetaSEOComponentToSEO(firstSeoChunk),
+        seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
         vat: {
             name: data.vatType?.name || 'Exempt.',
             rate: data.vatType?.percent || 0.0,

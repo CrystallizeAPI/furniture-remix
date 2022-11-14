@@ -2,10 +2,10 @@ import { Document, Page, Text, Image, View } from '@react-pdf/renderer';
 import { styles } from './styles';
 import displayPriceFor from '~/lib/pricing/pricing';
 import { Price } from './shared';
-import { Cateogry } from '~/core/contracts/Category';
+import { Category } from '~/core/contracts/Category';
 import { ProductSlim } from '~/core/contracts/Product';
 
-export const Folder: React.FC<{ category: Cateogry; products: ProductSlim[] }> = ({ category, products }) => {
+export const Folder: React.FC<{ category: Category; products: ProductSlim[] }> = ({ category, products }) => {
     return (
         <Document>
             <Page style={{ ...styles.productPage, alignItems: 'center', justifyContent: 'center' }}>

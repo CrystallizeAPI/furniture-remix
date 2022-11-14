@@ -12,6 +12,8 @@ import {
 import { ItemViewComponentProps } from '~/lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
 import { DataMapper } from '~/use-cases/mapper';
+import { ProductSlim } from '~/core/contracts/Product';
+import { Product } from './product';
 
 const DefaultDocument: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ item }) => {
     const { path } = useAppContext();

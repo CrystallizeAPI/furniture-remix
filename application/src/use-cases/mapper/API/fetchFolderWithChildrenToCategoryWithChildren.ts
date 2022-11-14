@@ -1,4 +1,4 @@
-import { CateogryWithChildren } from '~/core/contracts/Category';
+import { CategoryWithChildren } from '~/core/contracts/Category';
 import { CuratedStorySlim, StorySlim } from '~/core/contracts/Story';
 import {
     choiceComponentWithId,
@@ -9,22 +9,26 @@ import {
 } from '~/lib/api-mappers';
 import mapFetchFolderToCategory from './fetchFolderToCategory';
 import { DataMapper } from '..';
+import { ProductSlim } from '~/core/contracts/Product';
 
-export default (data: any): CateogryWithChildren => {
+export default (data: any): CategoryWithChildren => {
     const mapper = DataMapper();
+
     return {
         ...mapFetchFolderToCategory(data),
-        children: data.children.map((child: any): CuratedStorySlim | StorySlim => {
+
+        children: data.children.map((child: any): CuratedStorySlim | StorySlim | ProductSlim | undefined => {
             const common = {
                 name: child.name,
                 path: child.path,
-                title: stringForSingleLineComponentWithId(child.components, 'title') || child.name!,
             };
             if (child.shape.identifier === 'curated-product-story') {
+                const title = stringForSingleLineComponentWithId(child.components, 'title') || child.name!;
                 const intro = child.components.find((c: any) => c.id === 'description')?.content;
                 const media = child.components.find((c: any) => c.id === 'shoppable-image')?.content;
                 return {
                     ...common,
+                    title,
                     description: intro,
                     type: 'curated-product-story',
                     medias: {
@@ -51,11 +55,22 @@ export default (data: any): CateogryWithChildren => {
                             };
                         }) || [],
                 };
-            } else {
+            }
+            if (child.shape.identifier === 'product') {
+                return {
+                    id: child.id,
+                    ...common,
+                    topics: [],
+                    variant: mapper.API.Object.APIProductVariantToProductVariant(child.defaultVariant),
+                };
+            }
+            if (child.shape.identifier === 'story') {
+                const title = stringForSingleLineComponentWithId(child.components, 'title') || child.name!;
                 const intro = child.components.find((c: any) => c.id === 'intro')?.content;
                 const media = choiceComponentWithId(child.components, 'media');
                 return {
                     ...common,
+                    title,
                     description: intro,
                     type: 'story',
                     medias: {

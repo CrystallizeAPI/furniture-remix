@@ -4,7 +4,7 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Filter } from '../components/filter';
 import { FilteredProducts } from '../components/filter/filtered-products';
 import { Grid } from '../components/grid-cells/grid';
-import { Cateogry } from '../contracts/Category';
+import { Category } from '../contracts/Category';
 import { ProductSlim } from '../contracts/Product';
 
 export const fetchData = async (
@@ -12,7 +12,7 @@ export const fetchData = async (
     request: RequestContext,
     params: any,
 ): Promise<{
-    category: Cateogry;
+    category: Category;
     products: ProductSlim[];
     priceRangeAndAttributes: any;
 }> => {
@@ -38,7 +38,7 @@ export const fetchData = async (
 
     //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
     const [category, products, priceRangeAndAttributes] = await Promise.all([
-        api.fetchFolder(path),
+        api.fetchFolderWithChildren(path),
         api.searchOrderBy(path, searchParams.orderBy, searchParams.filters, searchParams.attributes),
         api.fetchPriceRangeAndAttributes(path),
     ]);
@@ -50,11 +50,12 @@ export const fetchData = async (
         });
     }
 
-    return { products, category, priceRangeAndAttributes };
+    return { category, products, priceRangeAndAttributes };
 };
 
 export default ({ data }: { data: Awaited<ReturnType<typeof fetchData>> }) => {
-    const { products, category, priceRangeAndAttributes } = data;
+    const { category, products, priceRangeAndAttributes } = data;
+
     return (
         <>
             <div className="container 2xl px-5 mx-auto w-full">

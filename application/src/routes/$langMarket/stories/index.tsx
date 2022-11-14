@@ -9,7 +9,7 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
 import { Document } from '~/core/components/item/document';
 import { getContext } from '~/core-server/http-utils.server';
-import { CateogryWithChildren } from '~/core/contracts/Category';
+import { CategoryWithChildren } from '~/core/contracts/Category';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -33,7 +33,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default () => {
-    const { folder } = useLoaderData() as { folder: CateogryWithChildren };
+    const { folder } = useLoaderData() as { folder: CategoryWithChildren };
+
     return (
         <div className="container 2xl md:px-6 mx-auto w-full p-10">
             <h1 className="text-6xl font-bold mt-10 mb-4">{folder.title}</h1>

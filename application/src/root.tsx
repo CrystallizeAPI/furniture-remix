@@ -93,7 +93,7 @@ export let loader: LoaderFunction = async ({ request }) => {
         api.fetchNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
         fetchTranslations(requestContext.language),
-        api.fetchFooter('/footer3'),
+        api.fetchFooter('/footer'),
     ]);
 
     const apiPath = buildLanguageMarketAwareLink('/api', requestContext.language, requestContext.market);
@@ -215,7 +215,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <div>
                 <div>{children}</div>
             </div>
-            <footer className="2xl w-full mx-auto lg:p-8 lg:px-6">
+            <footer className="2xl w-full mx-auto">
                 <Footer footer={footer} />
             </footer>
         </>

@@ -14,6 +14,17 @@
         transform: scale(1, 1);
     }
 
+    .footer-links ul {
+        margin-bottom: 10px;
+    }
+
+    .footer-links ul li {
+        font-weight: 600;
+    }
+
+    .footer-links ul li li {
+        font-weight: 400;
+    }
     .frntr-accordination summary {
         cursor: pointer;
     }

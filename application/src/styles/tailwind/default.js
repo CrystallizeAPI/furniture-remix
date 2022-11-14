@@ -23,6 +23,7 @@ module.exports = {
             textBlack: '#0E0E0E',
             pink: '#FCE8F0',
             red: '#ef233c',
+            footerBg: '#17282B',
         },
         fontFamily: {
             ...common.theme.fontFamily,

@@ -1,9 +1,9 @@
 import { ActionFunction } from '@remix-run/node';
 import { authenticate, isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
-import { handleAndPlaceCart, hydrateCart } from '~/use-cases/checkout/cart';
 import { getContext } from '~/use-cases/http/utils';
 import { privateJson } from '~/bridge/privateJson.server';
 import { getStoreFront } from '~/core-server/storefront.server';
+import handlePlaceCart from '~/use-cases/checkout/handlePlaceCart';
 
 export const action: ActionFunction = async ({ request }) => {
     const requestContext = getContext(request);
@@ -12,7 +12,6 @@ export const action: ActionFunction = async ({ request }) => {
     const authUser = isAuthenticated ? (await authenticate(request))?.user : null;
     const body = await request.json();
 
-    const cart = await hydrateCart(storefront.apiClient, requestContext.language, body);
     const customerIdentifier = authUser?.aud || body.customer?.email || 'unknow@unknown.com';
     const customer = {
         ...body.customer,
@@ -24,5 +23,6 @@ export const action: ActionFunction = async ({ request }) => {
         customerIdentifier,
         isGuest: !isAuthenticated,
     };
-    return privateJson(await handleAndPlaceCart(cart, customer, body.cartId as string));
+
+    return privateJson(await handlePlaceCart(storefront.apiClient, requestContext, body, customer));
 };

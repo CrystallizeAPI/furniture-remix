@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import { useState } from 'react';
 import filterIcon from '~/assets/filterIcon.svg';
 import useSearchParams from '~/bridge/useSearchParams';
@@ -9,10 +8,9 @@ export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) =
     const { _t } = useAppContext();
     const [searchParams] = useSearchParams();
     const selectedAttributes = searchParams.getAll('attr');
-
     return (
         <>
-            {!isEmpty(attributes) && (
+            {Object.keys(attributes).length > 0 && (
                 <div>
                     <div
                         className="relative flex justify-between items-center w-60 bg-grey py-2 px-6 rounded-md hover:cursor-pointer"

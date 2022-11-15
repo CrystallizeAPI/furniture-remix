@@ -1,5 +1,4 @@
 import { Form, useLocation, useNavigate, useSubmit, useTransition } from '@remix-run/react';
-import groupBy from 'lodash/groupBy';
 import React, { useRef } from 'react';
 import { useAppContext } from '~/core/app-context/provider';
 import { AttributeFilter } from './attribute-filter';
@@ -18,8 +17,19 @@ export const Filter: React.FC<{ aggregations: any }> = ({ aggregations }) => {
     function handleChange(event: any) {
         submit(event.currentTarget, { replace: true });
     }
-
-    var grouped = groupBy(attributes, 'attribute');
+    const grouped = attributes.reduce(
+        (
+            memo: Record<string, Array<{ attribute: string; value: string }>>,
+            item: { attribute: string; value: string },
+        ) => {
+            if (!memo[item.attribute]) {
+                memo[item.attribute] = [];
+            }
+            memo[item.attribute].push(item);
+            return memo;
+        },
+        {},
+    );
 
     return (
         <div className="flex gap-5 mb-10 flex-wrap items-center justify-start">

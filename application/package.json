@@ -37,7 +37,6 @@
         "@types/uuid": "^8.3.4",
         "jsonwebtoken": "^8.5.1",
         "jwt-decode": "^3.1.2",
-        "lodash": "^4.17.21",
         "mjml": "^4.12.0",
         "nodemailer": "^6.7.5",
         "platformsh-config": "^2.4.1",

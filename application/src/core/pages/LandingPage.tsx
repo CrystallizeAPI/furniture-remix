@@ -1,8 +1,8 @@
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Grid } from '~/core/components/grid-cells/grid';
-import { RequestContext } from '~/core-server/http-utils.server';
-import { LandingPage } from '../contracts/LandingPage';
+import { RequestContext } from '~/use-cases/http/utils';
+import { LandingPage } from '../../use-cases/contracts/LandingPage';
 
 export const fetchData = async (path: string, request: RequestContext, params: any): Promise<LandingPage> => {
     const { secret } = await getStoreFront(request.host);

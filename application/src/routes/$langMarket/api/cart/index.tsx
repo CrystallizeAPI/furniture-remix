@@ -1,8 +1,8 @@
 import { ActionFunction } from '@remix-run/node';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { privateJson } from '~/bridge/privateJson.server';
-import { handleAndSaveCart, hydrateCart } from '~/core-server/cart.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { handleAndSaveCart, hydrateCart } from '~/use-cases/checkout/cart';
+import { getContext } from '~/use-cases/http/utils';
 
 export const action: ActionFunction = async ({ request }) => {
     const requestContext = getContext(request);

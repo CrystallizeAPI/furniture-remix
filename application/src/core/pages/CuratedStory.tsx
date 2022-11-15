@@ -3,9 +3,9 @@ import { CuratedProductItem } from '~/core/components/curated-product';
 import { useMemo, useState } from 'react';
 import { AddToCartBtn, VariantPack, VariantPackItem } from '~/core/components/add-to-cart-button';
 import { useAppContext } from '~/core/app-context/provider';
-import { CuratedStory } from '../contracts/Story';
+import { CuratedStory } from '../../use-cases/contracts/Story';
 import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
-import { Price } from '~/lib/pricing/pricing-component';
+import { Price } from '~/core/lib/pricing/pricing-component';
 
 export default ({ data: story }: { data: CuratedStory }) => {
     const [activePoint, setActivePoint] = useState('');

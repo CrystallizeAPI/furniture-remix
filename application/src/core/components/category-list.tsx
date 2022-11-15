@@ -1,6 +1,6 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { Product } from '~/core/components/item/product';
-import { ProductSlim } from '../contracts/Product';
+import { ProductSlim } from '../../use-cases/contracts/Product';
 
 export const CategoryList: React.FC<{ products: ProductSlim[] }> = ({ products }) => {
     return (

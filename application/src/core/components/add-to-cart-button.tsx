@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
-import { ProductVariant } from '../contracts/ProductVariant';
+import { ProductVariant } from '../../use-cases/contracts/ProductVariant';
 
 export type VariantPack = VariantPackItem[];
 

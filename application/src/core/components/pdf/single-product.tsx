@@ -1,9 +1,9 @@
 import { Document, Page, Text, Image, View, Link } from '@react-pdf/renderer';
 import { styles } from './styles';
 import { ContentTransformer, NodeContent } from '@crystallize/reactjs-components/dist/content-transformer';
-import displayPriceFor from '~/lib/pricing/pricing';
+import displayPriceFor from '~/core/lib/pricing/pricing';
 import { Price } from './shared';
-import type { Product as ProductType } from '~/core/contracts/Product';
+import type { Product as ProductType } from '~/use-cases/contracts/Product';
 
 const overrides = {
     link: (props: any) => (

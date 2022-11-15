@@ -2,7 +2,7 @@ import FileDownloadIcon from '~/assets/documentDownloadIcon.svg';
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
 import Arrow from '~/assets/arrow.svg';
 import { useAppContext } from '~/core/app-context/provider';
-import { FileDownload } from '~/core/contracts/FileDownload';
+import { FileDownload } from '~/use-cases/contracts/FileDownload';
 
 export const Files: React.FC<{ files: FileDownload[] }> = ({ files }) => {
     const { _t } = useAppContext();

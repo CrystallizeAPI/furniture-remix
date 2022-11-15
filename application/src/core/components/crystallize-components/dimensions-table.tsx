@@ -1,6 +1,6 @@
 import Arrow from '~/assets/arrow.svg';
 import { useAppContext } from '~/core/app-context/provider';
-import { Dimensions } from '~/core/contracts/Dimensions';
+import { Dimensions } from '~/use-cases/contracts/Dimensions';
 
 export const DimensionsTable: React.FC<{ dimensions: Dimensions }> = ({ dimensions }) => {
     const { _t } = useAppContext();

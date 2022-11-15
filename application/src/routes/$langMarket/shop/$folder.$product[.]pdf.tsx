@@ -1,8 +1,8 @@
 import { LoaderFunction, Response } from '@remix-run/node';
 import ReactPDF from '@react-pdf/renderer';
-import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core-server/http-cache.server';
+import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 import PageRenderer from '~/core/pages/index';
 import { SingleProduct } from '~/core/components/pdf/single-product';
 

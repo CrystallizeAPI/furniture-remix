@@ -1,9 +1,6 @@
 import { HeadersFunction, LoaderFunction } from '@remix-run/node';
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
+import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -13,7 +10,6 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export const loader: LoaderFunction = async ({ request }) => {
     const requestContext = getContext(request);
     const { shared } = await getStoreFront(requestContext.host);
-    console.log(shared.config);
     return new Response(
         `User-agent: *\n${shared.config.identifier !== 'furniture' ? 'Disallow: ' : 'Allow: '}/\n`,
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['/robots.txt'], shared.config.tenantIdentifier),

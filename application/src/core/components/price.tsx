@@ -1,9 +1,9 @@
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
-import displayPriceFor, { DisplayPrice } from '~/lib/pricing/pricing';
-import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
+import displayPriceFor, { DisplayPrice } from '~/core/lib/pricing/pricing';
+import { Price as CrystallizePrice } from '~/core/lib/pricing/pricing-component';
 import { DataMapper } from '~/use-cases/mapper';
 import { useAppContext } from '../app-context/provider';
-import { ProductVariant } from '../contracts/ProductVariant';
+import { ProductVariant } from '../../use-cases/contracts/ProductVariant';
 
 export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> = ({ price, size = 'medium' }) => {
     const priceSize = {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppContext } from '~/core/app-context/provider';
 import { Product } from '~/core/components/item/product';
-import { ProductSlim } from '~/core/contracts/Product';
+import { ProductSlim } from '~/use-cases/contracts/Product';
 
 export const FilteredProducts: React.FC<{ products: ProductSlim[] }> = ({ products }) => {
     let [checked, setChecked] = useState(true);

@@ -1,13 +1,10 @@
 import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import sliderStyles from 'rc-slider/assets/index.css';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { buildMetas } from '~/core/MicrodataBuilder';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import PageRenderer from '~/core/pages/index';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';

@@ -1,5 +1,5 @@
 import Arrow from '~/assets/arrow.svg';
-import { CrystallizePropertiesTable } from '~/core/contracts/PropertiesTable';
+import { CrystallizePropertiesTable } from '~/use-cases/contracts/PropertiesTable';
 
 export const PropertiesTable: React.FC<{ table: CrystallizePropertiesTable }> = ({ table }) => {
     return (

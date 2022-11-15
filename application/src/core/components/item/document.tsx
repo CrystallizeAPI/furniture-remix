@@ -1,18 +1,18 @@
 import { Image } from '@crystallize/reactjs-components';
 import Link from '~/bridge/Link';
 import { useAppContext } from '~/core/app-context/provider';
-import { StorySlim, CuratedStorySlim } from '~/core/contracts/Story';
+import { StorySlim, CuratedStorySlim } from '~/use-cases/contracts/Story';
 import {
     choiceComponentWithId,
     chunksForChunkComponentWithId,
     itemsForItemRelationComponentWithId,
     numericValueForComponentWithId,
     stringForSingleLineComponentWithId,
-} from '~/lib/api-mappers';
-import { ItemViewComponentProps } from '~/lib/grid-tile/types';
+} from '~/use-cases/mapper/api-mappers';
+import { ItemViewComponentProps } from '~/core/lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
 import { DataMapper } from '~/use-cases/mapper';
-import { ProductSlim } from '~/core/contracts/Product';
+import { ProductSlim } from '~/use-cases/contracts/Product';
 import { Product } from './product';
 
 const DefaultDocument: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ item }) => {

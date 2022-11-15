@@ -2,7 +2,7 @@ import { createOrderFetcher } from '@crystallize/js-api-client';
 import { handleOrdersRequestPayload } from '@crystallize/node-service-api-request-handlers';
 import { LoaderFunction } from '@remix-run/node';
 import { authenticate } from '~/core-server/authentication.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 import { privateJson } from '~/bridge/privateJson.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 

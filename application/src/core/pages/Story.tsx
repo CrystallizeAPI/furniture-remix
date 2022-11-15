@@ -3,7 +3,7 @@ import { buildSchemaMarkupForBlogPost } from '../SchemaMarkupBuilder';
 import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
 import { RelatedDocument } from '../components/related-items/related-document';
 import { Product } from '../components/item/product';
-import { Story } from '../contracts/Story';
+import { Story } from '../../use-cases/contracts/Story';
 
 export default ({ data: story }: { data: Story }) => {
     return (

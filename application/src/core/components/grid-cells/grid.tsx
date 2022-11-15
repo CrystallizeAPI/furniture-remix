@@ -1,4 +1,4 @@
-import { Grid as BaseGrid } from '~/lib/grid-tile/grid';
+import { Grid as BaseGrid } from '~/core/lib/grid-tile/grid';
 import { ProductFromCell } from '~/core/components/item/product';
 import { DocumentFromCell } from '~/core/components/item/document';
 import { Banner } from '~/core/components/tiles/banner';

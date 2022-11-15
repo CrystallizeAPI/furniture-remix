@@ -1,9 +1,9 @@
-import { RequestContext } from '~/core-server/http-utils.server';
+import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 
 import CuratedStory from './CuratedStory';
-import { Story as StoryType, CuratedStory as CuratedStoryType } from '../contracts/Story';
+import { Story as StoryType, CuratedStory as CuratedStoryType } from '../../use-cases/contracts/Story';
 import Story from './Story';
 
 export const fetchData = async (

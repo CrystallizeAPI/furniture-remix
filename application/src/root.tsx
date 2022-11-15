@@ -28,11 +28,11 @@ import { buildStoreFrontConfiguration, getStoreFront } from './core-server/store
 import { CrystallizeAPI } from './use-cases/crystallize';
 import { AppContextProvider, useAppContext } from './core/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
-import { StoreFrontAwaretHttpCacheHeaderTagger } from './core-server/http-cache.server';
-import { getContext } from './core-server/http-utils.server';
+import { StoreFrontAwaretHttpCacheHeaderTagger } from './use-cases/http/cache';
+import { getContext } from './use-cases/http/utils';
 import { FAVICON_VARIANTS } from './routes/$langMarket/favicon/$size[.png]';
 import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
-import { StoreFrontConfiguration } from './core/contracts/StoreFrontConfiguration';
+import { StoreFrontConfiguration } from './use-cases/contracts/StoreFrontConfiguration';
 import {
     availableLanguages,
     buildLanguageMarketAwareLink,
@@ -40,8 +40,8 @@ import {
     isValidLanguageMarket,
 } from './core/LanguageAndMarket';
 import fetchTranslations from './use-cases/fetchTranslations.server';
-import { Tree } from './core/contracts/Tree';
-import { Footer as FooterType } from './core/contracts/Footer';
+import { Tree } from './use-cases/contracts/Tree';
+import { Footer as FooterType } from './use-cases/contracts/Footer';
 
 export const meta: MetaFunction = () => {
     return {

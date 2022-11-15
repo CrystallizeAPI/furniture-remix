@@ -1,4 +1,4 @@
-import { ProductVariant } from '~/core/contracts/ProductVariant';
+import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
 import { Currency, CurrencyCode, getCurrencyFromCode } from './currencies';
 
 export type DisplayPrice = {

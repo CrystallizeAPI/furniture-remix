@@ -1,9 +1,9 @@
 import { Document, Page, Text, Image, View } from '@react-pdf/renderer';
 import { styles } from './styles';
-import displayPriceFor from '~/lib/pricing/pricing';
+import displayPriceFor from '~/core/lib/pricing/pricing';
 import { Price } from './shared';
-import { Category } from '~/core/contracts/Category';
-import { ProductSlim } from '~/core/contracts/Product';
+import { Category } from '~/use-cases/contracts/Category';
+import { ProductSlim } from '~/use-cases/contracts/Product';
 
 export const Folder: React.FC<{ category: Category; products: ProductSlim[] }> = ({ category, products }) => {
     return (

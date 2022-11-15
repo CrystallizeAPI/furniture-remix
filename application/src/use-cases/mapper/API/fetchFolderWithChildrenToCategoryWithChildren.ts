@@ -1,15 +1,15 @@
-import { CategoryWithChildren } from '~/core/contracts/Category';
-import { CuratedStorySlim, StorySlim } from '~/core/contracts/Story';
+import { CategoryWithChildren } from '~/use-cases/contracts/Category';
+import { CuratedStorySlim, StorySlim } from '~/use-cases/contracts/Story';
 import {
     choiceComponentWithId,
     chunksForChunkComponentWithId,
     itemsForItemRelationComponentWithId,
     numericValueForComponentWithId,
     stringForSingleLineComponentWithId,
-} from '~/lib/api-mappers';
+} from '~/use-cases/mapper/api-mappers';
 import mapFetchFolderToCategory from './fetchFolderToCategory';
 import { DataMapper } from '..';
-import { ProductSlim } from '~/core/contracts/Product';
+import { ProductSlim } from '~/use-cases/contracts/Product';
 
 export default (data: any): CategoryWithChildren => {
     const mapper = DataMapper();

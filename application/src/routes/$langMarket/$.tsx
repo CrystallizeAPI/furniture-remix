@@ -1,9 +1,6 @@
 import { HeadersFunction, json, LoaderFunction, MetaFunction, Response } from '@remix-run/node';
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
+import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import PageRenderer from '~/core/pages/index';

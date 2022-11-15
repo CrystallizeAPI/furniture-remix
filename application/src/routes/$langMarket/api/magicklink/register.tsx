@@ -7,7 +7,7 @@ import { ActionFunction, json } from '@remix-run/node';
 import { getStoreFront } from '~/core-server/storefront.server';
 import mjml2html from 'mjml';
 import { createMailer } from '~/core-server/services.server';
-import { getContext, validatePayload } from '~/core-server/http-utils.server';
+import { getContext, validatePayload } from '~/use-cases/http/utils';
 import { buildLanguageMarketAwareLink } from '~/core/LanguageAndMarket';
 
 export const action: ActionFunction = async ({ request, params }) => {

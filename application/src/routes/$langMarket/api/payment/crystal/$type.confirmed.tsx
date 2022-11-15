@@ -1,9 +1,9 @@
 import { ActionFunction, json } from '@remix-run/node';
-import { getContext } from '~/core-server/http-utils.server';
-import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder.server';
+import { getContext } from '~/use-cases/http/utils';
+import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder';
 import { cartWrapperRepository } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import pushCustomerIfMissing from '~/use-cases/crystallize/pushCustomerIfMissing.server';
+import pushCustomerIfMissing from '~/use-cases/crystallize/pushCustomerIfMissing';
 
 export const action: ActionFunction = async ({ request, params }) => {
     const requestContext = getContext(request);

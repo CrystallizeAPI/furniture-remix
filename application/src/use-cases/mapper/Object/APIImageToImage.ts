@@ -1,5 +1,5 @@
 import { Image as APIImage } from '@crystallize/js-api-client';
-import { Image } from '~/core/contracts/Image';
+import { Image } from '~/use-cases/contracts/Image';
 
 export default (images?: APIImage[]): Image[] => {
     return (

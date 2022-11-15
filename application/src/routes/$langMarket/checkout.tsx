@@ -1,9 +1,6 @@
 import { useAuth } from '~/core/hooks/useAuth';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { HeadersFunction, LoaderFunction } from '@remix-run/node';
 import { Payments } from '~/core/components/payments';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
@@ -12,7 +9,7 @@ import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
 import { AddressForm } from '~/core/components/checkout-forms/address';
 import { useState } from 'react';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 import { isAuthenticated as isServerSideAuthenticated } from '~/core-server/authentication.server';
 import { useLoaderData } from '@remix-run/react';
 import { privateJson } from '~/bridge/privateJson.server';

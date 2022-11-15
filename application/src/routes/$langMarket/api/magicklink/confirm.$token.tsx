@@ -1,6 +1,6 @@
 import { handleMagickLinkConfirmationRequestPayload } from '@crystallize/node-service-api-request-handlers';
 import { LoaderFunction, redirect } from '@remix-run/node';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { authCookie } from '~/core-server/cookies.server';
 import { buildLanguageMarketAwareLink } from '~/core/LanguageAndMarket';

@@ -5,16 +5,13 @@ import { CategoryList } from '~/core/components/category-list';
 import { Grid } from '~/core/components/grid-cells/grid';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { buildMetas } from '~/core/MicrodataBuilder';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 import { useAppContext } from '~/core/app-context/provider';
-import { Shop } from '~/core/contracts/Shop';
+import { Shop } from '~/use-cases/contracts/Shop';
 
 export const links: LinksFunction = () => {
     return [{ rel: 'stylesheet', href: splideStyles }];

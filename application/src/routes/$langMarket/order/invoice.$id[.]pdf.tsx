@@ -3,7 +3,7 @@ import ReactPDF from '@react-pdf/renderer';
 import { Invoice } from '~/core/components/pdf/order-invoice';
 import { createOrderFetcher } from '@crystallize/js-api-client';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { getContext } from '~/use-cases/http/utils';
 
 export const loader: LoaderFunction = async ({ context, params, request }) => {
     const requestContext = getContext(request);

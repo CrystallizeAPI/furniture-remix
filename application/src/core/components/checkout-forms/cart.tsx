@@ -1,10 +1,10 @@
 import { useRemoteCart } from '~/core/hooks/useRemoteCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { useAppContext } from '~/core/app-context/provider';
-import { Price } from '~/lib/pricing/pricing-component';
+import { Price } from '~/core/lib/pricing/pricing-component';
 import { CartItemPrice } from '../price';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { Price as CrystallizePrice } from '~/lib/pricing/pricing-component';
+import { Price as CrystallizePrice } from '~/core/lib/pricing/pricing-component';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 
 export const CheckoutCart: React.FC = () => {

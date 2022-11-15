@@ -1,8 +1,8 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import CrystallizeLogo from '~/assets/crystallizeLogo.svg';
-import { TenantLogo } from '~/lib/tenant-logo';
+import { TenantLogo } from '~/core/lib/tenant-logo';
 import { useAppContext } from '../app-context/provider';
-import { Footer as FooterType } from '../contracts/Footer';
+import { Footer as FooterType } from '../../use-cases/contracts/Footer';
 
 export const Footer: React.FC<{
     footer: FooterType;
@@ -23,8 +23,13 @@ export const Footer: React.FC<{
                             <ContentTransformer json={footer.contact.json} />
                         </div>
                         <div className="flex gap-2 items-center">
-                            {footer.socialLinks.map((socialLink) => (
-                                <a key={socialLink.url} href={socialLink.url} target="_blank" rel="noopener noreferrer">
+                            {footer.socialLinks.map((socialLink, index) => (
+                                <a
+                                    key={socialLink.url + index}
+                                    href={socialLink.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <Image {...socialLink.logo?.[0]} sizes="100px" />
                                 </a>
                             ))}
@@ -54,8 +59,8 @@ export const Footer: React.FC<{
                         {footer.promotions.heading}
                     </p>
                     <div className="flex flex-wrap md:justify-between mt-5 gap-3 justify-center mb-10">
-                        {footer.promotions.cards.map((promotion) => (
-                            <div key={promotion.title} className="flex border-white border flex-col p-5">
+                        {footer.promotions.cards.map((promotion, index) => (
+                            <div key={promotion.title + index} className="flex border-white border flex-col p-5">
                                 <div className="w-[40px] h-[40px] img-container overflow-hidden border-white border rounded-full p-1">
                                     <Image {...promotion.image?.[0]} sizes="100vw" />
                                 </div>

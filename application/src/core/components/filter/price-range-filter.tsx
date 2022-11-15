@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import Slider from 'rc-slider';
 import { useSubmit } from '@remix-run/react';
 import { useAppContext } from '~/core/app-context/provider';
-import { Price } from '~/lib/pricing/pricing-component';
+import { Price } from '~/core/lib/pricing/pricing-component';
 
 export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any | null }> = ({
     min,

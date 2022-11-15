@@ -1,6 +1,6 @@
 import { Item, ProductVariant as APIProductVariant, Product as APIProduct } from '@crystallize/js-api-client';
-import { Product } from '~/core/contracts/Product';
-import { ProductVariant } from '~/core/contracts/ProductVariant';
+import { Product } from '~/use-cases/contracts/Product';
+import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
 import {
     chunksForChunkComponentWithId,
     flattenRichText,
@@ -9,7 +9,7 @@ import {
     sectionsForPropertyTableComponentWithId,
     stringForRichTextComponentWithId,
     stringForSingleLineComponentWithId,
-} from '~/lib/api-mappers';
+} from '~/use-cases/mapper/api-mappers';
 import { DataMapper } from '..';
 
 export default (

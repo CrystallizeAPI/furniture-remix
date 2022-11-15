@@ -2,10 +2,10 @@ import { DimensionsTable } from './crystallize-components/dimensions-table';
 import { ParagraphCollection } from './crystallize-components/paragraph-collection';
 import { PropertiesTable } from './crystallize-components/properties-table';
 import { Files } from '~/core/components/crystallize-components/files';
-import { Paragraph } from '../contracts/Paragraph';
-import { CrystallizePropertiesTable } from '../contracts/PropertiesTable';
-import { FileDownload } from '../contracts/FileDownload';
-import { Dimensions } from '../contracts/Dimensions';
+import { Paragraph } from '../../use-cases/contracts/Paragraph';
+import { CrystallizePropertiesTable } from '../../use-cases/contracts/PropertiesTable';
+import { FileDownload } from '../../use-cases/contracts/FileDownload';
+import { Dimensions } from '../../use-cases/contracts/Dimensions';
 
 export const ProductBody: React.FC<{
     story?: Paragraph[];

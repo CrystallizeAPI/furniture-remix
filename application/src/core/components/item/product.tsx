@@ -1,9 +1,9 @@
 import { Image } from '@crystallize/reactjs-components';
 import Link from '~/bridge/Link';
 import { useAppContext } from '~/core/app-context/provider';
-import displayPriceFor from '~/lib/pricing/pricing';
+import displayPriceFor from '~/core/lib/pricing/pricing';
 import { Price } from '../price';
-import { ProductSlim } from '~/core/contracts/Product';
+import { ProductSlim } from '~/use-cases/contracts/Product';
 import { DataMapper } from '~/use-cases/mapper';
 
 export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {

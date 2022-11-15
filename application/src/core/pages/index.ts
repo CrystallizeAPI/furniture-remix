@@ -3,7 +3,7 @@ import CategoryPage, { fetchData as CategoryFetchData } from './Category';
 import TopicPage, { fetchData as TopicFetchData } from './Topic';
 import AbstractStoryPage, { fetchData as AbstractFetchData } from './AbstractStory';
 import LandingPagePage, { fetchData as LandingPageFetchData } from './LandingPage';
-import { RequestContext } from '~/core-server/http-utils.server';
+import { RequestContext } from '~/use-cases/http/utils';
 
 export type PageRenderer<T> = {
     component: React.FunctionComponent<{ data: T }>;

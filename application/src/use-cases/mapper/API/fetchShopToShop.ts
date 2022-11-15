@@ -1,11 +1,11 @@
-import { ProductSlim } from '~/core/contracts/Product';
-import { Shop } from '~/core/contracts/Shop';
+import { ProductSlim } from '~/use-cases/contracts/Product';
+import { Shop } from '~/use-cases/contracts/Shop';
 import {
     choiceComponentWithId,
     stringForRichTextComponentWithId,
     stringForSingleLineComponentWithId,
-} from '~/lib/api-mappers';
-import { createGrid } from '~/lib/grid-tile/createGrid';
+} from '~/use-cases/mapper/api-mappers';
+import { createGrid } from '~/core/lib/grid-tile/createGrid';
 import { DataMapper } from '..';
 
 export default (data: any): Shop => {
@@ -14,7 +14,7 @@ export default (data: any): Shop => {
     const hero = choiceComponentWithId(folder.components, 'hero-content');
     const grid = hero?.content?.grids?.[0] || (hero?.content?.items ? createGrid(hero?.content?.items) : null);
 
-    const firstSeoChunk = folder.meta.content.chunks[0];
+    const firstSeoChunk = folder.meta.content?.chunks[0];
     const dto: Shop = {
         name: folder.name,
         title: stringForSingleLineComponentWithId(folder.components, 'title') || data.name!,

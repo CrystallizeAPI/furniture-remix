@@ -1,6 +1,6 @@
 import { ProductPriceVariant } from '@crystallize/js-api-client';
-import { Price } from '~/core/contracts/Price';
-import { getCurrencyFromCode } from '~/lib/pricing/currencies';
+import { Price } from '~/use-cases/contracts/Price';
+import { getCurrencyFromCode } from '~/core/lib/pricing/currencies';
 
 export default (variants: ProductPriceVariant[]): Record<string, Price> => {
     return variants.reduce((memo: Record<string, Price>, priceVariant: ProductPriceVariant) => {

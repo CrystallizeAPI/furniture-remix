@@ -1,6 +1,6 @@
 import Link from '~/bridge/Link';
 import { useAppContext } from '../app-context/provider';
-import { Topic } from '../contracts/Topic';
+import { Topic } from '../../use-cases/contracts/Topic';
 
 export const TopicLabels: React.FC<{ topics: Topic[] }> = ({ topics }) => {
     const { path } = useAppContext();

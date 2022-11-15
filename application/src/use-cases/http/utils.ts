@@ -1,5 +1,13 @@
 import { availableLanguages } from '~/core/LanguageAndMarket';
 
+type Request = {
+    url: string;
+    headers: {
+        has: (key: string) => boolean;
+        get: (key: string) => string | null | undefined;
+    };
+};
+
 function isSecure(request: Request): boolean {
     return request.headers.get('x-forwarded-proto')! === 'https' || request.url.startsWith('https');
 }

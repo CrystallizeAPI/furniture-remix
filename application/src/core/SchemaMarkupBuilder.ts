@@ -1,4 +1,4 @@
-import { Product } from './contracts/Product';
+import { Product } from '../use-cases/contracts/Product';
 
 export const buildSchemaMarkup = (product: Product) => {
     return {

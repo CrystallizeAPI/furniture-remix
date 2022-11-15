@@ -1,6 +1,6 @@
 import { ProductStockLocation, ProductVariant as APIProductVariant } from '@crystallize/js-api-client';
-import { ProductVariant } from '~/core/contracts/ProductVariant';
-import { StockLocation } from '~/core/contracts/StockLocation';
+import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
+import { StockLocation } from '~/use-cases/contracts/StockLocation';
 import { DataMapper } from '..';
 
 export default (variant: APIProductVariant): ProductVariant => {

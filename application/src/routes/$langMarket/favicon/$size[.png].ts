@@ -1,7 +1,7 @@
 import { LoaderFunction } from '@remix-run/node';
-import { getContext, getHost } from '~/core-server/http-utils.server';
+import { getContext, getHost } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
-import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/core-server/http-cache.server';
+import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 
 export const FAVICON_VARIANTS = {
     '16': {

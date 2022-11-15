@@ -6,10 +6,10 @@ import {
     handleCartRequestPayload,
     Price,
 } from '@crystallize/node-service-api-request-handlers';
-import { extractDisountLotFromItemsBasedOnXForYTopic, groupSavingsPerSkus } from './discount.server';
-import { cartWrapperRepository } from './services.server';
+import { extractDisountLotFromItemsBasedOnXForYTopic, groupSavingsPerSkus } from './discount';
+import { cartWrapperRepository } from '../../core-server/services.server';
 import { v4 as uuidv4 } from 'uuid';
-import { validatePayload } from './http-utils.server';
+import { validatePayload } from '../http/utils';
 import {
     ClientInterface,
     createProductHydrater,

@@ -1,15 +1,12 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import {
-    HttpCacheHeaderTaggerFromLoader,
-    StoreFrontAwaretHttpCacheHeaderTagger,
-} from '~/core-server/http-cache.server';
-import { getContext } from '~/core-server/http-utils.server';
+import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
+import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { useAppContext } from '~/core/app-context/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { Price } from '~/lib/pricing/pricing-component';
+import { Price } from '~/core/lib/pricing/pricing-component';
 import { useAuth } from '~/core/hooks/useAuth';
 import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
 import { ClientOnly } from '@crystallize/reactjs-hooks';

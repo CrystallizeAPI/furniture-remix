@@ -4,8 +4,8 @@ import {
     klarnaInitiatePaymentPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import { ActionFunction, json } from '@remix-run/node';
-import { getContext, validatePayload } from '~/core-server/http-utils.server';
-import { getKlarnaOrderInfos, getKlarnaVariables } from '~/core-server/klarna.utis.server';
+import { getContext, validatePayload } from '~/use-cases/http/utils';
+import { getKlarnaOrderInfos, getKlarnaVariables } from '~/use-cases/klarna/utils';
 import { cartWrapperRepository } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { buildLanguageMarketAwareLink } from '~/core/LanguageAndMarket';

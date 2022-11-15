@@ -1,9 +1,9 @@
-import { LandingPage } from '~/core/contracts/LandingPage';
+import { LandingPage } from '~/use-cases/contracts/LandingPage';
 import { DataMapper } from '..';
 
 export default (data: any): LandingPage => {
     const mapper = DataMapper();
-    const firstSeoChunk = data.meta.content.chunks?.[0];
+    const firstSeoChunk = data.meta.content?.chunks?.[0];
     return {
         name: data.name,
         path: data.path,

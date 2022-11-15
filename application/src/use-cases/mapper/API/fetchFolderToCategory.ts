@@ -1,10 +1,10 @@
-import { Category } from '~/core/contracts/Category';
+import { Category } from '~/use-cases/contracts/Category';
 import {
     choiceComponentWithId,
     stringForRichTextComponentWithId,
     stringForSingleLineComponentWithId,
-} from '~/lib/api-mappers';
-import { createGrid } from '~/lib/grid-tile/createGrid';
+} from '~/use-cases/mapper/api-mappers';
+import { createGrid } from '~/core/lib/grid-tile/createGrid';
 import { DataMapper } from '..';
 
 export default (data: any): Category => {

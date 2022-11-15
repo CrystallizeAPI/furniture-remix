@@ -1,4 +1,4 @@
-import { ItemViewComponentProps } from '~/lib/grid-tile/types';
+import { ItemViewComponentProps } from '~/core/lib/grid-tile/types';
 
 export const GenericItem: React.FC<ItemViewComponentProps> = ({ item }) => {
     return (

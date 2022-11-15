@@ -6,7 +6,7 @@ import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '~/core/app-context/provider';
 import { createClient } from '@crystallize/js-api-client';
-import { ProductSlim } from '~/core/contracts/Product';
+import { ProductSlim } from '~/use-cases/contracts/Product';
 import { Price } from '../price';
 
 export const SearchBar = () => {

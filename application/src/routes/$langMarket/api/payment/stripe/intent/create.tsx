@@ -4,7 +4,7 @@ import {
     stripePaymentIntentPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import { ActionFunction, json } from '@remix-run/node';
-import { getContext, validatePayload } from '~/core-server/http-utils.server';
+import { getContext, validatePayload } from '~/use-cases/http/utils';
 import { cartWrapperRepository } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
 

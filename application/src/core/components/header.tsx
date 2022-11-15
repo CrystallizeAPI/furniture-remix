@@ -8,8 +8,8 @@ import { useAppContext } from '../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from './price';
 import { LanguageSwitcher } from './language-switcher';
-import { Tree } from '../contracts/Tree';
-import { TenantLogo } from '~/lib/tenant-logo';
+import { Tree } from '../../use-cases/contracts/Tree';
+import { TenantLogo } from '~/core/lib/tenant-logo';
 import useLocation from '~/bridge/useLocation';
 
 export const Header: React.FC<{

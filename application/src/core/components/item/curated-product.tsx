@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components';
 import Link from '~/bridge/Link';
 import { useAppContext } from '~/core/app-context/provider';
-import { CuratedStorySlim } from '~/core/contracts/Story';
+import { CuratedStorySlim } from '~/use-cases/contracts/Story';
 
 export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) => {
     const { state: contextState, path } = useAppContext();

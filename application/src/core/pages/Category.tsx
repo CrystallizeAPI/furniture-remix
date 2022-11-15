@@ -1,11 +1,11 @@
-import { RequestContext } from '~/core-server/http-utils.server';
+import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Filter } from '../components/filter';
 import { FilteredProducts } from '../components/filter/filtered-products';
 import { Grid } from '../components/grid-cells/grid';
-import { Category } from '../contracts/Category';
-import { ProductSlim } from '../contracts/Product';
+import { Category } from '../../use-cases/contracts/Category';
+import { ProductSlim } from '../../use-cases/contracts/Product';
 
 export const fetchData = async (
     path: string,

@@ -1,5 +1,5 @@
 import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
-import { Paragraph } from '~/core/contracts/Paragraph';
+import { Paragraph } from '~/use-cases/contracts/Paragraph';
 import { ImageGallery } from '../image-gallery';
 
 export const ParagraphCollection: React.FC<{ paragraphs: Paragraph[] }> = ({ paragraphs }) => {

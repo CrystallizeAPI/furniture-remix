@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import { RequestContext } from '~/core-server/http-utils.server';
+import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { useAppContext } from '../app-context/provider';
 import { AddToCartBtn } from '../components/add-to-cart-button';
 import { ImageGallery } from '../components/image-gallery';
 import { Product } from '../components/item/product';
-import type { Product as ProductType } from '~/core/contracts/Product';
+import type { Product as ProductType } from '~/use-cases/contracts/Product';
 import { Price } from '../components/price';
 import { ProductBody } from '../components/product-body';
 import { StockLocations } from '../components/stock-location';
 import { TopicLabels } from '../components/topic-labels';
 import { VariantSelector } from '../components/variant-selector';
 import { buildSchemaMarkup } from '../SchemaMarkupBuilder';
-import { ProductVariant } from '../contracts/ProductVariant';
+import { ProductVariant } from '../../use-cases/contracts/ProductVariant';
 
 export const fetchData = async (
     path: string,

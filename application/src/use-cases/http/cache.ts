@@ -1,4 +1,4 @@
-// From https://github.com/jkroso/parse-duration that we cannot installed on Remix
+// From https://github.com/jkroso/parse-duration
 const parse = (duration: string, format: string): number => {
     const durationRegexp = /(-?(?:\d+\.?\d*|\d*\.?\d+)(?:e[-+]?\d+)?)\s*([\p{L}]*)/giu;
     const ms = 1;

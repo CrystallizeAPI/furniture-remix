@@ -1,5 +1,5 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
-import { Image as ImageType } from '../contracts/Image';
+import { Image as ImageType } from '../../use-cases/contracts/Image';
 
 export const ImageGallery: React.FC<{ images: ImageType[] }> = ({ images }) => {
     const galleryHasOddNubmer = images?.length % 2 || false;

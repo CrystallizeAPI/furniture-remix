@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { createContext, FunctionComponent, useContext, useReducer } from 'react';
 import { buildLanguageMarketAwareLink } from '../LanguageAndMarket';
 import { mapToReducerActions, Reducer } from './reducer';
 import { Actions, Dispatch, State } from './types';
 
-const StateContext = React.createContext<State | undefined>(undefined);
-const DispatchContext = React.createContext<Dispatch | undefined>(undefined);
-const TranslationsContext = React.createContext<Record<string, string> | undefined>(undefined);
+const StateContext = createContext<State | undefined>(undefined);
+const DispatchContext = createContext<Dispatch | undefined>(undefined);
+const TranslationsContext = createContext<Record<string, string> | undefined>(undefined);
 
 type InitialState = Omit<State, 'latestAddedCartItems'>;
 
@@ -22,7 +22,7 @@ export const AppContextProvider: FunctionComponent<{
     initialState: InitialState;
     translations: Record<string, string>;
 }> = ({ children, initialState, translations }) => {
-    const [state, dispatch] = React.useReducer(Reducer, initiateState(initialState));
+    const [state, dispatch] = useReducer(Reducer, initiateState(initialState));
     return (
         <TranslationsContext.Provider value={translations}>
             <StateContext.Provider value={state}>
@@ -33,7 +33,7 @@ export const AppContextProvider: FunctionComponent<{
 };
 
 function useAppContextState() {
-    const context = React.useContext(StateContext);
+    const context = useContext(StateContext);
     if (context === undefined) {
         throw new Error('useAppContextState must be used within the AppContextProvider.');
     }
@@ -41,7 +41,7 @@ function useAppContextState() {
 }
 
 function useAppContextDispatch() {
-    const context = React.useContext(DispatchContext);
+    const context = useContext(DispatchContext);
     if (context === undefined) {
         throw new Error('useAppContextDispatch must be used within the AppContextProvider.');
     }
@@ -54,7 +54,7 @@ export function useAppContext(): {
     path: (path: string) => string;
     _t: (key: string, options?: Record<string, any>) => string;
 } {
-    const translationContext = React.useContext(TranslationsContext);
+    const translationContext = useContext(TranslationsContext);
     const actions = mapToReducerActions(useAppContextDispatch());
     const state = useAppContextState();
 

@@ -4,12 +4,12 @@ import {
     KlarnaOrderResponse,
 } from '@crystallize/node-service-api-request-handlers';
 import { ActionFunction, json } from '@remix-run/node';
-import { getContext } from '~/core-server/http-utils.server';
-import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder.server';
+import { getContext } from '~/use-cases/http/utils';
+import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder';
 import { cartWrapperRepository } from '~/core-server/services.server';
 import { getStoreFront } from '~/core-server/storefront.server';
-import pushCustomerIfMissing from '~/use-cases/crystallize/pushCustomerIfMissing.server';
-import { getKlarnaOrderInfos, getKlarnaVariables } from '~/core-server/klarna.utis.server';
+import pushCustomerIfMissing from '~/use-cases/crystallize/pushCustomerIfMissing';
+import { getKlarnaOrderInfos, getKlarnaVariables } from '~/use-cases/klarna/utils';
 
 export const action: ActionFunction = async ({ request, params }) => {
     const requestContext = getContext(request);

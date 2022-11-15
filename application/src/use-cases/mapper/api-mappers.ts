@@ -65,7 +65,7 @@ export function chunksForChunkComponentWithId(components: any[], id: string): Ch
     if (!component) {
         return undefined;
     }
-    return component.chunks.map((chunk: any) => {
+    return component?.chunks.map((chunk: any) => {
         return chunk.map((data: any) => {
             return {
                 id: data.id,

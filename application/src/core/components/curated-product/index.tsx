@@ -2,8 +2,8 @@ import { Product, ProductVariant } from '@crystallize/js-api-client';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from '~/core/components/price';
 import { VariantSelector } from '~/core/components/variant-selector';
-import { ProductSlim } from '~/core/contracts/Product';
-import { ProductListHostpot } from '~/core/contracts/ProductListHostpot';
+import { ProductSlim } from '~/use-cases/contracts/Product';
+import { ProductListHostpot } from '~/use-cases/contracts/ProductListHostpot';
 import { VariantPack, VariantPackItem } from '../add-to-cart-button';
 
 export const CuratedProductItem: React.FC<{

@@ -1,9 +1,9 @@
-import { RequestContext } from '~/core-server/http-utils.server';
+import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core-server/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { FilteredProducts } from '../components/filter/filtered-products';
-import { SearchByTopicsProductList } from '../contracts/Product';
-import { Topic } from '../contracts/Topic';
+import { SearchByTopicsProductList } from '../../use-cases/contracts/Product';
+import { Topic } from '../../use-cases/contracts/Topic';
 
 export const fetchData = async (
     path: string,

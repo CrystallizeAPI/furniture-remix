@@ -1,6 +1,6 @@
 import { ActionFunction, json } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/core-server/storefront.server';
+import { getStoreFront } from '~/infrastructure/storefront.server';
 import purgeKeys from '~/use-cases/fastly/purgeKeys';
 
 export const action: ActionFunction = async ({ request }) => {

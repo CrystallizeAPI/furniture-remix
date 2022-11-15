@@ -1,5 +1,5 @@
 import UserIcon from '~/assets/userIcon.svg';
-import Link from '~/bridge/Link';
+import Link from '~/infrastructure/bridge/Link';
 import { SearchBar } from './search';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
@@ -10,7 +10,7 @@ import { Price } from './price';
 import { LanguageSwitcher } from './language-switcher';
 import { Tree } from '../../use-cases/contracts/Tree';
 import { TenantLogo } from '~/core/lib/tenant-logo';
-import useLocation from '~/bridge/useLocation';
+import useLocation from '~/infrastructure/bridge/useLocation';
 
 export const Header: React.FC<{
     navigation: {

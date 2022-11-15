@@ -2,7 +2,7 @@ import { Image } from '@crystallize/reactjs-components/dist/image';
 import { TileViewComponentProps } from '~/core/lib/grid-tile/types';
 import { LinkRenderer } from '~/core/lib/grid-tile/linkRenderer';
 import { useAppContext } from '~/core/app-context/provider';
-import Link from '~/bridge/Link';
+import Link from '~/infrastructure/bridge/Link';
 
 export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { path } = useAppContext();

@@ -5,7 +5,7 @@ import logo from '~/assets/klarnaLogo.svg';
 import { useAppContext } from '~/core/app-context/provider';
 import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
-import useNavigate from '~/bridge/useNavigate';
+import useNavigate from '~/infrastructure/bridge/useNavigate';
 
 export const KlarnaButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,

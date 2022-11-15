@@ -6,7 +6,7 @@ import {
     PaymentInputRequest,
 } from '@crystallize/js-api-client';
 import { CartItem, CartWrapper } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/core-server/services.server';
+import { cartWrapperRepository } from '~/infrastructure/services.server';
 
 export const pushOrderSubHandler = async (
     apiClient: ClientInterface,

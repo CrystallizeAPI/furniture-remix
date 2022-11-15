@@ -1,5 +1,5 @@
 import { Image } from '@crystallize/reactjs-components';
-import Link from '~/bridge/Link';
+import Link from '~/infrastructure/bridge/Link';
 import { useAppContext } from '~/core/app-context/provider';
 import displayPriceFor from '~/core/lib/pricing/pricing';
 import { Price } from '../price';

@@ -6,8 +6,8 @@ import {
 import { ActionFunction, json } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
 import { buildCustomer, pushOrderSubHandler } from '~/use-cases/crystallize/pushOrder';
-import { cartWrapperRepository } from '~/core-server/services.server';
-import { getStoreFront } from '~/core-server/storefront.server';
+import { cartWrapperRepository } from '~/infrastructure/services.server';
+import { getStoreFront } from '~/infrastructure/storefront.server';
 import pushCustomerIfMissing from '~/use-cases/crystallize/pushCustomerIfMissing';
 import { getKlarnaOrderInfos, getKlarnaVariables } from '~/use-cases/klarna/utils';
 

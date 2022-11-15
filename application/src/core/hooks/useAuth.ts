@@ -1,8 +1,8 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useEffect } from 'react';
-import useLocation from '~/bridge/useLocation';
-import useSearchParams from '~/bridge/useSearchParams';
+import useLocation from '~/infrastructure/bridge/useLocation';
+import useSearchParams from '~/infrastructure/bridge/useSearchParams';
 
 export function useAuth() {
     const [token] = useLocalStorage<string>('jwt', '');

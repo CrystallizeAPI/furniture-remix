@@ -1,4 +1,4 @@
-import Link from '~/bridge/Link';
+import Link from '~/infrastructure/bridge/Link';
 
 export const LinkRenderer: React.FC<{
     link: string;

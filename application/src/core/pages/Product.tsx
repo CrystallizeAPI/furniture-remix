@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RequestContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/core-server/storefront.server';
+import { getStoreFront } from '~/infrastructure/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { useAppContext } from '../app-context/provider';
 import { AddToCartBtn } from '../components/add-to-cart-button';

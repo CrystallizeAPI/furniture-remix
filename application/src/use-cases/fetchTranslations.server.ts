@@ -1,6 +1,6 @@
 import { default as fsWithCallbacks } from 'fs';
 const fs = fsWithCallbacks.promises;
-import { storage, memoryStorage } from '~/core-server/services.server';
+import { storage, memoryStorage } from '~/infrastructure/services.server';
 
 const toFlatPropertyMap = (obj: any, keySeparator = '.') => {
     const flattenRecursive = (obj: any, parentProperty?: string, propertyMap: Record<string, unknown> = {}) => {

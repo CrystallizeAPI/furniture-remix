@@ -24,7 +24,7 @@ import tailwindDefaultTheme from './styles/tailwind.default.css';
 import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
-import { buildStoreFrontConfiguration, getStoreFront } from './core-server/storefront.server';
+import { buildStoreFrontConfiguration, getStoreFront } from './infrastructure/storefront.server';
 import { CrystallizeAPI } from './use-cases/crystallize';
 import { AppContextProvider, useAppContext } from './core/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';

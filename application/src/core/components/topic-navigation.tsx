@@ -1,4 +1,4 @@
-import Link from '~/bridge/Link';
+import Link from '~/infrastructure/bridge/Link';
 import { useAppContext } from '../app-context/provider';
 import { Tree } from '../../use-cases/contracts/Tree';
 

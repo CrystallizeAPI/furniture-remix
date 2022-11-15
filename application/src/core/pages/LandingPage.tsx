@@ -1,4 +1,4 @@
-import { getStoreFront } from '~/core-server/storefront.server';
+import { getStoreFront } from '~/infrastructure/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 import { Grid } from '~/core/components/grid-cells/grid';
 import { RequestContext } from '~/use-cases/http/utils';

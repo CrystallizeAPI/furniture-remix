@@ -1,7 +1,7 @@
 import { HeadersFunction, LoaderFunction } from '@remix-run/node';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/core-server/storefront.server';
+import { getStoreFront } from '~/infrastructure/storefront.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

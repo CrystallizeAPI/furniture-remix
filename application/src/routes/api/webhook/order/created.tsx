@@ -1,8 +1,8 @@
 import { ActionFunction, json } from '@remix-run/node';
 import mjml2html from 'mjml';
 import { getContext } from '~/use-cases/http/utils';
-import { createMailer } from '~/core-server/services.server';
-import { getStoreFront } from '~/core-server/storefront.server';
+import { createMailer } from '~/infrastructure/services.server';
+import { getStoreFront } from '~/infrastructure/storefront.server';
 import { availableLanguages } from '~/core/LanguageAndMarket';
 import { CrystallizeAPI } from '~/use-cases/crystallize';
 

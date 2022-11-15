@@ -5,7 +5,7 @@ import { Customer } from '../../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '~/core/app-context/provider';
 import logo from '~/assets/crystalcoin-logo.svg';
-import useNavigate from '~/bridge/useNavigate';
+import useNavigate from '~/infrastructure/bridge/useNavigate';
 
 export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
     paying = false,

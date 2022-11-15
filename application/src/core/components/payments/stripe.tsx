@@ -7,7 +7,7 @@ import { useLocalCart } from '~/core/hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Customer } from '../checkout-forms/address';
 import logo from '~/assets/stripeLogo.svg';
-import useNavigate from '~/bridge/useNavigate';
+import useNavigate from '~/infrastructure/bridge/useNavigate';
 
 export const StripeButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,

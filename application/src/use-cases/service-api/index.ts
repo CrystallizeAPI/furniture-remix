@@ -1,6 +1,6 @@
 import { getJson, postJson } from '@crystallize/reactjs-hooks';
-import { Customer } from '~/core/components/checkout-forms/address';
-import { LocalCart } from '~/core/hooks/useLocalCart';
+import { Customer } from '~/ui/components/checkout-forms/address';
+import { LocalCart } from '~/ui/hooks/useLocalCart';
 import { sendPaidOrderWithCrystalCard, sendPaidOrderWithCrystalCoin } from './payments/crystal';
 
 export function placeCart(serviceApiUrl: string, language: string, cart: LocalCart, customer: Partial<Customer>) {

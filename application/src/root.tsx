@@ -18,15 +18,15 @@ import {
     MetaFunction,
     redirect,
 } from '@remix-run/node';
-import { Header } from '~/core/components/header';
-import { Footer } from './core/components/footer';
+import { Header } from '~/ui/components/header';
+import { Footer } from './ui/components/footer';
 import tailwindDefaultTheme from './styles/tailwind.default.css';
 import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
-import { buildStoreFrontConfiguration, getStoreFront } from './infrastructure/storefront.server';
+import { buildStoreFrontConfiguration, getStoreFront } from './core/storefront.server';
 import { CrystallizeAPI } from './use-cases/crystallize/read';
-import { AppContextProvider, useAppContext } from './core/app-context/provider';
+import { AppContextProvider, useAppContext } from './ui/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './use-cases/http/cache';
 import { getContext } from './use-cases/http/utils';

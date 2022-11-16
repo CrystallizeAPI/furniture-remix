@@ -1,6 +1,6 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
-import { getStoreFront } from '~/infrastructure/storefront.server';
-import { HydratedCart } from '~/core/components/cart';
+import { getStoreFront } from '~/core/storefront.server';
+import { HydratedCart } from '~/ui/components/cart';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';
 
@@ -11,6 +11,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export const loader: LoaderFunction = async ({ request }) => {
     const requestContext = getContext(request);
     const { shared } = await getStoreFront(requestContext.host);
+    console.log('HAIYA');
     return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart'], shared.config.tenantIdentifier));
 };
 

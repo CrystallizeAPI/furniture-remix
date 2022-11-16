@@ -3,14 +3,14 @@ import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/infrastructure/storefront.server';
-import { useAppContext } from '~/core/app-context/provider';
+import { getStoreFront } from '~/core/storefront.server';
+import { useAppContext } from '~/ui/app-context/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { Price } from '~/core/lib/pricing/pricing-component';
-import { useAuth } from '~/core/hooks/useAuth';
-import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
+import { Price } from '~/ui/lib/pricing/pricing-component';
+import { useAuth } from '~/ui/hooks/useAuth';
+import { MagickLoginForm } from '~/ui/components/checkout-forms/magicklogin';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
-import { isAuthenticated as isServerSideAuthenticated } from '~/infrastructure/authentication.server';
+import { isAuthenticated as isServerSideAuthenticated } from '~/core/authentication.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

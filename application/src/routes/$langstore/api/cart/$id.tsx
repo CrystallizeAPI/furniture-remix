@@ -1,6 +1,6 @@
 import { LoaderFunction } from '@remix-run/node';
-import { privateJson } from '~/infrastructure/bridge/privateJson.server';
-import { cartWrapperRepository } from '~/infrastructure/services.server';
+import { privateJson } from '~/core/bridge/privateJson.server';
+import { cartWrapperRepository } from '~/core/services.server';
 
 export const loader: LoaderFunction = async ({ params }) => {
     const cartWrapper = await cartWrapperRepository.find(params.id!);

@@ -1,8 +1,8 @@
 import { LoaderFunction, Response } from '@remix-run/node';
 import ReactPDF from '@react-pdf/renderer';
-import { Invoice } from '~/core/components/pdf/order-invoice';
+import { Invoice } from '~/ui/components/pdf/order-invoice';
 import { createOrderFetcher } from '@crystallize/js-api-client';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { getContext } from '~/use-cases/http/utils';
 
 export const loader: LoaderFunction = async ({ context, params, request }) => {

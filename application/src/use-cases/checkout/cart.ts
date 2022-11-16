@@ -7,7 +7,7 @@ import {
     Price,
 } from '@crystallize/node-service-api-request-handlers';
 import { extractDisountLotFromItemsBasedOnXForYTopic, groupSavingsPerSkus } from './discount';
-import { cartWrapperRepository } from '../../infrastructure/services.server';
+import { cartWrapperRepository } from '../../core/services.server';
 import { v4 as uuidv4 } from 'uuid';
 import { validatePayload } from '../http/utils';
 import {

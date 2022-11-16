@@ -1,18 +1,18 @@
-import { useAuth } from '~/core/hooks/useAuth';
+import { useAuth } from '~/ui/hooks/useAuth';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { HeadersFunction, LoaderFunction } from '@remix-run/node';
-import { Payments } from '~/core/components/payments';
-import { useLocalCart } from '~/core/hooks/useLocalCart';
-import { CheckoutCart } from '~/core/components/checkout-forms/cart';
-import { MagickLoginForm } from '~/core/components/checkout-forms/magicklogin';
-import { AddressForm } from '~/core/components/checkout-forms/address';
+import { Payments } from '~/ui/components/payments';
+import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { CheckoutCart } from '~/ui/components/checkout-forms/cart';
+import { MagickLoginForm } from '~/ui/components/checkout-forms/magicklogin';
+import { AddressForm } from '~/ui/components/checkout-forms/address';
 import { useState } from 'react';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { getContext } from '~/use-cases/http/utils';
-import { isAuthenticated as isServerSideAuthenticated } from '~/infrastructure/authentication.server';
+import { isAuthenticated as isServerSideAuthenticated } from '~/core/authentication.server';
 import { useLoaderData } from '@remix-run/react';
-import { privateJson } from '~/infrastructure/bridge/privateJson.server';
+import { privateJson } from '~/core/bridge/privateJson.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

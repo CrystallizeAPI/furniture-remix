@@ -1,16 +1,16 @@
 import { ContentTransformer } from '@crystallize/reactjs-components';
 import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { CategoryList } from '~/core/components/category-list';
-import { Grid } from '~/core/components/grid-cells/grid';
+import { CategoryList } from '~/ui/components/category-list';
+import { Grid } from '~/ui/components/grid-cells/grid';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
-import { useAppContext } from '~/core/app-context/provider';
+import { useAppContext } from '~/ui/app-context/provider';
 import { Shop } from '~/use-cases/contracts/Shop';
 
 export const links: LinksFunction = () => {

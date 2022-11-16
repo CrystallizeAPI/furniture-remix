@@ -4,7 +4,7 @@ import {
     stringForRichTextComponentWithId,
     stringForSingleLineComponentWithId,
 } from '~/use-cases/mapper/api-mappers';
-import { createGrid } from '~/core/lib/grid-tile/createGrid';
+import { createGrid } from '~/ui/lib/grid-tile/createGrid';
 import { DataMapper } from '..';
 
 export default (data: any): Category => {

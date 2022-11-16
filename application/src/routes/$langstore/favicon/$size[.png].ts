@@ -1,6 +1,6 @@
 import { LoaderFunction } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 
 export const FAVICON_VARIANTS = {
@@ -35,7 +35,7 @@ import {
     fetchImageBuffer,
     generateFavicon,
     sharpFromImageBuffer,
-} from '~/infrastructure/favicon.server';
+} from '~/core/favicon.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);

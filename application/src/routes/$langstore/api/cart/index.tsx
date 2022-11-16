@@ -1,6 +1,6 @@
 import { ActionFunction } from '@remix-run/node';
-import { getStoreFront } from '~/infrastructure/storefront.server';
-import { privateJson } from '~/infrastructure/bridge/privateJson.server';
+import { getStoreFront } from '~/core/storefront.server';
+import { privateJson } from '~/core/bridge/privateJson.server';
 import { getContext } from '~/use-cases/http/utils';
 import handleCart from '~/use-cases/checkout/handleSaveCart';
 

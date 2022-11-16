@@ -1,7 +1,7 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import { handleQuickPayPaymentUpdateWebhookRequestPayload } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/infrastructure/services.server';
+import { cartWrapperRepository } from '~/core/services.server';
 import pushOrder from '~/use-cases/crystallize/write/pushOrder';
 
 export default async (

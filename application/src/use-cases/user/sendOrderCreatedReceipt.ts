@@ -1,7 +1,7 @@
 import { CrystallizeAPI } from '../crystallize/read';
 import { availableLanguages } from '~/use-cases/LanguageAndMarket';
 import { ClientInterface } from '@crystallize/js-api-client';
-import { createMailer } from '~/infrastructure/services.server';
+import { createMailer } from '~/core/services.server';
 import mjml2html from 'mjml';
 
 export default async (apiClient: ClientInterface, order: any) => {

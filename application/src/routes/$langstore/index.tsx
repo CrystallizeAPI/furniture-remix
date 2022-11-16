@@ -2,10 +2,10 @@ import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } fr
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { useLoaderData } from '@remix-run/react';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
-import PageRenderer from '~/core/pages/index';
+import PageRenderer from '~/ui/pages/index';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export let meta: MetaFunction = ({ data }) => {

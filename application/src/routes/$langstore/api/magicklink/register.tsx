@@ -1,6 +1,6 @@
 import { ActionFunction, json } from '@remix-run/node';
-import { getStoreFront } from '~/infrastructure/storefront.server';
-import { createMailer } from '~/infrastructure/services.server';
+import { getStoreFront } from '~/core/storefront.server';
+import { createMailer } from '~/core/services.server';
 import { getContext } from '~/use-cases/http/utils';
 import sendMagickLink from '~/use-cases/user/sendMagickLink';
 

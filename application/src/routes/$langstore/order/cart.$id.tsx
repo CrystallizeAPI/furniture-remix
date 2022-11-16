@@ -1,11 +1,11 @@
 import { json, LoaderFunction, HeadersFunction } from '@remix-run/node';
 import { useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { useLocalCart } from '~/core/hooks/useLocalCart';
+import { useLocalCart } from '~/ui/hooks/useLocalCart';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { useAppContext } from '~/core/app-context/provider';
+import { useAppContext } from '~/ui/app-context/provider';
 import { getContext } from '~/use-cases/http/utils';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

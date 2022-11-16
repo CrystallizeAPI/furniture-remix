@@ -1,6 +1,6 @@
 import { ActionFunction, json } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import sendOrderCreatedReceipt from '~/use-cases/user/sendOrderCreatedReceipt';
 
 export const action: ActionFunction = async ({ request }) => {

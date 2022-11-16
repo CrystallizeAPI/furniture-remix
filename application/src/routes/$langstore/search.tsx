@@ -1,11 +1,11 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { FilteredProducts } from '~/core/components/filter/filtered-products';
+import { FilteredProducts } from '~/ui/components/filter/filtered-products';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { getContext } from '~/use-cases/http/utils';
-import { useAppContext } from '~/core/app-context/provider';
+import { useAppContext } from '~/ui/app-context/provider';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

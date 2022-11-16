@@ -2,10 +2,10 @@ import { LoaderFunction, Response } from '@remix-run/node';
 import ReactPDF from '@react-pdf/renderer';
 
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { getStoreFront } from '~/core/storefront.server';
 import { getContext } from '~/use-cases/http/utils';
-import PageRenderer from '~/core/pages/index';
-import { Folder } from '~/core/components/pdf/folder';
+import PageRenderer from '~/ui/pages/index';
+import { Folder } from '~/ui/components/pdf/folder';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);

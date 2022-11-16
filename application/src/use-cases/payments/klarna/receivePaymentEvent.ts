@@ -5,7 +5,7 @@ import {
     handleKlarnaPaymentWebhookRequestPayload,
     KlarnaOrderResponse,
 } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/infrastructure/services.server';
+import { cartWrapperRepository } from '~/core/services.server';
 import pushOrder from '~/use-cases/crystallize/write/pushOrder';
 import { getKlarnaOrderInfos, getKlarnaVariables } from './utils';
 

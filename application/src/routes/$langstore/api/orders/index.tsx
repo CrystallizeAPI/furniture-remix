@@ -1,10 +1,10 @@
 import { createOrderFetcher } from '@crystallize/js-api-client';
 import { handleOrdersRequestPayload } from '@crystallize/node-service-api-request-handlers';
 import { LoaderFunction } from '@remix-run/node';
-import { authenticate } from '~/infrastructure/authentication.server';
+import { authenticate } from '~/core/authentication.server';
 import { getContext } from '~/use-cases/http/utils';
-import { privateJson } from '~/infrastructure/bridge/privateJson.server';
-import { getStoreFront } from '~/infrastructure/storefront.server';
+import { privateJson } from '~/core/bridge/privateJson.server';
+import { getStoreFront } from '~/core/storefront.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
     const requestContext = getContext(request);

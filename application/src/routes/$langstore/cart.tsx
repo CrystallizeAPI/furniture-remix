@@ -11,7 +11,6 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export const loader: LoaderFunction = async ({ request }) => {
     const requestContext = getContext(request);
     const { shared } = await getStoreFront(requestContext.host);
-    console.log('HAIYA');
     return json({}, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', ['cart'], shared.config.tenantIdentifier));
 };
 

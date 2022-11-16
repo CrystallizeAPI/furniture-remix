@@ -1,4 +1,4 @@
-import { Chunk } from '~/use-cases/mapper/api-mappers';
+import { Chunk } from '../../mapper/api-mappers';
 
 export default (chunk?: Chunk[]) => {
     return !chunk

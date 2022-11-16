@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react';
-import { RequestContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/core/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { useAppContext } from '../app-context/provider';
 import { AddToCartBtn } from '../components/add-to-cart-button';
 import { ImageGallery } from '../components/image-gallery';
@@ -15,34 +12,14 @@ import { VariantSelector } from '../components/variant-selector';
 import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
 import { buildSchemaMarkup } from '~/use-cases/SchemaMarkupBuilder';
 
-export const fetchData = async (
-    path: string,
-    request: RequestContext,
-    params: any,
-): Promise<{
-    product: ProductType;
-    preSelectedSku: string;
-}> => {
-    const { secret } = await getStoreFront(request.host);
-    const api = CrystallizeAPI({
-        apiClient: secret.apiClient,
-        language: request.language,
-        isPreview: request.isPreview,
-    });
-    const product = await api.fetchProduct(path);
-    if (!product) {
-        throw new Response('Product Not Found', {
-            status: 404,
-            statusText: 'Product Not Found',
-        });
-    }
-    return {
-        product,
-        preSelectedSku: request.url.searchParams.get('sku') ?? '',
+export default ({
+    data,
+}: {
+    data: {
+        product: ProductType;
+        preSelectedSku: string;
     };
-};
-
-export default ({ data }: { data: Awaited<ReturnType<typeof fetchData>> }) => {
+}) => {
     const { _t } = useAppContext();
     const { product, preSelectedSku } = data;
 

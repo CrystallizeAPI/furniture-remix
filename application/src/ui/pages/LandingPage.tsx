@@ -1,18 +1,5 @@
-import { getStoreFront } from '~/core/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { Grid } from '~/ui/components/grid-cells/grid';
-import { RequestContext } from '~/use-cases/http/utils';
-import { LandingPage } from '../../use-cases/contracts/LandingPage';
-
-export const fetchData = async (path: string, request: RequestContext, params: any): Promise<LandingPage> => {
-    const { secret } = await getStoreFront(request.host);
-    const api = CrystallizeAPI({
-        apiClient: secret.apiClient,
-        language: request.language,
-        isPreview: request.isPreview,
-    });
-    return await api.fetchLandingPage(path);
-};
+import { LandingPage } from '~/use-cases/contracts/LandingPage';
 
 export default ({ data: landing }: { data: LandingPage }) => {
     return (

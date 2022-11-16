@@ -1,5 +1,5 @@
 import { ClientInterface } from '@crystallize/js-api-client';
-import { Product } from '~/use-cases/contracts/Product';
+import { Product } from '../../contracts/Product';
 import fetchLandingPage from './fetchLandingPage';
 import fetchDocument from './fetchDocument';
 import fetchFolder from './fetchFolder';

@@ -1,18 +1,19 @@
-import { ProductSlim } from '~/use-cases/contracts/Product';
-import { Shop } from '~/use-cases/contracts/Shop';
+import { ProductSlim } from '../../contracts/Product';
+import { Shop } from '../../contracts/Shop';
 import {
     choiceComponentWithId,
     stringForRichTextComponentWithId,
     stringForSingleLineComponentWithId,
-} from '~/use-cases/mapper/api-mappers';
-import { createGrid } from '~/ui/lib/grid-tile/createGrid';
+} from '../../mapper/api-mappers';
 import { DataMapper } from '..';
 
 export default (data: any): Shop => {
     const mapper = DataMapper();
     const [folder, hierarchy] = data;
     const hero = choiceComponentWithId(folder.components, 'hero-content');
-    const grid = hero?.content?.grids?.[0] || (hero?.content?.items ? createGrid(hero?.content?.items) : null);
+    const grid =
+        hero?.content?.grids?.[0] ||
+        (hero?.content?.items ? mapper.API.Object.AnyItemToGrid(hero?.content?.items) : null);
 
     const firstSeoChunk = folder.meta.content?.chunks[0];
     const dto: Shop = {

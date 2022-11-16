@@ -1,4 +1,4 @@
-import { Currency } from '~/ui/lib/pricing/currencies';
+import { Currency } from './Currency';
 
 export type Price = {
     currency: Currency;

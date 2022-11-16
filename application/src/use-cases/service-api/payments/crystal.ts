@@ -1,6 +1,6 @@
 import { postJson } from '@crystallize/reactjs-hooks';
-import { Customer } from '~/ui/components/checkout-forms/address';
-import { LocalCart } from '~/ui/hooks/useLocalCart';
+import { Customer } from '../../contracts/Customer';
+import { LocalCart } from '../../contracts/LocalCart';
 import { placeCart } from '..';
 
 // /!\ in real life that would not be that simple and the paid acknowledgement would be a separate service and/or call by the payment provider

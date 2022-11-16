@@ -4,7 +4,7 @@ import {
     MagickLinkUserInfosPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import mjml2html from 'mjml';
-import { buildLanguageMarketAwareLink } from '~/use-cases/LanguageAndMarket';
+import { buildLanguageMarketAwareLink } from '../LanguageAndMarket';
 import { RequestContext, validatePayload } from '../http/utils';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 

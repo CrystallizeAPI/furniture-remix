@@ -5,8 +5,7 @@ import {
     OrderCreatedConfirmation,
     PaymentInputRequest,
 } from '@crystallize/js-api-client';
-import { CartItem, CartWrapper } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/core/services.server';
+import { CartItem, CartWrapper, CartWrapperRepository } from '@crystallize/node-service-api-request-handlers';
 import pushCustomerIfMissing from './pushCustomerIfMissing';
 
 const buildCustomer = (cartWrapper: CartWrapper): OrderCustomerInputRequest => {
@@ -45,6 +44,7 @@ const buildCustomer = (cartWrapper: CartWrapper): OrderCustomerInputRequest => {
 };
 
 export default async (
+    cartWrapperRepository: CartWrapperRepository,
     apiClient: ClientInterface,
     cartWrapper: CartWrapper,
     payment: PaymentInputRequest,

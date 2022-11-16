@@ -1,7 +1,7 @@
 import { Document, Page, Text, Image, View, Link } from '@react-pdf/renderer';
 import { styles } from './styles';
 import { ContentTransformer, NodeContent } from '@crystallize/reactjs-components/dist/content-transformer';
-import displayPriceFor from '~/ui/lib/pricing/pricing';
+import displayPriceFor from '~/use-cases/checkout/pricing';
 import { Price } from './shared';
 import type { Product as ProductType } from '~/use-cases/contracts/Product';
 

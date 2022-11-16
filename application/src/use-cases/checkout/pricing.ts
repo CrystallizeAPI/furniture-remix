@@ -1,5 +1,5 @@
-import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
-import { Currency, CurrencyCode, getCurrencyFromCode } from './currencies';
+import { ProductVariant } from '../contracts/ProductVariant';
+import { Currency, CurrencyCode, getCurrencyFromCode } from '../contracts/Currency';
 
 export type DisplayPrice = {
     default: number;

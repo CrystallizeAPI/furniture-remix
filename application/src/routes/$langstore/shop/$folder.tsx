@@ -6,8 +6,9 @@ import { getStoreFront } from '~/core/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import PageRenderer from '~/ui/pages/shapePageRenderer';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
+import Category from '~/ui/pages/Category';
+import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
 
 export const links: LinksFunction = () => {
     return [
@@ -29,13 +30,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
     const path = `/shop/${params.folder}`;
     const { shared } = await getStoreFront(requestContext.host);
-    const renderer = PageRenderer.resolve('category', requestContext, params);
-    const data = await renderer.fetchData(path, requestContext, params);
+    const data = await dataFetcherForShapePage('category', path, requestContext, params);
+
     return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };
 
 export default () => {
     const { data } = useLoaderData();
-    const Component = PageRenderer.resolve('category').component;
-    return <Component data={data} />;
+    return <Category data={data} />;
 };

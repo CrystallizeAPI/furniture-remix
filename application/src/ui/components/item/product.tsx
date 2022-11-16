@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components';
 import Link from '~/ui/bridge/Link';
 import { useAppContext } from '~/ui/app-context/provider';
-import displayPriceFor from '~/ui/lib/pricing/pricing';
+import displayPriceFor from '~/use-cases/checkout/pricing';
 import { Price } from '../price';
 import { ProductSlim } from '~/use-cases/contracts/Product';
 import { DataMapper } from '~/use-cases/mapper';

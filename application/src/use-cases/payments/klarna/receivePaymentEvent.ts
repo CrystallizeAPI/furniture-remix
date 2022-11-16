@@ -2,14 +2,15 @@ import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
     Cart,
+    CartWrapperRepository,
     handleKlarnaPaymentWebhookRequestPayload,
     KlarnaOrderResponse,
 } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/core/services.server';
-import pushOrder from '~/use-cases/crystallize/write/pushOrder';
+import pushOrder from '../../crystallize/write/pushOrder';
 import { getKlarnaOrderInfos, getKlarnaVariables } from './utils';
 
 export default async (
+    cartWrapperRepository: CartWrapperRepository,
     apiClient: ClientInterface,
     cartId: string,
     payload: any,
@@ -37,7 +38,7 @@ export default async (
             return cartWrapper.cart;
         },
         handleEvent: async (orderResponse: KlarnaOrderResponse) => {
-            const orderCreatedConfirmation = await pushOrder(apiClient, cartWrapper, {
+            const orderCreatedConfirmation = await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
                 //@ts-ignore
                 provider: 'klarna',
                 klarna: {

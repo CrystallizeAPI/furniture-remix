@@ -1,8 +1,14 @@
 import { ClientInterface } from '@crystallize/js-api-client';
-import { CartWrapper } from '@crystallize/node-service-api-request-handlers';
+import { CartWrapper, CartWrapperRepository } from '@crystallize/node-service-api-request-handlers';
 import pushOrder from './pushOrder';
 
-export default async (apiClient: ClientInterface, cartWrapper: CartWrapper, type: string, card?: any) => {
+export default async (
+    cartWrapperRepository: CartWrapperRepository,
+    apiClient: ClientInterface,
+    cartWrapper: CartWrapper,
+    type: string,
+    card?: any,
+) => {
     let properties = [
         {
             property: 'amount',
@@ -55,7 +61,7 @@ export default async (apiClient: ClientInterface, cartWrapper: CartWrapper, type
         );
     }
 
-    return await pushOrder(apiClient, cartWrapper, {
+    return await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
         //@ts-ignore
         provider: 'custom',
         custom: {

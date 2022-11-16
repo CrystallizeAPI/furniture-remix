@@ -1,4 +1,4 @@
-import { getCurrencyFromCode } from '~/ui/lib/pricing/currencies';
+import { getCurrencyFromCode } from '~/use-cases/contracts/Currency';
 
 import { Text } from '@react-pdf/renderer';
 

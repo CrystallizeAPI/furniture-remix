@@ -1,17 +1,5 @@
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
-
-export type LocalCart = {
-    items: {
-        [key: string]: {
-            name: string;
-            quantity: number;
-            price: number;
-            sku: string;
-        };
-    };
-    cartId: string;
-    state: 'cart' | 'placed' | 'paid';
-};
+import { LocalCart } from '~/use-cases/contracts/LocalCart';
 
 const InitializeEmptyLocalCart = (): LocalCart => {
     return {

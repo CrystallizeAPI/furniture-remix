@@ -17,6 +17,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         };
     }
     const orderCreatedConfirmation = await pushCrystalPaidOrder(
+        cartWrapperRepository,
         storefront.apiClient,
         cartWrapper,
         params.type as string,

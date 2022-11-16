@@ -1,4 +1,4 @@
-import { CuratedStory, Story } from '~/use-cases/contracts/Story';
+import { CuratedStory, Story } from '../../contracts/Story';
 import {
     choiceComponentWithId,
     stringForSingleLineComponentWithId,
@@ -7,7 +7,7 @@ import {
     chunksForChunkComponentWithId,
     numericValueForComponentWithId,
     flattenRichText,
-} from '~/use-cases/mapper/api-mappers';
+} from '../../mapper/api-mappers';
 import { DataMapper, DataMapperInterface } from '..';
 
 export default (data: any): Story | CuratedStory => {

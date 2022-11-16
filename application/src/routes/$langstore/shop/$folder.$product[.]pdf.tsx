@@ -3,16 +3,18 @@ import ReactPDF from '@react-pdf/renderer';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getStoreFront } from '~/core/storefront.server';
 import { getContext } from '~/use-cases/http/utils';
-import PageRenderer from '~/ui/pages/shapePageRenderer';
 import { SingleProduct } from '~/ui/components/pdf/single-product';
+import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
+import { Product } from '~/use-cases/contracts/Product';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
     const path = `/shop/${params.folder}/${params.product}`;
     const { shared } = await getStoreFront(requestContext.host);
-    const shapeIdentifier = 'product';
-    const renderer = PageRenderer.resolve(shapeIdentifier, requestContext, params);
-    const data = await renderer.fetchData(path, requestContext, params);
+    const data = (await dataFetcherForShapePage('product', path, requestContext, params)) as {
+        product: Product;
+    };
+    console.log(data);
     const pdf = await ReactPDF.renderToStream(<SingleProduct product={data.product} />);
     return new Response(pdf, {
         headers: {

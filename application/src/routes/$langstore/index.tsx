@@ -5,8 +5,9 @@ import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/core/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
-import PageRenderer from '~/ui/pages/shapePageRenderer';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
+import LandingPage from '~/ui/pages/LandingPage';
+import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
 
 export let meta: MetaFunction = ({ data }) => {
     return buildMetas(data.data);
@@ -30,13 +31,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
     const path = `/frontpage`;
     const { shared } = await getStoreFront(requestContext.host);
-    const renderer = PageRenderer.resolve('landing-page', requestContext, params);
-    const data = await renderer.fetchData(path, requestContext, params);
+    const data = await dataFetcherForShapePage('landing-page', path, requestContext, params);
     return json({ data }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };
 
 export default () => {
     const { data } = useLoaderData();
-    const Component = PageRenderer.resolve('landing-page').component;
-    return <Component data={data} />;
+    return <LandingPage data={data} />;
 };

@@ -1,4 +1,4 @@
-import { ProductSlim } from '~/use-cases/contracts/Product';
+import { ProductSlim } from '../../contracts/Product';
 import { DataMapper } from '..';
 
 export default (data: any): ProductSlim[] => {

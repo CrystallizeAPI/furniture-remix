@@ -3,17 +3,7 @@ import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import { Input } from '~/ui/components/input';
 import { useAuth } from '~/ui/hooks/useAuth';
 import { useAppContext } from '~/ui/app-context/provider';
-
-export type Customer = {
-    firstname: string;
-    lastname: string;
-    email: string;
-    streetAddress: string;
-    city: string;
-    zipCode: string;
-    country: string;
-    additionalInfo?: string;
-};
+import { Customer } from '~/use-cases/contracts/Customer';
 
 export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> = ({ title, onValidSubmit }) => {
     const [isReadonly, setToReadonly] = useState(false);

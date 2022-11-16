@@ -1,6 +1,6 @@
 import { Document, Page, Text, Image, View } from '@react-pdf/renderer';
 import { styles } from './styles';
-import displayPriceFor from '~/ui/lib/pricing/pricing';
+import displayPriceFor from '~/use-cases/checkout/pricing';
 import { Price } from './shared';
 import { Category } from '~/use-cases/contracts/Category';
 import { ProductSlim } from '~/use-cases/contracts/Product';

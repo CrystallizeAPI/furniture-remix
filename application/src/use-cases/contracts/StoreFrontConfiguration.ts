@@ -1,4 +1,4 @@
-import { Currency } from '~/ui/lib/pricing/currencies';
+import { Currency } from './Currency';
 import { TenantConfiguration } from './TenantConfiguration';
 
 export type StoreFrontConfiguration = {

@@ -1,4 +1,4 @@
-import { Tree } from '~/use-cases/contracts/Tree';
+import { Tree } from '../../contracts/Tree';
 
 export const recursiveMap = (level: any, defaultType: string): Tree => {
     return {

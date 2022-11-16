@@ -1,4 +1,4 @@
-import { LandingPage } from '~/use-cases/contracts/LandingPage';
+import { LandingPage } from '../../contracts/LandingPage';
 import { DataMapper } from '..';
 
 export default (data: any): LandingPage => {

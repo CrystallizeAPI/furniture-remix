@@ -1,4 +1,4 @@
-import { availableLanguages } from '~/use-cases/LanguageAndMarket';
+import { availableLanguages } from '../LanguageAndMarket';
 
 type Request = {
     url: string;

@@ -3,9 +3,14 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize/read';
-import PageRenderer from '~/ui/pages/shapePageRenderer';
 import { useLoaderData } from '@remix-run/react';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
+import Product from '~/ui/pages/Product';
+import Category from '~/ui/pages/Category';
+import AbstractStory from '~/ui/pages/AbstractStory';
+import Topic from '~/ui/pages/Topic';
+import LandingPage from '~/ui/pages/LandingPage';
+import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -34,8 +39,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 
     const shapeIdentifier = map[mappedKey as keyof typeof map]?.shape?.identifier || '_topic';
-    const renderer = PageRenderer.resolve(shapeIdentifier, requestContext, params);
-    const data = await renderer.fetchData(crystallizePath, requestContext, params);
+    const data = await dataFetcherForShapePage(shapeIdentifier, path, requestContext, params);
     return json(
         { shapeIdentifier, data },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier),
@@ -44,6 +48,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default () => {
     const { data, shapeIdentifier } = useLoaderData();
-    const Component = PageRenderer.resolve(shapeIdentifier).component;
-    return <Component data={data} />;
+    switch (shapeIdentifier) {
+        case 'product':
+            return <Product data={data} />;
+        case 'category':
+            return <Category data={data} />;
+        case 'abstract-story':
+            return <AbstractStory data={data} />;
+        case '_topic':
+            return <Topic data={data} />;
+        case 'landing-page':
+            return <LandingPage data={data} />;
+        default:
+            return <p>There is no renderer for that page</p>;
+    }
 };

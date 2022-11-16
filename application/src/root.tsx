@@ -39,6 +39,7 @@ import {
     displayableLanguages,
     isValidLanguageMarket,
 } from './use-cases/LanguageAndMarket';
+import { storage, memoryStorage } from '~/core/services.server';
 import fetchTranslations from './use-cases/fetchTranslations.server';
 import { Tree } from './use-cases/contracts/Tree';
 import { Footer as FooterType } from './use-cases/contracts/Footer';
@@ -92,7 +93,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     const [navigation, tenantConfig, translations, footer] = await Promise.all([
         api.fetchNavigation('/'),
         api.fetchTenantConfig(secret.config.tenantIdentifier),
-        fetchTranslations(requestContext.language),
+        fetchTranslations(storage, memoryStorage, requestContext.language),
         api.fetchFooter('/footer'),
     ]);
 

@@ -8,6 +8,7 @@ import fetchProductToProduct from './API/fetchProductToProduct';
 import fetchShopToShop from './API/fetchShopToShop';
 import searchByTopicProductToProductSlim from './API/searchByTopicProductToProductSlim';
 import searchProductToProductSlim from './API/searchProductToProductSlim';
+import AnyIemToGrid from './Object/AnyIemToGrid';
 import APIImageToImage from './Object/APIImageToImage';
 import APIMetaSEOComponentToSEO from './Object/APIMetaSEOComponentToSEO';
 import APIPriceVariantsToPriceVariant from './Object/APIPriceVariantsToPriceVariant';
@@ -38,6 +39,7 @@ export const DataMapper = (context?: DataMapperContext) => {
                 searchProductToProductSlim: searchProductToProductSlim,
             },
             Object: {
+                AnyItemToGrid: AnyIemToGrid,
                 APIImageToImage: APIImageToImage,
                 APIMetaSEOComponentToSEO: APIMetaSEOComponentToSEO,
                 APIPriceVariantsToPriceVariant: APIPriceVariantsToPriceVariant,

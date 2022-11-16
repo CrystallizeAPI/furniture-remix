@@ -1,10 +1,13 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
-import { handleQuickPayPaymentUpdateWebhookRequestPayload } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/core/services.server';
-import pushOrder from '~/use-cases/crystallize/write/pushOrder';
+import {
+    CartWrapperRepository,
+    handleQuickPayPaymentUpdateWebhookRequestPayload,
+} from '@crystallize/node-service-api-request-handlers';
+import pushOrder from '../../crystallize/write/pushOrder';
 
 export default async (
+    cartWrapperRepository: CartWrapperRepository,
     apiClient: ClientInterface,
     signature: string,
     payload: any,
@@ -44,7 +47,7 @@ export default async (
                         },
                     ];
 
-                    const orderCreatedConfirmation = await pushOrder(apiClient, cartWrapper, {
+                    const orderCreatedConfirmation = await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
                         //@ts-ignore
                         provider: 'custom',
                         custom: {

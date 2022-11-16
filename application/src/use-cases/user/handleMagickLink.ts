@@ -1,5 +1,5 @@
 import { handleMagickLinkConfirmationRequestPayload } from '@crystallize/node-service-api-request-handlers';
-import { buildLanguageMarketAwareLink } from '~/use-cases/LanguageAndMarket';
+import { buildLanguageMarketAwareLink } from '../LanguageAndMarket';
 import { RequestContext } from '../http/utils';
 
 export default async (frontendUrl: string, context: RequestContext, token: string) => {

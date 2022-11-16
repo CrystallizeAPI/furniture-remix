@@ -1,8 +1,14 @@
-export const createGrid = (items: any[]) => {
+import { Grid } from '../../contracts/Grid';
+
+export default (items: any[]): Grid => {
     if (items.length === 0) {
-        return;
+        return {
+            id: '',
+            rows: [],
+        };
     }
     return {
+        id: '',
         rows: items.map((item, index) => {
             return {
                 columns: [

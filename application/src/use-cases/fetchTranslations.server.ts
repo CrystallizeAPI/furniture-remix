@@ -1,6 +1,6 @@
 import { default as fsWithCallbacks } from 'fs';
 const fs = fsWithCallbacks.promises;
-import { storage, memoryStorage } from '~/core/services.server';
+import { BackendStorage } from './contracts/BackendStorage';
 
 const toFlatPropertyMap = (obj: any, keySeparator = '.') => {
     const flattenRecursive = (obj: any, parentProperty?: string, propertyMap: Record<string, unknown> = {}) => {
@@ -18,7 +18,7 @@ const toFlatPropertyMap = (obj: any, keySeparator = '.') => {
 };
 
 // we saved that in the memory first, then redis if it's available then fs
-export default async (language: string) => {
+export default async (storage: BackendStorage, memoryStorage: BackendStorage, language: string) => {
     const key = `translations-${language}`;
     const memoryCachedFlat = await memoryStorage.get(key);
     if (!memoryCachedFlat) {

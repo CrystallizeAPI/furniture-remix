@@ -1,13 +1,13 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
-    CartWrapper,
+    CartWrapperRepository,
     handleStripePaymentIntentWebhookRequestPayload,
 } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/core/services.server';
-import pushOrder from '~/use-cases/crystallize/write/pushOrder';
+import pushOrder from '../../crystallize/write/pushOrder';
 
 export default async (
+    cartWrapperRepository: CartWrapperRepository,
     apiClient: ClientInterface,
     signature: string,
     payload: any,
@@ -32,7 +32,7 @@ export default async (
             }
             switch (eventName) {
                 case 'payment_intent.succeeded':
-                    const orderCreatedConfirmation = await pushOrder(apiClient, cartWrapper, {
+                    const orderCreatedConfirmation = await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
                         //@ts-ignore
                         provider: 'stripe',
                         stripe: {

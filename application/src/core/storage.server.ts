@@ -1,13 +1,5 @@
 import * as redis from 'redis';
-import { BackendStorage as HandlerBackendStorage } from '@crystallize/node-service-api-request-handlers/dist/core/type';
-
-export type StorageOptions = {
-    prefix?: string;
-};
-
-type BackendStorage = Pick<HandlerBackendStorage, 'get'> & {
-    set: (key: string, value: any, ttl?: number) => Promise<void>;
-};
+import { BackendStorage, StorageOptions } from '~/use-cases/contracts/BackendStorage';
 
 function createRedisStorageEngine(dsn: string | undefined, options: StorageOptions = {}): BackendStorage {
     const prefix = options?.prefix ?? '';

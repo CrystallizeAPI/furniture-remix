@@ -8,7 +8,7 @@ import {
 } from '@crystallize/js-storefrontaware-utils';
 import { configureStorage } from './storage.server';
 import { StoreFrontConfiguration } from '~/use-cases/contracts/StoreFrontConfiguration';
-import { getCurrencyFromCode } from '~/ui/lib/pricing/currencies';
+import { getCurrencyFromCode } from '~/use-cases/contracts/Currency';
 import { CrystalFakePaymentImplementation, TenantConfiguration } from '~/use-cases/contracts/TenantConfiguration';
 
 const storage = configureStorage(process.env?.STORAGE_DSN, {

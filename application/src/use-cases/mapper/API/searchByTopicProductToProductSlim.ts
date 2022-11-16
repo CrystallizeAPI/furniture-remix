@@ -1,4 +1,4 @@
-import { SearchByTopicsProductList } from '~/use-cases/contracts/Product';
+import { SearchByTopicsProductList } from '../../contracts/Product';
 import { DataMapper } from '..';
 
 export default (data: any): SearchByTopicsProductList => {

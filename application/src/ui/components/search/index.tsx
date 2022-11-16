@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import SearchIcon from '~/assets/searchIcon.svg';
 import { DebounceInput } from 'react-debounce-input';
 import Link from '~/ui/bridge/Link';
-import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '~/ui/app-context/provider';
 import { createClient } from '@crystallize/js-api-client';
 import { ProductSlim } from '~/use-cases/contracts/Product';
 import { Price } from '../price';
+import search from '~/use-cases/crystallize/read/search';
+import searchProductToProductSlim from '~/use-cases/mapper/API/searchProductToProductSlim';
 
 export const SearchBar = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -15,11 +16,7 @@ export const SearchBar = () => {
     const [show, setShow] = useState(true);
     const [suggestions, setSuggestions] = useState<ProductSlim[]>([]);
     const { state: appContextState, path, _t } = useAppContext();
-    const api = CrystallizeAPI({
-        apiClient: createClient({ tenantIdentifier: appContextState.crystallize.tenantIdentifier }),
-        language: appContextState.language,
-    });
-
+    const apiClient = createClient({ tenantIdentifier: appContextState.crystallize.tenantIdentifier });
     //close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: any) => {
@@ -38,7 +35,8 @@ export const SearchBar = () => {
         const value = event.target.value;
         setSearchTerm(value);
         try {
-            setSuggestions(await api.search(value));
+            const rawResult = await search(apiClient, value, appContextState.language);
+            setSuggestions(searchProductToProductSlim(rawResult));
         } catch (error) {
             console.error(error);
         }
@@ -75,7 +73,7 @@ export const SearchBar = () => {
                     className="absolute rounded-xl bg-[#fff] -top-5 w-full pt-20 pb-2 border border-[#dfdfdf] left-0 overflow-y-scroll shadow-sm z-20"
                 >
                     <div className="max-h-[400px] overflow-y-scroll">
-                        {suggestions?.map((suggestion, index) => (
+                        {suggestions.map((suggestion, index) => (
                             <div key={index}>
                                 <Link
                                     to={path(suggestion.path)}
@@ -87,7 +85,7 @@ export const SearchBar = () => {
                                     <div className="py-1 px-4 bg-[#fff] flex gap-2 items-center hover:bg-grey2">
                                         <div className="w-[25px] h-[35px] img-container rounded-sm img-cover border border-[#dfdfdf]">
                                             <Image
-                                                {...suggestion.variant.images[0]}
+                                                {...suggestion.variant?.images[0]}
                                                 sizes="100px"
                                                 alt={suggestion.name}
                                             />

@@ -1,5 +1,5 @@
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
-import displayPriceFor, { DisplayPrice } from '~/ui/lib/pricing/pricing';
+import displayPriceFor, { DisplayPrice } from '~/use-cases/checkout/pricing';
 import { Price as CrystallizePrice } from '~/ui/lib/pricing/pricing-component';
 import { DataMapper } from '~/use-cases/mapper';
 import { useAppContext } from '../app-context/provider';

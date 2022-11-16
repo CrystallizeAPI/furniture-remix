@@ -1,10 +1,10 @@
 import { CrystallizeAPI } from '../crystallize/read';
-import { availableLanguages } from '~/use-cases/LanguageAndMarket';
+import { availableLanguages } from '../LanguageAndMarket';
 import { ClientInterface } from '@crystallize/js-api-client';
-import { createMailer } from '~/core/services.server';
 import mjml2html from 'mjml';
+import { Mailer } from '../contracts/Mailer';
 
-export default async (apiClient: ClientInterface, order: any) => {
+export default async (mailer: Mailer, apiClient: ClientInterface, order: any) => {
     const date = new Date(order.createdAt);
     let creationDate = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const api = CrystallizeAPI({
@@ -19,8 +19,6 @@ export default async (apiClient: ClientInterface, order: any) => {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
-
-    const mailer = createMailer(`${process.env.MAILER_DSN}`);
     let mail = mjml2html(`<mjml>
         <mj-head>
           <mj-title>Order confirmation - FRNTR Boilerplate</mj-title>
@@ -153,7 +151,7 @@ export default async (apiClient: ClientInterface, order: any) => {
         </mj-body>
       </mjml>`).html;
 
-    const data = await mailer(
+    return await mailer(
         'Crystallize - Your order has been placed',
         `${order.customer.identifier}`,
         'hello@crystallize.com',

@@ -1,9 +1,9 @@
-import { Footer } from '~/use-cases/contracts/Footer';
+import { Footer } from '../../contracts/Footer';
 import {
     chunksForChunkComponentWithId,
     flattenRichText,
     stringForSingleLineComponentWithId,
-} from '~/use-cases/mapper/api-mappers';
+} from '../../mapper/api-mappers';
 import { DataMapper } from '..';
 
 export default (data: any): Footer => {

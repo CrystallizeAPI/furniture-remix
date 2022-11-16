@@ -2,7 +2,7 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/infrastructure/storefront.server';
-import { buildMetas } from '~/core/MicrodataBuilder';
+import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
 import PageRenderer from '~/core/pages/index';
 

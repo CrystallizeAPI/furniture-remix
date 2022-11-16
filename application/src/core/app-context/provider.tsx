@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createContext, FunctionComponent, useContext, useReducer } from 'react';
-import { buildLanguageMarketAwareLink } from '../LanguageAndMarket';
+import { buildLanguageMarketAwareLink } from '../../use-cases/LanguageAndMarket';
 import { mapToReducerActions, Reducer } from './reducer';
 import { Actions, Dispatch, State } from './types';
 

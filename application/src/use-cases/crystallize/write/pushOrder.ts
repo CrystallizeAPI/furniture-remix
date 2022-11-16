@@ -7,13 +7,51 @@ import {
 } from '@crystallize/js-api-client';
 import { CartItem, CartWrapper } from '@crystallize/node-service-api-request-handlers';
 import { cartWrapperRepository } from '~/infrastructure/services.server';
+import pushCustomerIfMissing from './pushCustomerIfMissing';
 
-export const pushOrderSubHandler = async (
+const buildCustomer = (cartWrapper: CartWrapper): OrderCustomerInputRequest => {
+    const firstName = cartWrapper?.customer?.firstname || '';
+    const lastName = cartWrapper?.customer?.lastname || '';
+    const customerIdentifier = cartWrapper?.customer?.customerIdentifier || cartWrapper?.customer?.email || '';
+    return {
+        identifier: customerIdentifier,
+        firstName,
+        lastName,
+        addresses: [
+            {
+                //@ts-ignore
+                type: 'billing',
+                firstName,
+                lastName,
+                email: cartWrapper?.customer?.email || '',
+                street: cartWrapper?.customer?.streetAddress || '',
+                city: cartWrapper?.customer?.city || '',
+                country: cartWrapper?.customer?.country || '',
+                postalCode: cartWrapper?.customer?.zipCode || '',
+            },
+            {
+                //@ts-ignore
+                type: 'delivery',
+                firstName,
+                lastName,
+                email: cartWrapper?.customer?.email || '',
+                street: cartWrapper?.customer?.streetAddress || '',
+                city: cartWrapper?.customer?.city || '',
+                country: cartWrapper?.customer?.country || '',
+                postalCode: cartWrapper?.customer?.zipCode || '',
+            },
+        ],
+    };
+};
+
+export default async (
     apiClient: ClientInterface,
     cartWrapper: CartWrapper,
-    customer: OrderCustomerInputRequest,
     payment: PaymentInputRequest,
 ): Promise<OrderCreatedConfirmation> => {
+    const customer = buildCustomer(cartWrapper);
+    pushCustomerIfMissing(apiClient, customer).catch(console.error);
+
     const cart = cartWrapper.cart;
     if (cartWrapper?.extra?.orderId) {
         throw {
@@ -21,6 +59,7 @@ export const pushOrderSubHandler = async (
             status: 403,
         };
     }
+
     const pusher = createOrderPusher(apiClient);
     const orderCreatedConfirmation = await pusher({
         customer,
@@ -63,39 +102,4 @@ export const pushOrderSubHandler = async (
     });
     cartWrapperRepository.attachOrderId(cartWrapper, orderCreatedConfirmation.id);
     return orderCreatedConfirmation;
-};
-
-export const buildCustomer = (cartWrapper: CartWrapper): OrderCustomerInputRequest => {
-    const firstName = cartWrapper?.customer?.firstname || '';
-    const lastName = cartWrapper?.customer?.lastname || '';
-    const customerIdentifier = cartWrapper?.customer?.customerIdentifier || cartWrapper?.customer?.email || '';
-    return {
-        identifier: customerIdentifier,
-        firstName,
-        lastName,
-        addresses: [
-            {
-                //@ts-ignore
-                type: 'billing',
-                firstName,
-                lastName,
-                email: cartWrapper?.customer?.email || '',
-                street: cartWrapper?.customer?.streetAddress || '',
-                city: cartWrapper?.customer?.city || '',
-                country: cartWrapper?.customer?.country || '',
-                postalCode: cartWrapper?.customer?.zipCode || '',
-            },
-            {
-                //@ts-ignore
-                type: 'delivery',
-                firstName,
-                lastName,
-                email: cartWrapper?.customer?.email || '',
-                street: cartWrapper?.customer?.streetAddress || '',
-                city: cartWrapper?.customer?.city || '',
-                country: cartWrapper?.customer?.country || '',
-                postalCode: cartWrapper?.customer?.zipCode || '',
-            },
-        ],
-    };
 };

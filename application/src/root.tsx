@@ -25,12 +25,12 @@ import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
 import React from 'react';
 import { buildStoreFrontConfiguration, getStoreFront } from './infrastructure/storefront.server';
-import { CrystallizeAPI } from './use-cases/crystallize';
+import { CrystallizeAPI } from './use-cases/crystallize/read';
 import { AppContextProvider, useAppContext } from './core/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from './use-cases/http/cache';
 import { getContext } from './use-cases/http/utils';
-import { FAVICON_VARIANTS } from './routes/$langMarket/favicon/$size[.png]';
+import { FAVICON_VARIANTS } from './routes/$langstore/favicon/$size[.png]';
 import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
 import { StoreFrontConfiguration } from './use-cases/contracts/StoreFrontConfiguration';
 import {
@@ -38,7 +38,7 @@ import {
     buildLanguageMarketAwareLink,
     displayableLanguages,
     isValidLanguageMarket,
-} from './core/LanguageAndMarket';
+} from './use-cases/LanguageAndMarket';
 import fetchTranslations from './use-cases/fetchTranslations.server';
 import { Tree } from './use-cases/contracts/Tree';
 import { Footer as FooterType } from './use-cases/contracts/Footer';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/infrastructure/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { useAppContext } from '../app-context/provider';
 import { AddToCartBtn } from '../components/add-to-cart-button';
 import { ImageGallery } from '../components/image-gallery';
@@ -12,8 +12,8 @@ import { ProductBody } from '../components/product-body';
 import { StockLocations } from '../components/stock-location';
 import { TopicLabels } from '../components/topic-labels';
 import { VariantSelector } from '../components/variant-selector';
-import { buildSchemaMarkup } from '../SchemaMarkupBuilder';
-import { ProductVariant } from '../../use-cases/contracts/ProductVariant';
+import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
+import { buildSchemaMarkup } from '~/use-cases/SchemaMarkupBuilder';
 
 export const fetchData = async (
     path: string,

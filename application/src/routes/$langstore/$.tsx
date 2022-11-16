@@ -2,10 +2,10 @@ import { HeadersFunction, json, LoaderFunction, MetaFunction, Response } from '@
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/infrastructure/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import PageRenderer from '~/core/pages/index';
 import { useLoaderData } from '@remix-run/react';
-import { buildMetas } from '~/core/MicrodataBuilder';
+import { buildMetas } from '~/use-cases/MicrodataBuilder';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

@@ -15,7 +15,7 @@ import searchByTopic from './searchByTopic';
 import searchFilteredByPriceRange from './searchFilteredByPriceRange';
 import searchOrderBy from './searchOrderBy';
 import searchOrderByPriceRange from './searchOrderByPriceRange';
-import { DataMapper } from '../mapper';
+import { DataMapper } from '../../mapper';
 import fetchFolderWithChildren from './fetchFolderWithChildren';
 
 export type CrystallizeAPIContext = {

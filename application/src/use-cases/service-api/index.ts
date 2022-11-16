@@ -22,15 +22,15 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
     return {
         stripe: {
             fetchPaymentIntent: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/stripe/intent/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/stripe/create', { cartId: cart.cartId }),
         },
         quickpay: {
             fetchPaymentLink: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/quickpay/link/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/quickpay/create', { cartId: cart.cartId }),
         },
         klarna: {
             initiatePayment: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/klarna/payment/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/klarna/create', { cartId: cart.cartId }),
         },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),

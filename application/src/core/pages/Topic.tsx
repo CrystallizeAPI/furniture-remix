@@ -1,6 +1,6 @@
 import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/infrastructure/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { FilteredProducts } from '../components/filter/filtered-products';
 import { SearchByTopicsProductList } from '../../use-cases/contracts/Product';
 import { Topic } from '../../use-cases/contracts/Topic';

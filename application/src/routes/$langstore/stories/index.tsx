@@ -2,8 +2,8 @@ import { HeadersFunction, json, LoaderFunction, MetaFunction } from '@remix-run/
 import { useLoaderData } from '@remix-run/react';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getStoreFront } from '~/infrastructure/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize';
-import { buildMetas } from '~/core/MicrodataBuilder';
+import { CrystallizeAPI } from '~/use-cases/crystallize/read';
+import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { Document } from '~/core/components/item/document';
 import { getContext } from '~/use-cases/http/utils';
 import { CategoryWithChildren } from '~/use-cases/contracts/Category';

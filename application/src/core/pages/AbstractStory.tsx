@@ -1,6 +1,6 @@
 import { RequestContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/infrastructure/storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize';
+import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 
 import CuratedStory from './CuratedStory';
 import { Story as StoryType, CuratedStory as CuratedStoryType } from '../../use-cases/contracts/Story';

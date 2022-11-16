@@ -5,7 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/core/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
-import PageRenderer from '~/ui/pages/index';
+import PageRenderer from '~/ui/pages/shapePageRenderer';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export let meta: MetaFunction = ({ data }) => {

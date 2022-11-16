@@ -4,7 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import { getStoreFront } from '~/core/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
-import PageRenderer from '~/ui/pages/index';
+import PageRenderer from '~/ui/pages/shapePageRenderer';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

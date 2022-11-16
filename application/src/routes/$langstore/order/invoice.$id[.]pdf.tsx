@@ -8,7 +8,6 @@ import { getContext } from '~/use-cases/http/utils';
 export const loader: LoaderFunction = async ({ context, params, request }) => {
     const requestContext = getContext(request);
     const { secret } = await getStoreFront(requestContext.host);
-    //@todo: should done via the CrystallizeAPI
     const response = await createOrderFetcher(secret.apiClient).byId(`${params.id}`);
     let pdf = await ReactPDF.renderToStream(<Invoice data={response} />);
 

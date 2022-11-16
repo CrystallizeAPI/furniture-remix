@@ -3,7 +3,7 @@ import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger 
 import { getContext } from '~/use-cases/http/utils';
 import { getStoreFront } from '~/core/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize/read';
-import PageRenderer from '~/ui/pages/index';
+import PageRenderer from '~/ui/pages/shapePageRenderer';
 import { useLoaderData } from '@remix-run/react';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 

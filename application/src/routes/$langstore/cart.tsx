@@ -1,6 +1,6 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
 import { getStoreFront } from '~/core/storefront.server';
-import { HydratedCart } from '~/ui/components/cart';
+import Cart from '~/ui/pages/Cart';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';
 
@@ -15,9 +15,5 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default () => {
-    return (
-        <div className="lg:w-content mx-auto w-full min-h-[90vh]">
-            <HydratedCart />
-        </div>
-    );
+    return <Cart />;
 };

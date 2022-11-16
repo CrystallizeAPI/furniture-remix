@@ -6,7 +6,7 @@ import { getStoreFront } from '~/core/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import PageRenderer from '~/ui/pages/index';
+import PageRenderer from '~/ui/pages/shapePageRenderer';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export const links: LinksFunction = () => {

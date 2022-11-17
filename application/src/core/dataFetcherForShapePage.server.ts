@@ -65,7 +65,7 @@ export default async (shapeIdentifier: string, path: string, request: RequestCon
             const { products: topicProducts, topics } = await api.searchByTopic(path);
             const topic = topics.find((topic) => topic.path === path);
             return {
-                topicProducts,
+                products: topicProducts,
                 topics,
                 topic,
             };

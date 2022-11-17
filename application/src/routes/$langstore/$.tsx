@@ -40,6 +40,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const shapeIdentifier = map[mappedKey as keyof typeof map]?.shape?.identifier || '_topic';
     const data = await dataFetcherForShapePage(shapeIdentifier, path, requestContext, params);
+
     return json(
         { shapeIdentifier, data },
         StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier),

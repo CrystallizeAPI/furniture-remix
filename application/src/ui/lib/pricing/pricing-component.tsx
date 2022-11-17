@@ -1,5 +1,5 @@
-import { getCurrencyFromCode } from '../../../use-cases/contracts/Currency';
-import { DisplayPrice as TDisplayPrice } from '../../../use-cases/checkout/pricing';
+import { getCurrencyFromCode } from '~/use-cases/contracts/Currency';
+import { DisplayPrice as TDisplayPrice } from '~/use-cases/checkout/pricing';
 
 export const Price: React.FC<{
     children: number;

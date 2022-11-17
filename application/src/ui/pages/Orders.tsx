@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { MagickLoginForm } from '~/ui/components/checkout-forms/magicklogin';
-import { useAuth } from '~/ui/hooks/useAuth';
+import { MagickLoginForm } from '../components/checkout-forms/magicklogin';
+import { useAuth } from '../hooks/useAuth';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { Price } from '~/ui/lib/pricing/pricing-component';
+import { Price } from '../lib/pricing/pricing-component';
 import DefaultImage from '~/assets/defaultImage.svg';
-import { useAppContext } from '~/ui/app-context/provider';
+import { useAppContext } from '../app-context/provider';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import DownloadIcon from '~/assets/downloadIcon.svg';
 

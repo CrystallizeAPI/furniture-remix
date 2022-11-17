@@ -1,4 +1,4 @@
-import { FilteredProducts } from '../components/filter/filtered-products';
+import { FilteredProducts } from '../components/search/filtered-products';
 import { SearchByTopicsProductList } from '../../use-cases/contracts/Product';
 import { Topic } from '../../use-cases/contracts/Topic';
 

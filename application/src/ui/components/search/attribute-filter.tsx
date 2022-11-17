@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import filterIcon from '~/assets/filterIcon.svg';
-import useSearchParams from '~/ui/bridge/useSearchParams';
-import { useAppContext } from '~/ui/app-context/provider';
+import useSearchParams from '../../bridge/useSearchParams';
+import { useAppContext } from '../../app-context/provider';
 
 export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) => {
     const [show, setShow] = useState(false);

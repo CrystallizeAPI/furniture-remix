@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAppContext } from '~/ui/app-context/provider';
-import { Product } from '~/ui/components/item/product';
+import { useAppContext } from '../../app-context/provider';
+import { Product } from '../../components/item/product';
 import { ProductSlim } from '~/use-cases/contracts/Product';
 
 export const FilteredProducts: React.FC<{ products: ProductSlim[] }> = ({ products }) => {

@@ -1,6 +1,6 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
-import { RelatedDocument } from '../components/related-items/related-document';
+import { RelatedDocument } from '../components/related-document';
 import { Product } from '../components/item/product';
 import { Story } from '../../use-cases/contracts/Story';
 import { buildSchemaMarkupForBlogPost } from '~/use-cases/SchemaMarkupBuilder';

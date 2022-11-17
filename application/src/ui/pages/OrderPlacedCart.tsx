@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useLocalCart } from '../hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { useAppContext } from '~/ui/app-context/provider';
+import { useAppContext } from '../app-context/provider';
 import useNavigate from '../bridge/useNavigate';
 
 export default ({ cartId }: { cartId: string }) => {

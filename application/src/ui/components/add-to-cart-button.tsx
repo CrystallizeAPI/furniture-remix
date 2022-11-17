@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useLocalCart } from '../hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
 import { ProductVariant } from '../../use-cases/contracts/ProductVariant';
 

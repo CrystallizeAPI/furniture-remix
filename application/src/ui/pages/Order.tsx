@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useAppContext } from '~/ui/app-context/provider';
+import { useAppContext } from '../app-context/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { Price } from '~/ui/lib/pricing/pricing-component';
-import { useAuth } from '~/ui/hooks/useAuth';
-import { MagickLoginForm } from '~/ui/components/checkout-forms/magicklogin';
+import { Price } from '../lib/pricing/pricing-component';
+import { useAuth } from '../hooks/useAuth';
+import { MagickLoginForm } from '../components/checkout-forms/magicklogin';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 
 export default ({ id, isServerSideAuthenticated }: { id: string; isServerSideAuthenticated: boolean }) => {

@@ -1,6 +1,6 @@
-import { Document } from '~/ui/components/item/document';
+import { Document } from '../components/item/document';
 import { CategoryWithChildren } from '~/use-cases/contracts/Category';
-import { Product } from '~/ui/components/item/product';
+import { Product } from '../components/item/product';
 
 export default ({ folder }: { folder: CategoryWithChildren }) => {
     return (

@@ -1,4 +1,4 @@
-import { Grid } from '~/ui/components/grid-cells/grid';
+import { Grid } from '../components/grid/grid';
 import { LandingPage } from '~/use-cases/contracts/LandingPage';
 
 export default ({ data: landing }: { data: LandingPage }) => {

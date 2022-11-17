@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
-import { Input } from '~/ui/components/input';
-import { useAuth } from '~/ui/hooks/useAuth';
-import { useAppContext } from '~/ui/app-context/provider';
+import { Input } from '../../components/input';
+import { useAuth } from '../../hooks/useAuth';
+import { useAppContext } from '../../app-context/provider';
 import { Customer } from '~/use-cases/contracts/Customer';
 
 export const AddressForm: React.FC<{ title: string; onValidSubmit: Function }> = ({ title, onValidSubmit }) => {

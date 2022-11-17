@@ -1,11 +1,11 @@
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
-import { CuratedProductItem } from '~/ui/components/curated-product';
+import { CuratedProductItem } from '../components/curated-product-item';
 import { useMemo, useState } from 'react';
-import { AddToCartBtn, VariantPack, VariantPackItem } from '~/ui/components/add-to-cart-button';
-import { useAppContext } from '~/ui/app-context/provider';
+import { AddToCartBtn, VariantPack, VariantPackItem } from '../components/add-to-cart-button';
+import { useAppContext } from '../app-context/provider';
 import { CuratedStory } from '../../use-cases/contracts/Story';
 import { ParagraphCollection } from '../components/crystallize-components/paragraph-collection';
-import { Price } from '~/ui/lib/pricing/pricing-component';
+import { Price } from '../lib/pricing/pricing-component';
 
 export default ({ data: story }: { data: CuratedStory }) => {
     const [activePoint, setActivePoint] = useState('');

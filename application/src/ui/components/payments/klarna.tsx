@@ -1,11 +1,11 @@
-import { Customer } from '../checkout-forms/address';
 import useLocalStorage from '@rehooks/local-storage';
 import { useEffect, useState } from 'react';
 import logo from '~/assets/klarnaLogo.svg';
-import { useAppContext } from '~/ui/app-context/provider';
-import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useAppContext } from '../../app-context/provider';
+import { useLocalCart } from '../../hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
-import useNavigate from '~/ui/bridge/useNavigate';
+import useNavigate from '../../bridge/useNavigate';
+import { Customer } from '~/use-cases/contracts/Customer';
 
 export const KlarnaButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,

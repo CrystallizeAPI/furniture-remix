@@ -2,12 +2,12 @@ import useLocalStorage from '@rehooks/local-storage';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
-import { useAppContext } from '~/ui/app-context/provider';
-import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useAppContext } from '../../app-context/provider';
+import { useLocalCart } from '../../hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { Customer } from '../checkout-forms/address';
 import logo from '~/assets/stripeLogo.svg';
-import useNavigate from '~/ui/bridge/useNavigate';
+import useNavigate from '../../bridge/useNavigate';
+import { Customer } from '~/use-cases/contracts/Customer';
 
 export const StripeButton: React.FC<{ paying?: boolean; onClick?: () => Promise<void> | void }> = ({
     paying = false,

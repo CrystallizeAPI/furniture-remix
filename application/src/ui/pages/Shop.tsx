@@ -1,7 +1,7 @@
 import { Shop } from '~/use-cases/contracts/Shop';
 import { useAppContext } from '../app-context/provider';
-import { CategoryList } from '~/ui/components/category-list';
-import { Grid } from '~/ui/components/grid-cells/grid';
+import { CategoryList } from '../components/category-list';
+import { Grid } from '../components/grid/grid';
 import { ContentTransformer } from '@crystallize/reactjs-components';
 import Link from '../bridge/Link';
 

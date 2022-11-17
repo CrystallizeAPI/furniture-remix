@@ -1,8 +1,8 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { TileViewComponentProps } from '~/ui/lib/grid-tile/types';
-import { ProductFromCell } from '../item/product';
-import { DocumentFromCell } from '../item/document';
-import { LinkRenderer } from '~/ui/lib/grid-tile/linkRenderer';
+import { TileViewComponentProps } from '../../../lib/grid-tile/types';
+import { ProductFromCell } from '../../item/product';
+import { DocumentFromCell } from '../../item/document';
+import { LinkRenderer } from '../../../lib/grid-tile/linkRenderer';
 
 const itemMapping = {
     product: ProductFromCell,

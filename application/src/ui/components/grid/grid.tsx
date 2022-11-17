@@ -1,11 +1,11 @@
-import { Grid as BaseGrid } from '~/ui/lib/grid-tile/grid';
-import { ProductFromCell } from '~/ui/components/item/product';
-import { DocumentFromCell } from '~/ui/components/item/document';
-import { Banner } from '~/ui/components/tiles/banner';
-import { Embed } from '~/ui/components/tiles/embed';
-import { Slider } from '~/ui/components/tiles/slider';
+import { Grid as BaseGrid } from '../../lib/grid-tile/grid';
+import { ProductFromCell } from '../../components/item/product';
+import { DocumentFromCell } from '../../components/item/document';
+import { Banner } from '../../components/grid/tiles/banner';
+import { Embed } from '../../components/grid/tiles/embed';
+import { Slider } from '../../components/grid/tiles/slider';
 import { GridCell, GridRenderingType } from '@crystallize/reactjs-components';
-import { HeroSlider } from '../tiles/hero-slider';
+import { HeroSlider } from './tiles/hero-slider';
 
 const tileMapping = {
     banner: Banner,

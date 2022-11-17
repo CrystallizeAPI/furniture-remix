@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAppContext } from '~/ui/app-context/provider';
-import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useAppContext } from '../../app-context/provider';
+import { useLocalCart } from '../../hooks/useLocalCart';
 import { CrystalCard, CrystalCardButton } from './crystal/card';
 import { CrystalCoin, CrystalCoinButton } from './crystal/coin';
 import { Klarna, KlarnaButton } from './klarna';

@@ -1,6 +1,6 @@
-import { Filter } from '../components/filter';
-import { FilteredProducts } from '../components/filter/filtered-products';
-import { Grid } from '../components/grid-cells/grid';
+import { Filter } from '../components/search';
+import { FilteredProducts } from '../components/search/filtered-products';
+import { Grid } from '../components/grid/grid';
 import { Category } from '../../use-cases/contracts/Category';
 import { ProductSlim } from '../../use-cases/contracts/Product';
 

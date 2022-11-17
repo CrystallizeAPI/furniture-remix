@@ -1,5 +1,5 @@
-import { FilteredProducts } from '~/ui/components/filter/filtered-products';
-import { useAppContext } from '~/ui/app-context/provider';
+import { FilteredProducts } from '../components/search/filtered-products';
+import { useAppContext } from '../app-context/provider';
 import { ProductSlim } from '~/use-cases/contracts/Product';
 
 export default ({ products }: { products: ProductSlim[] }) => {

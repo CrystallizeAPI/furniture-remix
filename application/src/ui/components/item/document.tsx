@@ -1,6 +1,6 @@
 import { Image } from '@crystallize/reactjs-components';
-import Link from '~/ui/bridge/Link';
-import { useAppContext } from '~/ui/app-context/provider';
+import Link from '../../bridge/Link';
+import { useAppContext } from '../../app-context/provider';
 import { StorySlim, CuratedStorySlim } from '~/use-cases/contracts/Story';
 import {
     choiceComponentWithId,
@@ -9,7 +9,7 @@ import {
     numericValueForComponentWithId,
     stringForSingleLineComponentWithId,
 } from '~/use-cases/mapper/api-mappers';
-import { ItemViewComponentProps } from '~/ui/lib/grid-tile/types';
+import { ItemViewComponentProps } from '../../lib/grid-tile/types';
 import { CuratedProduct } from './curated-product';
 import { DataMapper } from '~/use-cases/mapper';
 import { ProductSlim } from '~/use-cases/contracts/Product';

@@ -1,10 +1,10 @@
-import Link from '~/ui/bridge/Link';
+import Link from '../bridge/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import trashIcon from '~/assets/trashIcon.svg';
-import { Price as CrystallizePrice } from '~/ui/lib/pricing/pricing-component';
+import { Price as CrystallizePrice } from '../lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
 import { CartItemPrice } from './price';
 import { CartItem } from '@crystallize/node-service-api-request-handlers';

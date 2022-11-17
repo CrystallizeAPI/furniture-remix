@@ -1,6 +1,6 @@
-import Link from '~/ui/bridge/Link';
-import { useAppContext } from '../app-context/provider';
-import { Tree } from '../../use-cases/contracts/Tree';
+import Link from '../../bridge/Link';
+import { useAppContext } from '../../app-context/provider';
+import { Tree } from '../../../use-cases/contracts/Tree';
 
 export const TopicNavigation: React.FC<{ navigation: Tree[] }> = ({ navigation }) => {
     const { path } = useAppContext();

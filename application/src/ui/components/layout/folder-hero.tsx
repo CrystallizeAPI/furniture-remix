@@ -1,4 +1,4 @@
-import { Grid } from './grid-cells/grid';
+import { Grid } from '../grid/grid';
 
 export const FolderHero = ({ component }: { component: any }) => {
     let grid = component?.content?.grids?.[0];

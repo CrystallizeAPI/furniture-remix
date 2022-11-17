@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useAppContext } from '~/ui/app-context/provider';
-import { useAuth } from '~/ui/hooks/useAuth';
+import { useAppContext } from '../../app-context/provider';
+import { useAuth } from '../../hooks/useAuth';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { Input } from '../input';
 

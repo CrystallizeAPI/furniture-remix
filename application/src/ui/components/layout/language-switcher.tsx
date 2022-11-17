@@ -1,6 +1,6 @@
-import useLocation from '~/ui/bridge/useLocation';
-import { useAppContext } from '../app-context/provider';
-import { buildLanguageMarketAwareLink, displayableLanguages } from '../../use-cases/LanguageAndMarket';
+import useLocation from '../../bridge/useLocation';
+import { useAppContext } from '../../app-context/provider';
+import { buildLanguageMarketAwareLink, displayableLanguages } from '../../../use-cases/LanguageAndMarket';
 
 export const LanguageSwitcher = () => {
     const { state } = useAppContext();

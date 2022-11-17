@@ -18,8 +18,8 @@ import {
     MetaFunction,
     redirect,
 } from '@remix-run/node';
-import { Header } from '~/ui/components/header';
-import { Footer } from './ui/components/footer';
+import { Header } from '~/ui/components/layout/header';
+import { Footer } from './ui/components/layout/footer';
 import tailwindDefaultTheme from './styles/tailwind.default.css';
 import tailwindDarkTheme from './styles/tailwind.dark.css';
 import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
@@ -43,6 +43,7 @@ import { storage, memoryStorage } from '~/core/services.server';
 import fetchTranslations from './use-cases/fetchTranslations.server';
 import { Tree } from './use-cases/contracts/Tree';
 import { Footer as FooterType } from './use-cases/contracts/Footer';
+import { ErrorComponent } from './ui/components/error';
 
 export const meta: MetaFunction = () => {
     return {
@@ -210,15 +211,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     return (
         <>
-            <header className="2xl w-full mx-auto lg:p-8 lg:px-6">
-                <Header navigation={navigation} />
-            </header>
-            <div>
-                <div>{children}</div>
-            </div>
-            <footer className="2xl w-full mx-auto">
-                <Footer footer={footer} />
-            </footer>
+            <Header navigation={navigation} />
+            <div>{children}</div>
+            <Footer footer={footer} />
         </>
     );
 };
@@ -275,26 +270,5 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
                 <Scripts />
             </body>
         </html>
-    );
-};
-
-export const ErrorComponent: React.FC<{ text?: string; code?: number }> = ({ text = 'Not Found', code = 404 }) => {
-    return (
-        <section className="flex items-center h-screen p-16">
-            <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-                <div className="max-w-md text-center">
-                    <h2 className="mb-8 font-extrabold text-9xl">
-                        <span className="sr-only">{text}</span>
-                        {code}
-                    </h2>
-                    <p className="text-2xl font-semibold md:text-3xl mb-10">
-                        Sorry, we couldn't {code === 404 ? 'find' : 'load'} this page.
-                    </p>
-                    <a rel="noopener noreferrer" href="/" className="px-8 py-3 font-semibold rounded bg-buttonBg2">
-                        Back to homepage
-                    </a>
-                </div>
-            </div>
-        </section>
     );
 };

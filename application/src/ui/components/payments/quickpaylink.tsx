@@ -1,10 +1,10 @@
-import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useLocalCart } from '../../hooks/useLocalCart';
 import { useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
-import { Customer } from '../checkout-forms/address';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { useAppContext } from '~/ui/app-context/provider';
+import { useAppContext } from '../../app-context/provider';
 import logo from '~/assets/quickpayLogo.svg';
+import { Customer } from '~/use-cases/contracts/Customer';
 
 export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
     paying = false,

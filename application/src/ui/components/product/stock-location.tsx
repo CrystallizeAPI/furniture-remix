@@ -1,7 +1,7 @@
 import StockIcon from '~/assets/stockIcon.svg';
 import { useState } from 'react';
-import { useAppContext } from '../app-context/provider';
-import { StockLocation } from '../../use-cases/contracts/StockLocation';
+import { useAppContext } from '../../app-context/provider';
+import { StockLocation } from '../../../use-cases/contracts/StockLocation';
 
 const StockIndicators: React.FC<{ location: StockLocation }> = ({ location }) => {
     const { _t } = useAppContext();

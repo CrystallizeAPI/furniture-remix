@@ -1,16 +1,16 @@
 import UserIcon from '~/assets/userIcon.svg';
-import Link from '~/ui/bridge/Link';
-import { SearchBar } from './search';
+import Link from '../../bridge/Link';
+import { SearchBar } from '../search/search-bar';
 import { BasketButton } from './basket-button';
 import { TopicNavigation } from './topic-navigation';
 import { useEffect, useState } from 'react';
-import { useAppContext } from '../app-context/provider';
+import { useAppContext } from '../../app-context/provider';
 import { Image } from '@crystallize/reactjs-components';
-import { Price } from './price';
+import { Price } from '../price';
 import { LanguageSwitcher } from './language-switcher';
-import { Tree } from '../../use-cases/contracts/Tree';
-import { TenantLogo } from '~/ui/lib/tenant-logo';
-import useLocation from '~/ui/bridge/useLocation';
+import { Tree } from '../../../use-cases/contracts/Tree';
+import { TenantLogo } from '../../lib/tenant-logo';
+import useLocation from '../../bridge/useLocation';
 
 export const Header: React.FC<{
     navigation: {
@@ -44,7 +44,7 @@ export const Header: React.FC<{
     }, [appContextState.latestAddedCartItems]);
 
     return (
-        <>
+        <header className="2xl w-full mx-auto lg:p-8 lg:px-6">
             {appContextState.latestAddedCartItems.length > 0 && (
                 <div className="border-[#dfdfdf] border rounded-md shadow fixed max-w-full sm:top-2 sm:right-2 bg-[#fff]  z-[60]  p-6">
                     <p className="font-bold text-md mb-3 pb-2">Added product(s) to cart</p>
@@ -206,6 +206,6 @@ export const Header: React.FC<{
                     </div>
                 )}
             </div>
-        </>
+        </header>
     );
 };

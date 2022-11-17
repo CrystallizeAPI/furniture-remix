@@ -14,7 +14,7 @@ const StockIndicators: React.FC<{ location: StockLocation }> = ({ location }) =>
                     <p className="font-semibold">{location.name}</p>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#F42C04]" />
                 </div>
-                <p className="font-medium text-[#F42C04]">{_t('stock.outOfStock')}</p>
+                <p className="font-medium text-black">{_t('stock.outOfStock')}</p>
             </>
         );
     }
@@ -26,7 +26,7 @@ const StockIndicators: React.FC<{ location: StockLocation }> = ({ location }) =>
                     <p className="font-semibold">{location.name}</p>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#FFC60A]" />
                 </div>
-                <p className="font-medium text-[#E0AC00]">{_t('stock.lowStock')}</p>
+                <p className="font-medium text-black">{_t('stock.lowStock')}</p>
             </>
         );
     }

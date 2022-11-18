@@ -87,7 +87,7 @@ export const SearchBar = () => {
                                             <Image
                                                 {...suggestion.variant?.images[0]}
                                                 sizes="100px"
-                                                alt={suggestion.name}
+                                                fallbackAlt={suggestion.name}
                                             />
                                         </div>
                                         <div className="flex justify-between w-full">

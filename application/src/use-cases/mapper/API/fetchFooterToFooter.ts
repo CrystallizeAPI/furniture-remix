@@ -50,7 +50,7 @@ export default (data: any): Footer => {
                     return {
                         title: stringForSingleLineComponentWithId(card, 'title') || '',
                         link: stringForSingleLineComponentWithId(card, 'link') || '',
-                        image: mapper.API.Object.APIImageToImage(image.images) || image.url,
+                        image: mapper.API.Object.APIImageToImage(image.images),
                     };
                 }) || [],
         },

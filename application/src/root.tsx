@@ -140,9 +140,23 @@ type LoaderData = {
 };
 
 const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { isHTTPS, frontConfiguration, host, translations, baseUrl } = useLoaderData<LoaderData>();
+    const { isHTTPS, frontConfiguration, translations, baseUrl } = useLoaderData<LoaderData>();
     let location = useLocation();
     const path = '/' + location.pathname.split('/').slice(2).join('/');
+
+    if (typeof window !== 'undefined') {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js').then(
+                function (registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                },
+                function (err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                },
+            );
+        });
+    }
+
     return (
         <CrystallizeProvider
             language={frontConfiguration.language}
@@ -153,8 +167,10 @@ const Document: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <head>
                         <meta charSet="utf-8" />
                         <meta name="viewport" content="width=device-width,initial-scale=1" />
+                        <meta name="apple-mobile-web-app-capable" content="yes" />
+                        <meta name="mobile-web-app-capable" content="yes" />
                         <Favicons />
-                        <link rel="manifest" href="/site.webmanifest" />
+                        <link rel="manifest" href="/manifest.json" />
                         <meta name="msapplication-TileColor" content="#da532c" />
                         <meta name="theme-color" content="#ffffff" />
                         <link href={`${baseUrl}${location?.pathname}`} rel="canonical" />

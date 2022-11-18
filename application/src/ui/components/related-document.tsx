@@ -11,7 +11,7 @@ export const RelatedDocument = ({ document }: { document: any }) => {
         <div className="pb-5 img-cover-hover">
             <Link to={path(document.path)}>
                 <div className="img-container img-cover rounded-md overflow-hidden">
-                    <Image {...media?.images?.[0]} sizes="200px" loading="lazy" alt={title} />
+                    <Image {...media?.images?.[0]} sizes="200px" loading="lazy" fallbackAlt={title} />
                 </div>
                 <h4 className="font-semibold mt-5">{title}</h4>
             </Link>

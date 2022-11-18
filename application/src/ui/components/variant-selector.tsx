@@ -83,7 +83,7 @@ export const VariantSelector: React.FC<{
                                                     <Image
                                                         {...mostSuitableVariant.images[0]}
                                                         sizes="100px"
-                                                        alt={mostSuitableVariant.name}
+                                                        fallbackAlt={mostSuitableVariant.name}
                                                     />
                                                 )}
                                             </div>

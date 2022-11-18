@@ -52,7 +52,7 @@ export const Header: React.FC<{
                         return (
                             <div className="flex p-3 mt-1 items-center bg-grey2 gap-3" key={index}>
                                 <div className="max-w-[35px] max-h-[50px] img-container img-contain">
-                                    <Image {...item.images?.[0]} sizes="100px" alt={item.name} />
+                                    <Image {...item.images?.[0]} sizes="100px" fallbackAlt={item.name} />
                                 </div>
                                 <div>
                                     <p className="text-sm">{item.name}</p>

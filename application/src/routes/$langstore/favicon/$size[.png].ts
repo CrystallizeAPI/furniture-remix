@@ -41,7 +41,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
     const size = Number(params.size);
 
-    if (![192, 256, 150].includes(size) && !FAVICON_VARIANTS.hasOwnProperty(size)) {
+    if (![100, 192, 256, 150].includes(size) && !FAVICON_VARIANTS.hasOwnProperty(size)) {
         return new Response('Not found', { status: 404 });
     }
 

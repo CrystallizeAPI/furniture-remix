@@ -58,7 +58,7 @@ const Product = ({
                         <Image
                             sizes="200px"
                             {...selecedPackItem.variant?.images?.[0]}
-                            alt={selecedPackItem.variant.name}
+                            fallbackAlt={selecedPackItem.variant.name}
                         />
                     </div>
                     <div>

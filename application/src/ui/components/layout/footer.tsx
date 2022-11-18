@@ -8,6 +8,7 @@ export const Footer: React.FC<{
     footer: FooterType;
 }> = ({ footer }) => {
     const { state: appContextState } = useAppContext();
+
     return (
         <footer className="2xl w-full mx-auto">
             <div className="mt-60">
@@ -31,7 +32,7 @@ export const Footer: React.FC<{
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <Image {...socialLink.logo?.[0]} sizes="100px" />
+                                        <Image {...socialLink.logo?.[0]} sizes="100px" fallbackAlt={socialLink.url} />
                                     </a>
                                 ))}
                             </div>
@@ -63,11 +64,11 @@ export const Footer: React.FC<{
                             {footer.promotions.cards.map((promotion, index) => (
                                 <div key={promotion.title + index} className="flex border-white border flex-col p-5">
                                     <div className="w-[40px] h-[40px] img-container overflow-hidden border-white border rounded-full p-1">
-                                        <Image {...promotion.image?.[0]} sizes="100vw" />
+                                        <Image {...promotion.image?.[0]} sizes="100vw" fallbackAlt={promotion.title} />
                                     </div>
                                     <div className="flex justify-between mt-5 items-end">
                                         <p className="text-lg text-[#fff] max-w-[80%]">{promotion.title}</p>
-                                        <a href={promotion.link} className="text-white">
+                                        <a href={promotion.link} className="text-white" title={promotion.title}>
                                             →
                                         </a>
                                     </div>

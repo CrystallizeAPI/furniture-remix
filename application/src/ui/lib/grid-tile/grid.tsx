@@ -71,7 +71,12 @@ const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: T
     if (background.images && background.images.length > 0) {
         backgroundElement = (
             <div className="crystallize-background-image" style={options?.background?.style}>
-                <Image {...background.images[0]} {...options?.background?.imageProps} size="100vw" />
+                <Image
+                    {...background.images[0]}
+                    {...options?.background?.imageProps}
+                    size="100vw"
+                    fallbackAlt={tile.title}
+                />
             </div>
         );
     }

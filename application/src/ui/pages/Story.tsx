@@ -32,7 +32,7 @@ export default ({ data: story }: { data: Story }) => {
 
             <div className="container 2xl mt-5 w-screen mx-auto">
                 <div className="max-w-[1200px] img-container overflow-hidden rounded-lg">
-                    <Image {...story.medias?.images?.[0]} sizes="100vw" alt={story.title} />
+                    <Image {...story.medias?.images?.[0]} sizes="100vw" fallbackAlt={story.title} />
                 </div>
             </div>
 

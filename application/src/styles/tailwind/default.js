@@ -19,7 +19,7 @@ module.exports = {
             buttonBg2: '#FAD2E1',
             buttonText: '#9E8376',
             green: '#DAF5CB',
-            green2: '#83B69D',
+            green2: '#3C583F',
             textBlack: '#0E0E0E',
             pink: '#FCE8F0',
             red: '#ef233c',

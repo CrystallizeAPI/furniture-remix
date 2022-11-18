@@ -63,7 +63,12 @@ export default ({ data: story }: { data: CuratedStory }) => {
                                     {merch.products.map((product, index) => (
                                         <div className="flex items-center gap-2 pb-2" key={index}>
                                             <div className="img-container img-cover w-[30px] h-[40px]">
-                                                <Image {...product.variant.images?.[0]} sizes="100px" loading="lazy" />
+                                                <Image
+                                                    {...product.variant.images?.[0]}
+                                                    sizes="100px"
+                                                    loading="lazy"
+                                                    fallbackAlt={product.name}
+                                                />
                                             </div>
                                             <div>
                                                 <div className="text-xs">{product.name}</div>
@@ -78,7 +83,7 @@ export default ({ data: story }: { data: CuratedStory }) => {
                             </span>
                         ))}
                     </div>
-                    <Image {...story?.medias?.images?.[0]} sizes="50vw" alt={story.title} />
+                    <Image {...story?.medias?.images?.[0]} sizes="50vw" fallbackAlt={story.title} />
                 </div>
                 <div className="max-w-[1000px] ">{story.story && <ParagraphCollection paragraphs={story.story} />}</div>
             </div>

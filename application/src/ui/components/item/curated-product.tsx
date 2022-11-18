@@ -33,7 +33,12 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                                     {merch.products.map((product) => (
                                         <div className="flex items-center gap-2 pb-2" key={product.id}>
                                             <div className="img-container img-cover w-[30px] h-[40px]">
-                                                <Image {...product.variant.images?.[0]} sizes="100px" loading="lazy" />
+                                                <Image
+                                                    {...product.variant.images?.[0]}
+                                                    sizes="100px"
+                                                    loading="lazy"
+                                                    fallbackAlt={product.name}
+                                                />
                                             </div>
                                             <div>
                                                 <div className="text-xs">{product.name}</div>
@@ -48,7 +53,7 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                             </span>
                         ))}
                     </div>
-                    <Image {...shoppableImage} sizes="50vw" alt={title} />
+                    <Image {...shoppableImage} sizes="50vw" fallbackAlt={title} />
                 </div>
             </div>
         </Link>

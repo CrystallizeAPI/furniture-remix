@@ -26,7 +26,11 @@ export const CheckoutCart: React.FC = () => {
                         >
                             <div className="flex cart-item gap-3 items-center">
                                 <div className="img-container img-contain w-[60px] h-[60px]">
-                                    <Image {...item?.variant.firstImage} sizes="100px" alt={item.variant.name} />
+                                    <Image
+                                        {...item?.variant.firstImage}
+                                        sizes="100px"
+                                        fallbackAlt={item.variant.name}
+                                    />
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-md font-regular w-full">

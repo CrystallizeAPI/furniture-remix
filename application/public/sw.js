@@ -1,4 +1,4 @@
-const MAIN_CACHE = 'frntr-bv2-cache-v1.0.1';
+const MAIN_CACHE = 'frntr-v2-cache-v1.0.1';
 
 const log = (message) => {
     if (MAIN_CACHE.indexOf('debug') === 0) {

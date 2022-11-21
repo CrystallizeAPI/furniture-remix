@@ -31,6 +31,13 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
         klarna: {
             initiatePayment: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/klarna/create', { cartId: cart.cartId }),
+
+        },
+        razorpay: {
+            initiatePayment: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/razorpay/create', { cartId: cart.cartId }),
+            receivePayment: (payload: any) =>
+                postJson<any>(serviceApiUrl + '/payment/razorpay/verify', payload),
         },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),

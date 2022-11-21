@@ -5,6 +5,7 @@ import { getStoreFront } from '~/core/storefront.server';
 import { default as initiateKlarnaPayment } from '~/use-cases/payments/klarna/initiatePayment';
 import { default as initiateStripePayment } from '~/use-cases/payments/stripe/initiatePayment';
 import { default as initiateQuickpayPayment } from '~/use-cases/payments/quickpay/initiatePayment';
+import { default as initiateRazorPayPayment } from '~/use-cases/payments/razorpay/initiatePayment';
 
 export const action: ActionFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
@@ -23,6 +24,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         klarna: initiateKlarnaPayment,
         stripe: initiateStripePayment,
         quickpay: initiateQuickpayPayment,
+        razorpay: initiateRazorPayPayment,
     };
 
     const data = await providers[params.provider as keyof typeof providers](

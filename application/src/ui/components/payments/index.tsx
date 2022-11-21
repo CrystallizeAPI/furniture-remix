@@ -5,6 +5,7 @@ import { CrystalCard, CrystalCardButton } from './crystal/card';
 import { CrystalCoin, CrystalCoinButton } from './crystal/coin';
 import { Klarna, KlarnaButton } from './klarna';
 import { QuickPayLink, QuickPayLinkButton } from './quickpaylink';
+import { RazorPay, RazorPayButton } from './razorpay';
 import { Stripe, StripeButton } from './stripe';
 
 export const Payments: React.FC = () => {
@@ -46,6 +47,13 @@ export const Payments: React.FC = () => {
             button: KlarnaButton,
             renderOnLoad: false,
             enabled: state.paymentImplementations.includes('klarna'),
+        },
+        razorPay: {
+            name: 'RazorPay',
+            component: RazorPay,
+            button: RazorPayButton,
+            renderOnLoad: false,
+            enabled: state.paymentImplementations.includes('razorpay'),
         },
     };
     const [selectedPaymentMethodImplementation, setSelectedPaymentMethodImplementation] = useState<string | null>(null);

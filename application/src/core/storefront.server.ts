@@ -87,11 +87,14 @@ export const buildStoreFrontConfiguration = (
         crystalPayments: process.env?.CRYSTAL_PAYMENTS
             ? (process.env.CRYSTAL_PAYMENTS.split(',') as CrystalFakePaymentImplementation[])
             : tenantConfig.crystalPayments,
-        paymentImplementations: ['crystal', 'stripe', 'quickpay', 'klarna'],
+        paymentImplementations: ['crystal', 'stripe', 'quickpay', 'klarna', 'razorpay'],
         paymentImplementationVariables: {
             stripe: {
                 PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY ?? storeFrontConfig.configuration.PUBLIC_KEY,
             },
+            razorpay: {
+                RAZORPAY_ID: process.env.RAZORPAY_ID ?? storeFrontConfig.configuration.razorpay_key_id,
+            }
         },
     };
 };

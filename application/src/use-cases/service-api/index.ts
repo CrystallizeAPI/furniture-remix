@@ -35,7 +35,7 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
         razorpay: {
             initiatePayment: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/razorpay/create', { cartId: cart.cartId }),
-            receivePayment: (payload: any) => postJson<any>(serviceApiUrl + '/payment/razorpay/verify', payload),
+            receivePayment: (baseUrl: string, payload: any) => postJson<any>(baseUrl + '/api/webhook/payment/razorpay/verify', payload),
         },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),

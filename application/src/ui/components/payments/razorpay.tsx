@@ -52,7 +52,7 @@ export const RazorPay: React.FC = () => {
             amount: amount.toString(),
             currency: currency,
             name: 'FRNTR', // Enter the name of the company to be displayed
-            description: 'Test Transaction',
+            description: '',
             image: { logo },
             order_id: order_id,
             handler: async function (response: any) {
@@ -65,7 +65,7 @@ export const RazorPay: React.FC = () => {
                 const result = await ServiceAPI({
                     language: state.language,
                     serviceApiUrl: state.serviceApiUrl,
-                }).razorpay.receivePayment(data);
+                }).razorpay.receivePayment(window.location.origin, data);
 
                 if (result.id) {
                     empty();
@@ -97,14 +97,9 @@ export const RazorPay: React.FC = () => {
                 } catch (exception) {
                     console.log(exception);
                 }
+
                 const razorpayJS = document.createElement('script');
                 razorpayJS.src = 'https://checkout.razorpay.com/v1/checkout.js';
-                razorpayJS.onload = async () => {
-                    const api = ServiceAPI({
-                        language: state.language,
-                        serviceApiUrl: state.serviceApiUrl,
-                    });
-                };
 
                 document.head.appendChild(razorpayJS);
             }

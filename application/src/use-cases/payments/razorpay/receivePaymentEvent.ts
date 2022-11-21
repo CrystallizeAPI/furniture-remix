@@ -1,7 +1,8 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
-    CartWrapperRepository, handleRazorPayPaymentVerificationPayload,
+    CartWrapperRepository,
+    handleRazorPayPaymentVerificationPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import { cartWrapperRepository } from '~/core/services.server';
 import pushOrder from '../../crystallize/write/pushOrder';
@@ -35,11 +36,10 @@ export default async (
                         provider: 'custom',
                         custom: {
                             properties: [
-                                { property: "razorpay_order_id", value: event.id },
-                                { property: "razorpay_receipt", value: event.receipt },
-                            ]
-                        }
-
+                                { property: 'razorpay_order_id', value: event.id },
+                                { property: 'razorpay_receipt', value: event.receipt },
+                            ],
+                        },
                     });
                     return orderCreatedConfirmation;
             }

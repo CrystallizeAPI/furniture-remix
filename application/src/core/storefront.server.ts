@@ -94,7 +94,7 @@ export const buildStoreFrontConfiguration = (
             },
             razorpay: {
                 RAZORPAY_ID: process.env.RAZORPAY_ID ?? storeFrontConfig.configuration.razorpay_key_id,
-            }
+            },
         },
     };
 };

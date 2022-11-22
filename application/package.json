@@ -21,7 +21,7 @@
         "@crystallize/js-api-client": "^1.1",
         "@crystallize/js-storefrontaware-utils": "^0.2.3",
         "@crystallize/node-service-api-request-handlers": "^3.2.0",
-        "@crystallize/reactjs-components": "^1.1",
+        "@crystallize/reactjs-components": "^1.2",
         "@crystallize/reactjs-hooks": "^0.7.1",
         "@react-pdf/renderer": "^3",
         "@rehooks/local-storage": "^2.4.4",

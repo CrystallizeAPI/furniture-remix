@@ -22,6 +22,8 @@ export function TenantLogo({ identifier, logo }: { identifier: string; logo: any
             sizes="150px"
             alt={identifier + ` logo`}
             className="w-auto h-full"
+            width={170}
+            height={30}
             style={{
                 width: 'auto',
                 height: '100%',

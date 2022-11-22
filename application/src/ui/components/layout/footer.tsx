@@ -32,7 +32,13 @@ export const Footer: React.FC<{
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <Image {...socialLink.logo?.[0]} sizes="100px" fallbackAlt={socialLink.url} />
+                                        <Image
+                                            {...socialLink.logo?.[0]}
+                                            sizes="100px"
+                                            fallbackAlt={socialLink.url}
+                                            width={23}
+                                            height={23}
+                                        />
                                     </a>
                                 ))}
                             </div>

@@ -97,14 +97,13 @@ export const RazorPay: React.FC = () => {
                 } catch (exception) {
                     console.log(exception);
                 }
-
                 const razorpayJS = document.createElement('script');
                 razorpayJS.src = 'https://checkout.razorpay.com/v1/checkout.js';
-
                 document.head.appendChild(razorpayJS);
+                triggerRazorpay();
             }
         })();
     }, [cart.items]);
 
-    return <RazorPayButton onClick={triggerRazorpay} />;
+    return <RazorPayButton />;
 };

@@ -169,9 +169,7 @@
                                 "config": {
                                     "min": 1,
                                     "max": 1,
-                                    "acceptedShapeIdentifiers": [
-                                        "tile"
-                                    ]
+                                    "acceptedShapeIdentifiers": ["tile"]
                                 }
                             },
                             {
@@ -271,9 +269,7 @@
                                 "config": {
                                     "min": 1,
                                     "max": null,
-                                    "acceptedShapeIdentifiers": [
-                                        "product"
-                                    ]
+                                    "acceptedShapeIdentifiers": ["product"]
                                 }
                             },
                             {
@@ -283,9 +279,7 @@
                                 "type": "numeric",
                                 "config": {
                                     "decimalPlaces": 0,
-                                    "units": [
-                                        "%"
-                                    ]
+                                    "units": ["%"]
                                 }
                             },
                             {
@@ -295,9 +289,7 @@
                                 "type": "numeric",
                                 "config": {
                                     "decimalPlaces": 0,
-                                    "units": [
-                                        "%"
-                                    ]
+                                    "units": ["%"]
                                 }
                             }
                         ]
@@ -318,9 +310,7 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": [
-                            "curated-product-story"
-                        ]
+                        "acceptedShapeIdentifiers": ["curated-product-story"]
                     }
                 },
                 {
@@ -392,9 +382,7 @@
                                 "config": {
                                     "min": 0,
                                     "max": 1,
-                                    "acceptedShapeIdentifiers": [
-                                        "tile"
-                                    ]
+                                    "acceptedShapeIdentifiers": ["tile"]
                                 }
                             },
                             {
@@ -546,10 +534,7 @@
                                 "type": "numeric",
                                 "config": {
                                     "decimalPlaces": 2,
-                                    "units": [
-                                        "mm",
-                                        "cm"
-                                    ]
+                                    "units": ["mm", "cm"]
                                 }
                             },
                             {
@@ -559,10 +544,7 @@
                                 "type": "numeric",
                                 "config": {
                                     "decimalPlaces": 2,
-                                    "units": [
-                                        "mm",
-                                        "cm"
-                                    ]
+                                    "units": ["mm", "cm"]
                                 }
                             },
                             {
@@ -572,10 +554,7 @@
                                 "type": "numeric",
                                 "config": {
                                     "decimalPlaces": 2,
-                                    "units": [
-                                        "mm",
-                                        "cm"
-                                    ]
+                                    "units": ["mm", "cm"]
                                 }
                             },
                             {
@@ -585,10 +564,7 @@
                                 "type": "numeric",
                                 "config": {
                                     "decimalPlaces": 2,
-                                    "units": [
-                                        "g",
-                                        "kg"
-                                    ]
+                                    "units": ["g", "kg"]
                                 }
                             }
                         ]
@@ -763,10 +739,7 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": [
-                            "curated-product-story",
-                            "story"
-                        ]
+                        "acceptedShapeIdentifiers": ["curated-product-story", "story"]
                     }
                 },
                 {
@@ -777,9 +750,7 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": [
-                            "product"
-                        ]
+                        "acceptedShapeIdentifiers": ["product"]
                     }
                 },
                 {
@@ -882,10 +853,7 @@
                                 "config": {
                                     "min": 1,
                                     "max": null,
-                                    "acceptedShapeIdentifiers": [
-                                        "product",
-                                        "story"
-                                    ]
+                                    "acceptedShapeIdentifiers": ["product", "story"]
                                 }
                             },
                             {
@@ -970,24 +938,15 @@
                                 "config": {
                                     "sections": [
                                         {
-                                            "keys": [
-                                                "Size",
-                                                "Color"
-                                            ],
+                                            "keys": ["Size", "Color"],
                                             "title": "Font"
                                         },
                                         {
-                                            "keys": [
-                                                "Color"
-                                            ],
+                                            "keys": ["Color"],
                                             "title": "Background"
                                         },
                                         {
-                                            "keys": [
-                                                "Color",
-                                                "Background Color",
-                                                "Font Size"
-                                            ],
+                                            "keys": ["Color", "Background Color", "Font Size"],
                                             "title": "Button"
                                         }
                                     ]
@@ -4026,9 +3985,7 @@
                                 ]
                             }
                         },
-                        "view": [
-                            "Banner"
-                        ],
+                        "view": ["Banner"],
                         "content": {
                             "images": [
                                 {
@@ -4126,9 +4083,7 @@
                                 ]
                             }
                         },
-                        "view": [
-                            "Banner"
-                        ],
+                        "view": ["Banner"],
                         "content": {
                             "images": [
                                 {
@@ -4217,9 +4172,7 @@
                                 ]
                             }
                         },
-                        "view": [
-                            "Slider"
-                        ],
+                        "view": ["Slider"],
                         "content": {
                             "items": [
                                 {

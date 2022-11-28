@@ -7,7 +7,7 @@ export type Footer = {
     copyright: string;
     socialLinks: Array<{
         logo: Array<Image>;
-        url: string;
+        link: string;
     }>;
     promotions: {
         heading: string;

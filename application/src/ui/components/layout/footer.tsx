@@ -24,24 +24,26 @@ export const Footer: React.FC<{
                             <div>
                                 <ContentTransformer json={footer.contact.json} />
                             </div>
-                            <div className="flex gap-2 items-center">
-                                {footer.socialLinks.map((socialLink, index) => (
-                                    <a
-                                        key={socialLink.url + index}
-                                        href={socialLink.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <Image
-                                            {...socialLink.logo?.[0]}
-                                            sizes="100px"
-                                            fallbackAlt={socialLink.url}
-                                            width={23}
-                                            height={23}
-                                        />
-                                    </a>
-                                ))}
-                            </div>
+                            {footer.socialLinks && (
+                                <div className="flex gap-2 items-center">
+                                    {footer.socialLinks.map((socialLink, index) => (
+                                        <a
+                                            key={socialLink.link + index}
+                                            href={socialLink.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Image
+                                                {...socialLink.logo?.[0]}
+                                                sizes="100px"
+                                                fallbackAlt={socialLink.link}
+                                                width={23}
+                                                height={23}
+                                            />
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                         <div className="footer-links">
                             <ContentTransformer json={footer.links.json} />

@@ -39,7 +39,7 @@ export default (data: any): Footer => {
                 const logo = socialLink.find((c: any) => c.id === 'logo')?.content;
                 return {
                     logo: mapper.API.Object.APIImageToImage(logo.images),
-                    url: stringForSingleLineComponentWithId(socialLink, 'url') || '',
+                    link: stringForSingleLineComponentWithId(socialLink, 'link') || '',
                 };
             }) || [],
         promotions: {

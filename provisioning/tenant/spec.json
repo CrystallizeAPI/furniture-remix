@@ -136,58 +136,59 @@
     ],
     "shapes": [
         {
-            "identifier": "category",
             "name": "Category",
+            "id": "category",
+            "identifier": "category",
             "type": "folder",
             "components": [
                 {
                     "id": "title",
                     "name": "Title",
-                    "description": null,
                     "type": "singleLine",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "intro",
                     "name": "Intro",
-                    "description": "",
                     "type": "richText",
+                    "description": "",
                     "config": null
                 },
                 {
                     "id": "hero-content",
                     "name": "Hero content",
-                    "description": null,
                     "type": "componentChoice",
+                    "description": null,
                     "config": {
                         "choices": [
                             {
                                 "id": "tile",
                                 "name": "Tile",
-                                "description": "",
                                 "type": "itemRelations",
+                                "description": "",
                                 "config": {
+                                    "acceptedShapeIdentifiers": ["tile"],
                                     "min": 1,
-                                    "max": 1,
-                                    "acceptedShapeIdentifiers": ["tile"]
+                                    "max": 1
                                 }
                             },
                             {
                                 "id": "tile-stack",
                                 "name": "Tile stack",
-                                "description": "",
                                 "type": "itemRelations",
+                                "description": "",
                                 "config": {
+                                    "acceptedShapeIdentifiers": null,
                                     "min": 0,
-                                    "max": null,
-                                    "acceptedShapeIdentifiers": null
+                                    "max": null
                                 }
                             },
                             {
                                 "id": "grid",
                                 "name": "Grid",
-                                "description": "",
                                 "type": "gridRelations",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -196,30 +197,30 @@
                 {
                     "id": "meta",
                     "name": "Meta",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -228,55 +229,56 @@
             ]
         },
         {
-            "identifier": "curated-product-story",
             "name": "Curated product story",
+            "id": "curated-product-story",
+            "identifier": "curated-product-story",
             "type": "document",
             "components": [
                 {
                     "id": "title",
                     "name": "Title",
-                    "description": null,
                     "type": "singleLine",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "description",
                     "name": "Description",
-                    "description": null,
                     "type": "richText",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "shoppable-image",
                     "name": "Shoppable image",
-                    "description": null,
                     "type": "images",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "merchandising",
                     "name": "Merchandising",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": true,
                         "components": [
                             {
                                 "id": "products",
                                 "name": "Products",
-                                "description": "Merchandise images",
                                 "type": "itemRelations",
+                                "description": "Merchandise images",
                                 "config": {
+                                    "acceptedShapeIdentifiers": ["product"],
                                     "min": 1,
-                                    "max": null,
-                                    "acceptedShapeIdentifiers": ["product"]
+                                    "max": null
                                 }
                             },
                             {
                                 "id": "hotspot-x",
                                 "name": "Hotspot x",
-                                "description": "",
                                 "type": "numeric",
+                                "description": "",
                                 "config": {
                                     "decimalPlaces": 0,
                                     "units": ["%"]
@@ -285,8 +287,8 @@
                             {
                                 "id": "hotspot-y",
                                 "name": "Hotspot y",
-                                "description": "",
                                 "type": "numeric",
+                                "description": "",
                                 "config": {
                                     "decimalPlaces": 0,
                                     "units": ["%"]
@@ -298,48 +300,48 @@
                 {
                     "id": "story",
                     "name": "Story",
-                    "description": null,
                     "type": "paragraphCollection",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "up-next",
                     "name": "Up next",
-                    "description": "",
                     "type": "itemRelations",
+                    "description": "",
                     "config": {
+                        "acceptedShapeIdentifiers": ["curated-product-story"],
                         "min": 0,
-                        "max": null,
-                        "acceptedShapeIdentifiers": ["curated-product-story"]
+                        "max": null
                     }
                 },
                 {
                     "id": "meta",
                     "name": "Meta",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -348,59 +350,60 @@
             ]
         },
         {
-            "identifier": "folder",
             "name": "Folder",
+            "id": "folder",
+            "identifier": "folder",
             "type": "folder",
             "components": [
                 {
                     "id": "intro",
                     "name": "Intro",
-                    "description": "",
                     "type": "richText",
+                    "description": "",
                     "config": null
                 },
                 {
                     "id": "story",
                     "name": "Story",
-                    "description": "",
                     "type": "paragraphCollection",
+                    "description": "",
                     "config": null
                 },
                 {
                     "id": "hero-content",
                     "name": "Hero content",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "tile",
                                 "name": "Tile",
-                                "description": "",
                                 "type": "itemRelations",
+                                "description": "",
                                 "config": {
+                                    "acceptedShapeIdentifiers": ["tile"],
                                     "min": 0,
-                                    "max": 1,
-                                    "acceptedShapeIdentifiers": ["tile"]
+                                    "max": 1
                                 }
                             },
                             {
                                 "id": "tile-stack",
                                 "name": "Tile stack",
-                                "description": "",
                                 "type": "itemRelations",
+                                "description": "",
                                 "config": {
+                                    "acceptedShapeIdentifiers": null,
                                     "min": 0,
-                                    "max": null,
-                                    "acceptedShapeIdentifiers": null
+                                    "max": null
                                 }
                             },
                             {
                                 "id": "grid",
                                 "name": "Grid",
-                                "description": "",
                                 "type": "gridRelations",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -409,30 +412,30 @@
                 {
                     "id": "meta",
                     "name": "Meta",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -441,44 +444,145 @@
             ]
         },
         {
-            "identifier": "landing-page",
+            "name": "Footer",
+            "id": "footer",
+            "identifier": "footer",
+            "type": "document",
+            "components": [
+                {
+                    "id": "social",
+                    "name": "Social links",
+                    "type": "contentChunk",
+                    "description": null,
+                    "config": {
+                        "repeatable": true,
+                        "components": [
+                            {
+                                "id": "logo",
+                                "name": "Logo",
+                                "type": "images",
+                                "description": "",
+                                "config": null
+                            },
+                            {
+                                "id": "url",
+                                "name": "Url (Deprecated)",
+                                "type": "singleLine",
+                                "description": "",
+                                "config": null
+                            },
+                            {
+                                "id": "link",
+                                "name": "Link",
+                                "type": "singleLine",
+                                "description": "",
+                                "config": null
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "promotion-section-heading",
+                    "name": "Promotion section heading",
+                    "type": "singleLine",
+                    "description": "",
+                    "config": null
+                },
+                {
+                    "id": "promotion-cards",
+                    "name": "Promotion cards",
+                    "type": "contentChunk",
+                    "description": null,
+                    "config": {
+                        "repeatable": true,
+                        "components": [
+                            {
+                                "id": "title",
+                                "name": "Title",
+                                "type": "singleLine",
+                                "description": "",
+                                "config": null
+                            },
+                            {
+                                "id": "image",
+                                "name": "Image",
+                                "type": "images",
+                                "description": "",
+                                "config": null
+                            },
+                            {
+                                "id": "link",
+                                "name": "Link",
+                                "type": "singleLine",
+                                "description": "",
+                                "config": null
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "copyright",
+                    "name": "Copyright",
+                    "type": "singleLine",
+                    "description": "",
+                    "config": null
+                },
+                {
+                    "id": "contact-information",
+                    "name": "Contact information",
+                    "type": "richText",
+                    "description": "",
+                    "config": null
+                },
+                {
+                    "id": "links",
+                    "name": "Links",
+                    "type": "richText",
+                    "description": "",
+                    "config": null
+                }
+            ]
+        },
+        {
             "name": "Landing page",
+            "id": "landing-page",
+            "identifier": "landing-page",
             "type": "document",
             "components": [
                 {
                     "id": "grid",
                     "name": "Grid",
-                    "description": null,
                     "type": "gridRelations",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "meta",
                     "name": "Meta",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -487,51 +591,52 @@
             ]
         },
         {
-            "identifier": "product",
             "name": "Product",
+            "id": "product",
+            "identifier": "product",
             "type": "product",
             "components": [
                 {
                     "id": "title",
                     "name": "Title",
-                    "description": null,
                     "type": "singleLine",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "description",
                     "name": "Description",
-                    "description": null,
                     "type": "richText",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "story",
                     "name": "Story",
-                    "description": null,
                     "type": "paragraphCollection",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "properties",
                     "name": "Properties",
-                    "description": null,
                     "type": "propertiesTable",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "dimensions",
                     "name": "Dimensions",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": true,
                         "components": [
                             {
                                 "id": "width",
                                 "name": "Width",
-                                "description": "",
                                 "type": "numeric",
+                                "description": "",
                                 "config": {
                                     "decimalPlaces": 2,
                                     "units": ["mm", "cm"]
@@ -540,8 +645,8 @@
                             {
                                 "id": "height",
                                 "name": "Height",
-                                "description": "",
                                 "type": "numeric",
+                                "description": "",
                                 "config": {
                                     "decimalPlaces": 2,
                                     "units": ["mm", "cm"]
@@ -550,8 +655,8 @@
                             {
                                 "id": "depth",
                                 "name": "Depth",
-                                "description": "",
                                 "type": "numeric",
+                                "description": "",
                                 "config": {
                                     "decimalPlaces": 2,
                                     "units": ["mm", "cm"]
@@ -560,8 +665,8 @@
                             {
                                 "id": "weight",
                                 "name": "Weight",
-                                "description": "",
                                 "type": "numeric",
+                                "description": "",
                                 "config": {
                                     "decimalPlaces": 2,
                                     "units": ["g", "kg"]
@@ -573,45 +678,45 @@
                 {
                     "id": "related-items",
                     "name": "Related items",
-                    "description": null,
                     "type": "itemRelations",
+                    "description": null,
                     "config": {
+                        "acceptedShapeIdentifiers": null,
                         "min": 0,
-                        "max": null,
-                        "acceptedShapeIdentifiers": null
+                        "max": null
                     }
                 },
                 {
                     "id": "downloads",
                     "name": "Downloads",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": true,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "files",
                                 "name": "Files",
-                                "description": "",
                                 "type": "files",
+                                "description": "",
                                 "config": {
+                                    "acceptedContentTypes": [],
                                     "min": 0,
                                     "max": null,
-                                    "acceptedContentTypes": [],
                                     "maxFileSize": {
                                         "size": 50,
                                         "unit": "MiB"
@@ -624,56 +729,30 @@
                 {
                     "id": "meta",
                     "name": "Meta",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
-                                "config": null
-                            }
-                        ]
-                    }
-                }
-            ],
-            "variantComponents": [
-                {
-                    "id": "description",
-                    "name": "Description",
-                    "description": null,
-                    "type": "componentChoice",
-                    "config": {
-                        "choices": [
-                            {
-                                "id": "extra",
-                                "name": "Extra Description",
                                 "description": "",
-                                "type": "richText",
-                                "config": null
-                            },
-                            {
-                                "id": "alternative",
-                                "name": "Alternative Description",
-                                "description": "",
-                                "type": "richText",
                                 "config": null
                             }
                         ]
@@ -682,43 +761,44 @@
             ]
         },
         {
-            "identifier": "story",
             "name": "Story",
+            "id": "story",
+            "identifier": "story",
             "type": "document",
             "components": [
                 {
                     "id": "title",
                     "name": "Title",
-                    "description": "",
                     "type": "singleLine",
+                    "description": "",
                     "config": null
                 },
                 {
                     "id": "intro",
                     "name": "Intro",
-                    "description": "",
                     "type": "richText",
+                    "description": "",
                     "config": null
                 },
                 {
                     "id": "media",
                     "name": "Media",
-                    "description": null,
                     "type": "componentChoice",
+                    "description": null,
                     "config": {
                         "choices": [
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "video",
                                 "name": "Video",
-                                "description": "",
                                 "type": "videos",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -727,59 +807,59 @@
                 {
                     "id": "story",
                     "name": "Story",
-                    "description": "",
                     "type": "paragraphCollection",
+                    "description": "",
                     "config": null
                 },
                 {
                     "id": "up-next",
                     "name": "Up next",
-                    "description": "",
                     "type": "itemRelations",
+                    "description": "",
                     "config": {
+                        "acceptedShapeIdentifiers": ["curated-product-story", "story"],
                         "min": 0,
-                        "max": null,
-                        "acceptedShapeIdentifiers": ["curated-product-story", "story"]
+                        "max": null
                     }
                 },
                 {
                     "id": "featured",
                     "name": "Featured",
-                    "description": "",
                     "type": "itemRelations",
+                    "description": "",
                     "config": {
+                        "acceptedShapeIdentifiers": ["product"],
                         "min": 0,
-                        "max": null,
-                        "acceptedShapeIdentifiers": ["product"]
+                        "max": null
                     }
                 },
                 {
                     "id": "meta",
                     "name": "Meta",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "title",
                                 "name": "Title",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "description",
                                 "name": "Description",
-                                "description": "",
                                 "type": "richText",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "image",
                                 "name": "Image",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -788,52 +868,53 @@
             ]
         },
         {
-            "identifier": "tile",
             "name": "Tile",
+            "id": "tile",
+            "identifier": "tile",
             "type": "document",
             "components": [
                 {
                     "id": "title",
                     "name": "Title",
-                    "description": null,
                     "type": "singleLine",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "description",
                     "name": "Description",
-                    "description": null,
                     "type": "richText",
+                    "description": null,
                     "config": null
                 },
                 {
                     "id": "view",
                     "name": "View",
-                    "description": null,
                     "type": "selection",
+                    "description": null,
                     "config": {
                         "min": 1,
                         "max": 1,
                         "options": [
                             {
-                                "isPreselected": false,
                                 "key": "Embed",
-                                "value": "embed"
+                                "value": "embed",
+                                "isPreselected": false
                             },
                             {
-                                "isPreselected": false,
                                 "key": "Slider",
-                                "value": "slider"
+                                "value": "slider",
+                                "isPreselected": false
                             },
                             {
-                                "isPreselected": false,
                                 "key": "Banner",
-                                "value": "banner"
+                                "value": "banner",
+                                "isPreselected": false
                             },
                             {
-                                "isPreselected": false,
                                 "key": "Hero Slider",
-                                "value": "heroslider"
+                                "value": "heroslider",
+                                "isPreselected": false
                             }
                         ]
                     }
@@ -841,33 +922,33 @@
                 {
                     "id": "content",
                     "name": "Content",
-                    "description": null,
                     "type": "componentChoice",
+                    "description": null,
                     "config": {
                         "choices": [
                             {
                                 "id": "items",
                                 "name": "Items",
-                                "description": "",
                                 "type": "itemRelations",
+                                "description": "",
                                 "config": {
+                                    "acceptedShapeIdentifiers": ["product", "story"],
                                     "min": 1,
-                                    "max": null,
-                                    "acceptedShapeIdentifiers": ["product", "story"]
+                                    "max": null
                                 }
                             },
                             {
                                 "id": "images",
                                 "name": "Images",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "videos",
                                 "name": "Videos",
-                                "description": "",
                                 "type": "videos",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -876,23 +957,23 @@
                 {
                     "id": "ctas",
                     "name": "Call to Actions",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": true,
                         "components": [
                             {
                                 "id": "text",
                                 "name": "Text",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "link",
                                 "name": "Link",
-                                "description": "",
                                 "type": "singleLine",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -901,22 +982,22 @@
                 {
                     "id": "background",
                     "name": "Background",
-                    "description": null,
                     "type": "componentChoice",
+                    "description": null,
                     "config": {
                         "choices": [
                             {
                                 "id": "images",
                                 "name": "Images",
-                                "description": "",
                                 "type": "images",
+                                "description": "",
                                 "config": null
                             },
                             {
                                 "id": "videos",
                                 "name": "Videos",
-                                "description": "",
                                 "type": "videos",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -925,29 +1006,29 @@
                 {
                     "id": "styling",
                     "name": "Styling",
-                    "description": null,
                     "type": "contentChunk",
+                    "description": null,
                     "config": {
                         "repeatable": false,
                         "components": [
                             {
                                 "id": "properties",
                                 "name": "Properties",
-                                "description": "",
                                 "type": "propertiesTable",
+                                "description": "",
                                 "config": {
                                     "sections": [
                                         {
-                                            "keys": ["Size", "Color"],
-                                            "title": "Font"
+                                            "title": "Font",
+                                            "keys": ["Size", "Color"]
                                         },
                                         {
-                                            "keys": ["Color"],
-                                            "title": "Background"
+                                            "title": "Background",
+                                            "keys": ["Color"]
                                         },
                                         {
-                                            "keys": ["Color", "Background Color", "Font Size"],
-                                            "title": "Button"
+                                            "title": "Button",
+                                            "keys": ["Color", "Background Color", "Font Size"]
                                         }
                                     ]
                                 }
@@ -955,8 +1036,8 @@
                             {
                                 "id": "use-full-width",
                                 "name": "Use full width",
-                                "description": "",
                                 "type": "boolean",
+                                "description": "",
                                 "config": null
                             }
                         ]
@@ -968,10 +1049,7 @@
     "grids": [
         {
             "id": "62eb85fe991ff6b884701b6e",
-            "name": {
-                "en": "Frontpage",
-                "no": null
-            },
+            "name": "Frontpage",
             "rows": [
                 {
                     "columns": [
@@ -981,7 +1059,7 @@
                                 "colspan": 3
                             },
                             "item": {
-                                "externalReference": "crystallize-spec-ref-62eb861b0998fb8fbebd8dbd"
+                                "cataloguePath": "/tiles/big-sale"
                             }
                         }
                     ]
@@ -994,7 +1072,7 @@
                                 "colspan": 3
                             },
                             "item": {
-                                "externalReference": "crystallize-spec-ref-62eb861a0998fb8fbebd8dbb"
+                                "cataloguePath": "/tiles/productive"
                             }
                         }
                     ]
@@ -1007,7 +1085,7 @@
                                 "colspan": 1
                             },
                             "item": {
-                                "externalReference": "crystallize-spec-ref-62eb861af050cc86e5dedcf6"
+                                "cataloguePath": "/tiles/plants"
                             }
                         },
                         {
@@ -1016,7 +1094,7 @@
                                 "colspan": 1
                             },
                             "item": {
-                                "externalReference": "crystallize-spec-ref-62f259178430a062e3a6706d"
+                                "cataloguePath": "/stories/japandi-design"
                             }
                         },
                         {
@@ -1025,7 +1103,7 @@
                                 "colspan": 1
                             },
                             "item": {
-                                "externalReference": "crystallize-spec-ref-62eb8618991ff6b884701b94"
+                                "cataloguePath": "/stories/dark-colors-in-2022"
                             }
                         }
                     ]
@@ -1034,10 +1112,7 @@
         },
         {
             "id": "62f262b28430a062e3a67071",
-            "name": {
-                "en": "Shop",
-                "no": null
-            },
+            "name": "Shop",
             "rows": [
                 {
                     "columns": [
@@ -1047,7 +1122,7 @@
                                 "colspan": 3
                             },
                             "item": {
-                                "externalReference": "crystallize-spec-ref-62eb861b0998fb8fbebd8dbd"
+                                "cataloguePath": "/tiles/big-sale"
                             }
                         }
                     ]
@@ -1058,10 +1133,286 @@
     "items": [
         {
             "name": {
+                "en": "Footer"
+            },
+            "cataloguePath": "/footer",
+            "externalReference": null,
+            "shape": "footer",
+            "components": {
+                "social": [
+                    {
+                        "logo": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/1/twitter.svg",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "url": {
+                            "en": "https://twitter.com/CrystallizeAPI"
+                        },
+                        "link": {
+                            "en": "https://twitter.com/CrystallizeAPI"
+                        }
+                    },
+                    {
+                        "logo": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/2/instagram.svg",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "url": {
+                            "en": "https://www.instagram.com/crystallizeapi"
+                        },
+                        "link": {
+                            "en": "https://www.instagram.com/crystallizeapi"
+                        }
+                    },
+                    {
+                        "logo": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/3/youtube.svg",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "url": {
+                            "en": "https://www.youtube.com/c/Crystallize"
+                        },
+                        "link": {
+                            "en": "https://www.youtube.com/c/Crystallize"
+                        }
+                    }
+                ],
+                "promotion-section-heading": {
+                    "en": "Promotions? All year round, every months every day, its just happening all the time!!!!"
+                },
+                "promotion-cards": [
+                    {
+                        "title": {
+                            "en": "This is the thing whenever this is happening"
+                        },
+                        "image": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/4/unicorn.png",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {
+                            "en": "/"
+                        }
+                    },
+                    {
+                        "title": {
+                            "en": "This is the thing whenever this is happening"
+                        },
+                        "image": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/5/kiwi-bird.png",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {
+                            "en": "/"
+                        }
+                    },
+                    {
+                        "title": {
+                            "en": "This is the thing whenever this is happening"
+                        },
+                        "image": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/6/unicorn.png",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {
+                            "en": "/"
+                        }
+                    }
+                ],
+                "copyright": {
+                    "en": "Copyright by FRTNR @ 2022"
+                },
+                "contact-information": {
+                    "en": {
+                        "json": [
+                            {
+                                "kind": "block",
+                                "type": "paragraph",
+                                "metadata": {},
+                                "children": [
+                                    {
+                                        "kind": "inline",
+                                        "metadata": {},
+                                        "textContent": "hello@frntr.com"
+                                    }
+                                ]
+                            },
+                            {
+                                "kind": "block",
+                                "type": "paragraph",
+                                "metadata": {},
+                                "children": [
+                                    {
+                                        "kind": "inline",
+                                        "metadata": {},
+                                        "textContent": "+381642247467"
+                                    }
+                                ]
+                            },
+                            {
+                                "kind": "block",
+                                "type": "paragraph",
+                                "metadata": {},
+                                "children": [
+                                    {
+                                        "kind": "inline",
+                                        "metadata": {},
+                                        "textContent": "Main st. 10, EAC2CQ, London"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "links": {
+                    "en": {
+                        "json": [
+                            {
+                                "kind": "block",
+                                "metadata": {},
+                                "type": "unordered-list",
+                                "children": [
+                                    {
+                                        "kind": "block",
+                                        "type": "list-item",
+                                        "metadata": {},
+                                        "children": [
+                                            {
+                                                "kind": "inline",
+                                                "metadata": {},
+                                                "textContent": "About us"
+                                            },
+                                            {
+                                                "kind": "block",
+                                                "metadata": {},
+                                                "type": "unordered-list",
+                                                "children": [
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Blog"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "kind": "block",
+                                        "type": "list-item",
+                                        "metadata": {},
+                                        "children": [
+                                            {
+                                                "kind": "inline",
+                                                "metadata": {},
+                                                "textContent": "Shop"
+                                            },
+                                            {
+                                                "kind": "block",
+                                                "metadata": {},
+                                                "type": "unordered-list",
+                                                "children": [
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Plants"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Kitchen"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Wallart"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "topics": null
+        },
+        {
+            "name": {
                 "en": "Shop"
             },
             "cataloguePath": "/shop",
-            "externalReference": "crystallize-spec-ref-62eb85ff991ff6b884701b70",
+            "externalReference": null,
             "shape": "category",
             "components": {
                 "title": {
@@ -1121,7 +1472,7 @@
                         "en": "Kitchen"
                     },
                     "cataloguePath": "/shop/kitchen",
-                    "externalReference": "crystallize-spec-ref-62eb85fff050cc86e5dedce6",
+                    "externalReference": null,
                     "shape": "category",
                     "components": {
                         "title": {
@@ -1203,7 +1554,7 @@
                                 "en": "Dream Pid"
                             },
                             "cataloguePath": "/shop/kitchen/dream-pid",
-                            "externalReference": "crystallize-spec-ref-62eb8617991ff6b884701b8c",
+                            "externalReference": null,
                             "shape": "product",
                             "components": {
                                 "title": {
@@ -1238,7 +1589,8 @@
                                 ],
                                 "related-items": [
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860ff050cc86e5dedcee"
+                                        "cataloguePath": "/shop/kitchen/baby-t-coffee-machine",
+                                        "externalReference": null
                                     }
                                 ],
                                 "downloads": [],
@@ -1365,8 +1717,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -1476,8 +1827,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -1587,8 +1937,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -1698,8 +2047,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -1809,8 +2157,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -1897,8 +2244,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -2008,8 +2354,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 }
                             ]
                         },
@@ -2018,7 +2363,7 @@
                                 "en": "Baby T Coffee Machine"
                             },
                             "cataloguePath": "/shop/kitchen/baby-t-coffee-machine",
-                            "externalReference": "crystallize-spec-ref-62eb860ff050cc86e5dedcee",
+                            "externalReference": null,
                             "shape": "product",
                             "components": {
                                 "title": {
@@ -2155,8 +2500,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -2198,8 +2542,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -2241,8 +2584,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -2284,8 +2626,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -2327,8 +2668,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -2370,8 +2710,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 }
                             ]
                         }
@@ -2382,7 +2721,7 @@
                         "en": "Plants"
                     },
                     "cataloguePath": "/shop/plants",
-                    "externalReference": "crystallize-spec-ref-62eb8601f050cc86e5dedce8",
+                    "externalReference": null,
                     "shape": "category",
                     "components": {
                         "title": {
@@ -2446,222 +2785,10 @@
                     "children": [
                         {
                             "name": {
-                                "en": "Monstera Deliciosa"
-                            },
-                            "cataloguePath": "/shop/plants/monstera-deliciosa",
-                            "externalReference": "crystallize-spec-ref-62eb860c0033f6ad3e7c12e3",
-                            "shape": "product",
-                            "components": {
-                                "title": {
-                                    "en": "Monstera Deliciosa"
-                                },
-                                "description": {
-                                    "en": {
-                                        "json": [
-                                            {
-                                                "kind": "block",
-                                                "type": "paragraph",
-                                                "metadata": {},
-                                                "children": [
-                                                    {
-                                                        "kind": "inline",
-                                                        "metadata": {},
-                                                        "textContent": "One of the most trendy plants of 2020, the "
-                                                    },
-                                                    {
-                                                        "kind": "inline",
-                                                        "metadata": {},
-                                                        "textContent": "Monstera Deliciosa",
-                                                        "type": "emphasized"
-                                                    },
-                                                    {
-                                                        "kind": "inline",
-                                                        "metadata": {},
-                                                        "textContent": " is one of the most precious houseplants of the decade. It has become a recommended choice for its balance between beautiful look and easy maintenance."
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                },
-                                "story": [],
-                                "dimensions": [],
-                                "downloads": [],
-                                "meta": [
-                                    {
-                                        "title": {
-                                            "en": "Monstera Deliciosa"
-                                        },
-                                        "description": {
-                                            "en": {
-                                                "json": [
-                                                    {
-                                                        "kind": "block",
-                                                        "type": "paragraph",
-                                                        "metadata": {},
-                                                        "children": [
-                                                            {
-                                                                "kind": "inline",
-                                                                "metadata": {},
-                                                                "textContent": "One of the most trendy plants of 2020, the "
-                                                            },
-                                                            {
-                                                                "kind": "inline",
-                                                                "metadata": {},
-                                                                "textContent": "Monstera Deliciosa",
-                                                                "type": "emphasized"
-                                                            },
-                                                            {
-                                                                "kind": "inline",
-                                                                "metadata": {},
-                                                                "textContent": " is one of the most precious houseplants of the decade. It has become a recommended choice for its balance between beautiful look and easy maintenance."
-                                                            }
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "image": [
-                                            {
-                                                "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/10/monstera-deliciosa-white-pot.jpg",
-                                                "altText": {
-                                                    "en": ""
-                                                },
-                                                "caption": {
-                                                    "en": {
-                                                        "json": [
-                                                            {
-                                                                "kind": "block",
-                                                                "type": "paragraph",
-                                                                "children": [
-                                                                    {
-                                                                        "kind": "inline",
-                                                                        "type": "span",
-                                                                        "textContent": ""
-                                                                    }
-                                                                ]
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            "topics": [
-                                {
-                                    "path": "/room/livingroom"
-                                }
-                            ],
-                            "vatType": "No Tax",
-                            "variants": [
-                                {
-                                    "name": {
-                                        "en": "Monstera Deliciosa Small"
-                                    },
-                                    "sku": "monstera-deliciosa-1651759257267",
-                                    "price": {
-                                        "default": 18,
-                                        "sales": 17
-                                    },
-                                    "isDefault": true,
-                                    "attributes": {
-                                        "Size": "Small"
-                                    },
-                                    "externalReference": null,
-                                    "stock": 20,
-                                    "images": [
-                                        {
-                                            "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/79/monstera-small.jpg",
-                                            "altText": {
-                                                "en": "Monstera small"
-                                            },
-                                            "caption": {
-                                                "en": null
-                                            }
-                                        }
-                                    ],
-                                    "components": {}
-                                },
-                                {
-                                    "name": {
-                                        "en": "Monstera Deliciosa Medium"
-                                    },
-                                    "sku": "monstera-deliciosa-1651759336775",
-                                    "price": {
-                                        "default": 24,
-                                        "sales": 20
-                                    },
-                                    "isDefault": false,
-                                    "attributes": {
-                                        "Size": "Medium"
-                                    },
-                                    "externalReference": null,
-                                    "stock": 21,
-                                    "images": [
-                                        {
-                                            "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/80/monstera-medium.jpg",
-                                            "altText": {
-                                                "en": null
-                                            },
-                                            "caption": {
-                                                "en": null
-                                            }
-                                        }
-                                    ],
-                                    "components": {}
-                                },
-                                {
-                                    "name": {
-                                        "en": "Monstera Deliciosa Large"
-                                    },
-                                    "sku": "monstera-deliciosa-1651759093826",
-                                    "price": {
-                                        "default": 35,
-                                        "sales": 30
-                                    },
-                                    "isDefault": false,
-                                    "attributes": {
-                                        "Size": "Large"
-                                    },
-                                    "externalReference": null,
-                                    "stock": 28,
-                                    "images": [
-                                        {
-                                            "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/39/monstera-deliciosa-white-pot.jpg",
-                                            "altText": {
-                                                "en": "Monstera deliciosa in white pot"
-                                            },
-                                            "caption": {
-                                                "en": {
-                                                    "json": [
-                                                        {
-                                                            "kind": "block",
-                                                            "type": "paragraph",
-                                                            "children": [
-                                                                {
-                                                                    "kind": "inline",
-                                                                    "type": "span",
-                                                                    "textContent": ""
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    ],
-                                    "components": {}
-                                }
-                            ]
-                        },
-                        {
-                            "name": {
                                 "en": "Alocasia"
                             },
                             "cataloguePath": "/shop/plants/alocasia",
-                            "externalReference": "crystallize-spec-ref-62eb860af050cc86e5dedceb",
+                            "externalReference": null,
                             "shape": "product",
                             "components": {
                                 "title": {
@@ -2872,19 +2999,22 @@
                                 ],
                                 "related-items": [
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860b991ff6b884701b75"
+                                        "cataloguePath": "/shop/plants/dracaena-fragrans",
+                                        "externalReference": null
                                     },
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860a0033f6ad3e7c12dd"
+                                        "cataloguePath": "/shop/plants/philodendron-birkin",
+                                        "externalReference": null
                                     },
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860c0033f6ad3e7c12e3"
+                                        "cataloguePath": "/shop/plants/monstera-deliciosa",
+                                        "externalReference": null
                                     },
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860b0033f6ad3e7c12e0"
+                                        "cataloguePath": "/shop/plants/dendrobium",
+                                        "externalReference": null
                                     }
                                 ],
-                                "downloads": [],
                                 "meta": [
                                     {
                                         "title": {
@@ -2982,8 +3112,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -3024,8 +3153,216 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": {
+                                "en": "Monstera Deliciosa"
+                            },
+                            "cataloguePath": "/shop/plants/monstera-deliciosa",
+                            "externalReference": null,
+                            "shape": "product",
+                            "components": {
+                                "title": {
+                                    "en": "Monstera Deliciosa"
+                                },
+                                "description": {
+                                    "en": {
+                                        "json": [
+                                            {
+                                                "kind": "block",
+                                                "type": "paragraph",
+                                                "metadata": {},
+                                                "children": [
+                                                    {
+                                                        "kind": "inline",
+                                                        "metadata": {},
+                                                        "textContent": "One of the most trendy plants of 2020, the "
+                                                    },
+                                                    {
+                                                        "kind": "inline",
+                                                        "metadata": {},
+                                                        "textContent": "Monstera Deliciosa",
+                                                        "type": "emphasized"
+                                                    },
+                                                    {
+                                                        "kind": "inline",
+                                                        "metadata": {},
+                                                        "textContent": " is one of the most precious houseplants of the decade. It has become a recommended choice for its balance between beautiful look and easy maintenance."
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "story": [],
+                                "dimensions": [],
+                                "downloads": [],
+                                "meta": [
+                                    {
+                                        "title": {
+                                            "en": "Monstera Deliciosa"
+                                        },
+                                        "description": {
+                                            "en": {
+                                                "json": [
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "paragraph",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "One of the most trendy plants of 2020, the "
+                                                            },
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Monstera Deliciosa",
+                                                                "type": "emphasized"
+                                                            },
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": " is one of the most precious houseplants of the decade. It has become a recommended choice for its balance between beautiful look and easy maintenance."
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "image": [
+                                            {
+                                                "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/10/monstera-deliciosa-white-pot.jpg",
+                                                "altText": {
+                                                    "en": ""
+                                                },
+                                                "caption": {
+                                                    "en": {
+                                                        "json": [
+                                                            {
+                                                                "kind": "block",
+                                                                "type": "paragraph",
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "inline",
+                                                                        "type": "span",
+                                                                        "textContent": ""
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "topics": [
+                                {
+                                    "path": "/room/livingroom"
+                                }
+                            ],
+                            "vatType": "No Tax",
+                            "variants": [
+                                {
+                                    "name": {
+                                        "en": "Monstera Deliciosa Small"
+                                    },
+                                    "sku": "monstera-deliciosa-1651759257267",
+                                    "price": {
+                                        "default": 18,
+                                        "sales": 17
+                                    },
+                                    "isDefault": true,
+                                    "attributes": {
+                                        "Size": "Small"
+                                    },
+                                    "externalReference": null,
+                                    "stock": 20,
+                                    "images": [
+                                        {
+                                            "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/79/monstera-small.jpg",
+                                            "altText": {
+                                                "en": "Monstera small"
+                                            },
+                                            "caption": {
+                                                "en": null
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": {
+                                        "en": "Monstera Deliciosa Medium"
+                                    },
+                                    "sku": "monstera-deliciosa-1651759336775",
+                                    "price": {
+                                        "default": 24,
+                                        "sales": 20
+                                    },
+                                    "isDefault": false,
+                                    "attributes": {
+                                        "Size": "Medium"
+                                    },
+                                    "externalReference": null,
+                                    "stock": 21,
+                                    "images": [
+                                        {
+                                            "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/80/monstera-medium.jpg",
+                                            "altText": {
+                                                "en": null
+                                            },
+                                            "caption": {
+                                                "en": null
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": {
+                                        "en": "Monstera Deliciosa Large"
+                                    },
+                                    "sku": "monstera-deliciosa-1651759093826",
+                                    "price": {
+                                        "default": 35,
+                                        "sales": 30
+                                    },
+                                    "isDefault": false,
+                                    "attributes": {
+                                        "Size": "Large"
+                                    },
+                                    "externalReference": null,
+                                    "stock": 28,
+                                    "images": [
+                                        {
+                                            "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/39/monstera-deliciosa-white-pot.jpg",
+                                            "altText": {
+                                                "en": "Monstera deliciosa in white pot"
+                                            },
+                                            "caption": {
+                                                "en": {
+                                                    "json": [
+                                                        {
+                                                            "kind": "block",
+                                                            "type": "paragraph",
+                                                            "children": [
+                                                                {
+                                                                    "kind": "inline",
+                                                                    "type": "span",
+                                                                    "textContent": ""
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -3034,7 +3371,7 @@
                                 "en": "Dracaena Fragrans"
                             },
                             "cataloguePath": "/shop/plants/dracaena-fragrans",
-                            "externalReference": "crystallize-spec-ref-62eb860b991ff6b884701b75",
+                            "externalReference": null,
                             "shape": "product",
                             "components": {
                                 "title": {
@@ -3059,7 +3396,6 @@
                                     }
                                 },
                                 "dimensions": [],
-                                "downloads": [],
                                 "meta": [
                                     {
                                         "title": {
@@ -3160,8 +3496,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -3202,8 +3537,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 }
                             ]
                         },
@@ -3212,7 +3546,7 @@
                                 "en": "Philodendron Birkin"
                             },
                             "cataloguePath": "/shop/plants/philodendron-birkin",
-                            "externalReference": "crystallize-spec-ref-62eb860a0033f6ad3e7c12dd",
+                            "externalReference": null,
                             "shape": "product",
                             "components": {
                                 "title": {
@@ -3341,8 +3675,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -3383,8 +3716,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 }
                             ]
                         },
@@ -3393,7 +3725,7 @@
                                 "en": "Dendrobium"
                             },
                             "cataloguePath": "/shop/plants/dendrobium",
-                            "externalReference": "crystallize-spec-ref-62eb860b0033f6ad3e7c12e0",
+                            "externalReference": null,
                             "shape": "product",
                             "components": {
                                 "title": {
@@ -3429,7 +3761,6 @@
                                     }
                                 },
                                 "dimensions": [],
-                                "downloads": [],
                                 "meta": [
                                     {
                                         "title": {
@@ -3538,8 +3869,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 },
                                 {
                                     "name": {
@@ -3580,8 +3910,7 @@
                                                 }
                                             }
                                         }
-                                    ],
-                                    "components": {}
+                                    ]
                                 }
                             ]
                         }
@@ -3594,7 +3923,7 @@
                 "en": "Stories"
             },
             "cataloguePath": "/stories",
-            "externalReference": "crystallize-spec-ref-62eb86170033f6ad3e7c12f3",
+            "externalReference": null,
             "shape": "category",
             "components": {
                 "title": {
@@ -3677,7 +4006,7 @@
                         "en": "Japandi Design"
                     },
                     "cataloguePath": "/stories/japandi-design",
-                    "externalReference": "crystallize-spec-ref-62f259178430a062e3a6706d",
+                    "externalReference": null,
                     "shape": "story",
                     "components": {
                         "title": {
@@ -3783,7 +4112,7 @@
                         "en": "Dark colors in 2022"
                     },
                     "cataloguePath": "/stories/dark-colors-in-2022",
-                    "externalReference": "crystallize-spec-ref-62eb8618991ff6b884701b94",
+                    "externalReference": null,
                     "shape": "curated-product-story",
                     "components": {
                         "title": {
@@ -3836,10 +4165,12 @@
                             {
                                 "products": [
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860af050cc86e5dedceb"
+                                        "cataloguePath": "/shop/plants/alocasia",
+                                        "externalReference": null
                                     },
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860b991ff6b884701b75"
+                                        "cataloguePath": "/shop/plants/dracaena-fragrans",
+                                        "externalReference": null
                                     }
                                 ],
                                 "hotspot-x": {
@@ -3854,7 +4185,8 @@
                             {
                                 "products": [
                                     {
-                                        "externalReference": "crystallize-spec-ref-62eb860c0033f6ad3e7c12e3"
+                                        "cataloguePath": "/shop/plants/monstera-deliciosa",
+                                        "externalReference": null
                                     }
                                 ],
                                 "hotspot-x": {
@@ -3879,7 +4211,7 @@
                 "en": "Frontpage "
             },
             "cataloguePath": "/frontpage",
-            "externalReference": "crystallize-spec-ref-62eb861a0998fb8fbebd8db8",
+            "externalReference": null,
             "shape": "landing-page",
             "components": {
                 "grid": [
@@ -3945,7 +4277,7 @@
                 "en": "_Tiles"
             },
             "cataloguePath": "/tiles",
-            "externalReference": "crystallize-spec-ref-62f22cdf879273bc3a7a7816",
+            "externalReference": null,
             "shape": "folder",
             "components": {
                 "intro": {
@@ -3961,7 +4293,7 @@
                         "en": "Big sale"
                     },
                     "cataloguePath": "/tiles/big-sale",
-                    "externalReference": "crystallize-spec-ref-62eb861b0998fb8fbebd8dbd",
+                    "externalReference": null,
                     "shape": "tile",
                     "components": {
                         "title": {
@@ -4059,7 +4391,7 @@
                         "en": "Productive"
                     },
                     "cataloguePath": "/tiles/productive",
-                    "externalReference": "crystallize-spec-ref-62eb861a0998fb8fbebd8dbb",
+                    "externalReference": null,
                     "shape": "tile",
                     "components": {
                         "title": {
@@ -4127,14 +4459,6 @@
                                         "properties": {
                                             "Color": "#FFF1E6"
                                         }
-                                    },
-                                    {
-                                        "title": "Button",
-                                        "properties": {
-                                            "Color": null,
-                                            "Background Color": null,
-                                            "Font Size": null
-                                        }
                                     }
                                 ],
                                 "use-full-width": false
@@ -4148,7 +4472,7 @@
                         "en": "Plants"
                     },
                     "cataloguePath": "/tiles/plants",
-                    "externalReference": "crystallize-spec-ref-62eb861af050cc86e5dedcf6",
+                    "externalReference": null,
                     "shape": "tile",
                     "components": {
                         "title": {
@@ -4176,19 +4500,24 @@
                         "content": {
                             "items": [
                                 {
-                                    "externalReference": "crystallize-spec-ref-62eb860af050cc86e5dedceb"
+                                    "cataloguePath": "/shop/plants/alocasia",
+                                    "externalReference": null
                                 },
                                 {
-                                    "externalReference": "crystallize-spec-ref-62eb860a0033f6ad3e7c12dd"
+                                    "cataloguePath": "/shop/plants/philodendron-birkin",
+                                    "externalReference": null
                                 },
                                 {
-                                    "externalReference": "crystallize-spec-ref-62eb860b991ff6b884701b75"
+                                    "cataloguePath": "/shop/plants/dracaena-fragrans",
+                                    "externalReference": null
                                 },
                                 {
-                                    "externalReference": "crystallize-spec-ref-62eb860c0033f6ad3e7c12e3"
+                                    "cataloguePath": "/shop/plants/monstera-deliciosa",
+                                    "externalReference": null
                                 },
                                 {
-                                    "externalReference": "crystallize-spec-ref-62eb860b0033f6ad3e7c12e0"
+                                    "cataloguePath": "/shop/plants/dendrobium",
+                                    "externalReference": null
                                 }
                             ]
                         },

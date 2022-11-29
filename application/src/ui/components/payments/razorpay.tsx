@@ -19,7 +19,7 @@ export const RazorPayButton: React.FC<{ paying?: boolean; onClick?: () => Promis
             onClick={onClick ? onClick : undefined}
             className="w-full text-white mt-2 h-[70px] rounded-md px-8 bg-grey flex flex-row justify-between items-center border border-transparent hover:border-black"
         >
-            <img className="h-[50px]" src={`${logo}`} height="50" alt="Razorpay" />
+            <img className="h-[40px]" src={`${logo}`} height="50" alt="Razorpay" />
             <span id="button-text" className="text-textBlack">
                 {paying ? _t('payment.processing') : ''}
             </span>

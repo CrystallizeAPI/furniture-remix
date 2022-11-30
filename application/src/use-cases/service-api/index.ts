@@ -28,6 +28,10 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
             fetchPaymentLink: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/quickpay/create', { cartId: cart.cartId }),
         },
+        montonio: {
+            fetchPaymentLink: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/montonio/create', { cartId: cart.cartId }),
+        },
         klarna: {
             initiatePayment: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/klarna/create', { cartId: cart.cartId }),

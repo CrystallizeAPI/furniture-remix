@@ -6,6 +6,7 @@ import { default as initiateKlarnaPayment } from '~/use-cases/payments/klarna/in
 import { default as initiateStripePayment } from '~/use-cases/payments/stripe/initiatePayment';
 import { default as initiateQuickpayPayment } from '~/use-cases/payments/quickpay/initiatePayment';
 import { default as initiateRazorPayPayment } from '~/use-cases/payments/razorpay/initiatePayment';
+import { default as initiateMontonioPayPayment } from '~/use-cases/payments/montonio/initiatePayment';
 
 export const action: ActionFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
@@ -25,6 +26,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         stripe: initiateStripePayment,
         quickpay: initiateQuickpayPayment,
         razorpay: initiateRazorPayPayment,
+        montonio: initiateMontonioPayPayment,
     };
 
     const data = await providers[params.provider as keyof typeof providers](

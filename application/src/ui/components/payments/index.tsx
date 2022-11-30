@@ -4,6 +4,7 @@ import { useLocalCart } from '../../hooks/useLocalCart';
 import { CrystalCard, CrystalCardButton } from './crystal/card';
 import { CrystalCoin, CrystalCoinButton } from './crystal/coin';
 import { Klarna, KlarnaButton } from './klarna';
+import { Montonio, MontonioButton } from './montonio';
 import { QuickPayLink, QuickPayLinkButton } from './quickpaylink';
 import { RazorPay, RazorPayButton } from './razorpay';
 import { Stripe, StripeButton } from './stripe';
@@ -26,6 +27,13 @@ export const Payments: React.FC = () => {
             button: CrystalCardButton,
             renderOnLoad: false,
             enabled: state.paymentImplementations.includes('crystal') && paymentMethods.includes('card'),
+        },
+        montonio: {
+            name: 'Montonio',
+            component: Montonio,
+            button: MontonioButton,
+            renderOnLoad: true,
+            enabled: state.paymentImplementations.includes('montonio'),
         },
         quickPayLink: {
             name: 'QuickPay',

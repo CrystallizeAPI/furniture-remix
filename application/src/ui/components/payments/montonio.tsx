@@ -1,12 +1,12 @@
-import { useLocalCart } from '../../hooks/useLocalCart';
-import { useState } from 'react';
-import { useLocalStorage } from '@rehooks/local-storage';
+import { useAppContext } from '~/ui/app-context/provider';
+import logo from '~/assets/montonioLogo.svg';
+import { useLocalCart } from '~/ui/hooks/useLocalCart';
+import { useEffect, useState } from 'react';
+import useLocalStorage from '@rehooks/local-storage';
+import { Customer } from '@crystallize/js-api-client';
 import { ServiceAPI } from '~/use-cases/service-api';
-import { useAppContext } from '../../app-context/provider';
-import logo from '~/assets/quickpayLogo.svg';
-import { Customer } from '~/use-cases/contracts/Customer';
 
-export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
+export const MontonioButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({
     paying = false,
     onClick,
 }) => {
@@ -17,14 +17,14 @@ export const QuickPayLinkButton: React.FC<{ paying?: boolean; onClick: () => Pro
             disabled={paying}
             onClick={onClick}
         >
-            <img className="px-1 h-[35px]" src={`${logo}`} height="35" alt="Quickpay" />
+            <img className="px-1 h-[25px]" src={`${logo}`} height="35" alt="Montonio" />
             <span className="text-textBlack">{paying ? _t('payment.processing') : ''}</span>
             <span className="text-black text-2xl"> ›</span>
         </button>
     );
 };
 
-export const QuickPayLink: React.FC = () => {
+export const Montonio: React.FC = () => {
     const { cart, isEmpty } = useLocalCart();
     const [paying, setPaying] = useState(false);
     const { state } = useAppContext();
@@ -34,7 +34,7 @@ export const QuickPayLink: React.FC = () => {
     }
 
     return (
-        <QuickPayLinkButton
+        <MontonioButton
             paying={paying}
             onClick={async () => {
                 setPaying(true);
@@ -46,7 +46,7 @@ export const QuickPayLink: React.FC = () => {
                     const link = await ServiceAPI({
                         language: state.language,
                         serviceApiUrl: state.serviceApiUrl,
-                    }).quickpay.fetchPaymentLink(cart);
+                    }).montonio.fetchPaymentLink(cart);
                     window.location.href = link.url;
                 } catch (exception) {
                     console.log(exception);

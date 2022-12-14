@@ -13,7 +13,7 @@ export default (chunk?: Chunk[]) => {
                           value = data.content?.text || '';
                           break;
                       case 'richText':
-                          value = data.content?.plainText.join(' ');
+                          value = data.content?.plainText?.join(' ');
                           break;
                       case 'images':
                           value = data.content?.images?.[0]?.url;

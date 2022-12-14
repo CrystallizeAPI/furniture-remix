@@ -19,7 +19,7 @@ export default async (
         context.language,
         context.market,
     );
-    const data = await handleMagickLinkRegisterPayload(
+    return await handleMagickLinkRegisterPayload(
         validatePayload<MagickLinkUserInfosPayload>(payload, magickLinkUserInfosPayload),
         {
             mailer,

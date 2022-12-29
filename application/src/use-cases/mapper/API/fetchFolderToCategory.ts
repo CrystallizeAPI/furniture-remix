@@ -20,9 +20,9 @@ export default (data: any): Category => {
         description: stringForRichTextComponentWithId(data.components, 'description') || data.name!,
         hero: grid
             ? {
-                id: `grid-${hero?.id ?? data.id}`,
-                ...grid,
-            }
+                  id: `grid-${hero?.id ?? data.id}`,
+                  ...grid,
+              }
             : undefined,
         seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
     };

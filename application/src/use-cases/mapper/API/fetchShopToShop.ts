@@ -23,9 +23,9 @@ export default (data: any): Shop => {
         description: stringForRichTextComponentWithId(folder.components, 'description') || data.name!,
         hero: grid
             ? {
-                id: `grid-${hero?.id ?? folder.id}`,
-                ...grid,
-            }
+                  id: `grid-${hero?.id ?? folder.id}`,
+                  ...grid,
+              }
             : undefined,
         seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
         categories: hierarchy.tree?.children.map((child: any) => {

@@ -17,7 +17,7 @@ export default (data: any): CategoryWithChildren => {
     return {
         ...mapFetchFolderToCategory(data),
 
-        children: data.children.map((child: any): CuratedStorySlim | StorySlim | ProductSlim | undefined => {
+        children: data.children?.map((child: any): CuratedStorySlim | StorySlim | ProductSlim | undefined => {
             const common = {
                 name: child.name,
                 path: child.path,

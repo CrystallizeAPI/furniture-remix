@@ -26,7 +26,7 @@ export const CategoryList: React.FC<{ products: ProductSlim[] }> = ({ products }
                     }}
                     className="splide "
                 >
-                    {products.slice(0, 12)?.map((product) => {
+                    {products?.slice(0, 12)?.map((product) => {
                         return (
                             <SplideSlide key={`${product.name}-${product.path}`} className="slide items-stretch pb-10">
                                 <Product item={product} />

@@ -12,7 +12,7 @@ export default (data: any): Category => {
     const grid =
         hero?.content?.grids?.[0] ||
         (hero?.content?.items ? mapper.API.Object.AnyItemToGrid(hero?.content?.items) : null);
-    const firstSeoChunk = data.meta.content.chunks[0];
+    const firstSeoChunk = data.meta.content?.chunks[0];
     const dto: Category = {
         name: data.name,
         path: data.path,
@@ -20,9 +20,9 @@ export default (data: any): Category => {
         description: stringForRichTextComponentWithId(data.components, 'description') || data.name!,
         hero: grid
             ? {
-                  id: `grid-${hero?.id ?? data.id}`,
-                  ...grid,
-              }
+                id: `grid-${hero?.id ?? data.id}`,
+                ...grid,
+            }
             : undefined,
         seo: mapper.API.Object.APIMetaSEOComponentToSEO(firstSeoChunk),
     };

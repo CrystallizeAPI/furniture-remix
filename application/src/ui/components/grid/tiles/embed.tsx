@@ -23,7 +23,7 @@ export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
                     {ctas &&
                         ctas.map((cta) => (
                             <button className="bg-ctaBlue px-8 py-4 rounded font-medium" key={cta.link}>
-                                <LinkRenderer link={cta.link} text={cta.text} />
+                                {cta.link ? <LinkRenderer link={cta.link} text={cta.text} /> : cta.text}
                             </button>
                         ))}
                 </div>

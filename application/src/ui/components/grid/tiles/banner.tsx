@@ -32,14 +32,14 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                     ctas.map((cta) => (
                         <button
                             className="px-8 py-4 rounded font-medium"
-                            key={cta.link}
+                            key={cta.text}
                             style={{
                                 color: button?.color ? button.color : '#fff',
                                 backgroundColor: button?.['background color'] ? button['background color'] : '#000',
                                 fontSize: button?.['font size'] ? button['font size'] : '1rem',
                             }}
                         >
-                            <LinkRenderer link={cta.link} text={cta.text} />
+                            {cta.link ? <LinkRenderer link={cta.link} text={cta.text} /> : cta.text}
                         </button>
                     ))}
             </div>

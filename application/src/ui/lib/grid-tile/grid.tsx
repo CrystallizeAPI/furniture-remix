@@ -169,8 +169,8 @@ const normalizeTile = (cellItem: any): Tile | null => {
         ctas:
             componentContent(cellItem, 'ctas')?.chunks.map((cta: any) => {
                 return {
-                    text: cta[0].content.text,
-                    link: cta[1].content.text,
+                    text: cta[0].content?.text,
+                    link: cta[1].content?.text,
                 };
             }) || [],
         background: {

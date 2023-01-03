@@ -84,8 +84,8 @@ export default (
                           ...memo,
                           [data.id]: {
                               title: data.name,
-                              value: data.content.number || 0.0,
-                              unit: data.content.unit || '',
+                              value: data?.content?.number || 0.0,
+                              unit: data?.content?.unit || '',
                           },
                       };
                   },

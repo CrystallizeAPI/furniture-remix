@@ -66,18 +66,18 @@ export const Montonio: React.FC = () => {
     return (
         <>
             {pickupPoints && (
-                <div className="flex justify-between">
-                    <p>{_t('payment.montonio.shippingFeature')}</p>
-                    <p>{_t('payment.montonio.shippingConstraint')}</p>
+                <div className="flex flex-col gap-2 mb-4">
+                    <p className="text-sm font-semibold mb-3">{_t('payment.montonio.shippingConstraint')}</p>
                     <select
                         defaultValue={''}
                         onChange={(event) => {
                             const [country, uuid] = event.target.value.split(':');
                             setPickupPoint(pickupPoints[country].find((point: PickupPoint) => point.uuid === uuid));
                         }}
+                        className="px-4 py-4"
                     >
                         <option disabled value={''}>
-                            {_t('selectPickupPoint')}
+                            {_t('payment.montonio.selectPickupPoint')}
                         </option>
                         {Object.keys(pickupPoints).map((country) => {
                             return (
@@ -97,16 +97,13 @@ export const Montonio: React.FC = () => {
             )}
 
             {pickupPoint && (
-                <div>
-                    <hr />
-                    <ul>
-                        <li>
-                            {pickupPoint.address} {pickupPoint.country}
-                        </li>
-                        <li>
-                            {pickupPoint.locality} {pickupPoint.region}
-                        </li>
-                    </ul>
+                <div className="bg-[#fff] p-3 px-4 flex-col gap-2">
+                    <p>
+                        {pickupPoint.address} {pickupPoint.country}
+                    </p>
+                    <p>
+                        {pickupPoint.locality}, {pickupPoint.region}
+                    </p>
                 </div>
             )}
 
@@ -129,6 +126,7 @@ export const Montonio: React.FC = () => {
                     }
                 }}
             />
+            <p className="text-xs mt-4 text-grey6">Note: {_t('payment.montonio.shippingFeature')}</p>
         </>
     );
 };

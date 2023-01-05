@@ -20,5 +20,6 @@ export default async (cartWrapper: CartWrapper) => {
             merchant_references: [cartWrapper.cartId],
         }),
     });
-    return await response.json();
+    const data = await response.json();
+    return data.url;
 };

@@ -29,7 +29,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                 </div>
             )}
             <div className="img-container img-contain img-border border-solid border border-[#dfdfdf] aspect-[3/4] bg-[#fff] rounded-md h-full overflow-hidden grow-1">
-                <Image {...item.variant.images[0]} sizes="100px" loading="lazy" fallbackAlt={item.name} />
+                <Image {...item.variant.images[0]} sizes="300px" loading="lazy" fallbackAlt={item.name} />
             </div>
             <div className="pl-1">
                 <p className="text-md line-clamp-2 overflow-hidden">{item.name}</p>

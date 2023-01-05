@@ -5,6 +5,8 @@ import {
     handleMontonioPaymentUpdateWebhookRequestPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import pushOrder from '../../crystallize/write/pushOrder';
+import createShipment from './createShipment';
+import fetchShipmentLabelUrl from './fetchShipmentLabelUrl';
 
 export default async (
     cartWrapperRepository: CartWrapperRepository,
@@ -28,6 +30,11 @@ export default async (
                                 status: 404,
                             };
                         }
+
+                        // if we have a pickup point we will create a shipment and printing label and add it to the order
+                        const shipment = await createShipment(cartWrapper).catch(console.log);
+                        const shipmentLabelUrl = await fetchShipmentLabelUrl(cartWrapper).catch(console.log);
+
                         let properties = [
                             {
                                 property: 'payment_method',
@@ -46,7 +53,6 @@ export default async (
                                 value: `${event.customer_iban}`,
                             },
                         ];
-
                         const orderCreatedConfirmation = await pushOrder(
                             cartWrapperRepository,
                             apiClient,
@@ -57,6 +63,10 @@ export default async (
                                 custom: {
                                     properties,
                                 },
+                            },
+                            {
+                                'Shipment UUID': shipment.uuid,
+                                'Shipment Label': shipmentLabelUrl,
                             },
                         );
                         return orderCreatedConfirmation;

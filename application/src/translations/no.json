@@ -77,6 +77,11 @@
         "expiration": "Utløp",
         "country": "Land",
         "zipCode": "Postnummer",
-        "processing": "Behandler betaling"
+        "processing": "Behandler betaling",
+        "montonio": {
+            "shippingFeature": "Montonio har en fraktfunksjon som er demonstrert her.",
+            "shippingConstraint": "For å betale må du velge et hentepunkt.",
+            "selectPickupPoint": "Velg et hentepunkt"
+        }
     }
 }

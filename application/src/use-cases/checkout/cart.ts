@@ -91,9 +91,18 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
     };
 }
 
-export async function handleAndPlaceCart(cart: Cart, customer: any, providedCartId: string): Promise<CartWrapper> {
+export async function handleAndPlaceCart(
+    cart: Cart,
+    customer: any,
+    providedCartId: string,
+    options?: any,
+): Promise<CartWrapper> {
     const cartWrapper = await handleAndSaveCart(cart, providedCartId);
     cartWrapper.customer = customer;
+    cartWrapper.extra = {
+        ...cartWrapper.extra,
+        pickupPoint: options?.pickupPoint,
+    };
     cartWrapperRepository.place(cartWrapper);
     return cartWrapper;
 }

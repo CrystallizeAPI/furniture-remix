@@ -32,7 +32,7 @@ export const Payments: React.FC = () => {
             name: 'Montonio',
             component: Montonio,
             button: MontonioButton,
-            renderOnLoad: true,
+            renderOnLoad: false,
             enabled: state.paymentImplementations.includes('montonio'),
         },
         quickPayLink: {

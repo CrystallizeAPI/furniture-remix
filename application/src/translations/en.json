@@ -77,6 +77,11 @@
         "expiration": "Expiration",
         "country": "Country",
         "zipCode": "Zip code",
-        "processing": "Processing payment"
+        "processing": "Processing payment",
+        "montonio": {
+            "shippingFeature": "Montonio has a shipping feature that is demoed here.",
+            "shippingConstraint": "In order to pay you have to pick a Pickup Point.",
+            "selectPickupPoint": "Select a pickup point"
+        }
     }
 }

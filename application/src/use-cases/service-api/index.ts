@@ -3,12 +3,19 @@ import { Customer } from '../contracts/Customer';
 import { LocalCart } from '../contracts/LocalCart';
 import { sendPaidOrderWithCrystalCard, sendPaidOrderWithCrystalCoin } from './payments/crystal';
 
-export function placeCart(serviceApiUrl: string, language: string, cart: LocalCart, customer: Partial<Customer>) {
+export function placeCart(
+    serviceApiUrl: string,
+    language: string,
+    cart: LocalCart,
+    customer: Partial<Customer>,
+    options?: { pickupPoint: any },
+) {
     return postJson<any>(serviceApiUrl + '/cart/place', {
         cartId: cart.cartId,
         locale: language,
         items: Object.values(cart.items),
         customer,
+        options,
     });
 }
 
@@ -31,6 +38,7 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
         montonio: {
             fetchPaymentLink: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/montonio/create', { cartId: cart.cartId }),
+            fetchPickupPoints: () => getJson<any>(serviceApiUrl + '/shipping/montonio/pickup-points'),
         },
         klarna: {
             initiatePayment: (cart: LocalCart) =>
@@ -44,7 +52,8 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
         },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),
-        placeCart: (cart: LocalCart, customer: Partial<Customer>) => placeCart(serviceApiUrl, language, cart, customer),
+        placeCart: (cart: LocalCart, customer: Partial<Customer>, options?: { pickupPoint: any }) =>
+            placeCart(serviceApiUrl, language, cart, customer, options),
         registerAndSendMagickLink: (userInfos: any) => postJson<any>(serviceApiUrl + '/magicklink/register', userInfos),
         sendMagickLink: (email: string, callbackPath: string) =>
             postJson<any>(serviceApiUrl + '/magicklink/register?callbackPath=' + callbackPath, {

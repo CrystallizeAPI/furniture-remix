@@ -48,6 +48,7 @@ export default async (
     apiClient: ClientInterface,
     cartWrapper: CartWrapper,
     payment: PaymentInputRequest,
+    metadata?: Record<string, string>,
 ): Promise<OrderCreatedConfirmation> => {
     const customer = buildCustomer(cartWrapper);
     pushCustomerIfMissing(apiClient, customer).catch(console.error);
@@ -60,8 +61,13 @@ export default async (
         };
     }
 
+    const extendedMetaData: Record<string, string> = {
+        'Additional info': cartWrapper?.customer?.additionalInfo || '',
+        ...metadata,
+    };
+
     const pusher = createOrderPusher(apiClient);
-    const orderCreatedConfirmation = await pusher({
+    const orderIntent = {
         customer,
         cart: cart.cart.items.map((item: CartItem) => {
             return {
@@ -98,8 +104,10 @@ export default async (
             },
         },
         payment: [payment],
-        meta: [{ key: 'Additional info', value: `${cartWrapper?.customer?.additionalInfo}` }],
-    });
+        meta: Object.keys(extendedMetaData).map((key) => ({ key, value: extendedMetaData[key] ?? '' })),
+    };
+
+    const orderCreatedConfirmation = await pusher(orderIntent);
     cartWrapperRepository.attachOrderId(cartWrapper, orderCreatedConfirmation.id);
     return orderCreatedConfirmation;
 };

@@ -7,7 +7,7 @@ export const buildMetas = (data: any) => {
     const description =
         item?.description || metaData?.find((meta: any) => meta.id === 'description')?.content?.plainText?.[0];
     const image =
-        item?.defaultVariant?.images[0].url ||
+        item?.defaultVariant?.images[0]?.url ||
         metaData?.find((meta: any) => meta.id === 'image')?.content?.firstImage?.url;
     const altDescription = item?.components?.find((comp: any) => comp.id === 'description')?.content?.plainText?.[0];
     const altImage =

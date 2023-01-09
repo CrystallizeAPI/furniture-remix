@@ -13,6 +13,7 @@ import APIImageToImage from './Object/APIImageToImage';
 import APIMetaSEOComponentToSEO from './Object/APIMetaSEOComponentToSEO';
 import APIPriceVariantsToPriceVariant from './Object/APIPriceVariantsToPriceVariant';
 import APIProductVariantToProductVariant from './Object/APIProductVariantToProductVariant';
+import APIVideoToVideo from './Object/APIVideoToVideo';
 
 export type DataMapperContext = {
     locale?: string;
@@ -41,6 +42,7 @@ export const DataMapper = (context?: DataMapperContext) => {
             Object: {
                 AnyItemToGrid: AnyIemToGrid,
                 APIImageToImage: APIImageToImage,
+                APIVideoToVideo: APIVideoToVideo,
                 APIMetaSEOComponentToSEO: APIMetaSEOComponentToSEO,
                 APIPriceVariantsToPriceVariant: APIPriceVariantsToPriceVariant,
                 APIProductVariantToProductVariant: APIProductVariantToProductVariant,

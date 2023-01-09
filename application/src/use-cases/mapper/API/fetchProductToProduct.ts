@@ -57,6 +57,7 @@ export default (
                     title: paragraph.title?.text || '',
                     body: flattenRichText(paragraph.body),
                     images: mapper.API.Object.APIImageToImage(paragraph.images),
+                    videos: mapper.API.Object.APIVideoToVideo(paragraph.videos),
                 };
             }) || [],
         specifications:

@@ -55,7 +55,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
             )}
             {videos && videos.length > 0 && (
                 <div className="md:w-8/12 w-full img-container img-contain md:py-0">
-                    <Video {...videos[0]} thumbnmailProps={{ sizes: '(max-width: 700px) 90vw, 700px' }} />
+                    <Video {...videos[0]} thumbnailProps={{ sizes: '(max-width: 700px) 90vw, 700px' }} />
                 </div>
             )}
         </div>

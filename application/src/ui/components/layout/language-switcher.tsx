@@ -1,4 +1,4 @@
-import useLocation from '../../bridge/useLocation';
+import useLocation from '~/bridge/ui/useLocation';
 import { useAppContext } from '../../app-context/provider';
 import { buildLanguageMarketAwareLink, displayableLanguages } from '../../../use-cases/LanguageAndMarket';
 

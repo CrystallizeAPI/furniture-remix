@@ -14,7 +14,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const data = (await dataFetcherForShapePage('product', path, requestContext, params)) as {
         product: Product;
     };
-    console.log(data);
     const pdf = await ReactPDF.renderToStream(<SingleProduct product={data.product} />);
     return new Response(pdf, {
         headers: {

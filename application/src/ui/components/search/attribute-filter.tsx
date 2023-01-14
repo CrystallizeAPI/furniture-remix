@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import filterIcon from '~/assets/filterIcon.svg';
-import useSearchParams from '../../bridge/useSearchParams';
+import useSearchParams from '~/bridge/ui/useSearchParams';
 import { useAppContext } from '../../app-context/provider';
 
 export const AttributeFilter: React.FC<{ attributes: any }> = ({ attributes }) => {

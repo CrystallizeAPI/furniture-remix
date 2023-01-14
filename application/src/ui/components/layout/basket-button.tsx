@@ -2,7 +2,7 @@ import BasketIcon from '~/assets/basketIcon.svg';
 import { useLocalCart } from '../../hooks/useLocalCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useAppContext } from '../../app-context/provider';
-import Link from '../../bridge/Link';
+import Link from '~/bridge/ui/Link';
 
 export const BasketButton = ({}) => {
     const { cart, isEmpty } = useLocalCart();

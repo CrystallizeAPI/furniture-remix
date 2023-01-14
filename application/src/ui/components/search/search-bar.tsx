@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SearchIcon from '~/assets/searchIcon.svg';
 import { DebounceInput } from 'react-debounce-input';
-import Link from '../../bridge/Link';
+import Link from '~/bridge/ui/Link';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '../../app-context/provider';
 import { createClient } from '@crystallize/js-api-client';

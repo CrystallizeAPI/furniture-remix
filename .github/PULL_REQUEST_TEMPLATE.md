@@ -1,11 +1,9 @@
 Thanks for your pull request! We love contributions.
 
-However, this repository is what we call a "subtree split": a read-only copy of one directory of the main repository. It enables developers to depend on specific repository.
+However, this repository is a read-only export of one boilerplate of its main repository.
 
-If you want to contribute, you should instead open a pull request on the main repository:
+If you want to report or contribute, you should instead open your issue on the main repository:
 
-https://github.com/CrystallizeAPI/boilerplates
-
-Thank you for your contribution!
+https://github.com/CrystallizeAPI/superfast-boilerplates
 
 PS: if you haven't already, please add tests.

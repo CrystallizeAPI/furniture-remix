@@ -12,9 +12,7 @@ fi
 # Note that Crystallize CLI is acting before this script.
 
 echo "Setup ${PROJECT_PATH}"
-
 cp ${PROJECT_PATH}/provisioning/clone/.env.dist ${PROJECT_PATH}/application/.env.dist
-cp ${PROJECT_PATH}/provisioning/clone/README.md ${PROJECT_PATH}/README.md
 cp ${PROJECT_PATH}/provisioning/clone/robots.txt ${PROJECT_PATH}/application/public/robots.txt
 
 #---

@@ -8,7 +8,6 @@ export const ParagraphCollection: React.FC<{ paragraphs: Paragraph[] }> = ({ par
         return null;
     }
 
-    console.log('paragraphs', paragraphs);
     return (
         <>
             {paragraphs.map((paragraph, index) => (

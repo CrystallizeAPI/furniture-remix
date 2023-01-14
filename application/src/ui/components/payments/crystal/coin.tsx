@@ -4,7 +4,7 @@ import { useLocalStorage } from '@rehooks/local-storage';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '../../../app-context/provider';
 import logo from '~/assets/crystalcoin-logo.svg';
-import useNavigate from '../../../bridge/useNavigate';
+import useNavigate from '~/bridge/ui/useNavigate';
 import { Customer } from '~/use-cases/contracts/Customer';
 
 export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void }> = ({

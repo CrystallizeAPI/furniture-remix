@@ -1,5 +1,5 @@
 import { Image } from '@crystallize/reactjs-components';
-import Link from '../../bridge/Link';
+import Link from '~/bridge/ui/Link';
 import { useAppContext } from '../../app-context/provider';
 import { CuratedStorySlim } from '~/use-cases/contracts/Story';
 

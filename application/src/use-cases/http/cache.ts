@@ -108,7 +108,6 @@ export function HttpCacheHeaderTagger(
     maxAge: string,
     sharedMaxAge: string,
     tags: string[],
-    prefix: string,
 ): HttpCacheHeaders | VarnishHttpCacheHeaders | FastlyHttpCacheHeaders {
     const clean = (tag: string) => {
         let w = tag.replace(/\//g, '-');
@@ -134,7 +133,7 @@ export function HttpCacheHeaderTagger(
                     sharedMaxAge,
                     's',
                 )}`,
-                'Surrogate-Key': `all ${prefix} ${tags.map(clean).join(' ')}`,
+                'Surrogate-Key': 'all ' + tags.map(clean).join(' '),
             },
         };
     }
@@ -171,12 +170,5 @@ export function StoreFrontAwaretHttpCacheHeaderTagger(
     tags: string[],
     prefix: string = '',
 ): HttpCacheHeaders | VarnishHttpCacheHeaders | FastlyHttpCacheHeaders {
-    return HttpCacheHeaderTagger(
-        maxAge,
-        sharedMaxAge,
-        tags.map((tag: string) => {
-            return `${prefix}-${tag}`;
-        }),
-        prefix,
-    );
+    return HttpCacheHeaderTagger(maxAge, sharedMaxAge, [...tags.map((tag: string) => `${prefix}-${tag}`), prefix]);
 }

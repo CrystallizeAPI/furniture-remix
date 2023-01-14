@@ -1,32 +1,35 @@
-# Furniture v2 - Remix Run - Boilerplate
-
----
-
-This repository is what we call a "subtree split": a read-only copy of one directory of the main repository.
-
-If you want to report or contribute, you should do it on the main repository: https://github.com/CrystallizeAPI/boilerplates
-
----
-
-# Read first!
-
-If you are NOT a contributor on this repository and you just want to clone the boilerplate and get started in a minute for your project please use the Crystallize CLI
-
-```bash
-npx @crystallize/cli-next@latest install my-project
-```
-
-## The following is for contributors.
-
-# Requirements
-
--   Volta.sh (that will bring good version of Node )
--   Caddy Server v2
--   Access to Superfast tenant
+# Crystallize - Remix Run - Boilerplate
 
 # Installation
 
+```bash
+npx @crystallize/cli-next@latest install remix-run
+```
+
+And you got your project running thanks to :
+
+```bash
+cd remix-run && application
+npm run dev
+```
+
+# Docker services
+
+By default, docker is not used.
+In the `provisioning/dev/` folder you will see a `docker-compose.yaml` that can be used.
+
+```bash
+make serve
+```
+
+This will start the Docker network, starting Mailcatch and Redis.
+You then need to adapt the `.env` file of course to start using those services.
+
+# Custom Local domain and HTTPS
+
 For a better experience and respect the [Twelve-Facter App](https://12factor.net/dev-prod-parity) we recomend to have local domain
+
+And everything is ready for you too.
 
 ## Add local domains
 
@@ -49,36 +52,26 @@ sudo mkdir -p /etc/resolver && echo "nameserver 127.0.0.1" > /etc/resolver/local
 sudo brew services restart dnsmasq
 ```
 
-## Installation
+# Gotchas
 
-```bash
-make install
-```
-
-> Important!: You need to provide correct credentials in the `application/.env`.
-
-## Run the project
-
-```bash
-make serve
-```
-
-This will:
+`make serve` will:
 
 -   run the node project on HTTP
 -   run the Caddy proxy on HTTPS
 -   run the Docker Network
 
-> you can stop non stopped services with `make stop`
+And then you can
 
 -   Frontend: https://furniture.superfast.local
 -   Mailcatcher - Web: http://localhost:3022
 -   Mailcatcher SMTP: http://localhost:3021
 -   Redis: tcp://localhost:3023
 
+> you can stop non stopped services with `make stop`
+
 > Note: to connect to Redis: `docker run --rm --net=host -it redis redis-cli -h 127.0.0.1 -p 3023`
 
-# Gotchas
+Also
 
 -   Frontend run in HTTP on 3018
 -   Frontend Live Reload WebScoket run in HTTP on 3019

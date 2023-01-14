@@ -1,9 +1,7 @@
-# === Makefile Helper ===
-
 # Styles
-YELLOW=$(shell echo "\033[00;33m")
-RED=$(shell echo "\033[00;31m")
-RESTORE=$(shell echo "\033[0m")
+YELLOW := $(shell echo "\033[00;33m")
+RED := $(shell echo "\033[00;31m")
+RESTORE := $(shell echo "\033[0m")
 
 # Variables
 DOCKER_COMPOSE_ARGS := COMPOSE_PROJECT_NAME=furnituremix COMPOSE_FILE=provisioning/dev/docker-compose.yaml
@@ -17,7 +15,7 @@ CADDY_PID_FILE := provisioning/dev/caddy.dev.pid
 .PHONY: list
 list:
 	@echo "******************************"
-	@echo "${YELLOW}Available targets${RESTORE}:"
+	@echo "${RED}Remix Run - ${YELLOW}Available targets${RESTORE}:"
 	@grep -E '^[a-zA-Z-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf " ${YELLOW}%-15s${RESTORE} > %s\n", $$1, $$2}'
 	@echo "${RED}==============================${RESTORE}"
 
@@ -28,8 +26,7 @@ clean: stop ## Clean non-essential files
 	
 .PHONY: install
 install:
-	@$(NPM) install
-	@cd application && cp .env.dist .env && cd ..
+	@cp provisioning/clone/.env.dist application/.env
 	@cd application && $(NPM) install && $(NPM) run playwright:install && cd ..	
 
 .PHONY: npmupdate
@@ -48,13 +45,6 @@ stop: ## Stop all the local services you need
 		kill -9 `cat $(CADDY_PID_FILE)`; \
 		rm -f  $(CADDY_PID_FILE); \
 	fi
-
-run: ## Run node+caddy outside on host
-	@touch $(CADDY_PID_FILE)
-	@$(CADDY) start \
-		--config provisioning/dev/Caddyfile \
-		--pidfile $(CADDY_PID_FILE)
-	@$(MAKE) serve-application
 
 .PHONY: serve
 serve: stop ## Run all the local services you need

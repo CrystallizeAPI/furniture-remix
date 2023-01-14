@@ -1,4 +1,4 @@
-import Link from '../bridge/Link';
+import Link from '~/bridge/ui/Link';
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { useAppContext } from '../app-context/provider';
 

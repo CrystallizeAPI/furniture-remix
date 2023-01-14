@@ -1,4 +1,4 @@
-import Link from '../bridge/Link';
+import Link from '~/bridge/ui/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';

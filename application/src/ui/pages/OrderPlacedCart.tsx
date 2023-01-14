@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '../app-context/provider';
-import useNavigate from '../bridge/useNavigate';
+import useNavigate from '~/bridge/ui/useNavigate';
 
 export default ({ cartId }: { cartId: string }) => {
     const { cart: localCart, empty } = useLocalCart();

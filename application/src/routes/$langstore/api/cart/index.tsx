@@ -1,5 +1,5 @@
 import { ActionFunction } from '@remix-run/node';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import { privateJson } from '~/core/bridge/privateJson.server';
 import { getContext } from '~/use-cases/http/utils';
 import handleCart from '~/use-cases/checkout/handleSaveCart';

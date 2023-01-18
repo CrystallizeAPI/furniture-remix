@@ -1,7 +1,7 @@
 import { HeadersFunction, json, LoaderFunction, MetaFunction, Response } from '@remix-run/node';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { useLoaderData } from '@remix-run/react';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
@@ -10,7 +10,7 @@ import Category from '~/ui/pages/Category';
 import AbstractStory from '~/ui/pages/AbstractStory';
 import Topic from '~/ui/pages/Topic';
 import LandingPage from '~/ui/pages/LandingPage';
-import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
+import dataFetcherForShapePage from '~/use-cases/dataFetcherForShapePage.server';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;

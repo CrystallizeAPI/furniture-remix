@@ -1,8 +1,8 @@
 import { ActionFunction, json } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import sendOrderCreatedReceipt from '~/use-cases/user/sendOrderCreatedReceipt';
-import { createMailer } from '~/core/services.server';
+import { createMailer } from '~/use-cases/services.server';
 
 export const action: ActionFunction = async ({ request }) => {
     if (request.method !== 'POST') {

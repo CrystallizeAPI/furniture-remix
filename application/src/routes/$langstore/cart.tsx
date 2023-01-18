@@ -1,5 +1,5 @@
 import { HeadersFunction, json, LoaderFunction } from '@remix-run/node';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import Cart from '~/ui/pages/Cart';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { getContext } from '~/use-cases/http/utils';

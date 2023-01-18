@@ -19,31 +19,31 @@ import {
     redirect,
 } from '@remix-run/node';
 import { Header } from '~/ui/components/layout/header';
-import { Footer } from './ui/components/layout/footer';
-import tailwindDefaultTheme from './styles/tailwind.default.css';
-import tailwindDarkTheme from './styles/tailwind.dark.css';
-import tailwindRaibowTheme from './styles/tailwind.rainbow.css';
+import { Footer } from '~/ui/components/layout/footer';
+import tailwindDefaultTheme from '~/styles/tailwind.default.css';
+import tailwindDarkTheme from '~/styles/tailwind.dark.css';
+import tailwindRaibowTheme from '~/styles/tailwind.rainbow.css';
 import React from 'react';
-import { buildStoreFrontConfiguration, getStoreFront } from './core/storefront.server';
-import { CrystallizeAPI } from './use-cases/crystallize/read';
-import { AppContextProvider, useAppContext } from './ui/app-context/provider';
+import { buildStoreFrontConfiguration, getStoreFront } from '~/use-cases/storefront.server';
+import { CrystallizeAPI } from '~/use-cases/crystallize/read';
+import { AppContextProvider, useAppContext } from '~/ui/app-context/provider';
 import { CrystallizeProvider } from '@crystallize/reactjs-hooks';
-import { StoreFrontAwaretHttpCacheHeaderTagger } from './use-cases/http/cache';
-import { getContext } from './use-cases/http/utils';
+import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
+import { getContext } from '~/use-cases/http/utils';
 import { FAVICON_VARIANTS } from './routes/$langstore/favicon/$size[.png]';
 import { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
-import { StoreFrontConfiguration } from './use-cases/contracts/StoreFrontConfiguration';
+import { StoreFrontConfiguration } from '~/use-cases/contracts/StoreFrontConfiguration';
 import {
     availableLanguages,
     buildLanguageMarketAwareLink,
     displayableLanguages,
     isValidLanguageMarket,
-} from './use-cases/LanguageAndMarket';
-import { storage, memoryStorage } from '~/core/services.server';
-import fetchTranslations from './use-cases/fetchTranslations.server';
-import { Tree } from './use-cases/contracts/Tree';
-import { Footer as FooterType } from './use-cases/contracts/Footer';
-import { ErrorComponent } from './ui/components/error';
+} from '~/use-cases/LanguageAndMarket';
+import { storage, memoryStorage } from '~/use-cases/services.server';
+import fetchTranslations from '~/use-cases/fetchTranslations.server';
+import { Tree } from '~/use-cases/contracts/Tree';
+import { Footer as FooterType } from '~/use-cases/contracts/Footer';
+import { ErrorComponent } from '~/ui/components/error';
 
 export const meta: MetaFunction = () => {
     return {

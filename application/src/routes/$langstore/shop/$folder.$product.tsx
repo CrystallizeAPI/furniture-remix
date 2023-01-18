@@ -1,11 +1,11 @@
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
 import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
 import Product from '~/ui/pages/Product';
-import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
+import dataFetcherForShapePage from '~/use-cases/dataFetcherForShapePage.server';
 import videoStyles from '@crystallize/reactjs-components/assets/video/styles.css';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

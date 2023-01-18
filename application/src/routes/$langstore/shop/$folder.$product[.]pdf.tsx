@@ -1,10 +1,10 @@
 import { LoaderFunction, Response } from '@remix-run/node';
 import ReactPDF from '@react-pdf/renderer';
 import { StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import { getContext } from '~/use-cases/http/utils';
 import { SingleProduct } from '~/ui/components/pdf/single-product';
-import dataFetcherForShapePage from '~/core/dataFetcherForShapePage.server';
+import dataFetcherForShapePage from '~/use-cases/dataFetcherForShapePage.server';
 import { Product } from '~/use-cases/contracts/Product';
 
 export const loader: LoaderFunction = async ({ request, params }) => {

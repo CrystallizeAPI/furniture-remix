@@ -4,7 +4,7 @@ import {
     CartWrapperRepository,
     handleRazorPayPaymentVerificationPayload,
 } from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/core/services.server';
+import { cartWrapperRepository } from '~/use-cases/services.server';
 import pushOrder from '../../crystallize/write/pushOrder';
 
 export default async (

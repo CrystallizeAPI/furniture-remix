@@ -1,6 +1,6 @@
-import { RequestContext } from '~/use-cases/http/utils';
+import { RequestContext } from './http/utils';
 import { getStoreFront } from './storefront.server';
-import { CrystallizeAPI } from '~/use-cases/crystallize/read';
+import { CrystallizeAPI } from './crystallize/read';
 
 export default async (shapeIdentifier: string, path: string, request: RequestContext, params?: any) => {
     const { secret } = await getStoreFront(request.host);

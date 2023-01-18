@@ -3,7 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 
 import splideStyles from '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { HttpCacheHeaderTaggerFromLoader, StoreFrontAwaretHttpCacheHeaderTagger } from '~/use-cases/http/cache';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import { CrystallizeAPI } from '~/use-cases/crystallize/read';
 import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';

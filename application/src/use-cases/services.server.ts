@@ -1,6 +1,6 @@
 import { createRepository } from '@crystallize/node-service-api-request-handlers';
 import nodemailer from 'nodemailer';
-import { Mailer } from '~/use-cases/contracts/Mailer';
+import { Mailer } from './contracts/Mailer';
 import { configureStorage } from './storage.server';
 
 export const storage = configureStorage(process.env?.STORAGE_DSN);

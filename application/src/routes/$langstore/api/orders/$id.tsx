@@ -4,7 +4,7 @@ import { LoaderFunction } from '@remix-run/node';
 import { authenticate } from '~/core/authentication.server';
 import { getContext } from '~/use-cases/http/utils';
 import { privateJson } from '~/core/bridge/privateJson.server';
-import { getStoreFront } from '~/core/storefront.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);

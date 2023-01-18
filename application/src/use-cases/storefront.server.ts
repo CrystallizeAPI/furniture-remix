@@ -7,9 +7,9 @@ import {
     TStoreFrontConfig,
 } from '@crystallize/js-storefrontaware-utils';
 import { configureStorage } from './storage.server';
-import { StoreFrontConfiguration } from '~/use-cases/contracts/StoreFrontConfiguration';
-import { getCurrencyFromCode } from '~/use-cases/contracts/Currency';
-import { CrystalFakePaymentImplementation, TenantConfiguration } from '~/use-cases/contracts/TenantConfiguration';
+import { StoreFrontConfiguration } from './contracts/StoreFrontConfiguration';
+import { getCurrencyFromCode } from './contracts/Currency';
+import { CrystalFakePaymentImplementation, TenantConfiguration } from './contracts/TenantConfiguration';
 
 const storage = configureStorage(process.env?.STORAGE_DSN, {
     prefix: 'superfast-',

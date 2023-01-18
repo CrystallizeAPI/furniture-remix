@@ -1,5 +1,5 @@
 import * as redis from 'redis';
-import { BackendStorage, StorageOptions } from '~/use-cases/contracts/BackendStorage';
+import { BackendStorage, StorageOptions } from './contracts/BackendStorage';
 
 function createRedisStorageEngine(dsn: string | undefined, options: StorageOptions = {}): BackendStorage {
     const prefix = options?.prefix ?? '';

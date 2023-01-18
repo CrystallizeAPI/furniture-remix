@@ -51,10 +51,6 @@ serve: stop ## Run all the local services you need
 	@$(DOCKER_COMPOSE) up -d
 	@$(CADDY) start --config provisioning/dev/Caddyfile --pidfile provisioning/dev/caddy.dev.pid
 	@$(MAKE) serve-application
-	
-.PHONY: codeclean
-codeclean: ## Code Clean
-	@$(NPM) run prettier
 
 .PHONY: tests
 tests: ## Tests

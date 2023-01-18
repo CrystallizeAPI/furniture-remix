@@ -1,7 +1,7 @@
 import { ActionFunction, json } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { cartWrapperRepository } from '~/core/services.server';
-import { getStoreFront } from '~/core/storefront.server';
+import { cartWrapperRepository } from '~/use-cases/services.server';
+import { getStoreFront } from '~/use-cases/storefront.server';
 import receivePaymentEvent from '~/use-cases/payments/razorpay/receivePaymentEvent';
 
 export const action: ActionFunction = async ({ request, params }) => {

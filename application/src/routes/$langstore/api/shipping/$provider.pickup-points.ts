@@ -1,6 +1,6 @@
 import { LoaderFunction, json } from '@remix-run/node';
 import fetchPickupPoints from '~/use-cases/payments/montonio/fetchPickupPoints';
-import { storage } from '~/core/services.server';
+import { storage } from '~/use-cases/services.server';
 
 export const loader: LoaderFunction = async ({ params }) => {
     if (params.provider !== 'montonio') {

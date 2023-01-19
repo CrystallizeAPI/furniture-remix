@@ -39,8 +39,7 @@ export default async (
                     currency: cart.total.currency,
                     urls: {
                         return: `${context.baseUrl}${orderCartLink}`,
-                        notification: 'https://webhook.site/b71750df-8c27-4171-be79-3056b980889a',
-                        // notification: `${context.baseUrl}/api/webhook/payment/montonio`,
+                        notification: `${context.baseUrl}/api/webhook/payment/montonio`,
                     },
                     customer: {
                         email: cartWrapper.customer.email,

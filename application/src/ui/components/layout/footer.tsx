@@ -1,3 +1,4 @@
+'use client';
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import CrystallizeLogo from '~/assets/crystallizeLogo.svg';
 import { TenantLogo } from '../../lib/tenant-logo';

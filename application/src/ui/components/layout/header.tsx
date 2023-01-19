@@ -1,3 +1,4 @@
+'use client';
 import UserIcon from '~/assets/userIcon.svg';
 import Link from '~/bridge/ui/Link';
 import { SearchBar } from '../search/search-bar';

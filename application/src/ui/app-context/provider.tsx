@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import { createContext, FunctionComponent, useContext, useReducer } from 'react';
 import { buildLanguageMarketAwareLink } from '~/use-cases/LanguageAndMarket';

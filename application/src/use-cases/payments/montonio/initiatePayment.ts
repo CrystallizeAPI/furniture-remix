@@ -23,6 +23,11 @@ export default async (
             fetchCart: async () => {
                 return cartWrapper.cart;
             },
+            otherPaymentArgumentsForLink: context.url.searchParams.has('method')
+                ? {
+                      preselected_aspsp: context.url.searchParams.get('method'),
+                  }
+                : {},
             createPaymentArguments: (cart: Cart) => {
                 const orderCartLink = buildLanguageMarketAwareLink(
                     `/order/cart/${cartWrapper.cartId}`,
@@ -34,7 +39,8 @@ export default async (
                     currency: cart.total.currency,
                     urls: {
                         return: `${context.baseUrl}${orderCartLink}`,
-                        notification: `${context.baseUrl}/api/webhook/payment/montonio`,
+                        notification: 'https://webhook.site/b71750df-8c27-4171-be79-3056b980889a',
+                        // notification: `${context.baseUrl}/api/webhook/payment/montonio`,
                     },
                     customer: {
                         email: cartWrapper.customer.email,

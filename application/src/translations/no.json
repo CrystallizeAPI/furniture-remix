@@ -81,7 +81,8 @@
         "montonio": {
             "shippingFeature": "Montonio har en fraktfunksjon som er demonstrert her.",
             "shippingConstraint": "For å betale må du velge et hentepunkt.",
-            "selectPickupPoint": "Velg et hentepunkt"
+            "selectPickupPoint": "Velg et hentepunkt",
+            "paywithbanklinks": "Velg bank å betale med"
         }
     }
 }

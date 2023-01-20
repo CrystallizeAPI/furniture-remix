@@ -1,7 +1,7 @@
 import { useAppContext } from '~/ui/app-context/provider';
 import logo from '~/assets/montonioLogo.svg';
 import { useLocalCart } from '~/ui/hooks/useLocalCart';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useLocalStorage from '@rehooks/local-storage';
 import { Customer } from '@crystallize/js-api-client';
 import { ServiceAPI } from '~/use-cases/service-api';
@@ -15,7 +15,7 @@ export const MontonioButton: React.FC<{
     const { _t } = useAppContext();
     return (
         <button
-            className="w-full h-[70px] text-white mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
+            className="w-full h-[70px] text-white mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={paying || disabled}
             onClick={onClick}
         >
@@ -101,20 +101,30 @@ export const Montonio: React.FC = () => {
         }
     };
 
+    //group pickup points by locality
+    const groupByKey = (locations: any[] | undefined, key: string) =>
+        locations?.reduce(
+            (acc: any, obj: { [x: string]: string }) => ({
+                ...acc,
+                [obj[key]]: (acc[obj[key]] || []).concat(obj),
+            }),
+            {},
+        );
+
+    let suggestionsGroupedByLocality = groupByKey(pickupSuggestions?.['EE'], 'locality');
+
     return (
         <>
             {pickupPoints && (
                 <div className="flex flex-col gap-2 mb-4">
                     <p className="text-sm font-semibold mb-3">{_t('payment.montonio.shippingConstraint')}</p>
                     <div>
-                        <div className="bg-white w-full flex justify-between items-center py-2 px-4">
+                        <div
+                            className="bg-white w-full flex justify-between items-center py-2 px-4 cursor-pointer"
+                            onClick={() => setOpenLocationSelector(!openLocationSelector)}
+                        >
                             <p>{_t('payment.montonio.selectPickupPoint')}</p>
-                            <span
-                                onClick={() => setOpenLocationSelector(!openLocationSelector)}
-                                className="cursor-pointer"
-                            >
-                                ↓
-                            </span>
+                            <span>↓</span>
                         </div>
                         {openLocationSelector && (
                             <div className="flex flex-col gap-2 bg-white px-3">
@@ -126,25 +136,29 @@ export const Montonio: React.FC = () => {
                                     className="border border-black px-4 py-2 mt-2"
                                 />
                                 <div>
-                                    {pickupSuggestions?.['EE']?.map((suggestion: any) => {
-                                        return (
-                                            <div
-                                                key={suggestion.uuid}
-                                                onClick={() => {
-                                                    setPickupInput(suggestion.name);
-                                                    setPickupSuggestions({});
-                                                    setPickupPoint(
-                                                        pickupPoints?.['EE']?.find((p: any) => {
-                                                            return p.uuid === suggestion.uuid;
-                                                        }),
-                                                    );
-                                                }}
-                                                className="cursor-pointer py-2 hover:bg-grey"
-                                            >
-                                                {suggestion.name}
-                                            </div>
-                                        );
-                                    })}
+                                    {pickupSuggestions!?.['EE']?.length > 0 &&
+                                        Object?.entries(suggestionsGroupedByLocality).map(
+                                            (suggestion: any, index: number) => (
+                                                <div key={index}>
+                                                    <p className="font-bold mt-4">{suggestion?.[0]}</p>
+                                                    <div>
+                                                        {suggestion?.[1]?.map((s: any) => (
+                                                            <div
+                                                                key={s.uuid}
+                                                                onClick={() => {
+                                                                    setPickupInput(s.name);
+                                                                    setPickupSuggestions({});
+                                                                    setPickupPoint(s);
+                                                                }}
+                                                                className="cursor-pointer py-2 hover:bg-grey"
+                                                            >
+                                                                {s.name}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ),
+                                        )}
                                 </div>
                             </div>
                         )}

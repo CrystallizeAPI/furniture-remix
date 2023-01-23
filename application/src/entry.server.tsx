@@ -32,15 +32,13 @@ function handleBotRequest(
                 const body = new PassThrough();
 
                 responseHeaders.set('Content-Type', 'text/html');
-                let http2PushLinksHeaders = remixContext.matches
-                    .flatMap(({ route: { module, imports } }) => [module, ...(imports || [])])
-                    .filter(Boolean)
-                    .concat([
-                        remixContext.manifest.url,
-                        remixContext.manifest.entry.module,
-                        ...remixContext.manifest.entry.imports,
-                    ]);
 
+                // waiting for more let's push what we can
+                let http2PushLinksHeaders = [
+                    remixContext.manifest.url,
+                    remixContext.manifest.entry.module,
+                    ...remixContext.manifest.entry.imports,
+                ];
                 responseHeaders.set(
                     'Link',
                     (responseHeaders.has('Link') ? responseHeaders.get('Link') + ',' : '') +
@@ -87,6 +85,20 @@ function handleBrowserRequest(
 
                 responseHeaders.set('Content-Type', 'text/html');
 
+                // waiting for more let's push what we can
+                let http2PushLinksHeaders = [
+                    remixContext.manifest.url,
+                    remixContext.manifest.entry.module,
+                    ...remixContext.manifest.entry.imports,
+                ];
+
+                responseHeaders.set(
+                    'Link',
+                    (responseHeaders.has('Link') ? responseHeaders.get('Link') + ',' : '') +
+                        http2PushLinksHeaders
+                            .map((link: string) => `<${link}>; rel=preload; as=script; crossorigin=anonymous`)
+                            .join(','),
+                );
                 resolve(
                     new Response(body, {
                         headers: responseHeaders,

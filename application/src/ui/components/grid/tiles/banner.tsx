@@ -10,7 +10,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
 
     return (
         <div
-            className={` flex md:flex-row flex-col  w-full mx-auto  ${
+            className={` flex md:flex-row flex-col  w-full mx-auto ${
                 isFullWidth ? 'px-8 lg:px-10 max-w-[1600px] w-full items-center pt-10  md:py-0 ' : 'pl-10 pt-20'
             }`}
         >
@@ -21,7 +21,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
             >
                 {title && (
                     <h1
-                        className={`text-[1em] leading-[1.2em] font-bold mb-3`}
+                        className={`text-[1em] leading-[1em] font-bold mb-3`}
                         style={{ fontSize: font ? font.size : '2rem' }}
                     >
                         {title}
@@ -31,7 +31,7 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                 {ctas &&
                     ctas.map((cta) => (
                         <button
-                            className="px-8 py-4 rounded font-medium"
+                            className="px-8 py-4 rounded font-medium mr-2 mb-8"
                             key={cta.text}
                             style={{
                                 color: button?.color ? button.color : '#fff',

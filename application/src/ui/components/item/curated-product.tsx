@@ -27,7 +27,7 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                         {merchandising.map((merch, i) => (
                             <span
                                 key={`hotspot-${merch.x}-${merch.y}`}
-                                style={{ left: merch.y + `%`, top: merch.y + '%' }}
+                                style={{ left: merch.x + `%`, top: merch.y + '%' }}
                             >
                                 <div className="rounded-sm shadow-sm px-2 pt-2 ">
                                     {merch.products.map((product) => (

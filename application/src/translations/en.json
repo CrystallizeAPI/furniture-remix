@@ -33,7 +33,7 @@
     "stock": {
         "outOfStock": "Out of stock",
         "inStock": "20+ in stock",
-        "lowStock": "Less then 20 in stock",
+        "lowStock": "Less than 20 in stock",
         "showLessAvailability": "Show less availability options",
         "showMoreAvailability": "Show more availability options ({{count}})"
     },

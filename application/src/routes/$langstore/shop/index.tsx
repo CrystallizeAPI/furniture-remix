@@ -9,6 +9,8 @@ import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
 import { Shop } from '~/use-cases/contracts/Shop';
 import ShopPage from '~/ui/pages/Shop';
+import { authenticatedUser } from '~/core/authentication.server';
+import { marketIdentifiersForUser } from '~/use-cases/marketIdentifiersForUser';
 
 export const links: LinksFunction = () => {
     return [{ rel: 'stylesheet', href: splideStyles }];
@@ -31,7 +33,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         language: requestContext.language,
         isPreview: requestContext.isPreview,
     });
-    const shop = await api.fetchShop(path);
+    const user = await authenticatedUser(request);
+    const shop = await api.fetchShop(path, marketIdentifiersForUser(user));
 
     return json({ shop }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };

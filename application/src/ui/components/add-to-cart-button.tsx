@@ -28,7 +28,11 @@ export const AddToCartBtn: React.FC<{
                 {
                     name: packitem.variant.name,
                     sku: packitem.variant.sku,
-                    price: packitem.variant.priceVariants.default.value,
+                    price:
+                        packitem.variant.priceVariants.default.priceFor.price <
+                        packitem.variant.priceVariants.default.value
+                            ? packitem.variant.priceVariants.default.priceFor.price
+                            : packitem.variant.priceVariants.default.value,
                 },
                 packitem.quantity,
             );

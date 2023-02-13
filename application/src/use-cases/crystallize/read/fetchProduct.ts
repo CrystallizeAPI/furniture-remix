@@ -1,9 +1,15 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, path: string, version: string, language: string): Promise<any> => {
+export default async (
+    apiClient: ClientInterface,
+    path: string,
+    version: string,
+    language: string,
+    marketIdentifiers?: string[],
+): Promise<any> => {
     const data: { catalogue: any } = await apiClient.catalogueApi(
         `#graphql
-    query ($language: String!, $path: String!, $version: VersionLabel!) {
+    query ($language: String!, $path: String!, $version: VersionLabel!, $marketIdentifiers: [String!]!) {
       catalogue(language: $language, path: $path, version: $version) {
         meta: component(id:"meta"){
           content {
@@ -93,6 +99,11 @@ export default async (apiClient: ClientInterface, path: string, version: string,
       height
       key
     }
+    caption {
+        json
+        plainText
+        html
+    }
   }
   
   fragment itemRelations on ItemRelationsContent {
@@ -107,6 +118,10 @@ export default async (apiClient: ClientInterface, path: string, version: string,
             name
             price
             currency
+            priceFor(marketIdentifiers: $marketIdentifiers) {
+                identifier
+                price
+            }
           }
           images {
             variants {
@@ -163,6 +178,10 @@ export default async (apiClient: ClientInterface, path: string, version: string,
         name
         price
         currency
+        priceFor(marketIdentifiers: $marketIdentifiers) {
+            identifier
+            price
+        }
       }
       description: component(id:"description") {
         content {
@@ -190,7 +209,11 @@ export default async (apiClient: ClientInterface, path: string, version: string,
         url
         altText
         key
-  
+        caption {
+            plainText
+            json
+            html
+        }
         variants {
           key
           height
@@ -321,6 +344,7 @@ export default async (apiClient: ClientInterface, path: string, version: string,
             language,
             path,
             version: version === 'draft' ? 'draft' : 'published',
+            marketIdentifiers,
         },
     );
 

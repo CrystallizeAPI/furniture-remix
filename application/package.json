@@ -18,7 +18,7 @@
         "playwright:install": "playwright install"
     },
     "dependencies": {
-        "@crystallize/js-api-client": "^1.5",
+        "@crystallize/js-api-client": "^1.9.1",
         "@crystallize/js-storefrontaware-utils": "^0.2.3",
         "@crystallize/node-service-api-request-handlers": "^3.4",
         "@crystallize/reactjs-components": "^1.3",

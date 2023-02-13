@@ -28,8 +28,11 @@ export default ({ data: story }: { data: CuratedStory }) => {
 
     const [pack, setPack] = useState<VariantPack>(defaultPack);
     const totalAmountToPay = pack.reduce((memo: number, packitem: VariantPackItem) => {
+        const marketPrice = packitem.variant.priceVariants?.default?.priceFor?.price;
         const price = packitem.variant.priceVariants?.sales?.value || packitem.variant.priceVariants?.default?.value;
-        return memo + (price || 0) * packitem.quantity;
+
+        const priceToUse = marketPrice < price ? marketPrice : price;
+        return memo + (priceToUse || 0) * packitem.quantity;
     }, 0);
 
     const updatePack = (previous: VariantPackItem, next: VariantPackItem) => {

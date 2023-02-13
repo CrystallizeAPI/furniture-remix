@@ -5,7 +5,10 @@ import { DataMapper } from '~/use-cases/mapper';
 import { useAppContext } from '../app-context/provider';
 import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
 
-export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> = ({ price, size = 'medium' }) => {
+export const DiscountedPrice: React.FC<{
+    price: DisplayPrice;
+    size?: string;
+}> = ({ price, size = 'medium' }) => {
     const priceSize = {
         small: {
             default: 'text-md font-semibold',
@@ -20,7 +23,13 @@ export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> =
             percentage: 'text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-bold',
         },
     };
-    const { default: defaultPrice, discounted: discountPrice, percent: discountPercentage, currency } = price;
+    const {
+        default: defaultPrice,
+        discounted: discountPrice,
+        percent: discountPercentage,
+        currency,
+        marketPrice,
+    } = price;
 
     return (
         <div>
@@ -29,7 +38,7 @@ export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> =
                     <div className={priceSize[size as keyof typeof priceSize].previous}>
                         <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
                     </div>
-                    <div className="flex gap-2 items-center ">
+                    <div className="flex gap-2 items-center">
                         <div className={priceSize[size as keyof typeof priceSize].discount}>
                             <CrystallizePrice currencyCode={currency.code}>{discountPrice}</CrystallizePrice>
                         </div>
@@ -39,8 +48,30 @@ export const DiscountedPrice: React.FC<{ price: DisplayPrice; size?: string }> =
                     </div>
                 </div>
             ) : (
-                <div className={priceSize[size as keyof typeof priceSize].default}>
-                    <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
+                <div className="">
+                    <CrystallizePrice
+                        currencyCode={currency.code}
+                        className={`${
+                            marketPrice && marketPrice < defaultPrice
+                                ? priceSize[size as keyof typeof priceSize].previous
+                                : priceSize[size as keyof typeof priceSize].default
+                        }`}
+                    >
+                        {defaultPrice}
+                    </CrystallizePrice>
+                    {marketPrice && marketPrice < defaultPrice && (
+                        <div>
+                            <CrystallizePrice
+                                currencyCode={currency.code}
+                                className={priceSize[size as keyof typeof priceSize].discount}
+                            >
+                                {marketPrice}
+                            </CrystallizePrice>
+                            <p className={`${priceSize[size as keyof typeof priceSize].percentage} w-fit mt-2`}>
+                                Member price
+                            </p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
@@ -60,11 +91,11 @@ export const Price: React.FC<{ variant: ProductVariant; size?: string }> = ({ va
     return <DiscountedPrice price={price} size={size} />;
 };
 
-export const CartItemPrice: React.FC<{ item: CartItem; saving: any; size?: string }> = ({
-    item,
-    saving,
-    size = 'small',
-}) => {
+export const CartItemPrice: React.FC<{
+    item: CartItem;
+    saving: any;
+    size?: string;
+}> = ({ item, saving, size = 'small' }) => {
     const mapper = DataMapper();
     const { state, _t } = useAppContext();
     return (

@@ -38,22 +38,28 @@ export const CrystallizeAPI = ({
         fetchNavigation: (path: string) =>
             fetchNavigation(apiClient, path, language).then(mapper.API.Call.fetchNavigationToTree),
         fetchTreeMap: () => fetchTreeMap(apiClient, language),
-        fetchLandingPage: (path: string) =>
-            fetchLandingPage(apiClient, path, version, language).then(mapper.API.Call.fetchLandingPageToLandingPage),
-        fetchDocument: (path: string) =>
-            fetchDocument(apiClient, path, version, language).then(mapper.API.Call.fetchDocumentToStory),
-        fetchProduct: (path: string): Promise<Product> =>
-            fetchProduct(apiClient, path, version, language).then(mapper.API.Call.fetchProductToProduct),
+        fetchLandingPage: (path: string, marketIdentifier?: string[]) =>
+            fetchLandingPage(apiClient, path, version, language, marketIdentifier).then(
+                mapper.API.Call.fetchLandingPageToLandingPage,
+            ),
+        fetchDocument: (path: string, marketIdentifier?: string[]) =>
+            fetchDocument(apiClient, path, version, language, marketIdentifier).then(
+                mapper.API.Call.fetchDocumentToStory,
+            ),
+        fetchProduct: (path: string, marketIdentifier?: string[]): Promise<Product> =>
+            fetchProduct(apiClient, path, version, language, marketIdentifier).then(
+                mapper.API.Call.fetchProductToProduct,
+            ),
         fetchFolder: (path: string) =>
             fetchFolder(apiClient, path, version, language).then(mapper.API.Call.fetchFolderToCategory),
-        fetchFolderWithChildren: (path: string) =>
-            fetchFolderWithChildren(apiClient, path, version, language).then(
+        fetchFolderWithChildren: (path: string, marketIdentifier?: string[]) =>
+            fetchFolderWithChildren(apiClient, path, version, language, marketIdentifier).then(
                 mapper.API.Call.fetchFolderToCategory(true),
             ),
-        fetchShop: (path: string) =>
+        fetchShop: (path: string, marketIdentifier?: string[]) =>
             Promise.all([
-                fetchFolder(apiClient, path, version, language),
-                fetchHierarchy(apiClient, path, language),
+                fetchFolder(apiClient, path, version, language, marketIdentifier),
+                fetchHierarchy(apiClient, path, language, marketIdentifier),
             ]).then(mapper.API.Call.fetchShopToShop),
         fetchFooter: (path: string) =>
             fetchFooter(apiClient, path, version, language).then(mapper.API.Call.fetchFooterToFooter),

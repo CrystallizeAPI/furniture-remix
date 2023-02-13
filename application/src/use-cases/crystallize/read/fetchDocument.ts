@@ -1,10 +1,16 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, path: string, version: string, language: string) => {
+export default async (
+    apiClient: ClientInterface,
+    path: string,
+    version: string,
+    language: string,
+    marketIdentifiers?: string[],
+) => {
     return (
         await apiClient.catalogueApi(
             `#graphql
-query ($language: String!, $path: String!, $version: VersionLabel) {
+query ($language: String!, $path: String!, $version: VersionLabel, $marketIdentifiers: [String!]!) {
     catalogue(path: $path, language: $language, version: $version) {
       ... on Item {
         name
@@ -85,6 +91,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                             name
                             price
                             currency
+                            priceFor(marketIdentifiers: $marketIdentifiers) {
+                                identifier
+                                price
+                            }
                         }
                           firstImage {
                             url
@@ -111,6 +121,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                             name
                             price
                             currency
+                            priceFor(marketIdentifiers: $marketIdentifiers) {
+                                identifier
+                                price
+                            }
                           }
                           attributes {
                             value
@@ -177,6 +191,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                         name
                         price
                         currency
+                        priceFor(marketIdentifiers: $marketIdentifiers) {
+                            identifier
+                            price
+                        }
                     }
                     images {
                       variants {
@@ -237,6 +255,7 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                 language,
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
+                marketIdentifiers,
             },
         )
     ).catalogue;

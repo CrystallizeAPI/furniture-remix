@@ -2,7 +2,13 @@ import { RequestContext } from './http/utils';
 import { getStoreFront } from './storefront.server';
 import { CrystallizeAPI } from './crystallize/read';
 
-export default async (shapeIdentifier: string, path: string, request: RequestContext, params?: any) => {
+export default async (
+    shapeIdentifier: string,
+    path: string,
+    request: RequestContext,
+    params?: any,
+    marketIdentifiers?: string[],
+) => {
     const { secret } = await getStoreFront(request.host);
     const api = CrystallizeAPI({
         apiClient: secret.apiClient,
@@ -12,7 +18,7 @@ export default async (shapeIdentifier: string, path: string, request: RequestCon
     const url = request.url;
     switch (shapeIdentifier) {
         case 'product':
-            const product = await api.fetchProduct(path);
+            const product = await api.fetchProduct(path, marketIdentifiers);
             if (!product) {
                 throw new Response('Product Not Found', {
                     status: 404,
@@ -39,7 +45,7 @@ export default async (shapeIdentifier: string, path: string, request: RequestCon
 
             //@todo: we have way too many query/fetch here, we need to agregate the query, GraphQL ;) => we can reduce to one call.
             const [category, products, priceRangeAndAttributes] = await Promise.all([
-                api.fetchFolderWithChildren(path),
+                api.fetchFolderWithChildren(path, marketIdentifiers),
                 api.searchOrderBy(path, searchParams.orderBy, searchParams.filters, searchParams.attributes),
                 api.fetchPriceRangeAndAttributes(path),
             ]);
@@ -52,7 +58,7 @@ export default async (shapeIdentifier: string, path: string, request: RequestCon
             }
             return { category, products, priceRangeAndAttributes };
         case 'abstract-story':
-            const story = await api.fetchDocument(path);
+            const story = await api.fetchDocument(path, marketIdentifiers);
             if (!story) {
                 throw new Response('Story Mot Found', {
                     status: 404,
@@ -70,7 +76,7 @@ export default async (shapeIdentifier: string, path: string, request: RequestCon
                 topic,
             };
         case 'landing-page':
-            return await api.fetchLandingPage(path);
+            return await api.fetchLandingPage(path, marketIdentifiers);
     }
     throw new Error(`No page renderer found for shape ${shapeIdentifier}`);
 };

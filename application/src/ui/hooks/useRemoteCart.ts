@@ -10,6 +10,7 @@ export function useRemoteCart(): { loading: boolean; remoteCart: any | null } {
         loading: true,
         hydratedCart: null,
     });
+
     useEffect(() => {
         (async () => {
             setState({

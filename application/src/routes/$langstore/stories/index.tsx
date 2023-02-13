@@ -7,6 +7,8 @@ import { buildMetas } from '~/use-cases/MicrodataBuilder';
 import { getContext } from '~/use-cases/http/utils';
 import { CategoryWithChildren } from '~/use-cases/contracts/Category';
 import Stories from '~/ui/pages/Stories';
+import { authenticatedUser } from '~/core/authentication.server';
+import { marketIdentifiersForUser } from '~/use-cases/marketIdentifiersForUser';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -25,7 +27,9 @@ export const loader: LoaderFunction = async ({ request }) => {
         language: requestContext.language,
         isPreview: requestContext.isPreview,
     });
-    const folder = await api.fetchFolderWithChildren(path);
+    const user = await authenticatedUser(request);
+
+    const folder = await api.fetchFolderWithChildren(path, marketIdentifiersForUser(user));
     return json({ folder }, StoreFrontAwaretHttpCacheHeaderTagger('15s', '1w', [path], shared.config.tenantIdentifier));
 };
 

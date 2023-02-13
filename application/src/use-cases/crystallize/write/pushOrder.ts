@@ -67,6 +67,7 @@ export default async (
     };
 
     const pusher = createOrderPusher(apiClient);
+
     const orderIntent = {
         customer,
         cart: cart.cart.items.map((item: CartItem) => {

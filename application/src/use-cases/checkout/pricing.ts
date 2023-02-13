@@ -6,6 +6,7 @@ export type DisplayPrice = {
     discounted?: number;
     percent: number;
     currency: Currency;
+    marketPrice?: number;
 };
 
 /** @todo: MUST be EXTRACTED: as it used the Local to Project Type */
@@ -40,11 +41,17 @@ export default function displayPriceFor(
             ? priceVariants[identifiers.discounted].value
             : undefined;
 
+    const marketPrice =
+        priceVariants[identifiers.default] && priceVariants[identifiers.default].currency.code === currency.code
+            ? priceVariants[identifiers.default].priceFor.price
+            : 0.0;
+
     if (!discountedPrice) {
         return {
             default: defaultPrice,
             percent: 0.0,
             currency,
+            marketPrice,
         };
     }
 
@@ -53,5 +60,6 @@ export default function displayPriceFor(
         discounted: discountedPrice,
         percent: defaultPrice > 0 ? Math.round(((defaultPrice - discountedPrice) / defaultPrice) * 100) : 0.0,
         currency,
+        marketPrice,
     };
 }

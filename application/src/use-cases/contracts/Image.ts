@@ -1,3 +1,5 @@
+import { RichTextContent } from '@crystallize/js-api-client';
+
 export type Image = {
     key: string;
     url: string;
@@ -8,4 +10,5 @@ export type Image = {
         width: number;
         url: string;
     }>;
+    caption?: RichTextContent;
 };

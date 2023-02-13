@@ -17,6 +17,7 @@ export default (images?: APIImage[]): Image[] => {
                             height: variant.height!,
                         };
                     }) || [],
+                caption: image.caption || {},
             };
         }) || []
     );

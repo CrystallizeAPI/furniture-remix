@@ -1,10 +1,16 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 
-export default async (apiClient: ClientInterface, path: string, version: string, language: string) => {
+export default async (
+    apiClient: ClientInterface,
+    path: string,
+    version: string,
+    language: string,
+    marketIdentifiers?: string[],
+) => {
     return (
         await apiClient.catalogueApi(
             `#graphql
-query ($language: String!, $path: String!, $version: VersionLabel) {
+query ($language: String!, $path: String!, $version: VersionLabel, $marketIdentifiers: [String!]!) {
     catalogue(language: $language, path: $path, version: $version) {
         id
         name
@@ -75,6 +81,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                                       name
                                       price
                                       currency
+                                      priceFor(marketIdentifiers: $marketIdentifiers) {
+                                        identifier
+                                        price
+                                      }
                                     }
                                     images {
                                       variants {
@@ -177,6 +187,16 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                                               ...on Product {
                                                 defaultVariant {
                                                   price
+                                                  priceVariants {
+                                                    identifier
+                                                    name
+                                                    price
+                                                    currency
+                                                    priceFor(marketIdentifiers: $marketIdentifiers) {
+                                                        identifier
+                                                        price
+                                                    }
+                                                  }
                                                   firstImage {
                                                     url
                                                     altText
@@ -227,6 +247,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                                                     name
                                                     price
                                                     currency
+                                                    priceFor(marketIdentifiers: $marketIdentifiers) {
+                                                        identifier
+                                                        price
+                                                    }
                                                   }
                                                   firstImage {
                                                     url
@@ -367,6 +391,16 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                                               ...on Product {
                                                 defaultVariant {
                                                   price
+                                                  priceVariants {
+                                                    identifier
+                                                    name
+                                                    price
+                                                    currency
+                                                    priceFor(marketIdentifiers: $marketIdentifiers) {
+                                                        identifier
+                                                        price
+                                                    }
+                                                  }
                                                   firstImage {
                                                     url
                                                     altText
@@ -417,6 +451,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                                                     name
                                                     price
                                                     currency
+                                                    priceFor(marketIdentifiers: $marketIdentifiers) {
+                                                        identifier
+                                                        price
+                                                    }
                                                   }
                                                   firstImage {
                                                     url
@@ -499,6 +537,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                                 name
                                 price
                                 currency
+                                priceFor(marketIdentifiers: $marketIdentifiers) {
+                                    identifier
+                                    price
+                                }
                               }
                               firstImage {
                                 url
@@ -558,6 +600,10 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                 name
                 price
                 currency
+                priceFor(marketIdentifiers: $marketIdentifiers) {
+                    identifier
+                    price
+                }
               }
               firstImage {
                 url
@@ -573,6 +619,7 @@ query ($language: String!, $path: String!, $version: VersionLabel) {
                 language: 'en',
                 path,
                 version: version === 'draft' ? 'draft' : 'published',
+                marketIdentifiers,
             },
         )
     ).catalogue;

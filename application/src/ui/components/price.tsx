@@ -23,13 +23,15 @@ export const DiscountedPrice: React.FC<{
             percentage: 'text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-bold',
         },
     };
-    const {
+    let {
         default: defaultPrice,
         discounted: discountPrice,
         percent: discountPercentage,
         currency,
         marketPrice,
     } = price;
+
+    const { _t } = useAppContext();
 
     return (
         <div>
@@ -46,32 +48,20 @@ export const DiscountedPrice: React.FC<{
                             -{discountPercentage}%
                         </div>
                     </div>
+                    {marketPrice && marketPrice < defaultPrice && (
+                        <p className={`${priceSize[size as keyof typeof priceSize].percentage} w-fit mt-2`}>
+                            {_t('marketPriceLabel')}
+                        </p>
+                    )}
                 </div>
             ) : (
                 <div className="">
                     <CrystallizePrice
                         currencyCode={currency.code}
-                        className={`${
-                            marketPrice && marketPrice < defaultPrice
-                                ? priceSize[size as keyof typeof priceSize].previous
-                                : priceSize[size as keyof typeof priceSize].default
-                        }`}
+                        className={priceSize[size as keyof typeof priceSize].default}
                     >
                         {defaultPrice}
                     </CrystallizePrice>
-                    {marketPrice && marketPrice < defaultPrice && (
-                        <div>
-                            <CrystallizePrice
-                                currencyCode={currency.code}
-                                className={priceSize[size as keyof typeof priceSize].discount}
-                            >
-                                {marketPrice}
-                            </CrystallizePrice>
-                            <p className={`${priceSize[size as keyof typeof priceSize].percentage} w-fit mt-2`}>
-                                Member price
-                            </p>
-                        </div>
-                    )}
                 </div>
             )}
         </div>

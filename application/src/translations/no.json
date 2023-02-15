@@ -3,6 +3,7 @@
     "browse": "Bla gjennom kategorier",
     "view": "Se alle",
     "relatedProducts": "Du kan også være interessert i",
+    "marketPriceLabel": "Din pris",
     "search": {
         "placeholder": "Navn, SKU-er, kategorier",
         "label": "Søk",

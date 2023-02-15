@@ -35,30 +35,26 @@ export default function displayPriceFor(
         priceVariants[identifiers.default] && priceVariants[identifiers.default].currency.code === currency.code
             ? priceVariants[identifiers.default].value
             : 0.0;
-    const discountedPrice =
-        discount?.amount ||
-        (priceVariants[identifiers.discounted] && priceVariants[identifiers.discounted].currency.code === currency.code)
-            ? priceVariants[identifiers.discounted].value
-            : undefined;
 
     const marketPrice =
         priceVariants[identifiers.default] && priceVariants[identifiers.default].currency.code === currency.code
             ? priceVariants[identifiers.default].priceFor.price
             : 0.0;
 
-    if (!discountedPrice) {
-        return {
-            default: defaultPrice,
-            percent: 0.0,
-            currency,
-            marketPrice,
-        };
+    let discountedPrice =
+        discount?.amount ||
+        (priceVariants[identifiers.discounted] && priceVariants[identifiers.discounted].currency.code === currency.code)
+            ? priceVariants[identifiers.discounted].value
+            : undefined;
+
+    if (marketPrice && marketPrice < defaultPrice) {
+        discountedPrice = marketPrice;
     }
 
     return {
         default: defaultPrice,
         discounted: discountedPrice,
-        percent: defaultPrice > 0 ? Math.round(((defaultPrice - discountedPrice) / defaultPrice) * 100) : 0.0,
+        percent: defaultPrice > 0 ? Math.round(((defaultPrice - discountedPrice!) / defaultPrice) * 100) : 0.0,
         currency,
         marketPrice,
     };

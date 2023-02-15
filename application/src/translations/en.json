@@ -3,6 +3,7 @@
     "browse": "Browse categories",
     "view": "View all",
     "relatedProducts": "You might also be interested in",
+    "marketPriceLabel": "Your price",
     "search": {
         "placeholder": "Names, SKUs, categories",
         "label": "Search",

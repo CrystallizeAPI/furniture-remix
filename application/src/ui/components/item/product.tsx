@@ -20,6 +20,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
     return (
         <Link
             to={path(item.path)}
+            data-testid="product-link"
             prefetch="intent"
             className="grid grid-rows-[1fr_minmax(25px_50px)_40px] place-items-stretch w-full min-h-full justify-stretch items-stretch relative product-link"
         >

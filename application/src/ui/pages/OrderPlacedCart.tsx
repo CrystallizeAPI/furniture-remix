@@ -47,7 +47,9 @@ export default ({ cartId }: { cartId: string }) => {
         return (
             <div className="min-h-[80vh] items-center flex lg:w-content mx-auto w-full">
                 <div className="w-2/4 mx-auto">
-                    <h1 className="font-bold text-3xl mb-2">Order Placed!</h1>
+                    <h1 data-testid="order-placed" className="font-bold text-3xl mb-2">
+                        Order Placed!
+                    </h1>
                     <div>
                         <div>
                             <p>
@@ -55,7 +57,10 @@ export default ({ cartId }: { cartId: string }) => {
                                 details here.
                             </p>
                             <p className="mt-4 text-[#6D6B69]">
-                                Order id: <span className="font-italic">{orderGuestId}</span>
+                                Order id:{' '}
+                                <span data-testid="guest-order-id" className="font-italic">
+                                    {orderGuestId}
+                                </span>
                             </p>
                         </div>
                     </div>

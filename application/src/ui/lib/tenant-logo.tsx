@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components';
 
 export function TenantLogo({ identifier, logo }: { identifier: string; logo: any }) {
-    if (logo.key === 'superfast-originated-logo') {
+    if (logo.key === 'superfast-originated-logo' && logo.length > 0) {
         return (
             <img
                 src={logo.url}

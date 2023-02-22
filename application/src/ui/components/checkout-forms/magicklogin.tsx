@@ -101,6 +101,7 @@ export const MagickLoginForm: React.FC<{
                     {enabledGuest && (
                         <button
                             type="button"
+                            data-testid="guest-checkout-button"
                             className="underline px-5 py-2 ml-2 rounded mt-5 w-full"
                             onClick={() => {
                                 if (enabledGuest) {

@@ -65,7 +65,10 @@ export const Header: React.FC<{
                         );
                     })}
                     <div className="flex gap-3 mt-3 items-center border-t pt-2 border-t-[#dfdfdf]">
-                        <button className="bg-grey text-sm text-[#000] font-bold py-2 px-4 rounded-md">
+                        <button
+                            data-testid="go-to-cart-button"
+                            className="bg-grey text-sm text-[#000] font-bold py-2 px-4 rounded-md"
+                        >
                             <Link to={path('/cart')}>Go to cart</Link>
                         </button>
                     </div>

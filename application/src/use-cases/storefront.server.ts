@@ -35,7 +35,7 @@ export const getStoreFront = async (hostname: string) => {
                 tenantIdentifier: `${process.env.CRYSTALLIZE_TENANT_IDENTIFIER}`,
                 language: `${process.env.STOREFRONT_LANGUAGE}`,
                 storefront: '',
-                logo: `${process.env.STOREFRONT_STATIC_LOGO_URL}`,
+                logo: process.env.STOREFRONT_STATIC_LOGO_URL ?? '',
                 theme: `${process.env.STOREFRONT_THEME}`,
                 configuration: {
                     ACCESS_TOKEN_ID: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_ID}`,

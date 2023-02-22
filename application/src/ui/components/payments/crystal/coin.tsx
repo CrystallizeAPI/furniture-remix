@@ -14,6 +14,7 @@ export const CrystalCoinButton: React.FC<{ paying?: boolean; onClick: () => Prom
     const { _t } = useAppContext();
     return (
         <button
+            data-testid="crystal-coin-payment-button"
             className="crystal-coin w-full text-white h-[70px] mt-2 rounded-md px-8 bg-grey py-4 flex flex-row justify-between items-center border border-transparent hover:border-black"
             disabled={paying}
             onClick={onClick}

@@ -194,7 +194,10 @@ export const HydratedCart: React.FC = () => {
                     <button className="bg-grey py-2 px-5 rounded-md text-center font-semibold">
                         <Link to={path('/')}>{_t('back')}</Link>
                     </button>
-                    <button className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100">
+                    <button
+                        data-testid="checkout-button"
+                        className="bg-[#000] px-10 py-3 rounded text-[#fff] font-bold hover:bg-black-100"
+                    >
                         <Link to={path('/checkout')}>{_t('checkout')}</Link>
                     </button>
                 </div>

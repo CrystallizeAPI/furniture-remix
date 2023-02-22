@@ -50,6 +50,7 @@ export const AddToCartBtn: React.FC<{
     return (
         <>
             <button
+                data-testid="add-to-cart-button"
                 className="bg-[#000] border px-10 py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] w-[200px] font-bold hover:bg-black-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={() => {
                     handleClick();

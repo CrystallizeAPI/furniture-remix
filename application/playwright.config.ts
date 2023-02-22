@@ -6,10 +6,16 @@ process.env.SUPERFAST_HOST = 'furniture.superfast.local';
 process.env.STOREFRONT_IDENTIFIER = 'furniture';
 process.env.STOREFRONT_LANGUAGE = 'en';
 process.env.STOREFRONT_THEME = 'default';
-process.env.CRYSTALLIZE_TENANT_IDENTIFIER = 'frntr-blueprint';
+
+/**
+ * NOTE YOU WANT TO CHANGE THAT TO YOUR OWN TENANT IDENTIFIER AND CREDENTIALS from the ENVIRONMENT VARIABLES
+ */
+process.env.CRYSTALLIZE_TENANT_IDENTIFIER = process.env.PLAYWRIGHT_TENANT_IDENTIFIER ?? 'frntr-blueprint';
+process.env.CRYSTALLIZE_ACCESS_TOKEN_ID = process.env.PLAYWRIGHT_ACCESS_TOKEN_ID ?? '';
+process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET = process.env.PLAYWRIGHT_ACCESS_TOKEN_SECRET ?? '';
+/**  */
+
 process.env.CRYSTAL_PAYMENTS = 'coin,card';
-process.env.CRYSTALLIZE_ACCESS_TOKEN_ID = 'xXx';
-process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET = 'xXx';
 process.env.HTTP_CACHE_SERVICE = 'varnish';
 process.env.JWT_SECRET = 'xXx';
 

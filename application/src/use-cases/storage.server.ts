@@ -22,7 +22,7 @@ function createRedisStorageEngine(dsn: string | undefined, options: StorageOptio
     };
 }
 
-function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}): BackendStorage {
+function createMemoryStorageEngine(options: StorageOptions = {}): BackendStorage {
     const prefix = options?.prefix ?? '';
     const store = new Map();
     return {
@@ -50,8 +50,8 @@ function createMemoryStorageEngine(dsn: string, options: StorageOptions = {}): B
  * @param options Object with options: prefix
  */
 export function configureStorage(dsn: string | undefined, options: StorageOptions = {}): BackendStorage {
-    if (dsn?.startsWith?.('memory://')) {
-        return createMemoryStorageEngine(dsn, options);
+    if (dsn?.startsWith?.('redis://')) {
+        return createRedisStorageEngine(dsn, options);
     }
-    return createRedisStorageEngine(dsn, options);
+    return createMemoryStorageEngine(options);
 }

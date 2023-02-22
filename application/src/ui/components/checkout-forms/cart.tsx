@@ -6,12 +6,17 @@ import { CartItemPrice } from '../price';
 import { useLocalCart } from '../../hooks/useLocalCart';
 import { Price as CrystallizePrice } from '../../lib/pricing/pricing-component';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
+import { Voucher } from '~/use-cases/contracts/Voucher';
 
 export const CheckoutCart: React.FC = () => {
     const { remoteCart } = useRemoteCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
-    const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
+    const { savings } = remoteCart?.extra?.discounts || {
+        lots: null,
+        savings: null,
+    };
     const { state: contextState, _t } = useAppContext();
+    const voucher = remoteCart?.extra?.voucher as Voucher | undefined;
     return (
         <div className="lg:w-2/5 w-full">
             <h1 className="font-bold text-2xl mt-10 mb-5">{_t('cart.yourCart')}</h1>
@@ -54,6 +59,12 @@ export const CheckoutCart: React.FC = () => {
                             </Price>
                         </p>
                     </div>
+                    {voucher && voucher.code !== '' && (
+                        <div className="flex text-grey3 text-sm justify-between w-60">
+                            <p>{_t('cart.voucherCode')}</p>
+                            <span>{voucher.code}</span>
+                        </div>
+                    )}
                     <div className="flex text-grey3 text-sm justify-between w-60">
                         <p>{_t('cart.taxAmount')}</p>
                         <p>

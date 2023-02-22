@@ -16,6 +16,7 @@ export function placeCart(
         items: Object.values(cart.items),
         customer,
         options,
+        extra: cart.extra,
     });
 }
 
@@ -69,6 +70,7 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
                 items: Object.values(cart.items),
                 cartId: cart.cartId,
                 withImages: true,
+                extra: cart.extra,
             }),
         // THIS SHOULD BE REMOVED IN A REAL PROJECT
         sendPaidOrderWithCrystalCoin: (cart: LocalCart, customer: Partial<Customer>) =>

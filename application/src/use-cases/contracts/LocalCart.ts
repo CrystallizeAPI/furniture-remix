@@ -9,4 +9,5 @@ export type LocalCart = {
     };
     cartId: string;
     state: 'cart' | 'placed' | 'paid';
+    extra?: Record<string, string>;
 };

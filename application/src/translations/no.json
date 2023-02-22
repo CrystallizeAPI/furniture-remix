@@ -4,6 +4,7 @@
     "view": "Se alle",
     "relatedProducts": "Du kan også være interessert i",
     "marketPriceLabel": "Din pris",
+    "delete": "Slett",
     "search": {
         "placeholder": "Navn, SKU-er, kategorier",
         "label": "Søk",
@@ -50,7 +51,9 @@
         "continue": "Fortsett til kassen",
         "trylater": "Prøv å gå tilbake og finn noe vakkert før du kommer tilbake",
         "immutable": "Du har igangsatt, avsluttet eller kansellert en betaling, denne versjonen av handlekurven din er derfor låst.",
-        "clone": "Lag en ny handlekurv fra denne"
+        "clone": "Lag en ny handlekurv fra denne",
+        "voucherCode": "Rabatt code",
+        "useVoucher": "Bruk rabatt"
     },
     "dimensions": "Dimensjoner",
     "specifications": "Manualer og spesifikasjoner",

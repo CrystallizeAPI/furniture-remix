@@ -8,6 +8,8 @@ import { Price as CrystallizePrice } from '../lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
 import { CartItemPrice } from './price';
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
+import { VoucherForm } from './voucher';
+import { Voucher } from '~/use-cases/contracts/Voucher';
 
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
@@ -54,8 +56,12 @@ export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart, clone: cartClone } = useLocalCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
-    const { savings } = remoteCart?.extra?.discounts || { lots: null, savings: null };
+    const { savings } = remoteCart?.extra?.discounts || {
+        lots: null,
+        savings: null,
+    };
     const { state: contextState, path, _t } = useAppContext();
+    const voucher = remoteCart?.extra?.voucher as Voucher | undefined;
 
     if (isEmpty()) {
         return (
@@ -165,30 +171,41 @@ export const HydratedCart: React.FC = () => {
                                 </div>
                             );
                         })}
-                    {total && (
-                        <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
-                            <div className="flex text-grey3 text-sm justify-between w-60">
-                                <p>{_t('cart.discount')}</p>
-                                <CrystallizePrice currencyCode={contextState.currency.code}>
-                                    {total.discounts.reduce((memo: number, discount: any) => {
-                                        return memo + discount?.amount || 0;
-                                    }, 0)}
-                                </CrystallizePrice>
-                            </div>
-                            <div className="flex text-grey3 text-sm justify-between w-60">
-                                <p>{_t('cart.taxAmount')}</p>
-                                <CrystallizePrice currencyCode={contextState.currency.code}>
-                                    {total.taxAmount}
-                                </CrystallizePrice>
-                            </div>
-                            <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
-                                <p>{_t('cart.toPay')}</p>
-                                <CrystallizePrice currencyCode={contextState.currency.code}>
-                                    {total.gross}
-                                </CrystallizePrice>
-                            </div>
+                    <div className="flex justify-between gap-5">
+                        <VoucherForm />
+                        <div>
+                            {total && (
+                                <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
+                                    <div className="flex text-grey3 text-sm justify-between w-60">
+                                        <p>{_t('cart.discount')}</p>
+                                        <CrystallizePrice currencyCode={contextState.currency.code}>
+                                            {total.discounts.reduce((memo: number, discount: any) => {
+                                                return memo + discount?.amount || 0;
+                                            }, 0)}
+                                        </CrystallizePrice>
+                                    </div>
+                                    <div className="flex text-grey3 text-sm justify-between w-60">
+                                        <p>{_t('cart.taxAmount')}</p>
+                                        <CrystallizePrice currencyCode={contextState.currency.code}>
+                                            {total.taxAmount}
+                                        </CrystallizePrice>
+                                    </div>
+                                    {voucher && voucher.code !== '' && (
+                                        <div className="flex text-grey3 text-sm justify-between w-60">
+                                            <p>{_t('cart.voucherCode')}</p>
+                                            <span>{voucher.code}</span>
+                                        </div>
+                                    )}
+                                    <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
+                                        <p>{_t('cart.toPay')}</p>
+                                        <CrystallizePrice currencyCode={contextState.currency.code}>
+                                            {total.gross}
+                                        </CrystallizePrice>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
                 <div className="flex justify-between mt-10">
                     <button className="bg-grey py-2 px-5 rounded-md text-center font-semibold">

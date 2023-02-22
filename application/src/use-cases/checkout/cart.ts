@@ -7,8 +7,6 @@ import {
     Price,
 } from '@crystallize/node-service-api-request-handlers';
 import { extractDisountLotFromItemsBasedOnXForYTopic, groupSavingsPerSkus } from './discount';
-import { cartWrapperRepository } from '../services.server';
-import { v4 as uuidv4 } from 'uuid';
 import { validatePayload } from '../http/utils';
 import {
     ClientInterface,
@@ -19,14 +17,15 @@ import {
 } from '@crystallize/js-api-client';
 import { CrystallizeAPI } from '../crystallize/read';
 import { marketIdentifiersForUser } from '../marketIdentifiersForUser';
+import { Voucher } from '../contracts/Voucher';
 
-function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
+export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<CartWrapper> {
     const { cart, total } = wrapper.cart;
     const lots = extractDisountLotFromItemsBasedOnXForYTopic(cart.items);
     const savings = groupSavingsPerSkus(lots);
-
     const existingDiscounts = total.discounts || [];
 
+    const voucher = wrapper.extra?.voucher as Voucher | undefined;
     let newTotals: Price = {
         gross: 0,
         currency: total.currency,
@@ -39,6 +38,26 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
             },
         ],
     };
+
+    let voucherDiscount = {
+        amount: 0,
+        percent: 0,
+    };
+
+    if (voucher) {
+        if (voucher.value.type === 'absolute') {
+            voucherDiscount = {
+                amount: voucher.value.number,
+                percent: (voucher.value.number / total.gross) * 100,
+            };
+        }
+        if (voucher.value.type === 'percent') {
+            voucherDiscount = {
+                amount: (total.gross * voucher.value.number) / 100,
+                percent: voucher.value.number,
+            };
+        }
+    }
 
     const alteredItems = cart.items.map((item) => {
         const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
@@ -65,18 +84,21 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
         };
     });
 
+    const newDiscounts = {
+        amount: newTotals.discounts![0].amount,
+        percent: (1 - (newTotals.net + newTotals.discounts![0].amount) / newTotals.net) * 100,
+    };
+
+    //REDUCE THE TOTALS BY THE VOUCHER DISCOUNT
+    newTotals.net -= voucherDiscount?.amount;
+    newTotals.gross = newTotals.net + newTotals.taxAmount;
+
     return {
         ...wrapper,
         cart: {
             total: {
                 ...newTotals,
-                discounts: [
-                    ...existingDiscounts,
-                    {
-                        amount: newTotals.discounts![0].amount,
-                        percent: (1 - (newTotals.net + newTotals.discounts![0].amount) / newTotals.net) * 100,
-                    },
-                ],
+                discounts: [...existingDiscounts, newDiscounts, voucherDiscount],
             },
             cart: {
                 items: alteredItems,
@@ -92,48 +114,11 @@ function alterCartBasedOnDiscounts(wrapper: CartWrapper): CartWrapper {
     };
 }
 
-export async function handleAndPlaceCart(
-    cart: Cart,
-    customer: any,
-    providedCartId: string,
-    options?: any,
-): Promise<CartWrapper> {
-    const cartWrapper = await handleAndSaveCart(cart, providedCartId);
-    cartWrapper.customer = customer;
-    cartWrapper.extra = {
-        ...cartWrapper.extra,
-        pickupPoint: options?.pickupPoint,
-    };
-    cartWrapperRepository.place(cartWrapper);
-    return cartWrapper;
-}
-
-export async function handleAndSaveCart(cart: Cart, providedCartId: string): Promise<CartWrapper> {
-    let cartId = providedCartId;
-    let cartWrapper: null | CartWrapper = null;
-    let storedCartWrapper: null | CartWrapper = null;
-    if (cartId) {
-        storedCartWrapper = (await cartWrapperRepository.find(cartId)) || null;
-    } else {
-        cartId = uuidv4();
-    }
-    if (!storedCartWrapper) {
-        cartWrapper = cartWrapperRepository.create(cart, cartId);
-    } else {
-        cartWrapper = { ...storedCartWrapper };
-        cartWrapper.cart = cart;
-    }
-
-    // handle discount
-    cartWrapper = alterCartBasedOnDiscounts(cartWrapper);
-
-    if (!cartWrapperRepository.save(cartWrapper)) {
-        return storedCartWrapper || cartWrapper;
-    }
-    return cartWrapper;
-}
-
-export async function hydrateCart(apiClient: ClientInterface, language: string, body: any): Promise<Cart> {
+export async function hydrateCart(
+    apiClient: ClientInterface,
+    language: string,
+    body: any,
+): Promise<[Cart, Voucher | undefined]> {
     const api = CrystallizeAPI({
         apiClient,
         language,
@@ -169,7 +154,7 @@ export async function hydrateCart(apiClient: ClientInterface, language: string, 
         );
     };
 
-    return await handleCartRequestPayload(validatePayload<CartPayload>(body, cartPayload), {
+    const cart = await handleCartRequestPayload(validatePayload<CartPayload>(body, cartPayload), {
         hydraterBySkus: createProductHydrater(apiClient, { useSyncApiForSKUs: false, marketIdentifiers }).bySkus,
         currency,
         perProduct: () => {
@@ -220,4 +205,16 @@ export async function hydrateCart(apiClient: ClientInterface, language: string, 
             return pickStandardPrice(product, selectedVariant, currency);
         },
     });
+
+    let voucher: Voucher | undefined;
+    try {
+        voucher = (await api.fetchVoucher(body.extra?.voucher)) as Voucher;
+        if (voucher.isExpired) {
+            voucher = undefined;
+        }
+    } catch (exception) {
+        voucher = undefined;
+    }
+
+    return [cart, voucher];
 }

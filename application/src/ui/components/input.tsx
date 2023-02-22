@@ -2,14 +2,15 @@ import { ChangeEventHandler } from 'react';
 
 export const Input: React.FC<{
     placeholder: string;
-    defaultValue: any;
+    defaultValue?: string;
+    value?: string;
     name: string;
     onChange: ChangeEventHandler<HTMLInputElement>;
     label: string;
     required?: any;
     disabled?: boolean;
     type?: string;
-}> = ({ placeholder, defaultValue, name, onChange, label, required, disabled = false, type = 'text' }) => {
+}> = ({ placeholder, defaultValue, value, name, onChange, label, required, disabled = false, type = 'text' }) => {
     return (
         <label htmlFor={name} className="flex flex-col frntr-input">
             <span>
@@ -26,6 +27,7 @@ export const Input: React.FC<{
                 required={required}
                 className="bg-grey"
                 disabled={disabled}
+                value={value}
             />
         </label>
     );

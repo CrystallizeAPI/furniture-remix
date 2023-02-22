@@ -6,6 +6,7 @@ const InitializeEmptyLocalCart = (): LocalCart => {
         items: {},
         cartId: '',
         state: 'cart',
+        extra: {},
     };
 };
 
@@ -88,6 +89,18 @@ export function useLocalCart() {
             update({
                 ...cart,
                 items: items,
+            });
+        },
+        setVoucher: (voucher: string) => {
+            if (isImmutable()) {
+                return;
+            }
+            update({
+                ...cart,
+                extra: {
+                    ...cart.extra,
+                    voucher,
+                },
             });
         },
     };

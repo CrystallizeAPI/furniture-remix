@@ -33,102 +33,81 @@
     "topicMaps": [
         {
             "name": {
-                "en": "Room",
-                "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                "en": "Room"
             },
             "path": {
-                "en": "/room",
-                "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                "en": "/room"
             },
             "pathIdentifier": {
-                "en": "room",
-                "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                "en": "room"
             },
             "children": [
                 {
                     "name": {
-                        "en": "Livingroom",
-                        "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                        "en": "Livingroom"
                     },
                     "path": {
-                        "en": "/room/livingroom",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "/room/livingroom"
                     },
                     "pathIdentifier": {
-                        "en": "livingroom",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "livingroom"
                     }
                 },
                 {
                     "name": {
-                        "en": "Kitchen",
-                        "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                        "en": "Kitchen"
                     },
                     "path": {
-                        "en": "/room/kitchen",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "/room/kitchen"
                     },
                     "pathIdentifier": {
-                        "en": "kitchen",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "kitchen"
                     }
                 }
             ]
         },
         {
             "name": {
-                "en": "Promotions",
-                "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                "en": "Promotions"
             },
             "path": {
-                "en": "/promotions",
-                "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                "en": "/promotions"
             },
             "pathIdentifier": {
-                "en": "promotions",
-                "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                "en": "promotions"
             },
             "children": [
                 {
                     "name": {
-                        "en": "3 for 2",
-                        "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                        "en": "3 for 2"
                     },
                     "path": {
-                        "en": "/promotions/3-for-2",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "/promotions/3-for-2"
                     },
                     "pathIdentifier": {
-                        "en": "3-for-2",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "3-for-2"
                     }
                 },
                 {
                     "name": {
-                        "en": "New arrivals",
-                        "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                        "en": "New arrivals"
                     },
                     "path": {
-                        "en": "/promotions/new-arrivals",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "/promotions/new-arrivals"
                     },
                     "pathIdentifier": {
-                        "en": "new-arrivals",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "new-arrivals"
                     }
                 },
                 {
                     "name": {
-                        "en": "Featured",
-                        "no": "NO_NAME_FOR_SELECTED_LANGUAGE"
+                        "en": "Featured"
                     },
                     "path": {
-                        "en": "/promotions/featured",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "/promotions/featured"
                     },
                     "pathIdentifier": {
-                        "en": "featured",
-                        "no": "NO_PATH_FOR_SELECTED_LANGUAGE"
+                        "en": "featured"
                     }
                 }
             ]
@@ -169,7 +148,8 @@
                                 "config": {
                                     "min": 1,
                                     "max": 1,
-                                    "acceptedShapeIdentifiers": ["tile"]
+                                    "acceptedShapeIdentifiers": ["tile"],
+                                    "quickSelect": null
                                 }
                             },
                             {
@@ -180,7 +160,8 @@
                                 "config": {
                                     "min": 0,
                                     "max": null,
-                                    "acceptedShapeIdentifiers": null
+                                    "acceptedShapeIdentifiers": null,
+                                    "quickSelect": null
                                 }
                             },
                             {
@@ -269,7 +250,8 @@
                                 "config": {
                                     "min": 1,
                                     "max": null,
-                                    "acceptedShapeIdentifiers": ["product"]
+                                    "acceptedShapeIdentifiers": ["product"],
+                                    "quickSelect": null
                                 }
                             },
                             {
@@ -310,7 +292,8 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": ["curated-product-story"]
+                        "acceptedShapeIdentifiers": ["curated-product-story"],
+                        "quickSelect": null
                     }
                 },
                 {
@@ -382,7 +365,8 @@
                                 "config": {
                                     "min": 0,
                                     "max": 1,
-                                    "acceptedShapeIdentifiers": ["tile"]
+                                    "acceptedShapeIdentifiers": ["tile"],
+                                    "quickSelect": null
                                 }
                             },
                             {
@@ -393,7 +377,8 @@
                                 "config": {
                                     "min": 0,
                                     "max": null,
-                                    "acceptedShapeIdentifiers": null
+                                    "acceptedShapeIdentifiers": null,
+                                    "quickSelect": null
                                 }
                             },
                             {
@@ -670,7 +655,8 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": null
+                        "acceptedShapeIdentifiers": null,
+                        "quickSelect": null
                     }
                 },
                 {
@@ -831,7 +817,8 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": ["curated-product-story", "story"]
+                        "acceptedShapeIdentifiers": ["curated-product-story", "story"],
+                        "quickSelect": null
                     }
                 },
                 {
@@ -842,7 +829,8 @@
                     "config": {
                         "min": 0,
                         "max": null,
-                        "acceptedShapeIdentifiers": ["product"]
+                        "acceptedShapeIdentifiers": ["product"],
+                        "quickSelect": null
                     }
                 },
                 {
@@ -945,7 +933,8 @@
                                 "config": {
                                     "min": 1,
                                     "max": null,
-                                    "acceptedShapeIdentifiers": ["product", "story"]
+                                    "acceptedShapeIdentifiers": ["product", "story"],
+                                    "quickSelect": null
                                 }
                             },
                             {
@@ -1055,15 +1044,56 @@
                     }
                 }
             ]
+        },
+        {
+            "identifier": "voucher",
+            "name": "Voucher",
+            "type": "document",
+            "components": [
+                {
+                    "id": "expiry-date",
+                    "name": "Expiry date",
+                    "description": "",
+                    "type": "datetime",
+                    "config": null
+                },
+                {
+                    "id": "discount",
+                    "name": "Discount",
+                    "description": null,
+                    "type": "componentChoice",
+                    "config": {
+                        "choices": [
+                            {
+                                "id": "percent",
+                                "name": "Percent",
+                                "description": "",
+                                "type": "numeric",
+                                "config": {
+                                    "decimalPlaces": 3,
+                                    "units": ["%"]
+                                }
+                            },
+                            {
+                                "id": "absolute",
+                                "name": "Absolute",
+                                "description": "",
+                                "type": "numeric",
+                                "config": {
+                                    "decimalPlaces": 3,
+                                    "units": []
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     ],
     "grids": [
         {
             "id": "62eb85fe991ff6b884701b6e",
-            "name": {
-                "en": "Frontpage",
-                "no": null
-            },
+            "name": "Frontpage",
             "rows": [
                 {
                     "columns": [
@@ -1126,10 +1156,7 @@
         },
         {
             "id": "62f262b28430a062e3a67071",
-            "name": {
-                "en": "Shop",
-                "no": null
-            },
+            "name": "Shop",
             "rows": [
                 {
                     "columns": [
@@ -1363,7 +1390,9 @@
                                         "Color": "Cream"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/23/dream-pid-001-crema.jpg",
@@ -1475,7 +1504,9 @@
                                         "Color": "Blue"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/43/dream-pid-001-azul.jpg",
@@ -1587,7 +1618,9 @@
                                         "Color": "Black"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/52/dream-pid-001-negra.jpg",
@@ -1699,7 +1732,9 @@
                                         "Color": "Red"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/57/dream-pid-001-roja.jpg",
@@ -1811,7 +1846,9 @@
                                         "Color": "White"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/61/dream-pid-001-blanca.jpg",
@@ -1923,7 +1960,9 @@
                                         "Color": "Stainless"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/65/dream-pid-001-pulida.jpg",
@@ -2012,7 +2051,9 @@
                                         "Color": "Yellow"
                                     },
                                     "externalReference": null,
-                                    "stock": 42,
+                                    "stock": {
+                                        "default": 42
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/68/dream-pid-001-amarilla.jpg",
@@ -2229,7 +2270,9 @@
                                         "Variant": "Baby T Plus"
                                     },
                                     "externalReference": null,
-                                    "stock": 43,
+                                    "stock": {
+                                        "default": 43
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/23/baby-t-plus-001-blanca.jpg",
@@ -2273,7 +2316,9 @@
                                         "Variant": "Baby T Plus"
                                     },
                                     "externalReference": null,
-                                    "stock": 56,
+                                    "stock": {
+                                        "default": 56
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/31/babyt-plus-roja.jpg",
@@ -2317,7 +2362,9 @@
                                         "Variant": "Baby T Plus"
                                     },
                                     "externalReference": null,
-                                    "stock": 22,
+                                    "stock": {
+                                        "default": 22
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/38/baby-t-plus-001-negra.jpg",
@@ -2361,7 +2408,9 @@
                                         "Variant": "Baby T Plus"
                                     },
                                     "externalReference": null,
-                                    "stock": 21,
+                                    "stock": {
+                                        "default": 21
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/41/baby-t-plus-001-pistacho.jpg",
@@ -2405,7 +2454,9 @@
                                         "Variant": "Baby T Zero"
                                     },
                                     "externalReference": null,
-                                    "stock": 43,
+                                    "stock": {
+                                        "default": 43
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/44/baby-t-zero-001-azul.jpg",
@@ -2449,7 +2500,9 @@
                                         "Variant": "Baby T Zero"
                                     },
                                     "externalReference": null,
-                                    "stock": 49,
+                                    "stock": {
+                                        "default": 49
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/47/baby-t-zero-001-amarilla.jpg",
@@ -2675,7 +2728,9 @@
                                         "Size": "Small"
                                     },
                                     "externalReference": null,
-                                    "stock": 20,
+                                    "stock": {
+                                        "default": 20
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/79/monstera-small.jpg",
@@ -2704,7 +2759,9 @@
                                         "Size": "Medium"
                                     },
                                     "externalReference": null,
-                                    "stock": 21,
+                                    "stock": {
+                                        "default": 21
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/80/monstera-medium.jpg",
@@ -2733,7 +2790,9 @@
                                         "Size": "Large"
                                     },
                                     "externalReference": null,
-                                    "stock": 28,
+                                    "stock": {
+                                        "default": 28
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/39/monstera-deliciosa-white-pot.jpg",
@@ -3065,7 +3124,9 @@
                                         "Size": "Large"
                                     },
                                     "externalReference": null,
-                                    "stock": 40,
+                                    "stock": {
+                                        "default": 40
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/27/alocasia-white-pot.jpg",
@@ -3108,7 +3169,9 @@
                                         "Size": "Small"
                                     },
                                     "externalReference": null,
-                                    "stock": 100000,
+                                    "stock": {
+                                        "default": 100000
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/32/alocasia_small.jpg",
@@ -3245,7 +3308,9 @@
                                         "Size": "Large"
                                     },
                                     "externalReference": null,
-                                    "stock": 67,
+                                    "stock": {
+                                        "default": 67
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/28/drracaena.jpg",
@@ -3288,7 +3353,9 @@
                                         "Size": "Small"
                                     },
                                     "externalReference": null,
-                                    "stock": 98,
+                                    "stock": {
+                                        "default": 98
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/34/drracaena.jpg",
@@ -3428,7 +3495,9 @@
                                         "Size": "Large"
                                     },
                                     "externalReference": null,
-                                    "stock": 32,
+                                    "stock": {
+                                        "default": 32
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/27/philodendron-birkin.jpg",
@@ -3471,7 +3540,9 @@
                                         "Size": "Small"
                                     },
                                     "externalReference": null,
-                                    "stock": 20,
+                                    "stock": {
+                                        "default": 20
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/33/philodendron-birkin.jpg",
@@ -3627,7 +3698,9 @@
                                         "Size": "Large"
                                     },
                                     "externalReference": null,
-                                    "stock": 45,
+                                    "stock": {
+                                        "default": 45
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/29/dendrobium-white-pot.jpg",
@@ -3670,7 +3743,9 @@
                                         "Size": "Small"
                                     },
                                     "externalReference": null,
-                                    "stock": 15,
+                                    "stock": {
+                                        "default": 15
+                                    },
                                     "images": [
                                         {
                                             "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/35/dendrobium.jpg",
@@ -4058,6 +4133,116 @@
         },
         {
             "name": {
+                "en": "Footer"
+            },
+            "cataloguePath": "/footer",
+            "externalReference": "crystallize-spec-ref-6380974e1035badc785db77e",
+            "shape": "footer",
+            "components": {
+                "social": [
+                    {
+                        "logo": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/1/twitter.svg",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {}
+                    },
+                    {
+                        "logo": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/2/instagram.svg",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {}
+                    },
+                    {
+                        "logo": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/3/youtube.svg",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {}
+                    }
+                ],
+                "promotion-section-heading": {},
+                "promotion-cards": [
+                    {
+                        "title": {},
+                        "image": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/4/unicorn.png",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {}
+                    },
+                    {
+                        "title": {},
+                        "image": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/5/kiwi-bird.png",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {}
+                    },
+                    {
+                        "title": {},
+                        "image": [
+                            {
+                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/6/unicorn.png",
+                                "altText": {
+                                    "en": null
+                                },
+                                "caption": {
+                                    "en": null
+                                }
+                            }
+                        ],
+                        "link": {}
+                    }
+                ],
+                "copyright": {},
+                "contact-information": {
+                    "en": null
+                },
+                "links": {
+                    "en": null
+                }
+            },
+            "topics": null
+        },
+        {
+            "name": {
                 "en": "_Tiles"
             },
             "cataloguePath": "/tiles",
@@ -4317,113 +4502,57 @@
         },
         {
             "name": {
-                "en": "Footer"
+                "en": "_Vouchers"
             },
-            "cataloguePath": "/footer",
-            "externalReference": "crystallize-spec-ref-6380974e1035badc785db77e",
-            "shape": "footer",
+            "cataloguePath": "/vouchers",
+            "externalReference": "crystallize-spec-ref-63f69cdf795e5e6aafc660aa",
+            "shape": "folder",
             "components": {
-                "social": [
-                    {
-                        "logo": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/1/twitter.svg",
-                                "altText": {
-                                    "en": null
-                                },
-                                "caption": {
-                                    "en": null
-                                }
-                            }
-                        ],
-                        "link": {}
-                    },
-                    {
-                        "logo": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/2/instagram.svg",
-                                "altText": {
-                                    "en": null
-                                },
-                                "caption": {
-                                    "en": null
-                                }
-                            }
-                        ],
-                        "link": {}
-                    },
-                    {
-                        "logo": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/3/youtube.svg",
-                                "altText": {
-                                    "en": null
-                                },
-                                "caption": {
-                                    "en": null
-                                }
-                            }
-                        ],
-                        "link": {}
-                    }
-                ],
-                "promotion-section-heading": {},
-                "promotion-cards": [
-                    {
-                        "title": {},
-                        "image": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/4/unicorn.png",
-                                "altText": {
-                                    "en": null
-                                },
-                                "caption": {
-                                    "en": null
-                                }
-                            }
-                        ],
-                        "link": {}
-                    },
-                    {
-                        "title": {},
-                        "image": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/5/kiwi-bird.png",
-                                "altText": {
-                                    "en": null
-                                },
-                                "caption": {
-                                    "en": null
-                                }
-                            }
-                        ],
-                        "link": {}
-                    },
-                    {
-                        "title": {},
-                        "image": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/6/unicorn.png",
-                                "altText": {
-                                    "en": null
-                                },
-                                "caption": {
-                                    "en": null
-                                }
-                            }
-                        ],
-                        "link": {}
-                    }
-                ],
-                "copyright": {},
-                "contact-information": {
+                "intro": {
                     "en": null
                 },
-                "links": {
-                    "en": null
-                }
+                "hero-content": [],
+                "meta": []
             },
-            "topics": null
+            "topics": null,
+            "children": [
+                {
+                    "name": {
+                        "en": "GET20"
+                    },
+                    "cataloguePath": "/vouchers/get20",
+                    "externalReference": "crystallize-spec-ref-63f69d0d795e5e6aafc660ab",
+                    "shape": "voucher",
+                    "components": {
+                        "expiry-date": "2023-05-28T07:00:00.000Z",
+                        "discount": {
+                            "absolute": {
+                                "number": 10,
+                                "unit": null
+                            }
+                        }
+                    },
+                    "topics": null
+                },
+                {
+                    "name": {
+                        "en": "20PERCENT"
+                    },
+                    "cataloguePath": "/vouchers/20percent",
+                    "externalReference": "crystallize-spec-ref-63f69cf7a94533f79fc647d4",
+                    "shape": "voucher",
+                    "components": {
+                        "expiry-date": "2023-07-06T07:00:00.000Z",
+                        "discount": {
+                            "percent": {
+                                "number": 20,
+                                "unit": "%"
+                            }
+                        }
+                    },
+                    "topics": null
+                }
+            ]
         }
     ],
     "stockLocations": [

@@ -38,7 +38,7 @@ export const Folder: React.FC<{ category: Category; products: ProductSlim[] }> =
                         if (!product) return null;
                         const variant = product.variant;
                         const name = variant.name;
-                        const image = variant.images?.[0].url;
+                        const image = variant.images?.[0]?.url;
                         const sku = variant.sku;
                         const defaultPriceCurrency = variant.priceVariants.default.currency;
 
@@ -82,16 +82,18 @@ export const Folder: React.FC<{ category: Category; products: ProductSlim[] }> =
                                         borderStyle: 'solid',
                                     }}
                                 >
-                                    <Image
-                                        src={image}
-                                        style={{
-                                            borderRadius: 4,
-                                            minWidth: '100px',
-                                            maxWidth: '100px',
-                                            height: '125px',
-                                            objectFit: 'contain',
-                                        }}
-                                    />
+                                    {image && (
+                                        <Image
+                                            src={image}
+                                            style={{
+                                                borderRadius: 4,
+                                                minWidth: '100px',
+                                                maxWidth: '100px',
+                                                height: '125px',
+                                                objectFit: 'contain',
+                                            }}
+                                        />
+                                    )}
                                 </View>
 
                                 <View

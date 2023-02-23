@@ -5,7 +5,7 @@ export default async (
     path: string,
     version: string,
     language: string,
-    marketIdentifiers?: string[],
+    marketIdentifiers: string[] = [],
 ): Promise<any> => {
     const data: { catalogue: any } = await apiClient.catalogueApi(
         `#graphql

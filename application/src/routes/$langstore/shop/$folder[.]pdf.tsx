@@ -7,12 +7,22 @@ import { Folder } from '~/ui/components/pdf/folder';
 import dataFetcherForShapePage from '~/use-cases/dataFetcherForShapePage.server';
 import { ProductSlim } from '~/use-cases/contracts/Product';
 import { Category } from '~/use-cases/contracts/Category';
+import { authenticatedUser } from '~/core/authentication.server';
+import { marketIdentifiersForUser } from '~/use-cases/marketIdentifiersForUser';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const requestContext = getContext(request);
     const path = `/shop/${params.folder}`;
     const { shared } = await getStoreFront(requestContext.host);
-    const data = (await dataFetcherForShapePage('category', path, requestContext, params)) as {
+    const user = await authenticatedUser(request);
+
+    const data = (await dataFetcherForShapePage(
+        'category',
+        path,
+        requestContext,
+        params,
+        marketIdentifiersForUser(user),
+    )) as {
         products: ProductSlim[];
         category: Category;
     };

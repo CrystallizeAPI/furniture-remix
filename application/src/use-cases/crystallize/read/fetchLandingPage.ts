@@ -5,7 +5,7 @@ export default async (
     path: string,
     version: any,
     language: string,
-    marketIdentifiers?: string[],
+    marketIdentifiers: string[] = [],
 ) => {
     return (
         await apiClient.catalogueApi(

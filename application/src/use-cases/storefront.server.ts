@@ -10,6 +10,7 @@ import { configureStorage } from './storage.server';
 import { StoreFrontConfiguration } from './contracts/StoreFrontConfiguration';
 import { getCurrencyFromCode } from './contracts/Currency';
 import { CrystalFakePaymentImplementation, TenantConfiguration } from './contracts/TenantConfiguration';
+import { CreateClientOptions } from '@crystallize/js-api-client';
 
 const storage = configureStorage(process.env?.STORAGE_DSN, {
     prefix: 'superfast-',
@@ -57,7 +58,25 @@ export const getStoreFront = async (hostname: string) => {
         );
     })();
 
-    const [shared, secret] = await Promise.all([createStoreFront(adapter, false), createStoreFront(adapter, true)]);
+    const createClientOptions: CreateClientOptions | undefined = process.env?.ENABLE_JS_API_CLIENT_PROFILING
+        ? {
+              profiling: {
+                  onRequestResolved: ({ resolutionTimeMs, serverTimeMs }, query, variables) => {
+                      const timings = `[JS-API-CLIENT]: Request processed in ${serverTimeMs}ms, resolved in ${resolutionTimeMs}ms.`;
+                      if (process.env?.ENABLE_JS_API_CLIENT_PROFILING === 'verbose') {
+                          console.log(timings, { query, variables });
+                          return;
+                      }
+                      console.log(timings);
+                  },
+              },
+          }
+        : undefined;
+
+    const [shared, secret] = await Promise.all([
+        createStoreFront(adapter, false, createClientOptions),
+        createStoreFront(adapter, true, createClientOptions),
+    ]);
     return { shared, secret };
 };
 

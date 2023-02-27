@@ -44,24 +44,14 @@ export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<C
     };
 
     const alteredItems = cart.items.map((item) => {
-        const existingDiscount =
-            item.price.discounts?.reduce((memo: number, discount) => {
-                return memo + discount.amount;
-            }, 0) || 0;
-        const existingDiscountPerUnit = existingDiscount / item.quantity;
         const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
         const savingAmount = saving?.amount || 0;
-        const adjustedSavingAmount = Math.max(
-            (saving?.amount || 0) - existingDiscountPerUnit * (saving?.quantity || 0),
-            0,
-        );
-
         const netAmount = item.price.net - savingAmount;
         const taxAmount = (netAmount * (item.product?.vatType?.percent || 0)) / 100;
         const grossAmount = netAmount + taxAmount;
         const discount = {
-            amount: adjustedSavingAmount,
-            percent: (adjustedSavingAmount / (netAmount + adjustedSavingAmount)) * 100,
+            amount: savingAmount,
+            percent: (savingAmount / (netAmount + savingAmount)) * 100,
         };
         newTotals.taxAmount += taxAmount;
         newTotals.gross += grossAmount;

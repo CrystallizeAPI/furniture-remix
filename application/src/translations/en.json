@@ -42,7 +42,7 @@
     "cart": {
         "yourCart": "Your cart",
         "taxAmount": "Tax Amout",
-        "discount": "Discount",
+        "discount": "Total Savings",
         "toPay": "To pay",
         "empty": "Your cart is empty.",
         "whoaempty": "Woah, nothing in your cart yet",

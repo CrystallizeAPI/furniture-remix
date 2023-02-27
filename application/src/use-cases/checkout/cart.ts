@@ -24,7 +24,6 @@ export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<C
     const lots = extractDisountLotFromItemsBasedOnXForYTopic(cart.items);
     const savings = groupSavingsPerSkus(lots);
     const existingDiscounts = total.discounts || [];
-
     const voucher = wrapper.extra?.voucher as Voucher | undefined;
     let newTotals: Price = {
         gross: 0,
@@ -44,29 +43,25 @@ export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<C
         percent: 0,
     };
 
-    if (voucher) {
-        if (voucher.value.type === 'absolute') {
-            voucherDiscount = {
-                amount: voucher.value.number,
-                percent: (voucher.value.number / total.gross) * 100,
-            };
-        }
-        if (voucher.value.type === 'percent') {
-            voucherDiscount = {
-                amount: (total.gross * voucher.value.number) / 100,
-                percent: voucher.value.number,
-            };
-        }
-    }
-
     const alteredItems = cart.items.map((item) => {
+        const existingDiscount =
+            item.price.discounts?.reduce((memo: number, discount) => {
+                return memo + discount.amount;
+            }, 0) || 0;
+        const existingDiscountPerUnit = existingDiscount / item.quantity;
         const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
-        const netAmount = item.price.net - (saving?.amount || 0);
+        const savingAmount = saving?.amount || 0;
+        const adjustedSavingAmount = Math.max(
+            (saving?.amount || 0) - existingDiscountPerUnit * (saving?.quantity || 0),
+            0,
+        );
+
+        const netAmount = item.price.net - savingAmount;
         const taxAmount = (netAmount * (item.product?.vatType?.percent || 0)) / 100;
         const grossAmount = netAmount + taxAmount;
         const discount = {
-            amount: saving?.amount || 0,
-            percent: ((saving?.amount || 0) / (netAmount + (saving?.amount || 0))) * 100,
+            amount: adjustedSavingAmount,
+            percent: (adjustedSavingAmount / (netAmount + adjustedSavingAmount)) * 100,
         };
         newTotals.taxAmount += taxAmount;
         newTotals.gross += grossAmount;
@@ -84,10 +79,29 @@ export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<C
         };
     });
 
+    // calculate the New Discout Percentage
     const newDiscounts = {
         amount: newTotals.discounts![0].amount,
-        percent: (1 - (newTotals.net + newTotals.discounts![0].amount) / newTotals.net) * 100,
+        percent:
+            ((newTotals.net + newTotals.discounts![0].amount - newTotals.net) /
+                (newTotals.net + newTotals.discounts![0].amount)) *
+            100,
     };
+
+    if (voucher) {
+        if (voucher.value.type === 'absolute') {
+            voucherDiscount = {
+                amount: voucher.value.number,
+                percent: (voucher.value.number / newTotals.gross) * 100,
+            };
+        }
+        if (voucher.value.type === 'percent') {
+            voucherDiscount = {
+                amount: (newTotals.gross * voucher.value.number) / 100,
+                percent: voucher.value.number,
+            };
+        }
+    }
 
     //REDUCE THE TOTALS BY THE VOUCHER DISCOUNT
     newTotals.net -= voucherDiscount?.amount;

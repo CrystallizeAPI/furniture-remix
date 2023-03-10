@@ -7,10 +7,8 @@ import useNavigate from '~/bridge/ui/useNavigate';
 export default ({ cartId }: { cartId: string }) => {
     const { cart: localCart, empty } = useLocalCart();
     const [tryCount, setTryCount] = useState(0);
-    const { state: appContextState, path } = useAppContext();
+    const { state: appContextState, path, _t } = useAppContext();
     const navigate = useNavigate();
-
-    const [orderGuestId, setOrderGuestId] = useState('');
 
     useEffect(() => {
         let timeout: ReturnType<typeof setTimeout>;
@@ -25,7 +23,7 @@ export default ({ cartId }: { cartId: string }) => {
                 }).fetchCart(cartId);
                 if (cart?.extra?.orderId) {
                     if (cart?.customer?.isGuest === true) {
-                        setOrderGuestId(cart.extra.orderId);
+                        navigate(path('/order/' + cart.extra.orderId + '?cartId=' + cart.cartId));
                     } else {
                         navigate(path('/order/' + cart.extra.orderId));
                     }
@@ -43,48 +41,10 @@ export default ({ cartId }: { cartId: string }) => {
         return () => clearTimeout(timeout);
     }, [cartId, tryCount]);
 
-    if (orderGuestId !== '') {
-        return (
-            <div className="min-h-[80vh] items-center flex lg:w-content mx-auto w-full">
-                <div className="w-2/4 mx-auto">
-                    <h1 data-testid="order-placed" className="font-bold text-3xl mb-2">
-                        Order Placed!
-                    </h1>
-                    <div>
-                        <div>
-                            <p>
-                                Your order has been placed successfully, as it is a Guest Order you won't see the
-                                details here.
-                            </p>
-                            <p className="mt-4 text-[#6D6B69]">
-                                Order id:{' '}
-                                <span data-testid="guest-order-id" className="font-italic">
-                                    {orderGuestId}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="min-h-[80vh] items-center flex lg:w-content mx-auto w-full">
-            <div className="w-2/4 mx-auto">
-                <h1 className="font-bold text-3xl mb-2">Cart Placed!</h1>
-                <div>
-                    <div>
-                        <p>Your cart has been placed successfully, we're waiting for payment confirmation.</p>
-                        <p className="mt-4 text-[#6D6B69]">
-                            Id: <span className="font-italic">{cartId}</span>
-                        </p>
-                        <div className="mt-4 flex gap-2">
-                            <div className="loader " />
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="items-center justify-center flex max-w-[500px] mx-auto flex-row">
+            <div className="loader mr-3" />
+            {_t('order.redirectMessage')}
         </div>
     );
 };

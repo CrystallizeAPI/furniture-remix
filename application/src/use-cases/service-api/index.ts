@@ -53,7 +53,8 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
                 postJson<any>(baseUrl + '/api/webhook/payment/razorpay/verify', payload),
         },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
-        fetchOrder: (orderId: string) => getJson<any>(serviceApiUrl + '/orders/' + orderId),
+        fetchOrder: (orderId: string, cartId?: string) =>
+            getJson<any>(serviceApiUrl + '/orders/' + orderId + (cartId ? '?cartId=' + cartId : '')),
         placeCart: (cart: LocalCart, customer: Partial<Customer>, options?: { pickupPoint: any }) =>
             placeCart(serviceApiUrl, language, cart, customer, options),
         registerAndSendMagickLink: (userInfos: any) => postJson<any>(serviceApiUrl + '/magicklink/register', userInfos),

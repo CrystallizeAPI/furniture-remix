@@ -87,7 +87,8 @@
             "shippingConstraint": "In order to pay you have to pick a Pickup Point.",
             "selectPickupPoint": "Select a pickup point",
             "paywithbanklinks": "Select bank to pay with"
-        }
+        },
+        "cancelled": "Payment cancelled"
     },
     "order": {
         "notFound": "Oops! Cannot find your order. Please try again later.",

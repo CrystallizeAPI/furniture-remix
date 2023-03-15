@@ -33,7 +33,7 @@ export default async (
                     currency: cart.total.currency,
                     urls: {
                         continue: `${context.baseUrl}${orderCartLink}`,
-                        cancel: `${context.baseUrl}${orderCartLink}`,
+                        cancel: `${context.baseUrl}/cancel-payment`,
                         callback: `${context.baseUrl}/api/webhook/payment/quickpay`,
                     },
                 };

@@ -74,7 +74,7 @@ export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) =
                     <Text style={styles.title}>{product.name}</Text>
                     <Text style={styles.productDescription}>
                         {!!description?.length &&
-                            (description?.[0].length < 152 ? description : `${description?.slice(0, 152)} ...`)}
+                            (description?.length < 152 ? description : `${description?.slice(0, 152)} ...`)}
                     </Text>
 
                     <Text style={styles.price}>

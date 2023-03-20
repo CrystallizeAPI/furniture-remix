@@ -39,6 +39,10 @@
     .frntr-accordination[open] .frntr-accordination-arrow {
         transform: rotate(180deg);
     }
+
+    .adyen-checkout__dropin .adyen-checkout__button--pay {
+        background: #00112c !important;
+    }
     .order-item span {
         font-size: 11px;
         color: #565959;

@@ -52,6 +52,12 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
             receivePayment: (baseUrl: string, payload: any) =>
                 postJson<any>(baseUrl + '/api/webhook/payment/razorpay/verify', payload),
         },
+        adyen: {
+            initiatePayment: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/adyen/create', { cartId: cart.cartId }),
+            receivePayment: (baseUrl: string, payload: any) =>
+                postJson<any>(baseUrl + '/api/webhook/payment/adyen', payload),
+        },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string, cartId?: string) =>
             getJson<any>(serviceApiUrl + '/orders/' + orderId + (cartId ? '?cartId=' + cartId : '')),

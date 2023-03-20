@@ -8,6 +8,7 @@ import { Montonio, MontonioButton } from './montonio';
 import { QuickPayLink, QuickPayLinkButton } from './quickpaylink';
 import { RazorPay, RazorPayButton } from './razorpay';
 import { Stripe, StripeButton } from './stripe';
+import { AdyenCheckoutForm, AdyenButton } from './adyen';
 
 export const Payments: React.FC = () => {
     const { state, _t } = useAppContext();
@@ -62,6 +63,13 @@ export const Payments: React.FC = () => {
             button: RazorPayButton,
             renderOnLoad: false,
             enabled: state.paymentImplementations.includes('razorpay'),
+        },
+        adyen: {
+            name: 'Adyen',
+            component: AdyenCheckoutForm,
+            button: AdyenButton,
+            renderOnLoad: false,
+            enabled: state.paymentImplementations.includes('adyen'),
         },
     };
     const [selectedPaymentMethodImplementation, setSelectedPaymentMethodImplementation] = useState<string | null>(null);

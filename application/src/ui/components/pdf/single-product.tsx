@@ -74,7 +74,7 @@ export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) =
                     <Text style={styles.title}>{product.name}</Text>
                     <Text style={styles.productDescription}>
                         {!!description?.length &&
-                            (description?.[0].length < 152 ? description[0] : `${description?.[0].slice(0, 152)} ...`)}
+                            (description?.[0].length < 152 ? description : `${description?.slice(0, 152)} ...`)}
                     </Text>
 
                     <Text style={styles.price}>
@@ -173,7 +173,13 @@ export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) =
                                 }}
                             >
                                 <Image style={styles.tableCellImage} src={variant?.images![0]?.url} />
-                                <View style={{ ...styles.tableCellName, display: 'flex', flexDirection: 'column' }}>
+                                <View
+                                    style={{
+                                        ...styles.tableCellName,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
                                     <Text style={{ fontSize: 8, display: 'block' }}>{variant?.name}</Text>
                                     <Text style={{ fontSize: 8, display: 'block' }}>{variant?.sku}</Text>
                                 </View>
@@ -187,7 +193,14 @@ export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) =
                                     </Text>
                                 ))}
 
-                                <View style={{ marginTop: 5, width: '30%', textAlign: 'right', marginRight: 10 }}>
+                                <View
+                                    style={{
+                                        marginTop: 5,
+                                        width: '30%',
+                                        textAlign: 'right',
+                                        marginRight: 10,
+                                    }}
+                                >
                                     {variantPrice.discounted && variantPrice.discounted < variantPrice.default ? (
                                         <View>
                                             <Text style={{ fontSize: 10, fontWeight: 600 }}>
@@ -196,7 +209,12 @@ export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) =
                                                 </Price>
                                             </Text>
                                             <View>
-                                                <Text style={{ fontSize: 8, textDecoration: 'line-through' }}>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 8,
+                                                        textDecoration: 'line-through',
+                                                    }}
+                                                >
                                                     <Price currencyCode={variantPrice.currency.code}>
                                                         {variantPrice.default}
                                                     </Price>

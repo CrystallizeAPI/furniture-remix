@@ -15,8 +15,8 @@ export default async (
     return await handleRazorPayOrderPayload(validatePayload(payload, razorPayPaymentPayload), {
         currency: cartWrapper.cart.total.currency.toUpperCase(),
         credentials: {
-            key_id: process.env.RAZORPAY_ID ?? storeFrontConfig?.configuration?.razorpay_key_id ?? '',
-            key_secret: process.env.RAZORPAY_SECRET ?? storeFrontConfig?.configuration?.razorpay_key_secret ?? '',
+            key_id: process.env.RAZORPAY_ID ?? storeFrontConfig?.configuration?.RAZORPAY_ID ?? '',
+            key_secret: process.env.RAZORPAY_SECRET ?? storeFrontConfig?.configuration?.RAZORPAY_SECRET ?? '',
         },
         fetchCart: async () => {
             return cartWrapper.cart;

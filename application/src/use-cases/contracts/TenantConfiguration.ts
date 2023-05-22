@@ -1,7 +1,6 @@
-export type PaymentImplementation = 'crystal' | 'stripe' | 'quickpay' | 'klarna' | 'razorpay' | 'montonio' | 'adyen';
-export type CrystalFakePaymentImplementation = 'card' | 'coin';
+import { Currency } from './Currency';
 export type TenantConfiguration = {
-    currency: string;
+    currency: Currency;
     logo?: {
         key: string;
         url: string;
@@ -12,7 +11,4 @@ export type TenantConfiguration = {
             height: number;
         }>;
     };
-    crystalPayments: CrystalFakePaymentImplementation[];
-    paymentImplementations: PaymentImplementation[];
-    paymentImplementationVariables?: Partial<Record<PaymentImplementation, Record<string, string>>>;
 };

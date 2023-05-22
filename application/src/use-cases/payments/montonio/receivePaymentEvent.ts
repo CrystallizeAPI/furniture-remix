@@ -32,8 +32,10 @@ export default async (
                         }
 
                         // if we have a pickup point we will create a shipment and printing label and add it to the order
-                        const shipment = await createShipment(cartWrapper).catch(console.log);
-                        const shipmentLabelUrl = await fetchShipmentLabelUrl(cartWrapper).catch(console.log);
+                        const shipment = await createShipment(cartWrapper, storeFrontConfig).catch(console.log);
+                        const shipmentLabelUrl = await fetchShipmentLabelUrl(cartWrapper, storeFrontConfig).catch(
+                            console.log,
+                        );
 
                         let properties = [
                             {

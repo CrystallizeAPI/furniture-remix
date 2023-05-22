@@ -1,16 +1,24 @@
 import { CartWrapper } from '@crystallize/node-service-api-request-handlers';
 import jwt from 'jsonwebtoken';
 import { PickupPoint } from './types';
+import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 
-export default async (cartWrapper: CartWrapper) => {
+export default async (cartWrapper: CartWrapper, storeFrontConfig: TStoreFrontConfig) => {
     const pickupPoint: PickupPoint | undefined = cartWrapper?.extra?.pickupPoint;
     const payload = {
-        access_key: `${process.env.MONTONIO_SHIPPING_ACCESS_KEY}`,
+        access_key:
+            process.env.MONTONIO_SHIPPING_ACCESS_KEY ??
+            storeFrontConfig?.configuration?.MONTONIO_SHIPPING_ACCESS_KEY ??
+            '',
     };
-    const token = jwt.sign(payload, `${process.env.MONTONIO_SHIPPING_SECRET_KEY}`, {
-        algorithm: 'HS256',
-        expiresIn: '1h',
-    });
+    const token = jwt.sign(
+        payload,
+        process.env.MONTONIO_SHIPPING_SECRET_KEY ?? storeFrontConfig?.configuration?.MONTONIO_SHIPPING_SECRET_KEY ?? '',
+        {
+            algorithm: 'HS256',
+            expiresIn: '1h',
+        },
+    );
 
     let shipment: any = {
         merchant_reference: cartWrapper.cartId,
@@ -42,13 +50,18 @@ export default async (cartWrapper: CartWrapper) => {
             shipping_method: `${pickupPoint?.provider_name}_${pickupPoint?.type}s`,
         };
     }
-    const response = await fetch(`https://${process.env.MONTONIO_SHIPPING_ORIGIN}/shipments`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+    const response = await fetch(
+        `https://${
+            process.env.MONTONIO_SHIPPING_ORIGIN ?? storeFrontConfig?.configuration?.MONTONIO_SHIPPING_ORIGIN ?? ''
+        }/shipments`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(shipment),
         },
-        body: JSON.stringify(shipment),
-    });
+    );
     return await response.json();
 };

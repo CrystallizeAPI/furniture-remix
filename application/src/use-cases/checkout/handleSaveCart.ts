@@ -5,9 +5,15 @@ import { RequestContext } from '../http/utils';
 import { alterCartBasedOnDiscounts, hydrateCart } from './cart';
 import { v4 as uuidv4 } from 'uuid';
 import { cartWrapperRepository } from '../services.server';
+import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 
-export default async (apiClient: ClientInterface, context: RequestContext, body: any) => {
-    const [cart, voucher] = await hydrateCart(apiClient, context.language, body);
+export default async (
+    storeFrontConfig: TStoreFrontConfig,
+    apiClient: ClientInterface,
+    context: RequestContext,
+    body: any,
+) => {
+    const [cart, voucher] = await hydrateCart(storeFrontConfig, apiClient, context.language, body);
     return await handleAndSaveCart(cart, body.cartId as string, voucher);
 };
 

@@ -14,7 +14,7 @@ export default async (
     storeFrontConfig: TStoreFrontConfig,
 ) => {
     return await handleStripeCreatePaymentIntentRequestPayload(validatePayload(payload, stripePaymentIntentPayload), {
-        secret_key: process.env.STRIPE_SECRET_KEY ?? storeFrontConfig?.configuration?.SECRET_KEY ?? '',
+        secret_key: process.env.STRIPE_SECRET_KEY ?? storeFrontConfig?.configuration?.STRIPE_SECRET_KEY ?? '',
         fetchCart: async () => {
             return cartWrapper.cart;
         },

@@ -23,9 +23,10 @@ export default async (
     return await handleAdyenPaymentSessionPayload(validatePayload(payload, adyenPaymentPayload), {
         currency,
         returnUrl: `${context.baseUrl}${orderCartLink}`,
-        merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT || '',
-        apiKey: process.env.ADYEN_API_KEY || '',
-        env: process.env.ADYEN_ENV || '',
+        merchantAccount:
+            process.env.ADYEN_MERCHANT_ACCOUNT ?? storeFrontConfig?.configuration?.ADYEN_MERCHANT_ACCOUNT ?? '',
+        apiKey: process.env.ADYEN_API_KEY ?? storeFrontConfig?.configuration?.ADYEN_API_KEY ?? '',
+        env: process.env.ADYEN_ENV ?? storeFrontConfig?.configuration?.ADYEN_ENV ?? '',
         countryCode: currency === 'NOK' ? 'NO' : currency === 'USD' ? 'US' : 'FR',
         fetchCart: async () => {
             return cartWrapper.cart;

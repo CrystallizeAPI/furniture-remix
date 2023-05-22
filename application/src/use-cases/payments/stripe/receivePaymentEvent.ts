@@ -14,7 +14,7 @@ export default async (
     storeFrontConfig: TStoreFrontConfig,
 ) => {
     return await handleStripePaymentIntentWebhookRequestPayload(payload, {
-        secret_key: process.env.STRIPE_SECRET_KEY ?? storeFrontConfig.configuration?.SECRET_KEY ?? '',
+        secret_key: process.env.STRIPE_SECRET_KEY ?? storeFrontConfig.configuration?.STRIPE_SECRET_KEY ?? '',
         endpointSecret:
             process.env.STRIPE_SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET ??
             storeFrontConfig.configuration?.SECRET_PAYMENT_INTENT_WEBHOOK_ENDPOINT_SECRET ??

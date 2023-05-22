@@ -13,6 +13,11 @@ export default async (
     payload: any,
     storeFrontConfig: TStoreFrontConfig,
 ) => {
+    //@todo: @dhairyadwivedi: we probably need to add some more checks here
+    // it feels pretty unsafe to just accept any payload
+    // you will have to fix in the handleAdyenWebhookRequestPayload of the library
+    // and pass the right args here via storeFrontConfig probably
+
     return await handleAdyenWebhookRequestPayload(payload, {
         handleEvent: async () => {
             for (let i = 0; i < payload?.notificationItems?.length; i++) {

@@ -49,9 +49,17 @@ function createMemoryStorageEngine(options: StorageOptions = {}): BackendStorage
  * @param dsn Connection string
  * @param options Object with options: prefix
  */
-export function configureStorage(dsn: string | undefined, options: StorageOptions = {}): BackendStorage {
+export function configureStorage(dsn: string, options: StorageOptions = {}): BackendStorage {
     if (dsn?.startsWith?.('redis://')) {
         return createRedisStorageEngine(dsn, options);
     }
-    return createMemoryStorageEngine(options);
+    if (!global.__gStorage) global.__gStorage = {};
+    if (!global.__gStorage[dsn]) {
+        global.__gStorage[dsn] = createMemoryStorageEngine(options);
+    }
+    return global.__gStorage[dsn];
+}
+
+declare global {
+    var __gStorage: Record<string, BackendStorage>;
 }

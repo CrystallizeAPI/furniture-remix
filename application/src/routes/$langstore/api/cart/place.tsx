@@ -24,5 +24,7 @@ export const action: ActionFunction = async ({ request }) => {
         isGuest: !isAuthenticated,
     };
 
-    return privateJson(await handlePlaceCart(storefront.apiClient, requestContext, { ...body, user }, customer));
+    return privateJson(
+        await handlePlaceCart(storefront.config, storefront.apiClient, requestContext, { ...body, user }, customer),
+    );
 };

@@ -7,12 +7,16 @@ import {
     TStoreFrontConfig,
 } from '@crystallize/js-storefrontaware-utils';
 import { configureStorage } from './storage.server';
-import { StoreFrontConfiguration } from './contracts/StoreFrontConfiguration';
+import {
+    CrystalFakePaymentImplementation,
+    PaymentImplementation,
+    StoreFrontConfiguration,
+} from './contracts/StoreFrontConfiguration';
 import { getCurrencyFromCode } from './contracts/Currency';
-import { CrystalFakePaymentImplementation, TenantConfiguration } from './contracts/TenantConfiguration';
+import { TenantConfiguration } from './contracts/TenantConfiguration';
 import { CreateClientOptions } from '@crystallize/js-api-client';
 
-const storage = configureStorage(process.env?.STORAGE_DSN, {
+const storage = configureStorage(`${process.env?.STORAGE_DSN}`, {
     prefix: 'superfast-',
 });
 
@@ -35,12 +39,23 @@ export const getStoreFront = async (hostname: string) => {
                 identifier: `${process.env.STOREFRONT_IDENTIFIER}`,
                 tenantIdentifier: `${process.env.CRYSTALLIZE_TENANT_IDENTIFIER}`,
                 language: `${process.env.STOREFRONT_LANGUAGE}`,
-                storefront: '',
-                logo: process.env.STOREFRONT_STATIC_LOGO_URL ?? '',
+                storefront: 'custom',
+                logo: {
+                    key: 'superfast-originated-logo',
+                    url: process.env.STOREFRONT_STATIC_LOGO_URL ?? '',
+                    variants: [],
+                },
+                enabled: true,
+                id: 'inMemory',
+                name: `custom`,
+                paymentMethods: ['crystal', 'stripe', 'quickpay', 'klarna', 'razorpay', 'montonio', 'adyen'],
+                taxIncluded: false,
+                superfastVersion: '0.0.0',
+                tenantId: `${process.env.CRYSTALLIZE_TENANT_ID}`,
                 theme: `${process.env.STOREFRONT_THEME}`,
                 configuration: {
-                    ACCESS_TOKEN_ID: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_ID}`,
-                    ACCESS_TOKEN_SECRET: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET}`,
+                    CRYSTALLIZE_ACCESS_TOKEN_ID: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_ID}`,
+                    CRYSTALLIZE_ACCESS_TOKEN_SECRET: `${process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET}`,
                 },
             });
         }
@@ -92,27 +107,28 @@ export const buildStoreFrontConfiguration = (
     return {
         crystallize: {
             tenantIdentifier: process.env.CRYSTALLIZE_TENANT_IDENTIFIER ?? storeFrontConfig.tenantIdentifier,
+            tenantId: process.env.CRYSTALLIZE_TENANT_ID ?? storeFrontConfig.tenantId,
         },
         language: locale.split('-')[0],
         locale: locale,
         theme: process.env.STOREFRONT_THEME ?? storeFrontConfig.theme,
-        currency: getCurrencyFromCode((process.env.STOREFRONT_CURRENCY ?? tenantConfig.currency).toUpperCase()),
-        logo: tenantConfig.logo ?? {
-            key: 'superfast-originated-logo',
-            url: process.env.STOREFRONT_STATIC_LOGO_URL ?? storeFrontConfig.logo,
-            variants: [],
-        },
+        currency: process.env.STOREFRONT_CURRENCY
+            ? getCurrencyFromCode(`${process.env.STOREFRONT_CURRENCY}`.toUpperCase())
+            : tenantConfig.currency,
+        logo: tenantConfig.logo ?? storeFrontConfig.logo,
         serviceApiUrl,
         crystalPayments: process.env?.CRYSTAL_PAYMENTS
             ? (process.env.CRYSTAL_PAYMENTS.split(',') as CrystalFakePaymentImplementation[])
-            : tenantConfig.crystalPayments,
-        paymentImplementations: ['crystal', 'stripe', 'quickpay', 'klarna', 'razorpay', 'montonio', 'adyen'],
+            : ['coin', 'card'],
+        paymentImplementations: process.env?.PAYMENT_IMPLEMENTATIONS
+            ? (process.env.PAYMENT_IMPLEMENTATIONS.split(',') as PaymentImplementation[])
+            : (storeFrontConfig.paymentMethods as PaymentImplementation[]),
         paymentImplementationVariables: {
             stripe: {
-                PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY ?? storeFrontConfig.configuration.PUBLIC_KEY,
+                PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY ?? storeFrontConfig.configuration.STRIPE_PUBLIC_KEY,
             },
             razorpay: {
-                RAZORPAY_ID: process.env.RAZORPAY_ID ?? storeFrontConfig.configuration.razorpay_key_id,
+                RAZORPAY_ID: process.env.RAZORPAY_ID ?? storeFrontConfig.configuration.RAZORPAY_ID,
             },
             adyen: {
                 ENVIRONMENT: process.env.ADYEN_ENV ?? storeFrontConfig.configuration.ADYEN_ENV,

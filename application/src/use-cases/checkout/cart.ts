@@ -18,6 +18,7 @@ import {
 import { CrystallizeAPI } from '../crystallize/read';
 import { marketIdentifiersForUser } from '../marketIdentifiersForUser';
 import { Voucher } from '../contracts/Voucher';
+import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 
 export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<CartWrapper> {
     const { cart, total } = wrapper.cart;
@@ -119,6 +120,7 @@ export async function alterCartBasedOnDiscounts(wrapper: CartWrapper): Promise<C
 }
 
 export async function hydrateCart(
+    storeFrontConfig: TStoreFrontConfig,
     apiClient: ClientInterface,
     language: string,
     body: any,
@@ -128,7 +130,7 @@ export async function hydrateCart(
         language,
     });
     const tenantConfig = await api.fetchTenantConfig(apiClient.config.tenantIdentifier);
-    const currency = tenantConfig.currency;
+    const currency = tenantConfig.currency.code;
 
     const marketIdentifiers = marketIdentifiersForUser(body.user);
 
@@ -159,6 +161,7 @@ export async function hydrateCart(
     };
 
     const cart = await handleCartRequestPayload(validatePayload<CartPayload>(body, cartPayload), {
+        pricesHaveTaxesIncludedInCrystallize: storeFrontConfig.taxIncluded,
         hydraterBySkus: createProductHydrater(apiClient, { useSyncApiForSKUs: false, marketIdentifiers }).bySkus,
         currency,
         perProduct: () => {

@@ -13,6 +13,7 @@ import { AdyenCheckoutForm, AdyenButton } from './adyen';
 export const Payments: React.FC = () => {
     const { state, _t } = useAppContext();
     const { cart, isImmutable, clone: cartClone } = useLocalCart();
+
     const paymentMethods = state.crystalPayments;
     const paymentMethodImplementations = {
         crystalCoin: {

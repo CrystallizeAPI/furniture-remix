@@ -11,6 +11,7 @@ import AbstractStory from '~/ui/pages/AbstractStory';
 import Topic from '~/ui/pages/Topic';
 import LandingPage from '~/ui/pages/LandingPage';
 import dataFetcherForShapePage from '~/use-cases/dataFetcherForShapePage.server';
+import Stories from '~/ui/pages/Stories';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
     return HttpCacheHeaderTaggerFromLoader(loaderHeaders).headers;
@@ -54,7 +55,11 @@ export default () => {
             return <Product data={data} />;
         case 'category':
             return <Category data={data} />;
+        case 'folder':
+            return <Stories folder={data} />;
         case 'abstract-story':
+        case 'story':
+        case 'curated-product-story':
             return <AbstractStory data={data} />;
         case '_topic':
             return <Topic data={data} />;

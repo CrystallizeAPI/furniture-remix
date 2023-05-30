@@ -57,10 +57,14 @@ export default async (
                 });
             }
             return { category, products, priceRangeAndAttributes };
+        case 'folder':
+            return await api.fetchFolderWithChildren(path, marketIdentifiers);
         case 'abstract-story':
+        case 'story':
+        case 'curated-product-story':
             const story = await api.fetchDocument(path, marketIdentifiers);
             if (!story) {
-                throw new Response('Story Mot Found', {
+                throw new Response('Story Not Found', {
                     status: 404,
                     statusText: 'Story Not Found',
                 });

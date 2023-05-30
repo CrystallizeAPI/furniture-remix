@@ -7,7 +7,7 @@ export default async (storeFrontConfig: TStoreFrontConfig) => {
     };
     const token = jwt.sign(
         payload,
-        `${process.env.MONTONIO_SECRET_KEY ?? storeFrontConfig?.configuration?.MONTONIO_SECRET_KEY}}`,
+        `${process.env.MONTONIO_SECRET_KEY ?? storeFrontConfig?.configuration?.MONTONIO_SECRET_KEY}`,
         {
             algorithm: 'HS256',
             expiresIn: '1h',

@@ -44,17 +44,6 @@
             "children": [
                 {
                     "name": {
-                        "en": "Livingroom"
-                    },
-                    "path": {
-                        "en": "/room/livingroom"
-                    },
-                    "pathIdentifier": {
-                        "en": "livingroom"
-                    }
-                },
-                {
-                    "name": {
                         "en": "Kitchen"
                     },
                     "path": {
@@ -62,6 +51,17 @@
                     },
                     "pathIdentifier": {
                         "en": "kitchen"
+                    }
+                },
+                {
+                    "name": {
+                        "en": "Livingroom"
+                    },
+                    "path": {
+                        "en": "/room/livingroom"
+                    },
+                    "pathIdentifier": {
+                        "en": "livingroom"
                     }
                 }
             ]
@@ -336,10 +336,10 @@
             "type": "folder",
             "components": [
                 {
-                    "id": "intro",
-                    "name": "Intro",
+                    "id": "title",
+                    "name": "Title",
                     "description": "",
-                    "type": "richText",
+                    "type": "singleLine",
                     "config": null
                 },
                 {
@@ -353,10 +353,9 @@
                     "id": "hero-content",
                     "name": "Hero content",
                     "description": null,
-                    "type": "contentChunk",
+                    "type": "componentChoice",
                     "config": {
-                        "repeatable": false,
-                        "components": [
+                        "choices": [
                             {
                                 "id": "tile",
                                 "name": "Tile",
@@ -3785,81 +3784,11 @@
                 "en": "Stories"
             },
             "cataloguePath": "/stories",
-            "externalReference": "crystallize-spec-ref-62eb86170033f6ad3e7c12f3",
-            "shape": "category",
+            "externalReference": "crystallize-spec-ref-647645ef7b23f243e45a0577",
+            "shape": "folder",
             "components": {
-                "title": {
-                    "en": "Stories"
-                },
-                "intro": {
-                    "en": {
-                        "json": [
-                            {
-                                "kind": "block",
-                                "type": "paragraph",
-                                "metadata": {},
-                                "children": []
-                            }
-                        ]
-                    }
-                },
-                "hero-content": {
-                    "grid": [
-                        {
-                            "name": "Frontpage"
-                        }
-                    ]
-                },
-                "meta": [
-                    {
-                        "title": {
-                            "en": "Stories"
-                        },
-                        "description": {
-                            "en": {
-                                "json": [
-                                    {
-                                        "kind": "block",
-                                        "type": "paragraph",
-                                        "metadata": {},
-                                        "children": [
-                                            {
-                                                "kind": "inline",
-                                                "metadata": {},
-                                                "textContent": "A curated list of blog posts to keep your updated on the latest furniture trends."
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        },
-                        "image": [
-                            {
-                                "src": "https://media.crystallize.com/frntr-blueprint/22/8/4/16/frntr-logo.png",
-                                "altText": {
-                                    "en": ""
-                                },
-                                "caption": {
-                                    "en": {
-                                        "json": [
-                                            {
-                                                "kind": "block",
-                                                "type": "paragraph",
-                                                "children": [
-                                                    {
-                                                        "kind": "inline",
-                                                        "type": "span",
-                                                        "textContent": ""
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    }
-                ]
+                "title": {},
+                "meta": []
             },
             "topics": null,
             "children": [
@@ -4152,7 +4081,9 @@
                                 }
                             }
                         ],
-                        "link": {}
+                        "link": {
+                            "en": "https://twitter.com/CrystallizeAPI"
+                        }
                     },
                     {
                         "logo": [
@@ -4166,7 +4097,9 @@
                                 }
                             }
                         ],
-                        "link": {}
+                        "link": {
+                            "en": "https://www.instagram.com/crystallizeapi"
+                        }
                     },
                     {
                         "logo": [
@@ -4180,13 +4113,19 @@
                                 }
                             }
                         ],
-                        "link": {}
+                        "link": {
+                            "en": "https://www.youtube.com/c/Crystallize"
+                        }
                     }
                 ],
-                "promotion-section-heading": {},
+                "promotion-section-heading": {
+                    "en": "Promotions? All year round, every months every day, its just happening all the time!!!!"
+                },
                 "promotion-cards": [
                     {
-                        "title": {},
+                        "title": {
+                            "en": "This is the thing whenever this is happening"
+                        },
                         "image": [
                             {
                                 "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/4/unicorn.png",
@@ -4198,10 +4137,14 @@
                                 }
                             }
                         ],
-                        "link": {}
+                        "link": {
+                            "en": "/"
+                        }
                     },
                     {
-                        "title": {},
+                        "title": {
+                            "en": "This is the thing whenever this is happening"
+                        },
                         "image": [
                             {
                                 "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/5/kiwi-bird.png",
@@ -4213,10 +4156,14 @@
                                 }
                             }
                         ],
-                        "link": {}
+                        "link": {
+                            "en": "/"
+                        }
                     },
                     {
-                        "title": {},
+                        "title": {
+                            "en": "This is the thing whenever this is happening"
+                        },
                         "image": [
                             {
                                 "src": "https://media.crystallize.com/frntr-blueprint/22/11/25/6/unicorn.png",
@@ -4228,31 +4175,221 @@
                                 }
                             }
                         ],
-                        "link": {}
+                        "link": {
+                            "en": "/"
+                        }
                     }
                 ],
-                "copyright": {},
+                "copyright": {
+                    "en": "Copyright by FRTNR @ 2022"
+                },
                 "contact-information": {
-                    "en": null
+                    "en": {
+                        "json": [
+                            {
+                                "kind": "block",
+                                "type": "paragraph",
+                                "metadata": {},
+                                "children": [
+                                    {
+                                        "kind": "inline",
+                                        "metadata": {},
+                                        "textContent": "hello@frntr.com"
+                                    }
+                                ]
+                            },
+                            {
+                                "kind": "block",
+                                "type": "paragraph",
+                                "metadata": {},
+                                "children": [
+                                    {
+                                        "kind": "inline",
+                                        "metadata": {},
+                                        "textContent": "+381642247467"
+                                    }
+                                ]
+                            },
+                            {
+                                "kind": "block",
+                                "type": "paragraph",
+                                "metadata": {},
+                                "children": [
+                                    {
+                                        "kind": "inline",
+                                        "metadata": {},
+                                        "textContent": "Main st. 10, EAC2CQ, London"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
                 },
                 "links": {
-                    "en": null
+                    "en": {
+                        "json": [
+                            {
+                                "kind": "block",
+                                "metadata": {},
+                                "type": "unordered-list",
+                                "children": [
+                                    {
+                                        "kind": "block",
+                                        "type": "list-item",
+                                        "metadata": {},
+                                        "children": [
+                                            {
+                                                "kind": "inline",
+                                                "metadata": {},
+                                                "textContent": "About us"
+                                            },
+                                            {
+                                                "kind": "block",
+                                                "metadata": {},
+                                                "type": "unordered-list",
+                                                "children": [
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Blog"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "kind": "block",
+                                        "type": "list-item",
+                                        "metadata": {},
+                                        "children": [
+                                            {
+                                                "kind": "inline",
+                                                "metadata": {},
+                                                "textContent": "Shop"
+                                            },
+                                            {
+                                                "kind": "block",
+                                                "metadata": {},
+                                                "type": "unordered-list",
+                                                "children": [
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Plants"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Kitchen"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "kind": "block",
+                                                        "type": "list-item",
+                                                        "metadata": {},
+                                                        "children": [
+                                                            {
+                                                                "kind": "inline",
+                                                                "metadata": {},
+                                                                "textContent": "Wallart"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
                 }
             },
             "topics": null
         },
         {
             "name": {
+                "en": "_Vouchers"
+            },
+            "cataloguePath": "/vouchers",
+            "externalReference": "crystallize-spec-ref-63f69cdf795e5e6aafc660aa",
+            "shape": "folder",
+            "components": {
+                "title": {},
+                "meta": []
+            },
+            "topics": null,
+            "children": [
+                {
+                    "name": {
+                        "en": "GET20"
+                    },
+                    "cataloguePath": "/vouchers/get20",
+                    "externalReference": "crystallize-spec-ref-63f69d0d795e5e6aafc660ab",
+                    "shape": "voucher",
+                    "components": {
+                        "expiry-date": "2023-05-28T07:00:00.000Z",
+                        "discount": {
+                            "absolute": {
+                                "number": 10,
+                                "unit": null
+                            }
+                        }
+                    },
+                    "topics": null
+                },
+                {
+                    "name": {
+                        "en": "20PERCENT"
+                    },
+                    "cataloguePath": "/vouchers/20percent",
+                    "externalReference": "crystallize-spec-ref-63f69cf7a94533f79fc647d4",
+                    "shape": "voucher",
+                    "components": {
+                        "expiry-date": "2023-07-06T07:00:00.000Z",
+                        "discount": {
+                            "percent": {
+                                "number": 20,
+                                "unit": "%"
+                            }
+                        }
+                    },
+                    "topics": null
+                }
+            ]
+        },
+        {
+            "name": {
                 "en": "_Tiles"
             },
             "cataloguePath": "/tiles",
-            "externalReference": "crystallize-spec-ref-62f22cdf879273bc3a7a7816",
-            "shape": "folder",
+            "externalReference": "crystallize-spec-ref-6475e66b0cfc1e5d4d24d7d6",
+            "shape": "category",
             "components": {
+                "title": {},
                 "intro": {
                     "en": null
                 },
-                "hero-content": [],
                 "meta": []
             },
             "topics": null,
@@ -4495,60 +4632,6 @@
                         },
                         "ctas": [],
                         "styling": []
-                    },
-                    "topics": null
-                }
-            ]
-        },
-        {
-            "name": {
-                "en": "_Vouchers"
-            },
-            "cataloguePath": "/vouchers",
-            "externalReference": "crystallize-spec-ref-63f69cdf795e5e6aafc660aa",
-            "shape": "folder",
-            "components": {
-                "intro": {
-                    "en": null
-                },
-                "hero-content": [],
-                "meta": []
-            },
-            "topics": null,
-            "children": [
-                {
-                    "name": {
-                        "en": "GET20"
-                    },
-                    "cataloguePath": "/vouchers/get20",
-                    "externalReference": "crystallize-spec-ref-63f69d0d795e5e6aafc660ab",
-                    "shape": "voucher",
-                    "components": {
-                        "expiry-date": "2023-05-28T07:00:00.000Z",
-                        "discount": {
-                            "absolute": {
-                                "number": 10,
-                                "unit": null
-                            }
-                        }
-                    },
-                    "topics": null
-                },
-                {
-                    "name": {
-                        "en": "20PERCENT"
-                    },
-                    "cataloguePath": "/vouchers/20percent",
-                    "externalReference": "crystallize-spec-ref-63f69cf7a94533f79fc647d4",
-                    "shape": "voucher",
-                    "components": {
-                        "expiry-date": "2023-07-06T07:00:00.000Z",
-                        "discount": {
-                            "percent": {
-                                "number": 20,
-                                "unit": "%"
-                            }
-                        }
                     },
                     "topics": null
                 }

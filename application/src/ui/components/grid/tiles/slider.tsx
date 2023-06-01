@@ -3,6 +3,7 @@ import { TileViewComponentProps } from '../../../lib/grid-tile/types';
 import { ProductFromCell } from '../../item/product';
 import { DocumentFromCell } from '../../item/document';
 import { LinkRenderer } from '../../../lib/grid-tile/linkRenderer';
+import { ContentTransformer } from '@crystallize/reactjs-components';
 
 const itemMapping = {
     product: ProductFromCell,
@@ -24,11 +25,16 @@ export const Slider: React.FC<TileViewComponentProps> = ({ tile, options }) => {
             return 'px-10';
         }
     };
+
     return (
         <div className={`${isFullWidth ? 'px-8 lg:px-10 max-w-[1650px] w-full mx-auto' : 'w-full'}`}>
             <div className={`pb-10  pt-20 ${setInnerPadding()}`}>
                 {title && <h2 className={`${colspan > 2 ? 'text-3xl' : 'text-2xl'} mb-3 font-bold`}>{title}</h2>}
-                {description && <p className={`embed-text ${colspan > 2 ? 'w-2/4' : 'w-5/5'}`}>{description}</p>}
+                {description && (
+                    <div className={`embed-text ${colspan > 2 ? 'w-2/4' : 'w-5/5'}`}>
+                        <ContentTransformer json={description} />
+                    </div>
+                )}
                 {ctas &&
                     ctas.map((cta) => (
                         <button className="bg-ctaBlue px-8 py-4 rounded font-medium" key={cta.link}>

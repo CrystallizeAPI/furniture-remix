@@ -1,7 +1,7 @@
 import { Image } from '@crystallize/reactjs-components/dist/image';
 import { TileViewComponentProps } from '../../../lib/grid-tile/types';
 import { LinkRenderer } from '../../../lib/grid-tile/linkRenderer';
-import { Video } from '@crystallize/reactjs-components';
+import { ContentTransformer, Video } from '@crystallize/reactjs-components';
 
 export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { title, description, ctas, isFullWidth, content, styling } = tile;
@@ -27,7 +27,11 @@ export const Banner: React.FC<TileViewComponentProps> = ({ tile }) => {
                         {title}
                     </h1>
                 )}
-                {description && <p className={`mt-2 mb-5 max-w-[400px] leading-[1.6em]`}>{description}</p>}
+                {description && (
+                    <div className={`mt-2 mb-5 max-w-[400px] leading-[1.6em]`}>
+                        <ContentTransformer json={description} />
+                    </div>
+                )}
                 {ctas &&
                     ctas.map((cta) => (
                         <button

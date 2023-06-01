@@ -3,6 +3,7 @@ import { TileViewComponentProps } from '../../../lib/grid-tile/types';
 import { LinkRenderer } from '../../../lib/grid-tile/linkRenderer';
 import { useAppContext } from '../../../app-context/provider';
 import Link from '~/bridge/ui/Link';
+import { ContentTransformer } from '@crystallize/reactjs-components';
 
 export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
     const { path } = useAppContext();
@@ -19,7 +20,11 @@ export const Embed: React.FC<TileViewComponentProps> = ({ tile }) => {
             <div className="flex flex-col justify-between items-stretch h-full overflow-hidden w-full">
                 <div className="px-10 pt-20 md:h-1/3 ">
                     {title && <h2 className="text-2xl font-bold mb-3">{title}</h2>}
-                    {description && <p className="embed-text">{description}</p>}
+                    {description && (
+                        <div className="embed-text">
+                            <ContentTransformer json={description} />
+                        </div>
+                    )}
                     {ctas &&
                         ctas.map((cta) => (
                             <button className="bg-ctaBlue px-8 py-4 rounded font-medium" key={cta.link}>

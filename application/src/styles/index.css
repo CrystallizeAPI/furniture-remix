@@ -7,6 +7,16 @@
     body {
         background: #fff;
     }
+    ol {
+        list-style: none;
+        counter-reset: my-awesome-counter;
+    }
+    ol li {
+        counter-increment: my-awesome-counter;
+    }
+    ol li::before {
+        content: counter(my-awesome-counter) '. ';
+    }
     img {
         max-width: none;
     }

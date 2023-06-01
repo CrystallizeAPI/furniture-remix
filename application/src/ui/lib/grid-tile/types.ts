@@ -1,4 +1,5 @@
 import React from 'react';
+import { RichText } from '~/use-cases/contracts/RichText';
 
 export type TileViewComponentProps = {
     tile: Tile;
@@ -30,7 +31,7 @@ export type TileViewWrapperOptions = {
 
 export type Tile = {
     title?: string;
-    description?: string;
+    description?: any;
     content: {
         items?: any[];
         images?: any[];

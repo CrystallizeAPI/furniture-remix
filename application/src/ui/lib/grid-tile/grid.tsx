@@ -61,11 +61,11 @@ export const Grid: React.FC<{
     );
 };
 
-const Tile: React.FC<{ tile: Tile | Item; children: React.ReactNode; options?: TileViewWrapperOptions }> = ({
-    tile,
-    children,
-    options,
-}) => {
+const Tile: React.FC<{
+    tile: Tile | Item;
+    children: React.ReactNode;
+    options?: TileViewWrapperOptions;
+}> = ({ tile, children, options }) => {
     let backgroundElement = null;
     const { background } = tile;
     if (background.images && background.images.length > 0) {
@@ -160,7 +160,7 @@ const normalizeTile = (cellItem: any): Tile | null => {
     return {
         view: componentContent(cellItem, 'view')?.options[0]?.value.toLowerCase(),
         title: componentContent(cellItem, 'title')?.text,
-        description: componentContent(cellItem, 'description')?.plainText.join(' '),
+        description: componentContent(cellItem, 'description')?.json,
         content: {
             images: componentChoiceContent(cellItem, 'content', 'images') || undefined,
             videos: componentChoiceContent(cellItem, 'content', 'videos') || undefined,

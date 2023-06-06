@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../app-context/provider';
 import { ServiceAPI } from '~/use-cases/service-api';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Shop } from '~/use-cases/contracts/Shop';
 import { useAppContext } from '../app-context/provider';
 import { CategoryList } from '../components/category-list';

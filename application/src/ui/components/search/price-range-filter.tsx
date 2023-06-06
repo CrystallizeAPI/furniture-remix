@@ -1,6 +1,6 @@
+'use client';
 import { useRef, useState } from 'react';
 import Slider from 'rc-slider';
-import { useSubmit } from '@remix-run/react';
 import { useAppContext } from '../../app-context/provider';
 import { Price } from '../../lib/pricing/pricing-component';
 
@@ -9,7 +9,6 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
     max,
     formRef,
 }) => {
-    const submit = useSubmit();
     const { state: contextState, _t } = useAppContext();
     const [showSlider, setShowSlider] = useState(false);
     const [priceValue, setPriceValue] = useState({ min, max });
@@ -22,7 +21,7 @@ export const PriceRangeFilter: React.FC<{ min: number; max: number; formRef: any
     function onRangeDone(newValue: any) {
         minInput.current!.value = newValue[0];
         maxInput.current!.value = newValue[1];
-        submit(formRef.current);
+        formRef.current.submit();
     }
 
     return (

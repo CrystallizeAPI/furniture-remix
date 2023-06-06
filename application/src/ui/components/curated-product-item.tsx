@@ -1,4 +1,4 @@
-import { Product, ProductVariant } from '@crystallize/js-api-client';
+import { ProductVariant } from '@crystallize/js-api-client';
 import { Image } from '@crystallize/reactjs-components';
 import { Price } from '../components/price';
 import { VariantSelector } from './variant-selector';

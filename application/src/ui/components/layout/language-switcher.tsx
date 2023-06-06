@@ -6,7 +6,7 @@ export const LanguageSwitcher = () => {
     const { state } = useAppContext();
     const location = useLocation();
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const path = '/' + location.pathname.split('/').slice(2).join('/');
+        const path = '/' + window.location.pathname.split('/').slice(2).join('/');
         window.location.href = buildLanguageMarketAwareLink(path, event.target.value);
     };
     return (

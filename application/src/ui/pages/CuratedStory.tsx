@@ -1,3 +1,5 @@
+'use client';
+
 import { ContentTransformer, Image } from '@crystallize/reactjs-components';
 import { CuratedProductItem } from '../components/curated-product-item';
 import { useMemo, useState } from 'react';

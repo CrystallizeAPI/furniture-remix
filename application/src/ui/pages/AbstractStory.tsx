@@ -1,3 +1,4 @@
+'use client';
 import { CuratedStory as CuratedStoryType, Story as StoryType } from '~/use-cases/contracts/Story';
 import CuratedStory from './CuratedStory';
 import Story from './Story';

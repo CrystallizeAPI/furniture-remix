@@ -18,15 +18,15 @@ export default ({
     return (
         <>
             <div className="container 2xl px-5 mx-auto w-full">
-                <h1 className="text-3xl font-bold mt-10 mb-4">{category.title}</h1>
-                <p className="w-3/5 mb-10">{category.description}</p>
+                <h1 className="text-3xl font-bold mt-10 mb-4">{category?.title}</h1>
+                <p className="w-3/5 mb-10">{category?.description}</p>
             </div>
-            {category.hero && (
+            {category?.hero && (
                 <div className="w-full mx-auto">
-                    <Grid grid={category.hero} />
+                    <Grid grid={category?.hero} />
                 </div>
             )}
-            <div className={`container 2xl mt-2 px-5 mx-auto w-full ${category.hero ? 'mt-20 pt-10' : ''}`}>
+            <div className={`container 2xl mt-2 px-5 mx-auto w-full ${category?.hero ? 'mt-20 pt-10' : ''}`}>
                 <Filter aggregations={priceRangeAndAttributes} />
                 <FilteredProducts products={products} />
             </div>

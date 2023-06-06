@@ -32,6 +32,7 @@ export const CrystalCoin: React.FC = () => {
     const { state, path } = useAppContext();
     const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
     const navigate = useNavigate();
+
     if (isEmpty()) {
         return null;
     }

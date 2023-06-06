@@ -14,6 +14,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const { shared } = await getStoreFront(requestContext.host);
 
     let cartId = requestContext.url.searchParams.get('cartId');
+
     return json(
         {
             orderId: params.id,

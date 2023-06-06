@@ -10,6 +10,7 @@ import { DataMapper } from '..';
 export default (data: any): Shop => {
     const mapper = DataMapper();
     const [folder, hierarchy] = data;
+
     const hero = choiceComponentWithId(folder.components, 'hero-content');
     const grid =
         hero?.content?.grids?.[0] ||

@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../app-context/provider';
 import { AddToCartBtn } from '../components/add-to-cart-button';

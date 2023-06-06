@@ -61,6 +61,7 @@ export const RazorPay: React.FC = () => {
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
+                    cartId: cart.cartId,
                 };
                 const result = await ServiceAPI({
                     language: state.language,

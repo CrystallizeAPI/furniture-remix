@@ -19,6 +19,7 @@ export function TenantLogo({ identifier, logo }: { identifier: string; logo: any
     return (
         <Image
             {...logo}
+            key={logo.key}
             sizes="150px"
             alt={identifier + ` logo`}
             className="w-auto h-full"

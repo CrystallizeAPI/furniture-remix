@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { ServiceAPI } from '~/use-cases/service-api';
@@ -21,6 +23,7 @@ export default ({ cartId }: { cartId: string }) => {
                     language: appContextState.language,
                     serviceApiUrl: appContextState.serviceApiUrl,
                 }).fetchCart(cartId);
+
                 if (cart?.extra?.orderId) {
                     if (cart?.customer?.isGuest === true) {
                         navigate(path('/order/' + cart.extra.orderId + '?cartId=' + cart.cartId));

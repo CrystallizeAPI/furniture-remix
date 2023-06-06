@@ -1,3 +1,5 @@
+'use client';
+
 import { FilteredProducts } from '../components/search/filtered-products';
 import { useAppContext } from '../app-context/provider';
 import { ProductSlim } from '~/use-cases/contracts/Product';

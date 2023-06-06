@@ -1,3 +1,5 @@
+'use client';
+
 import { Grid as BaseGrid } from '../../lib/grid-tile/grid';
 import { ProductFromCell } from '../../components/item/product';
 import { DocumentFromCell } from '../../components/item/document';

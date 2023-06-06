@@ -1,3 +1,5 @@
+'use client';
+
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { TileViewComponentProps } from '../../../lib/grid-tile/types';
 import { Image } from '@crystallize/reactjs-components/dist/image';

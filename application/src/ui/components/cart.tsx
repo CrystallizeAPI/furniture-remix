@@ -1,3 +1,5 @@
+'use client';
+
 import Link from '~/bridge/ui/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
@@ -54,6 +56,7 @@ export type Savings = Record<string, { quantity: number; amount: number }>;
 
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
+
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart, clone: cartClone } = useLocalCart();
     const { cart, total } = remoteCart?.cart || { cart: null, total: null };
     const { savings } = remoteCart?.extra?.discounts || {

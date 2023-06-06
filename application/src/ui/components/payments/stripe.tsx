@@ -1,3 +1,5 @@
+'use client';
+
 import useLocalStorage from '@rehooks/local-storage';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -99,7 +101,7 @@ const StripCheckoutForm: React.FC = () => {
         const payload = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: 'https://' + location.host + '/order/cart/' + cart.cartId,
+                return_url: 'https://' + window.location.host + '/order/cart/' + cart.cartId,
             },
             redirect: 'if_required',
         });

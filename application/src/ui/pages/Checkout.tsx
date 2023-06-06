@@ -1,3 +1,5 @@
+'use client';
+
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useState } from 'react';
 import { AddressForm } from '../components/checkout-forms/address';

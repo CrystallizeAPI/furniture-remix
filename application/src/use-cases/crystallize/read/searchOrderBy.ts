@@ -5,21 +5,21 @@ export default async (
     path: string,
     language: string,
     orderBy?: any,
-    fitlers?: any,
+    filters?: any,
     attributes?: any,
 ) => {
     const field = orderBy?.split('_')[0] || 'NAME';
     const direction = orderBy?.split('_')[1] || 'ASC';
-    const priceRangeParams = fitlers.price;
+    const priceRangeParams = filters?.price;
 
-    attributes = attributes.map((attribute: string) => {
+    attributes = attributes?.map((attribute: string) => {
         return {
-            attribute: attribute.split('_')[0],
-            value: attribute.split('_')[1],
+            attribute: attribute?.split('_')[0],
+            value: attribute?.split('_')[1],
         };
     });
 
-    const attributeFilters = attributes.reduce(
+    const attributeFilters = attributes?.reduce(
         (
             acc: { [x: string]: { attribute: string; values: string[] } },
             { attribute, value }: { attribute: string; value: string },
@@ -89,9 +89,9 @@ export default async (
             path,
             field: field === 'NAME' ? 'ITEM_NAME' : field,
             direction,
-            min: priceRangeParams.min ? parseFloat(priceRangeParams.min) : 0.0,
-            max: priceRangeParams.max ? parseFloat(priceRangeParams.max) : 0.0,
-            attributes: Object.values(attributeFilters) as [],
+            min: priceRangeParams?.min ? parseFloat(priceRangeParams.min) : 0.0,
+            max: priceRangeParams?.max ? parseFloat(priceRangeParams.max) : 0.0,
+            attributes: Object?.values(attributeFilters) as [],
         },
     );
 

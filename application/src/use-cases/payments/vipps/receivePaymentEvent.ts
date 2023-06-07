@@ -80,7 +80,7 @@ export default async (
                         totalAmount: item.price.gross * 100,
                         totalAmountExcludingTax: item.price.net * 100,
                         totalTaxAmount: item.price.taxAmount * 100,
-                        taxPercentage: roundId(item.price.taxAmount / item.price.gross),
+                        taxPercentage: roundId((item.price.taxAmount / item.price.gross) * 100),
                         discount:
                             roundId(
                                 item.price.discounts?.reduce((memo, discount) => {

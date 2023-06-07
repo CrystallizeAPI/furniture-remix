@@ -32,6 +32,12 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
             fetchPaymentIntent: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/stripe/create', { cartId: cart.cartId }),
         },
+        vipps: {
+            fetchPaymentIntent: (cart: LocalCart, method: string, flow: string) =>
+                postJson<any>(serviceApiUrl + '/payment/vipps/create?method=' + method + '&flow=' + flow, {
+                    cartId: cart.cartId,
+                }),
+        },
         quickpay: {
             fetchPaymentLink: (cart: LocalCart) =>
                 postJson<any>(serviceApiUrl + '/payment/quickpay/create', { cartId: cart.cartId }),

@@ -48,7 +48,7 @@ export const getStoreFront = async (hostname: string) => {
                 enabled: true,
                 id: 'inMemory',
                 name: `custom`,
-                paymentMethods: ['crystal', 'stripe', 'quickpay', 'klarna', 'razorpay', 'montonio', 'adyen'],
+                paymentMethods: ['crystal', 'stripe', 'quickpay', 'klarna', 'razorpay', 'montonio', 'adyen', 'vipps'],
                 taxIncluded: false,
                 superfastVersion: '0.0.0',
                 tenantId: `${process.env.CRYSTALLIZE_TENANT_ID}`,

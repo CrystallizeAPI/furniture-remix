@@ -9,6 +9,7 @@ import { QuickPayLink, QuickPayLinkButton } from './quickpaylink';
 import { RazorPay, RazorPayButton } from './razorpay';
 import { Stripe, StripeButton } from './stripe';
 import { AdyenCheckoutForm, AdyenButton } from './adyen';
+import { Vipps, VippsButton } from './vipps';
 
 export const Payments: React.FC = () => {
     const { state, _t } = useAppContext();
@@ -29,6 +30,13 @@ export const Payments: React.FC = () => {
             button: CrystalCardButton,
             renderOnLoad: false,
             enabled: state.paymentImplementations.includes('crystal') && paymentMethods.includes('card'),
+        },
+        vipps: {
+            name: 'Vipps',
+            component: Vipps,
+            button: VippsButton,
+            renderOnLoad: false,
+            enabled: state.paymentImplementations.includes('vipps'),
         },
         montonio: {
             name: 'Montonio',

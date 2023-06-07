@@ -20,7 +20,6 @@ export const MontonioButton: React.FC<{
             onClick={onClick}
         >
             <img className="px-1 h-[25px]" src={`${logo}`} height="35" alt="Montonio" />
-            <span className="text-textBlack">{paying ? '' : _t('payment.montonio.paywithbanklinks')}</span>
             <span className="text-textBlack">{paying ? _t('payment.processing') : ''}</span>
             <span className="text-black text-2xl"> ›</span>
         </button>

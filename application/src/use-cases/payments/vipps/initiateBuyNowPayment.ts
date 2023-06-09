@@ -22,7 +22,7 @@ export default async (cartWrapper: CartWrapper, context: RequestContext, storeFr
         context.market,
     );
 
-    const webhookCallbackUrl = `/api/webhook/payment/vipps/${cartWrapper.cartId}`;
+    const webhookCallbackUrl = `/api/webhook/payment/vipps`;
 
     return await handleVippsInitiateExpressCheckoutRequestPayload(
         { cartId: cartWrapper.cartId },

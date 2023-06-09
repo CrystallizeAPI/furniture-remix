@@ -88,7 +88,10 @@
             "selectPickupPoint": "Velg et hentepunkt",
             "paywithbanklinks": "Velg bank å betale med"
         },
-        "cancelled": "Betalingen ble kansellert"
+        "cancelled": "Betalingen ble kansellert",
+        "vipps": {
+            "button": "Betal med"
+        }
     },
     "order": {
         "notFound": "Bestillingen ble ikke funnet",

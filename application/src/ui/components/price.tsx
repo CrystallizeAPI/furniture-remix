@@ -40,7 +40,7 @@ export const DiscountedPrice: React.FC<{
                     <div className={priceSize[size as keyof typeof priceSize].previous}>
                         <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex flex-col gap-1">
                         <div className={priceSize[size as keyof typeof priceSize].discount}>
                             <CrystallizePrice currencyCode={currency.code}>{discountPrice}</CrystallizePrice>
                         </div>

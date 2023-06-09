@@ -88,7 +88,10 @@
             "selectPickupPoint": "Select a pickup point",
             "paywithbanklinks": "Select bank to pay with"
         },
-        "cancelled": "Payment cancelled"
+        "cancelled": "Payment cancelled",
+        "vipps": {
+            "button": "Pay with"
+        }
     },
     "order": {
         "notFound": "Oops! Cannot find your order. Please try again later.",

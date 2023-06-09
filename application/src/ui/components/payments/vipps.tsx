@@ -6,11 +6,11 @@ import { useAppContext } from '../../app-context/provider';
 import logo from '~/assets/vippsLogo.png';
 import { Customer } from '~/use-cases/contracts/Customer';
 
-export const VippsButton: React.FC<{ paying?: boolean; onClick: () => Promise<void> | void; children?: string }> = ({
-    paying = false,
-    onClick,
-    children,
-}) => {
+export const VippsButton: React.FC<{
+    paying?: boolean;
+    onClick: () => Promise<void> | void;
+    children?: string;
+}> = ({ paying = false, onClick, children }) => {
     const { _t } = useAppContext();
     const text = children ? children : '';
     return (
@@ -20,8 +20,11 @@ export const VippsButton: React.FC<{ paying?: boolean; onClick: () => Promise<vo
             onClick={onClick}
         >
             <img className="px-1 h-[50px]" src={`${logo}`} height="50" alt="Vipps" />
-            <span className="text-textBlack">{paying ? _t('payment.processing') : ''}</span>
-            <span className="text-black text-2xl">{`${text}`} ›</span>
+            {paying ? (
+                <span className="text-textBlack">{_t('payment.processing')}...</span>
+            ) : (
+                <span className="text-black">{`${text}`} ›</span>
+            )}
         </button>
     );
 };
@@ -50,10 +53,10 @@ export const Vipps: React.FC = () => {
     const excecute = async (method: string, flow: string, callback: (result: any) => void) => {
         if (!isEmpty()) {
             try {
-                await ServiceAPI({ language: state.language, serviceApiUrl: state.serviceApiUrl }).placeCart(
-                    cart,
-                    customer,
-                );
+                await ServiceAPI({
+                    language: state.language,
+                    serviceApiUrl: state.serviceApiUrl,
+                }).placeCart(cart, customer);
                 const response = await ServiceAPI({
                     language: state.language,
                     serviceApiUrl: state.serviceApiUrl,

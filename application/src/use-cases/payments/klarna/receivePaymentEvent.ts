@@ -25,7 +25,7 @@ export default async (
     }
     const currency = cartWrapper.cart.total.currency.toUpperCase();
     const { locale, origin } = getKlarnaVariables(currency);
-    const data = await handleKlarnaPaymentWebhookRequestPayload(payload, {
+    await handleKlarnaPaymentWebhookRequestPayload(payload, {
         cartId,
         origin,
         country: locale.country,

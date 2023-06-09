@@ -37,6 +37,11 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
                 postJson<any>(serviceApiUrl + '/payment/vipps/create?method=' + method + '&flow=' + flow, {
                     cartId: cart.cartId,
                 }),
+            initiateExpressCheckoutPaymentIntent: (items: { sku: string; quantity: number }[]) =>
+                postJson<any>(serviceApiUrl + '/payment/vipps/buynow', {
+                    locale: language,
+                    items,
+                }),
         },
         quickpay: {
             fetchPaymentLink: (cart: LocalCart) =>

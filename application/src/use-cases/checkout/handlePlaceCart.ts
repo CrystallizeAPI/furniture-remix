@@ -17,7 +17,7 @@ export default async (
     return await handleAndPlaceCart(cart, customer, body.cartId as string, body.options, voucher);
 };
 
-async function handleAndPlaceCart(
+export async function handleAndPlaceCart(
     cart: Cart,
     customer: any,
     providedCartId: string,

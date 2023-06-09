@@ -93,7 +93,9 @@ export default async (
                 if (!payment) {
                     return false;
                 }
-                await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig);
+                await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig).catch(
+                    console.error,
+                );
                 return session.paymentDetails?.state !== 'CREATED'; // if that's different from CREATED we stop polling
             });
         }
@@ -128,7 +130,9 @@ export default async (
             if (!payment) {
                 return false;
             }
-            await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig);
+            await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig).catch(
+                console.error,
+            );
             return payment.state !== 'CREATED'; // if that's different from CREATED we stop polling
         });
     }

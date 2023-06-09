@@ -1,5 +1,5 @@
 import { useLocalCart } from '../../hooks/useLocalCart';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '../../app-context/provider';

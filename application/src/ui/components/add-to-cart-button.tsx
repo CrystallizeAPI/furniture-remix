@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocalCart } from '../hooks/useLocalCart';
 import { useAppContext } from '../app-context/provider';
 import { ProductVariant } from '../../use-cases/contracts/ProductVariant';
+import { ServiceAPI } from '../../use-cases/service-api';
 
 export type VariantPack = VariantPackItem[];
 
@@ -15,6 +16,7 @@ export const AddToCartBtn: React.FC<{
     pack: VariantPack;
     label?: string;
 }> = ({ pack, label = 'addToCart' }) => {
+    const { state } = useAppContext();
     const [showTada, setShowTada] = useState(false);
     const { dispatch: contextDispatch, _t } = useAppContext();
     const { add } = useLocalCart();
@@ -71,6 +73,30 @@ export const AddToCartBtn: React.FC<{
                     🎉
                 </span>
             </button>
+            {state.paymentImplementations.includes('vipps') && (
+                <>
+                    <button
+                        className="bg-[#FF5B25] border px-10 py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] w-[200px] font-bold hover:bg-black-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={async () => {
+                            const response = await ServiceAPI({
+                                language: state.language,
+                                serviceApiUrl: state.serviceApiUrl,
+                            }).vipps.initiateExpressCheckoutPaymentIntent(
+                                pack.map((packitem: VariantPackItem) => {
+                                    return {
+                                        sku: packitem.variant.sku,
+                                        quantity: packitem.quantity,
+                                    };
+                                }),
+                            );
+                            window.location.href = response.url || response.redirectUrl;
+                        }}
+                        disabled={defaultStock < 1}
+                    >
+                        Buy now
+                    </button>
+                </>
+            )}
         </>
     );
 };

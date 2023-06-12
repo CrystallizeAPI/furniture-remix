@@ -72,7 +72,7 @@ export default ({
                                 renderingType="default"
                             />
                             {selectedVariant && (
-                                <div className="flex justify-between md:items-end sm:flex-row flex-col  sm:gap-1 gap-4">
+                                <div className="">
                                     <Price variant={selectedVariant} />
                                     <AddToCartBtn pack={[{ variant: selectedVariant, quantity: 1 }]} />
                                 </div>

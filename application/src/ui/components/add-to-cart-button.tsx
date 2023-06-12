@@ -51,10 +51,10 @@ export const AddToCartBtn: React.FC<{
     }, 0);
 
     return (
-        <>
+        <div className="flex gap-1 mt-4 flex-col sm:flex-row">
             <button
                 data-testid="add-to-cart-button"
-                className="bg-[#000] border px-5 py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] w-[180px] font-bold hover:bg-black-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-[#000] border px-5 py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] sm:w-[180px] w-full font-bold hover:bg-black-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={() => {
                     handleClick();
                 }}
@@ -77,7 +77,7 @@ export const AddToCartBtn: React.FC<{
             {state.paymentImplementations.includes('vipps') && (
                 <>
                     <button
-                        className="flex flex-row gap-1 items-center bg-[#FF5B25] border py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] w-[200px] font-bold  disabled:opacity-50 disabled:cursor-not-allowed justify-center hover:brightness-95"
+                        className="flex flex-row gap-1 items-center bg-[#FF5B25] border py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] sm:w-[200px] w-full font-bold  disabled:opacity-50 disabled:cursor-not-allowed justify-center hover:brightness-95"
                         onClick={async () => {
                             setShowLoader(true);
                             const response = await ServiceAPI({
@@ -119,6 +119,6 @@ export const AddToCartBtn: React.FC<{
                     </button>
                 </>
             )}
-        </>
+        </div>
     );
 };

@@ -1,0 +1,101 @@
+{
+    "loading": "chargement",
+    "browse": "Parcourir catégories",
+    "view": "Voir tous",
+    "relatedProducts": "Vous pourriez aussi être intéressé par",
+    "marketPriceLabel": "Votre prix",
+    "delete": "Effacer",
+    "search": {
+        "placeholder": "Noms, SKUs, catégories",
+        "label": "Recherche",
+        "foundResults": "Trouvé {{count}} résultats correspondants",
+        "noResults": "Aucun résultat trouvé",
+        "filterByAttributes": "Filtrer par attributs",
+        "sort": "Classer",
+        "showVariants": "Voir variantes",
+        "price": {
+            "lowToHigh": "Prix: Du moins au plus cher",
+            "highToLow": "Prix: Du plus au moins cher",
+            "range": "Gamme de prix"
+        },
+        "name": {
+            "ascending": "Nom croissant",
+            "descending": "Nom décroissant"
+        },
+        "stock": {
+            "ascending": "Stock croissant",
+            "descending": "Stock décroissant"
+        },
+        "removeAllFilters": "Effacer tous les filtres"
+    },
+    "addToCart": "Ajouter au caddie",
+    "back": "Retour",
+    "checkout": "Commander",
+    "total": "Total",
+    "stock": {
+        "outOfStock": "Indisponible",
+        "inStock": "Plus de 20+ en stock",
+        "lowStock": "Moins de 20 en stock",
+        "showLessAvailability": "Voir moins d'options de disponibilité",
+        "showMoreAvailability": "Voir plus d'options de disponibilités ({{count}})"
+    },
+    "cart": {
+        "yourCart": "Votre caddie",
+        "taxAmount": "Montant taxes",
+        "discount": "Réduction totale",
+        "toPay": "A payer",
+        "empty": "Votre caddie est vide.",
+        "whoaempty": "Woah, rien dans votre caddie actuellement",
+        "itemAdded": "Yay! Produit ajouté au caddie 🎉",
+        "goto": "Aller au caddie",
+        "continue": "Continuer vers la commande",
+        "trylater": "Essayez de revenir en arrière et de trouver quelque chose de joli avant de revenir",
+        "immutable": "Vous avez initié, finalisé ou annulé un paiement, cette version de votre caddie est donc bloquée.",
+        "clone": "Créer un nouveau caddie à partir de celui-ci",
+        "voucherCode": "Bon de réduction",
+        "useVoucher": "Utiliser bon de réduction"
+    },
+    "dimensions": "Dimensions",
+    "specifications": "Manuels et caractéristiques",
+    "hello": "Bonjour",
+    "login": "Login",
+    "register": "Enregistrement",
+    "logout": "Déconnexion",
+    "guestCheckout": "Commande en tant qu'invité",
+    "stillYourSession": "Est-ce bien vous ? Votre session est perdue, vous devez vous identifier de nouveau.",
+    "willSendYouMagickLink": "Nous vous enverrons un lien magique.",
+    "address": {
+        "firstname": "Prénom",
+        "lastname": "Nom",
+        "email": "Email",
+        "streetAddress": "Adresse",
+        "country": "Pays",
+        "city": "Ville",
+        "zipCode": "Code postal",
+        "additionalInfo": "Informations supplémentaires",
+        "next": "Suivant"
+    },
+    "payment": {
+        "title": "Paiement",
+        "cardNumber": "Numéro de carte",
+        "expiration": "Expiration",
+        "country": "Pays",
+        "zipCode": "Code postal",
+        "processing": "Paiement en cours",
+        "montonio": {
+            "shippingFeature": "Montonio possède une fonction de livraison présentée ici.",
+            "shippingConstraint": "Afin d'accéder au paiement', vous devez choisir un Point Relai.",
+            "selectPickupPoint": "Choisir un point relai",
+            "paywithbanklinks": "Sélectionner la banque choisie pour le paiement"
+        },
+        "cancelled": "Paiement annulé"
+    },
+    "order": {
+        "notFound": "Oops! Je ne trouve pas votre commande. Merci de réessayer ulérieurement.",
+        "confirmation": "Confirmation de commande",
+        "recievedMessage": "Nous avons bien pris en compte votre commande.",
+        "orderId": "Commande N°",
+        "redirectMessage": "Veuillez patienter pendant la redirection vers votre commande...",
+        "loadingMessage": "Veuillez patienter, nous essayons de voir si votre commande avec cet identifiant existe..."
+    }
+}

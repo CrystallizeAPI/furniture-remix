@@ -9,6 +9,11 @@ export const displayableLanguages = [
         code: 'no',
         name: 'NO',
     },
+    // Uncomment to add more languages, content must be translated first (especially topics)
+    // {
+    //     code: 'fr',
+    //     name: 'FR',
+    // },
 ];
 export const availableLanguages = [
     'en',

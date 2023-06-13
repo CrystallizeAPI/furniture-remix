@@ -77,7 +77,7 @@ export const AddToCartBtn: React.FC<{
             {state.paymentImplementations.includes('vipps') && (
                 <>
                     <button
-                        className="flex flex-row gap-1 items-center bg-[#FF5B25] border py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] sm:w-[200px] w-full font-bold  disabled:opacity-50 disabled:cursor-not-allowed justify-center hover:brightness-95"
+                        className="flex flex-row gap-1 items-center bg-textBlack border py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] sm:w-[200px] w-full font-bold  disabled:opacity-50 disabled:cursor-not-allowed justify-center hover:brightness-95"
                         onClick={async () => {
                             setShowLoader(true);
                             const response = await ServiceAPI({

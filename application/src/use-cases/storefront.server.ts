@@ -136,6 +136,10 @@ export const buildStoreFrontConfiguration = (
                     process.env.ADYEN_MERCHANT_ACCOUNT ?? storeFrontConfig.configuration.ADYEN_MERCHANT_ACCOUNT,
                 CLIENT_KEY: process.env.ADYEN_CLIENT_KEY ?? storeFrontConfig.configuration.ADYEN_CLIENT_KEY,
             },
+            vipps: {
+                ORIGIN: process.env.VIPPS_ORIGIN ?? storeFrontConfig.configuration.VIPPS_ORIGIN,
+                CLIENT_ID: process.env.VIPPS_CLIENT_ID ?? storeFrontConfig.configuration.VIPPS_CLIENT_ID,
+            },
         },
     };
 };

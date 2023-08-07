@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { ServiceAPI } from '~/use-cases/service-api';
 import { useAppContext } from '../../app-context/provider';
-import logo from '~/assets/vippsLogo.png';
+import logo from '~/assets/vippsLogo.svg';
 import { Customer } from '~/use-cases/contracts/Customer';
 
 export const VippsButton: React.FC<{

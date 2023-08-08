@@ -21,7 +21,7 @@
         "@adyen/adyen-web": "^5.36.0",
         "@crystallize/js-api-client": "^1.12.2",
         "@crystallize/js-storefrontaware-utils": "^2.0.0",
-        "@crystallize/node-service-api-request-handlers": "^3.8.0",
+        "@crystallize/node-service-api-request-handlers": "^3.9.0",
         "@crystallize/reactjs-components": "^1.3",
         "@crystallize/reactjs-hooks": "^0.8",
         "@react-pdf/renderer": "^3",

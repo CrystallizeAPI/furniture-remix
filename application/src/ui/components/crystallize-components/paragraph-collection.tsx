@@ -1,5 +1,5 @@
 import { Video } from '@crystallize/reactjs-components';
-import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
+import { ContentTransformer } from '@crystallize/reactjs-components';
 import { Paragraph } from '~/use-cases/contracts/Paragraph';
 import { ImageGallery } from '../image-gallery';
 

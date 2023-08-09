@@ -1,10 +1,10 @@
-import { GridCell, GridRenderer, GridRenderingType, GridRow } from '@crystallize/reactjs-components/dist/grid';
+import { GridCell, GridRenderer, GridRenderingType, GridRow } from '@crystallize/reactjs-components';
 import React from 'react';
 import { GenericItem } from './generic-item';
 import { GenericTileView } from './generic-tile-view';
 import { Item, ItemComponentMapping, Tile, TileViewComponentMapping, TileViewWrapperOptions } from './types';
-import { Video } from '@crystallize/reactjs-components/dist/video';
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Video } from '@crystallize/reactjs-components';
+import { Image } from '@crystallize/reactjs-components';
 
 export const Grid: React.FC<{
     grid: {

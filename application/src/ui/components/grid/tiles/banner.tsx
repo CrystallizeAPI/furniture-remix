@@ -1,4 +1,4 @@
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image } from '@crystallize/reactjs-components';
 import { TileViewComponentProps } from '../../../lib/grid-tile/types';
 import { LinkRenderer } from '../../../lib/grid-tile/linkRenderer';
 import { ContentTransformer, Video } from '@crystallize/reactjs-components';

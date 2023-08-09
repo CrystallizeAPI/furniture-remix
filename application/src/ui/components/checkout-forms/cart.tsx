@@ -1,5 +1,5 @@
 import { useRemoteCart } from '../../hooks/useRemoteCart';
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '../../app-context/provider';
 import { Price } from '../../lib/pricing/pricing-component';
 import { CartItemPrice } from '../price';

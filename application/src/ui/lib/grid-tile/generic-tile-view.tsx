@@ -1,5 +1,5 @@
-import { Video } from '@crystallize/reactjs-components/dist/video';
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Video } from '@crystallize/reactjs-components';
+import { Image } from '@crystallize/reactjs-components';
 import { TileViewComponentProps } from '../../lib/grid-tile/types';
 
 export const GenericTileView: React.FC<TileViewComponentProps> = ({ tile, options }) => {

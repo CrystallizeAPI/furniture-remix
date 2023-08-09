@@ -1,5 +1,5 @@
 import FileDownloadIcon from '~/assets/documentDownloadIcon.svg';
-import { ContentTransformer } from '@crystallize/reactjs-components/dist/content-transformer';
+import { ContentTransformer } from '@crystallize/reactjs-components';
 import Arrow from '~/assets/arrow.svg';
 import { useAppContext } from '../../app-context/provider';
 import { FileDownload } from '~/use-cases/contracts/FileDownload';

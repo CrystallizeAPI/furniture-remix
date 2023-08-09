@@ -1,5 +1,5 @@
 import Link from '~/bridge/ui/Link';
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '../app-context/provider';
 
 export const RelatedDocument = ({ document }: { document: any }) => {

@@ -4,7 +4,7 @@ import Link from '~/bridge/ui/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useLocalCart } from '../hooks/useLocalCart';
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image } from '@crystallize/reactjs-components';
 import trashIcon from '~/assets/trashIcon.svg';
 import { Price as CrystallizePrice } from '../lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';

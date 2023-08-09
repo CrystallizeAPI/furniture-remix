@@ -1,4 +1,4 @@
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image } from '@crystallize/reactjs-components';
 import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
 
 function reduceAttributes(variants: ProductVariant[]) {

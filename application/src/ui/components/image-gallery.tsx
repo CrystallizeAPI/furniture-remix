@@ -1,4 +1,4 @@
-import { Image } from '@crystallize/reactjs-components/dist/image';
+import { Image } from '@crystallize/reactjs-components';
 import { Image as ImageType } from '../../use-cases/contracts/Image';
 
 export const ImageGallery: React.FC<{ images: ImageType[] }> = ({ images }) => {

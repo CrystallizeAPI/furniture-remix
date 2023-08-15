@@ -129,7 +129,7 @@ export async function hydrateCart(
         apiClient,
         language,
     });
-    const tenantConfig = await api.fetchTenantConfig(apiClient.config.tenantIdentifier);
+    const tenantConfig = await api.fetchTenantConfig(storeFrontConfig.tenantIdentifier);
     const currency = tenantConfig.currency.code;
 
     const marketIdentifiers = marketIdentifiersForUser(body.user);

@@ -34,6 +34,10 @@ export default async function (
             property: 'VippsPaymentMethod',
             value: `${payment.paymentMethod.type}`,
         },
+        {
+            property: 'cartId',
+            value: `${cartWrapper.cartId}`,
+        },
     ];
 
     const orderCreatedConfirmation = await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {

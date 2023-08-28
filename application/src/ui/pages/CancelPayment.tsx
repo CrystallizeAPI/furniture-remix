@@ -1,7 +1,9 @@
+import React from 'react';
 import { useAppContext } from '../app-context/provider';
 import { useLocalCart } from '../hooks/useLocalCart';
 import Link from '~/bridge/ui/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
+import { CloneCartBtn } from '../components/clone-cart-button';
 
 export default () => {
     const { isImmutable, clone: cartClone } = useLocalCart();
@@ -21,17 +23,7 @@ export default () => {
             </div>
             {isImmutable() && (
                 <div className="mx-auto w-fit">
-                    <p>{_t('cart.immutable')}</p>
-                    <a
-                        className="mt-5 text-center bg-grey text-sm text-[#000] font-bold py-2 px-4 rounded-md w-full block"
-                        href="#"
-                        onClick={(event) => {
-                            event.preventDefault();
-                            cartClone();
-                        }}
-                    >
-                        {_t('cart.clone')}
-                    </a>
+                    <CloneCartBtn />
                 </div>
             )}
             {!isImmutable() && (

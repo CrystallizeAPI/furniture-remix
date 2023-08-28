@@ -51,7 +51,7 @@
         "continue": "Continuer vers la commande",
         "trylater": "Essayez de revenir en arrière et de trouver quelque chose de joli avant de revenir",
         "immutable": "Vous avez initié, finalisé ou annulé un paiement, cette version de votre caddie est donc bloquée.",
-        "clone": "Créer un nouveau caddie à partir de celui-ci",
+        "clone": "Cloner le caddie précédent",
         "voucherCode": "Bon de réduction",
         "useVoucher": "Utiliser bon de réduction"
     },

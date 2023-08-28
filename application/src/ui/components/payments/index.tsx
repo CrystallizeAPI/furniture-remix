@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../../app-context/provider';
 import { useLocalCart } from '../../hooks/useLocalCart';
 import { CrystalCard, CrystalCardButton } from './crystal/card';
@@ -10,6 +10,7 @@ import { RazorPay, RazorPayButton } from './razorpay';
 import { Stripe, StripeButton } from './stripe';
 import { AdyenCheckoutForm, AdyenButton } from './adyen';
 import { Vipps, VippsButton } from './vipps';
+import { CloneCartBtn } from '../clone-cart-button';
 
 export const Payments: React.FC = () => {
     const { state, _t } = useAppContext();
@@ -98,21 +99,7 @@ export const Payments: React.FC = () => {
     return (
         <>
             <h2 className="font-bold text-2xl mt-5 mb-1">{_t('payment.title')}</h2>
-            {isImmutable() && (
-                <>
-                    <p className="text-red-500">{_t('cart.immutable')}</p>
-                    <a
-                        className="text-red-500"
-                        href="#"
-                        onClick={(event) => {
-                            event.preventDefault();
-                            cartClone();
-                        }}
-                    >
-                        {_t('cart.clone')}
-                    </a>
-                </>
-            )}
+            {isImmutable() && <CloneCartBtn />}
             <br />
 
             {!cart.cartId && <div className="loader" />}

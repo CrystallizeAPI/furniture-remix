@@ -1,5 +1,5 @@
 'use client';
-
+import React from 'react';
 import Link from '~/bridge/ui/Link';
 import { useRemoteCart } from '../hooks/useRemoteCart';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
@@ -12,6 +12,7 @@ import { CartItemPrice } from './price';
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
 import { VoucherForm } from './voucher';
 import { Voucher } from '~/use-cases/contracts/Voucher';
+import { CloneCartBtn } from './clone-cart-button';
 
 export const Cart: React.FC = () => {
     const { isEmpty } = useLocalCart();
@@ -101,21 +102,7 @@ export const HydratedCart: React.FC = () => {
                     )}
                 </div>
                 <div className="flex flex-col gap-3 min-h-[200px] ">
-                    {isImmutable() && (
-                        <>
-                            <p className="text-red-500">{_t('cart.immutable')}</p>
-                            <a
-                                className="text-red-500"
-                                href="#"
-                                onClick={(event) => {
-                                    event.preventDefault();
-                                    cartClone();
-                                }}
-                            >
-                                {_t('cart.clone')}
-                            </a>
-                        </>
-                    )}
+                    {isImmutable() && <CloneCartBtn />}
                     {!cart && <OptimisticHydratedCart />}
                     {cart &&
                         cart.items.map((item: CartItem, index: number) => {

@@ -8,7 +8,6 @@ import fetchNavigation from './fetchNavigation';
 import fetchPriceRangeAndAttributes from './fetchPriceRangeAndAttributes';
 import fetchProduct from './fetchProduct';
 import fetchTenantConfig from './fetchTenantConfig';
-import fetchTreeMap from './fetchTreeMap';
 import fetchFooter from './fetchFooter';
 import search from './search';
 import searchByTopic from './searchByTopic';
@@ -19,6 +18,7 @@ import { DataMapper } from '../../mapper';
 import fetchFolderWithChildren from './fetchFolderWithChildren';
 import fetchVoucher from './fetchVoucher';
 import fetchMetadata from './fetchMetadata';
+import fetchShapeIdentifier from './fetchShapeIdentifier';
 
 export type CrystallizeAPIContext = {
     apiClient: ClientInterface;
@@ -40,7 +40,7 @@ export const CrystallizeAPI = ({
         fetchTenantConfig: (tenantIdentifier: string) => fetchTenantConfig(apiClient, tenantIdentifier),
         fetchNavigation: (path: string) =>
             fetchNavigation(apiClient, path, language).then(mapper.API.Call.fetchNavigationToTree),
-        fetchTreeMap: () => fetchTreeMap(apiClient, language),
+        fetchShapeIdentifier: (path: string) => fetchShapeIdentifier(apiClient, path, language, version),
         fetchLandingPage: (path: string, marketIdentifier?: string[]) =>
             fetchLandingPage(apiClient, path, version, language, marketIdentifier).then(
                 mapper.API.Call.fetchLandingPageToLandingPage,

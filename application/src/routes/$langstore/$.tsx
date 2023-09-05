@@ -31,15 +31,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         language: requestContext.language,
         isPreview: requestContext.isPreview,
     });
-    const map = await api.fetchTreeMap();
-    const mappedKey = Object.keys(map).find((key: string) => key === crystallizePath);
-    if (!mappedKey) {
+    const shapeIdentifier = await api.fetchShapeIdentifier(path);
+    if (!shapeIdentifier) {
         throw new Response('Not Found', {
             status: 404,
         });
     }
 
-    const shapeIdentifier = map[mappedKey as keyof typeof map]?.shape?.identifier || '_topic';
     const data = await dataFetcherForShapePage(shapeIdentifier, path, requestContext, params);
 
     return json(

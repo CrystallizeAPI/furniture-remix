@@ -18,5 +18,5 @@ export default async (apiClient: ClientInterface, path: String, language: string
                 version: version === 'draft' ? 'draft' : 'published',
             },
         )
-    ).catalogue.shape.identifier;
+    ).catalogue;
 };

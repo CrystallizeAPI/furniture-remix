@@ -40,7 +40,6 @@ export default async (
                 },
                 attributes: url.searchParams.getAll('attr'),
             };
-            console.log('dataFetcherio', url.searchParams);
             // we don't need to consider the preview params here.
             url.searchParams.delete('preview');
 

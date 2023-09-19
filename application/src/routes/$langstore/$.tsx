@@ -31,7 +31,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         language: requestContext.language,
         isPreview: requestContext.isPreview,
     });
-    const shapeIdentifier = await api.fetchShapeIdentifier(path);
+    const shapeData = await api.fetchShapeIdentifier(path);
+    const shapeIdentifier = shapeData?.shape?.identifier || '_topic';
+
     if (!shapeIdentifier) {
         throw new Response('Not Found', {
             status: 404,

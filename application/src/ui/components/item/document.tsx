@@ -33,6 +33,7 @@ const DefaultDocument: React.FC<{ item: StorySlim | CuratedStorySlim }> = ({ ite
                         sizes="300px"
                         loading="lazy"
                         className="overflow-hidden rounded-tl-md "
+                        key={item.name}
                     />
                 </div>
             </div>

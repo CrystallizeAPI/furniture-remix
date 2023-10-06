@@ -38,6 +38,7 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                                                     sizes="100px"
                                                     loading="lazy"
                                                     fallbackAlt={product.name}
+                                                    key={product.sku}
                                                 />
                                             </div>
                                             <div>
@@ -53,7 +54,7 @@ export const CuratedProduct: React.FC<{ item: CuratedStorySlim }> = ({ item }) =
                             </span>
                         ))}
                     </div>
-                    <Image {...shoppableImage} sizes="50vw" fallbackAlt={title} />
+                    <Image {...shoppableImage} sizes="50vw" fallbackAlt={title} key={item.name} />
                 </div>
             </div>
         </Link>

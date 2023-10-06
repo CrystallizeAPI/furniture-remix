@@ -17,6 +17,7 @@ export const ImageGallery: React.FC<{ images: ImageType[] }> = ({ images }) => {
                             {...img}
                             sizes={`${i < 1 || (i === images?.length && !galleryHasOddNubmer) ? '50vw' : '33vw'}`}
                             loading="lazy"
+                            key={img.url}
                         />
                     </div>
                 );

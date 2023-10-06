@@ -4,6 +4,13 @@ import { stringForRichTextComponentWithId, stringForSingleLineComponentWithId } 
 export default (data: any): SEO => {
     const meta = data?.component?.content?.chunks?.[0];
 
+    if (!meta) {
+        return {
+            title: '',
+            description: '',
+            image: '',
+        };
+    }
     return {
         title: stringForSingleLineComponentWithId(meta, 'title') || '',
         description: stringForRichTextComponentWithId(meta, 'description') || '',

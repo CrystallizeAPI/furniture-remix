@@ -84,6 +84,7 @@ export const VariantSelector: React.FC<{
                                                         {...mostSuitableVariant.images[0]}
                                                         sizes="100px"
                                                         fallbackAlt={mostSuitableVariant.name}
+                                                        key={mostSuitableVariant.sku}
                                                     />
                                                 )}
                                             </div>

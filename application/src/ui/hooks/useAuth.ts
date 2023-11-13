@@ -14,6 +14,8 @@ export function useAuth() {
         // Service API has a Cookie (http only and Safe only) that is used to hold a really token.
         if (searchParams?.has('token')) {
             const urlToken = searchParams.get('token') as string;
+            //will be resolved when auth is implemented, NextJS is not able to handle this yet
+            //@ts-expect-error
             searchParams.delete('token');
             try {
                 const decoded = jwtDecode<JwtPayload>(urlToken);

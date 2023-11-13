@@ -1,10 +1,8 @@
-import useLocation from '~/bridge/ui/useLocation';
 import { useAppContext } from '../../app-context/provider';
 import { buildLanguageMarketAwareLink, displayableLanguages } from '../../../use-cases/LanguageAndMarket';
 
 export const LanguageSwitcher = () => {
     const { state } = useAppContext();
-    const location = useLocation();
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const path = '/' + window.location.pathname.split('/').slice(2).join('/');
         window.location.href = buildLanguageMarketAwareLink(path, event.target.value);

@@ -34,7 +34,7 @@ const overrides = {
         </Text>
     ),
     'line-break': (props: any) => (
-        <Text style={{ fontSize: 16, width: '100%', display: 'block', height: 10 }}>
+        <Text style={{ fontSize: 16, width: '100%', height: '10' }}>
             <NodeContent {...props} />
         </Text>
     ),
@@ -180,8 +180,8 @@ export const SingleProduct: React.FC<{ product: ProductType }> = ({ product }) =
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    <Text style={{ fontSize: 8, display: 'block' }}>{variant?.name}</Text>
-                                    <Text style={{ fontSize: 8, display: 'block' }}>{variant?.sku}</Text>
+                                    <Text style={{ fontSize: 8 }}>{variant?.name}</Text>
+                                    <Text style={{ fontSize: 8 }}>{variant?.sku}</Text>
                                 </View>
 
                                 {Object.keys(variant.attributes).map((key) => (

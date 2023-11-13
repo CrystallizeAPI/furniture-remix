@@ -43,7 +43,7 @@ export const Grid: React.FC<{
                     return (
                         <Tile tile={tile} options={options}>
                             <Component tile={tile} options={{ dimensions, layout: cell.layout }}>
-                                {children}
+                                {children as any}
                             </Component>
                         </Tile>
                     );
@@ -52,7 +52,7 @@ export const Grid: React.FC<{
                 return (
                     <div style={options?.style}>
                         <Component item={cellItem} options={{ dimensions, layout: cell.layout }}>
-                            {children}
+                            {children as any}
                         </Component>
                     </div>
                 );

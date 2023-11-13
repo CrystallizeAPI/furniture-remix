@@ -37,7 +37,7 @@ export default ({ shop }: { shop: Shop }) => {
                             <div className="flex  flex-col sm:flex-row sm:items-center justify-between ">
                                 <div className="w-3/4 sm:w-2/4 leading-[1.5em]">
                                     <h2 className="font-bold text-2xl mb-3">{category.name}</h2>
-                                    <ContentTransformer className="leading-1" json={category.description?.json} />
+                                    <ContentTransformer json={category.description?.json} />
                                 </div>
                                 <Link
                                     to={path(category.path)}

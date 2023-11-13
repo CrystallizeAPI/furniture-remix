@@ -4,8 +4,9 @@ import { useLocalCart } from '../hooks/useLocalCart';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../app-context/provider';
 import { ServiceAPI } from '~/use-cases/service-api';
+import { RemoteCart } from '~/use-cases/contracts/RemoteCart';
 
-export function useRemoteCart() {
+export function useRemoteCart(): RemoteCart {
     const { cart, setWrappingData } = useLocalCart();
     const { state: appContextState } = useAppContext();
     const [state, setState] = useState({

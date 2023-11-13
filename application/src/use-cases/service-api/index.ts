@@ -30,7 +30,9 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
     return {
         stripe: {
             fetchPaymentIntent: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/stripe/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/stripe/create', {
+                    cartId: cart.cartId,
+                }),
         },
         vipps: {
             fetchPaymentIntent: (cart: LocalCart, method: string, flow: string) =>
@@ -45,7 +47,9 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
         },
         quickpay: {
             fetchPaymentLink: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/quickpay/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/quickpay/create', {
+                    cartId: cart.cartId,
+                }),
         },
         montonio: {
             fetchPaymentLink: (cart: LocalCart, method: string) =>
@@ -55,17 +59,23 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
         },
         klarna: {
             initiatePayment: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/klarna/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/klarna/create', {
+                    cartId: cart.cartId,
+                }),
         },
         razorpay: {
             initiatePayment: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/razorpay/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/razorpay/create', {
+                    cartId: cart.cartId,
+                }),
             receivePayment: (baseUrl: string, payload: any) =>
                 postJson<any>(baseUrl + '/api/webhook/payment/razorpay/verify', payload),
         },
         adyen: {
             initiatePayment: (cart: LocalCart) =>
-                postJson<any>(serviceApiUrl + '/payment/adyen/create', { cartId: cart.cartId }),
+                postJson<any>(serviceApiUrl + '/payment/adyen/create', {
+                    cartId: cart.cartId,
+                }),
             receivePayment: (baseUrl: string, payload: any) =>
                 postJson<any>(baseUrl + '/api/webhook/payment/adyen', payload),
         },

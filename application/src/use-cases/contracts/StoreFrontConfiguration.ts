@@ -8,7 +8,8 @@ export type PaymentImplementation =
     | 'razorpay'
     | 'montonio'
     | 'adyen'
-    | 'vipps';
+    | 'vipps'
+    | 'dintero';
 export type CrystalFakePaymentImplementation = 'card' | 'coin';
 
 export type StoreFrontConfiguration = {

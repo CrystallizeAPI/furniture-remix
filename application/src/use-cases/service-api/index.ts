@@ -79,6 +79,14 @@ export const ServiceAPI = ({ locale, language, serviceApiUrl }: ServiceAPIContex
             receivePayment: (baseUrl: string, payload: any) =>
                 postJson<any>(baseUrl + '/api/webhook/payment/adyen', payload),
         },
+        dintero: {
+            initiatePayment: (cart: LocalCart) =>
+                postJson<any>(serviceApiUrl + '/payment/dintero/create', {
+                    cartId: cart.cartId,
+                }),
+            receivePayment: (baseUrl: string, payload: any) =>
+                postJson<any>(baseUrl + '/api/webhook/payment/dintero/verify', payload),
+        },
         fetchOrders: () => getJson<any>(serviceApiUrl + '/orders'),
         fetchOrder: (orderId: string, cartId?: string) =>
             getJson<any>(serviceApiUrl + '/orders/' + orderId + (cartId ? '?cartId=' + cartId : '')),

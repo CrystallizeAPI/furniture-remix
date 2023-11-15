@@ -48,7 +48,17 @@ export const getStoreFront = async (hostname: string) => {
                 enabled: true,
                 id: 'inMemory',
                 name: `custom`,
-                paymentMethods: ['crystal', 'stripe', 'quickpay', 'klarna', 'razorpay', 'montonio', 'adyen', 'vipps'],
+                paymentMethods: [
+                    'crystal',
+                    'stripe',
+                    'quickpay',
+                    'klarna',
+                    'razorpay',
+                    'montonio',
+                    'adyen',
+                    'vipps',
+                    'dintero',
+                ],
                 taxIncluded: false,
                 superfastVersion: '0.0.0',
                 tenantId: `${process.env.CRYSTALLIZE_TENANT_ID}`,
@@ -139,6 +149,9 @@ export const buildStoreFrontConfiguration = (
             vipps: {
                 ORIGIN: process.env.VIPPS_ORIGIN ?? storeFrontConfig.configuration.VIPPS_ORIGIN,
                 CLIENT_ID: process.env.VIPPS_CLIENT_ID ?? storeFrontConfig.configuration.VIPPS_CLIENT_ID,
+            },
+            dintero: {
+                ACCOUNT_ID: process.env.DINTERO_ACCOUNT_ID ?? storeFrontConfig.configuration.DINTERO_ACCOUNT_ID,
             },
         },
     };

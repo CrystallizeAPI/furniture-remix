@@ -10,6 +10,7 @@ import { RazorPay, RazorPayButton } from './razorpay';
 import { Stripe, StripeButton } from './stripe';
 import { AdyenCheckoutForm, AdyenButton } from './adyen';
 import { Vipps, VippsButton } from './vipps';
+import { Dintero, DinteroButton } from './dintero';
 import { CloneCartBtn } from '../clone-cart-button';
 
 export const Payments: React.FC = () => {
@@ -80,6 +81,13 @@ export const Payments: React.FC = () => {
             button: AdyenButton,
             renderOnLoad: false,
             enabled: state.paymentImplementations.includes('adyen'),
+        },
+        dintero: {
+            name: 'Dintero',
+            component: Dintero,
+            button: DinteroButton,
+            renderOnLoad: false,
+            enabled: state.paymentImplementations.includes('dintero'),
         },
     };
     const [selectedPaymentMethodImplementation, setSelectedPaymentMethodImplementation] = useState<string | null>(null);

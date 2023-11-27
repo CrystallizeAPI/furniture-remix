@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { MagickLoginForm } from '../components/checkout-forms/magicklogin';
 import { useAuth } from '../hooks/useAuth';
@@ -15,14 +16,21 @@ export default ({ isServerSideAuthenticated }: { isServerSideAuthenticated: bool
 
     let orderDate = (date: any) => {
         let newDate = new Date(date);
-        return newDate.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        return newDate.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
     };
 
     useEffect(() => {
         (async () => {
             try {
                 setOrders(
-                    await ServiceAPI({ language: state.language, serviceApiUrl: state.serviceApiUrl }).fetchOrders(),
+                    await ServiceAPI({
+                        language: state.language,
+                        serviceApiUrl: state.serviceApiUrl,
+                    }).fetchOrders(),
                 );
             } catch (exception) {
                 console.log(exception);

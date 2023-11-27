@@ -9,6 +9,7 @@ export default async (frontendUrl: string, context: RequestContext, token: strin
             : buildLanguageMarketAwareLink('/checkout', context.language, context.market);
 
     let cookie = {};
+
     const redirectUrl = await handleMagickLinkConfirmationRequestPayload(null, {
         token: token,
         host: context.host,

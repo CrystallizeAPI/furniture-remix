@@ -1,3 +1,5 @@
+'use client';
+
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useEffect } from 'react';
@@ -6,17 +8,18 @@ import useSearchParams from '~/bridge/ui/useSearchParams';
 
 export function useAuth() {
     const [token] = useLocalStorage<string>('jwt', '');
+
     const [searchParams] = useSearchParams();
-    const location = useLocation();
 
     useEffect(() => {
         // Note that we are on the frontend here, and this token is just here to hold some non sensitive data.
         // Service API has a Cookie (http only and Safe only) that is used to hold a really token.
         if (searchParams?.has('token')) {
             const urlToken = searchParams.get('token') as string;
-            //will be resolved when auth is implemented, NextJS is not able to handle this yet
-            //@ts-expect-error
-            searchParams.delete('token');
+            //need to do this because nextjs search params are readonly
+            let url = new URL(window.location.href);
+            let urlSearchParams = new URLSearchParams(url.search);
+            urlSearchParams.delete('token');
             try {
                 const decoded = jwtDecode<JwtPayload>(urlToken);
                 if (decoded) {

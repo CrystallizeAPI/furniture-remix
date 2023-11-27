@@ -19,30 +19,34 @@ export default async (
         context.language,
         context.market,
     );
-    return await handleMagickLinkRegisterPayload(
-        validatePayload<MagickLinkUserInfosPayload>(payload, magickLinkUserInfosPayload),
-        {
-            mailer,
-            jwtSecret: `${process.env.JWT_SECRET}`,
-            confirmLinkUrl:
-                `${context.baseUrl}${confirmPath}` +
-                (context.callbackPath !== '' ? `?callbackPath=${context.callbackPath}` : ''),
-            subject: `[Crystallize - ${storefrontConfig.identifier}] - Magic link login`,
-            from: 'hello@crystallize.com',
-            buildHtml: (request: MagickLinkUserInfosPayload, link: string) =>
-                mjml2html(
-                    `<mjml>
-                        <mj-body>
-                        <mj-section>
-                            <mj-column>
-                            <mj-text>Hi there ${request.email}! Simply follow the link below to login.</mj-text>
-                            <mj-button href="${link}" align="left">Click here to login</mj-button>
-                            </mj-column>
-                        </mj-section>
-                        </mj-body>
-                    </mjml>`,
-                ).html,
-            host: context.host,
-        },
-    );
+    try {
+        return await handleMagickLinkRegisterPayload(
+            validatePayload<MagickLinkUserInfosPayload>(payload, magickLinkUserInfosPayload),
+            {
+                mailer,
+                jwtSecret: `${process.env.JWT_SECRET}`,
+                confirmLinkUrl:
+                    `${context.baseUrl}${confirmPath}` +
+                    (context.callbackPath !== '' ? `?callbackPath=${context.callbackPath}` : ''),
+                subject: `[Crystallize - ${storefrontConfig.identifier}] - Magic link login`,
+                from: 'hello@crystallize.com',
+                buildHtml: (request: MagickLinkUserInfosPayload, link: string) =>
+                    mjml2html(
+                        `<mjml>
+                            <mj-body>
+                            <mj-section>
+                                <mj-column>
+                                <mj-text>Hi there ${request.email}! Simply follow the link below to login.</mj-text>
+                                <mj-button href="${link}" align="left">Click here to login</mj-button>
+                                </mj-column>
+                            </mj-section>
+                            </mj-body>
+                        </mjml>`,
+                    ).html,
+                host: context.host,
+            },
+        );
+    } catch (error) {
+        console.log('ERROR', error);
+    }
 };

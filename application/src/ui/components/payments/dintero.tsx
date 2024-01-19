@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAppContext } from '../../app-context/provider';
 import logo from '~/assets/dinteroLogo.svg';
 import { useLocalCart } from '../../hooks/useLocalCart';
 import { ServiceAPI } from '../../../use-cases/service-api';
-import { useEffect } from 'react';
-import { SessionPaymentAuthorized, SessionPaymentOnHold } from '@dintero/checkout-web-sdk';
 import useLocalStorage from '@rehooks/local-storage';
 import { Customer } from '@crystallize/js-api-client';
-import useNavigate from '~/bridge/ui/useNavigate';
 
 export const DinteroButton: React.FC<{
     paying?: boolean;
@@ -33,13 +30,15 @@ export const DinteroButton: React.FC<{
 };
 
 export const Dintero: React.FC = () => {
-    const { state, path } = useAppContext();
-    const { cart, isEmpty, empty } = useLocalCart();
+    const { state } = useAppContext();
+    const { cart, isEmpty } = useLocalCart();
     const [customer] = useLocalStorage<Partial<Customer>>('customer', {});
-    const [formLoading, setFormLoading] = React.useState(true);
-    let navigate = useNavigate();
+    const [formLoading, setFormLoading] = useState(true);
+    const iframeEmbedded = useRef(false);
+    const [loadIframe, setLoadIframe] = useState(false);
 
     const variables = state.paymentImplementationVariables ? state.paymentImplementationVariables['dintero'] : {};
+
     if (!variables) {
         return null;
     }
@@ -51,14 +50,19 @@ export const Dintero: React.FC = () => {
         }).dintero.initiatePayment(cart);
         const container = document.getElementById('dintero-checkout-container') as HTMLDivElement | null;
 
-        //only embed the iframe if it's not already there
-        //sometimes the library is embedding the iframe multiple times
-        if (typeof window !== 'undefined' && container && container.getElementsByTagName('iframe').length === 0) {
+        // Only embed the iframe if it's not already there
+        if (
+            typeof window !== 'undefined' &&
+            container &&
+            container.getElementsByTagName('iframe').length === 0 &&
+            !iframeEmbedded.current &&
+            !loadIframe
+        ) {
+            setLoadIframe(true);
             const { embed } = await import('@dintero/checkout-web-sdk');
 
             await embed({
                 container,
-                popOut: true,
                 sid: data.sessionId,
                 onSession: (event) => {
                     if (event.type === 'SessionLoaded') {
@@ -68,25 +72,15 @@ export const Dintero: React.FC = () => {
                 onPaymentError: (error: any) => {
                     console.error(error.name, error.message, error.stack);
                 },
-                onPayment: async (event: SessionPaymentAuthorized | SessionPaymentOnHold, checkout) => {
-                    const data = await ServiceAPI({
-                        language: state.language,
-                        serviceApiUrl: state.serviceApiUrl,
-                    }).dintero.receivePayment(window.location.origin, event.transaction_id);
-                    checkout.destroy();
-                    if (data.id) {
-                        empty();
-                        navigate(path(`/order/cart/${cart.cartId}`), {
-                            replace: true,
-                        });
-                    }
-                },
             });
+            // Set the ref to true to indicate that the iframe has been embedded
+            iframeEmbedded.current = true;
+            setLoadIframe(false);
         }
     };
 
     useEffect(() => {
-        (async () => {
+        const initializeDintero = async () => {
             if (!isEmpty()) {
                 try {
                     await ServiceAPI({
@@ -96,21 +90,30 @@ export const Dintero: React.FC = () => {
                 } catch (exception) {
                     console.log(exception);
                 }
+
                 triggerDintero();
             }
-        })();
-    }, []);
+        };
+        initializeDintero();
+    }, [isEmpty]);
 
     return (
-        <div id="dintero-checkout-container">
-            <div className="w-full text-center">
-                <p className=" text-lg font-semibold">Checkout using Dintero</p>
-            </div>
-            {formLoading && (
-                <div className="flex justify-center items-center h-96">
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        <>
+            <div id="dintero-checkout-container">
+                <div className="w-full text-center">
+                    <p className=" text-lg font-semibold">Checkout using Dintero</p>
                 </div>
-            )}
-        </div>
+                {formLoading && (
+                    <div className="flex justify-center items-center h-96">
+                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+                    </div>
+                )}
+            </div>
+            <img
+                src="https://backoffice.dintero.com/checkouts/v1/branding/profiles/T11114188.5k9ELQ5JZQEnzokDwjXmNE/variant/colors/width/420/dintero_top_frame.svg"
+                alt="Dintero payment options"
+                className="w-full mx-auto my-5"
+            />
+        </>
     );
 };

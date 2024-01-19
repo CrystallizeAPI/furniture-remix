@@ -1,12 +1,16 @@
-import { ActionFunction, json } from '@remix-run/node';
+import { json, LoaderFunction } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { getStoreFront } from '~/use-cases/storefront.server';
 import receivePayment from '~/use-cases/payments/dintero/receivePayment';
+import { getStoreFront } from '~/use-cases/storefront.server';
 
-export const action: ActionFunction = async ({ request }) => {
+export let loader: LoaderFunction = async ({ request }) => {
     const requestContext = getContext(request);
+
+    const transactionId = requestContext.url.searchParams.get('transaction_id');
+
     const { secret: storefront } = await getStoreFront(requestContext.host);
-    const body = await request.json();
-    const data = await receivePayment(storefront.apiClient, body, storefront.config);
+
+    const data = await receivePayment(storefront.apiClient, transactionId, storefront.config);
+
     return json(data);
 };

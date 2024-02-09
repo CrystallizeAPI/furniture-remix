@@ -7,6 +7,7 @@ import displayPriceFor from '~/use-cases/checkout/pricing';
 import { Price } from '../price';
 import { ProductSlim } from '~/use-cases/contracts/Product';
 import { DataMapper } from '~/use-cases/mapper';
+import PlaceholderImg from '~/assets/product.svg';
 
 export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
     const { state, path } = useAppContext();
@@ -19,6 +20,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
         state.currency.code,
     );
     const attributesKeys = Object.keys(item.variant.attributes ?? {});
+
     return (
         <Link
             to={path(item.path)}
@@ -32,13 +34,17 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                 </div>
             )}
             <div className="img-container img-contain img-border border-solid border border-[#dfdfdf] aspect-[3/4] bg-[#fff] rounded-md h-full overflow-hidden grow-1">
-                <Image
-                    {...item.variant.images[0]}
-                    sizes="300px"
-                    loading="lazy"
-                    fallbackAlt={item.name}
-                    key={item.name}
-                />
+                {item.variant.images[0] ? (
+                    <Image
+                        {...item.variant.images[0]}
+                        sizes="300px"
+                        loading="lazy"
+                        fallbackAlt={item.name}
+                        key={item.name}
+                    />
+                ) : (
+                    <img src={PlaceholderImg} alt={item.name} width="100" height="100" />
+                )}
             </div>
             <div className="pl-1">
                 <p className="text-md line-clamp-2 overflow-hidden">{item.name}</p>

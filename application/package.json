@@ -5,15 +5,11 @@
     "license": "MIT",
     "sideEffects": false,
     "scripts": {
-        "build": "npm run build:css:default && npm run build:css:dark && npm run build:css:rainbow && remix build",
-        "build:css:default": "tailwindcss -c src/styles/tailwind/default.js -m -i ./src/styles/index.css -o ./src/styles/tailwind.default.css",
-        "build:css:dark": "tailwindcss -c src/styles/tailwind/dark.js -m -i ./src/styles/index.css -o ./src/styles/tailwind.dark.css",
-        "build:css:rainbow": "tailwindcss -c src/styles/tailwind/dark.js -m -i ./src/styles/index.css -o ./src/styles/tailwind.rainbow.css",
-        "dev": "concurrently \"npm run dev:css:default\" \"npm run dev:css:dark\" \"npm run dev:css:rainbow\" \"remix dev\"",
-        "dev:css:default": "tailwindcss -c src/styles/tailwind/default.js -w -i ./src/styles/index.css -o ./src/styles/tailwind.default.css",
-        "dev:css:dark": "tailwindcss -c src/styles/tailwind/dark.js -w -i ./src/styles/index.css -o ./src/styles/tailwind.dark.css",
-        "dev:css:rainbow": "tailwindcss -c src/styles/tailwind/dark.js -w -i ./src/styles/index.css -o ./src/styles/tailwind.rainbow.css",
-        "start": "remix-serve build",
+        "build": "npm run build:css && remix build",
+        "build:css": "tailwindcss -c tailwind.config.js -m -i ./src/styles/index.css -o ./src/styles/tailwind.css",
+        "dev": "remix dev",
+        "dev:css": "tailwindcss -c tailwind.config.js -w -i ./src/styles/index.css -o ./src/styles/tailwind.css",
+        "start": "remix-serve ./build/index.js",
         "test": "playwright test",
         "playwright:install": "playwright install"
     },
@@ -27,9 +23,9 @@
         "@dintero/checkout-web-sdk": "^0.6.3",
         "@react-pdf/renderer": "^3",
         "@rehooks/local-storage": "^2.4.4",
-        "@remix-run/node": "^1.11.1",
-        "@remix-run/react": "^1.11.1",
-        "@remix-run/serve": "^1.11.1",
+        "@remix-run/node": "^2.8.0",
+        "@remix-run/react": "^2.8.0",
+        "@remix-run/serve": "^2.8.0",
         "@sendgrid/mail": "^7.7.0",
         "@splidejs/react-splide": "^0.7.12",
         "@stripe/react-stripe-js": "^1.16.1",
@@ -52,8 +48,7 @@
     },
     "devDependencies": {
         "@playwright/test": "^1.28.1",
-        "@remix-run/dev": "^1.11.1",
-        "@tailwindcss/line-clamp": "^0.4.2",
+        "@remix-run/dev": "^2.8.0",
         "@types/jsonwebtoken": "^9",
         "@types/mjml": "^4.7.0",
         "@types/node": "^18.11.15",
@@ -62,11 +57,11 @@
         "@types/react-dom": "^18",
         "@types/sharp": "^0.31",
         "@types/uuid": "^9",
-        "autoprefixer": "^10.4.13",
+        "autoprefixer": "^10.4.17",
         "concurrently": "^7.6",
         "postcss": "^8.4.20",
-        "tailwindcss": "^3.2",
-        "typescript": "^4.9.4"
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5.3.3"
     },
     "overrides": {
         "@react-pdf/renderer": {

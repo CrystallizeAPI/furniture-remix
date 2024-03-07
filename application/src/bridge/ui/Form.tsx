@@ -1,4 +1,4 @@
-import { Form, useLocation, useTransition } from '@remix-run/react';
+import { Form, useLocation, useNavigation } from '@remix-run/react';
 import { useRef } from 'react';
 import { useAppContext } from '~/ui/app-context/provider';
 import useSubmit from './useSubmit';
@@ -10,7 +10,7 @@ export default ({ aggregations }: { aggregations: any }) => {
     const navigate = useNavigate();
     const submit = useSubmit();
     const location = useLocation();
-    const transition = useTransition;
+    const transition = useNavigation();
     const formRef = useRef(null);
     const { _t } = useAppContext();
     const price = aggregations?.search.aggregations.price;

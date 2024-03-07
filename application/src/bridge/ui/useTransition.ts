@@ -1,5 +1,5 @@
-import { useTransition } from '@remix-run/react';
+import { useNavigation } from '@remix-run/react';
 
 export default () => {
-    return useTransition();
+    return useNavigation();
 };

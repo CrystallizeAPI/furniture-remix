@@ -1,12 +1,11 @@
 'use client';
-
-import { ClientOnly } from '@crystallize/reactjs-hooks';
 import { useState } from 'react';
 import { AddressForm } from '../components/checkout-forms/address';
 import { CheckoutCart } from '../components/checkout-forms/cart';
 import { MagickLoginForm } from '../components/checkout-forms/magicklogin';
 import { Payments } from '../components/payments';
 import { useAuth } from '../hooks/useAuth';
+import { ClientOnly } from '@crystallize/reactjs-hooks';
 
 export default ({ isServerSideAuthenticated }: { isServerSideAuthenticated: boolean }) => {
     const { isAuthenticated } = useAuth();

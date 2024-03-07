@@ -14,7 +14,9 @@ import { DataMapper } from '..';
 
 export default (
     data: Omit<APIProduct, 'variants'> &
-        Item & { components: any } & { variants: Array<APIProductVariant & { components: any; description: any }> },
+        Item & { components: any } & {
+            variants: Array<APIProductVariant & { components: any; description: any }>;
+        },
 ): Product => {
     const mapper = DataMapper();
     const story = paragraphsForParagraphCollectionComponentWithId(data.components, 'story');

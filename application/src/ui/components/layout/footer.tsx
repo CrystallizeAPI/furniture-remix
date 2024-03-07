@@ -23,7 +23,7 @@ export const Footer: React.FC<{
                                 />
                             </div>
                             <div>
-                                <ContentTransformer json={footer.contact.json} />
+                                <ContentTransformer json={footer.contact?.json} />
                             </div>
                             {footer.socialLinks && (
                                 <div className="flex gap-2 items-center">
@@ -47,7 +47,7 @@ export const Footer: React.FC<{
                             )}
                         </div>
                         <div className="footer-links">
-                            <ContentTransformer json={footer.links.json} />
+                            <ContentTransformer json={footer.links?.json} />
                         </div>
                     </div>
 

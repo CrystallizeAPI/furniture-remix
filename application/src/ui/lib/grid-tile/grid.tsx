@@ -1,10 +1,15 @@
-import { GridCell, GridRenderer, GridRenderingType, GridRow } from '@crystallize/reactjs-components';
 import React from 'react';
+import { GridCell, GridRenderer, GridRenderingType, GridRow } from '@crystallize/reactjs-components';
 import { GenericItem } from './generic-item';
 import { GenericTileView } from './generic-tile-view';
-import { Item, ItemComponentMapping, Tile, TileViewComponentMapping, TileViewWrapperOptions } from './types';
-import { Video } from '@crystallize/reactjs-components';
-import { Image } from '@crystallize/reactjs-components';
+import {
+    Item,
+    ItemComponentMapping,
+    Tile as TileType,
+    TileViewComponentMapping,
+    TileViewWrapperOptions,
+} from './types';
+import { Tile } from './tile';
 
 export const Grid: React.FC<{
     grid: {
@@ -32,7 +37,7 @@ export const Grid: React.FC<{
             styleForCell={styleForCell}
             style={style}
             cellComponent={({ cell, dimensions, children }) => {
-                const cellItem: Tile | Item = cell?.item;
+                const cellItem: TileType | Item = cell?.item;
 
                 if (!cellItem) {
                     return null;
@@ -58,57 +63,6 @@ export const Grid: React.FC<{
                 );
             }}
         />
-    );
-};
-
-const Tile: React.FC<{
-    tile: Tile | Item;
-    children: React.ReactNode;
-    options?: TileViewWrapperOptions;
-}> = ({ tile, children, options }) => {
-    let backgroundElement = null;
-    const { background } = tile;
-    if (background.images && background.images.length > 0) {
-        backgroundElement = (
-            <div className="crystallize-background-image" style={options?.background?.style}>
-                <Image
-                    {...background.images[0]}
-                    {...options?.background?.imageProps}
-                    size="100vw"
-                    fallbackAlt={tile.title}
-                />
-            </div>
-        );
-    }
-    if (background.videos && background.videos.length > 0) {
-        backgroundElement = (
-            <div className="crystallize-background-video" style={options?.background?.style}>
-                <Video
-                    {...background.videos[0]}
-                    {...options?.background?.imageProps}
-                    autoPlay
-                    loop
-                    muted
-                    controls={false}
-                />
-            </div>
-        );
-    }
-    return (
-        <div
-            className={`crystallize-tile crystallize-tile-view-${tile.view} ${
-                tile.cssPreset ? 'crystallize-tile-preset-' + tile.cssPreset : ''
-            }`}
-            style={{
-                ...options?.style,
-                background: tile.styling?.background?.color ?? null,
-                color: tile.styling?.font?.color ?? null,
-                // fontSize: tile.styling?.font?.size ?? null,
-            }}
-        >
-            {backgroundElement}
-            <div style={{ width: '100%', zIndex: 20 }}>{children}</div>
-        </div>
     );
 };
 
@@ -138,7 +92,7 @@ const componentChunkContent = (
     return chunk?.content || fallbackValue;
 };
 
-const normalizeTile = (cellItem: any): Tile | null => {
+let normalizeTile = (cellItem: any): TileType | null => {
     const components = cellItem.components;
     if (!components) {
         return null;

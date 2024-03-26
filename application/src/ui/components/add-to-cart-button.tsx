@@ -74,7 +74,7 @@ export const AddToCartBtn: React.FC<{
                     🎉
                 </span>
             </button>
-            {state.paymentImplementations.includes('vipps') && (
+            {state.paymentImplementations?.includes('vipps') && (
                 <>
                     <button
                         className="flex flex-row gap-1 items-center bg-textBlack border py-3 relative overflow-hidden h-[50px] rounded-md text-[#fff] sm:w-[200px] w-full font-bold  disabled:opacity-50 disabled:cursor-not-allowed justify-center hover:brightness-95"

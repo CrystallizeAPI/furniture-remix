@@ -1,0 +1,34 @@
+applications:
+    frontapp:
+        source:
+            root: application
+        type: 'nodejs:18'
+        relationships:
+            redis: 'redis:redis'
+        web:
+            commands:
+                start: 'NODE_ENV=production npm run start'
+            locations:
+                '/public':
+                    passthru: false
+                    root: 'public'
+        hooks:
+            build: |
+                npm run build
+            deploy: |
+                curl -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge_all" -H "Fastly-Key: ${FASTLY_API_TOKEN}" -H 'Accept: application/json'
+
+services:
+    redis:
+        type: 'redis:6.2'
+        configuration:
+            maxmemory_policy: volatile-lru
+
+routes:
+    'https://*.{default}/':
+        type: upstream
+        id: 'frontapp'
+        upstream: 'frontapp:http'
+        cache:
+            # Cache is managed by Fastly
+            enabled: false

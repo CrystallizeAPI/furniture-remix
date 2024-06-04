@@ -35,11 +35,16 @@ export const action: ActionFunction = async ({ request, params }: ActionFunction
         dintero: initiateDinteroPayment,
     };
 
-    const data = await providers[params.provider as keyof typeof providers](
-        cartWrapper,
-        requestContext,
-        body,
-        storefront.config,
-    );
-    return json(data);
+    try {
+        const data = await providers[params.provider as keyof typeof providers](
+            cartWrapper,
+            requestContext,
+            body,
+            storefront.config,
+        );
+        return json(data);
+    } catch (error) {
+        console.error(error);
+        return json({ success: false, error: error }, 500);
+    }
 };

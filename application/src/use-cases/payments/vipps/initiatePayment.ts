@@ -62,82 +62,94 @@ export default async (
      * So the day Vipps Webhooks are available we can just remove this and use the webhook mechanism
      */
 
-    // Checkout flow
-    if (vippsMethod === 'CHECKOUT') {
-        const handlingResult = await handleVippsCreateCheckoutSessionRequestPayload(
+    try {
+        // Checkout flow
+        if (vippsMethod === 'CHECKOUT') {
+            const handlingResult = await handleVippsCreateCheckoutSessionRequestPayload(
+                validatePayload(payload, vippsInitiatePaymentPayload),
+                {
+                    ...commons,
+                    createCheckoutArguments: (cart: Cart) => {
+                        const orderCartLink = buildLanguageMarketAwareLink(
+                            `/order/cart/${cartWrapper.cartId}`,
+                            context.language,
+                            context.market,
+                        );
+                        const token = uuidv4();
+                        return {
+                            amount: cart.total.gross * 100, // in cents (not sure here if this is correct)
+                            currency: 'NOK', // cart.total.currency,
+                            callbackUrl: `${context.baseUrl}/api/webhook/payment/vipps?token=${token}`,
+                            returnUrl: `${context.baseUrl}${orderCartLink}`,
+                            callbackAuthorizationToken: token,
+                            paymentDescription: `Payment for Cart ${cartWrapper.cartId}`,
+                        };
+                    },
+                },
+            );
+
+            if (handlingResult.pollingUrl) {
+                pollingUntil(async () => {
+                    try {
+                        const { payment, session } = await fetchVippsCheckoutSession(
+                            handlingResult.pollingUrl,
+                            credentials,
+                        );
+                        if (!payment) {
+                            return false;
+                        }
+                        await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig).catch(
+                            console.error,
+                        );
+                        return session.paymentDetails?.state !== 'CREATED'; // if that's different from CREATED we stop polling
+                    } catch (error) {
+                        console.error(error);
+                        return false;
+                    }
+                }).catch(console.error);
+            }
+            return handlingResult;
+        }
+
+        // ePayment flow
+        const handlingResult = await handleVippsInitiatePaymentRequestPayload(
             validatePayload(payload, vippsInitiatePaymentPayload),
             {
                 ...commons,
-                createCheckoutArguments: (cart: Cart) => {
+                createIntentArguments: (cart: Cart) => {
                     const orderCartLink = buildLanguageMarketAwareLink(
                         `/order/cart/${cartWrapper.cartId}`,
                         context.language,
                         context.market,
                     );
-                    const token = uuidv4();
                     return {
                         amount: cart.total.gross * 100, // in cents (not sure here if this is correct)
                         currency: 'NOK', // cart.total.currency,
-                        callbackUrl: `${context.baseUrl}/api/webhook/payment/vipps?token=${token}`,
+                        paymentMethod: vippsMethod as 'CARD' | 'WALLET',
+                        userFlow: vippsFlow as 'PUSH_MESSAGE' | 'NATIVE_REDIRECT' | 'WEB_REDIRECT' | 'QR',
                         returnUrl: `${context.baseUrl}${orderCartLink}`,
-                        callbackAuthorizationToken: token,
-                        paymentDescription: `Payment for Cart ${cartWrapper.cartId}`,
                     };
                 },
             },
         );
 
-        if (handlingResult.pollingUrl) {
+        if (handlingResult.reference) {
             pollingUntil(async () => {
-                const { payment, session } = await fetchVippsCheckoutSession(handlingResult.pollingUrl, credentials);
-                if (!payment) {
+                try {
+                    const payment = await fetchVippsPayment(handlingResult.reference, credentials);
+                    if (!payment) {
+                        return false;
+                    }
+                    await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig);
+                    return payment.state !== 'CREATED'; // if that's different from CREATED we stop polling
+                } catch (error) {
+                    console.error(error);
                     return false;
                 }
-                await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig).catch(
-                    console.error,
-                );
-                return session.paymentDetails?.state !== 'CREATED'; // if that's different from CREATED we stop polling
-            });
+            }).catch(console.error);
         }
         return handlingResult;
+    } catch (error) {
+        console.error(error);
     }
-
-    // ePayment flow
-    const handlingResult = await handleVippsInitiatePaymentRequestPayload(
-        validatePayload(payload, vippsInitiatePaymentPayload),
-        {
-            ...commons,
-            createIntentArguments: (cart: Cart) => {
-                const orderCartLink = buildLanguageMarketAwareLink(
-                    `/order/cart/${cartWrapper.cartId}`,
-                    context.language,
-                    context.market,
-                );
-                return {
-                    amount: cart.total.gross * 100, // in cents (not sure here if this is correct)
-                    currency: 'NOK', // cart.total.currency,
-                    paymentMethod: vippsMethod as 'CARD' | 'WALLET',
-                    userFlow: vippsFlow as 'PUSH_MESSAGE' | 'NATIVE_REDIRECT' | 'WEB_REDIRECT' | 'QR',
-                    returnUrl: `${context.baseUrl}${orderCartLink}`,
-                };
-            },
-        },
-    );
-
-    if (handlingResult.reference) {
-        pollingUntil(async () => {
-            try {
-                const payment = await fetchVippsPayment(handlingResult.reference, credentials);
-                if (!payment) {
-                    return false;
-                }
-                await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig);
-                return payment.state !== 'CREATED'; // if that's different from CREATED we stop polling
-            } catch (error) {
-                console.error(error);
-                return false;
-            }
-        });
-    }
-    return handlingResult;
 };

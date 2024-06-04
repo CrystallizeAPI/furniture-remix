@@ -29,6 +29,5 @@ rm -rf ${PROJECT_PATH}/.github
 rm -rf ${PROJECT_PATH}/.git
 rm -rf ${PROJECT_PATH}/.vscode
 rm ${PROJECT_PATH}'/application/src/routes/robots[.]txt.tsx'
-rm -rf ${PROJECT_PATH}/.platform
-rm ${PROJECT_PATH}/application/.platform.app.yaml
+rm -rf ${PROJECT_PATH}/.upsun
 rm -rf ${PROJECT_PATH}/provisioning/clone

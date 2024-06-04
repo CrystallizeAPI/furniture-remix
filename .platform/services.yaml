@@ -1,4 +1,0 @@
-redis:
-    type: 'redis:6.2'
-    configuration:
-        maxmemory_policy: volatile-lru

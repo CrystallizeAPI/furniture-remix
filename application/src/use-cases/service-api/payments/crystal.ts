@@ -11,9 +11,9 @@ export async function sendPaidOrderWithCrystalCoin(
     cart: LocalCart,
     customer: Partial<Customer>,
 ) {
-    const cartWrapper = await placeCart(serviceApiUrl, language, cart, customer);
+    const remoteCart = await placeCart(serviceApiUrl, language, cart, customer);
     return await postJson<any>(serviceApiUrl + '/payment/crystal/coin/confirmed', {
-        cartId: cartWrapper.cartId,
+        cartId: remoteCart.id,
     });
 }
 
@@ -28,7 +28,7 @@ export async function sendPaidOrderWithCrystalCard(
 ) {
     const cartWrapper = await placeCart(serviceApiUrl, language, cart, customer);
     return await postJson<any>(serviceApiUrl + '/payment/crystal/card/confirmed', {
-        cartId: cartWrapper.cartId,
+        cartId: cartWrapper.id,
         card,
     });
 }

@@ -1,18 +1,10 @@
 import { ClientInterface } from '@crystallize/js-api-client';
-import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
-import {
-    CartWrapperRepository,
-    handleAdyenWebhookRequestPayload,
-} from '@crystallize/node-service-api-request-handlers';
-import { cartWrapperRepository } from '~/use-cases/services.server';
+import { EnumType } from 'json-to-graphql-query';
+import { handleAdyenWebhookRequestPayload } from '@crystallize/node-service-api-request-handlers';
 import pushOrder from '../../crystallize/write/pushOrder';
+import { fetchOrderIntent } from '~/use-cases/crystallize/read/fetchOrderIntent';
 
-export default async (
-    cartWrapper: CartWrapperRepository,
-    apiClient: ClientInterface,
-    payload: any,
-    storeFrontConfig: TStoreFrontConfig,
-) => {
+export default async (apiClient: ClientInterface, payload: any) => {
     //@todo: @dhairyadwivedi: we probably need to add some more checks here
     // it feels pretty unsafe to just accept any payload
     // you will have to fix in the handleAdyenWebhookRequestPayload of the library
@@ -26,26 +18,25 @@ export default async (
 
                 switch (event.eventCode) {
                     case 'AUTHORISATION':
-                        const cartWrapper = await cartWrapperRepository.find(cartId);
                         if (event.success !== 'true') {
                             throw {
                                 message: `Payment failed for cart '${cartId}'.`,
                                 status: 403,
                             };
                         }
-                        if (!cartWrapper) {
+                        const orderIntent = await fetchOrderIntent(cartId, {
+                            apiClient,
+                        });
+                        if (!orderIntent) {
                             throw {
-                                message: `===> Cart '${cartId}' does not exist.`,
+                                message: `Order intent for cart ${cartId} not found`,
                                 status: 404,
                             };
                         }
                         const orderCreatedConfirmation = await pushOrder(
-                            cartWrapperRepository,
-                            apiClient,
-                            cartWrapper,
+                            orderIntent,
                             {
-                                //@ts-ignore
-                                provider: 'custom',
+                                provider: new EnumType('custom'),
                                 custom: {
                                     properties: [
                                         {
@@ -59,6 +50,7 @@ export default async (
                                     ],
                                 },
                             },
+                            { apiClient },
                         );
                         return orderCreatedConfirmation;
                 }

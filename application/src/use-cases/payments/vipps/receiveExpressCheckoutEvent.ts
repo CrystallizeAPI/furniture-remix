@@ -1,25 +1,23 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
-    CartWrapperRepository,
     VippsAppCredentials,
     fetchVippsPayment,
     handleVippsPayPaymentUpdateWebhookRequestPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import handlePaymentAuthorized from './handlePaymentAuthorized';
 import { pollingUntil } from '../../../use-cases/polling';
+import { fetchOrderIntent } from '~/use-cases/crystallize/read/fetchOrderIntent';
+import orderIntentToPaymentCart from '~/use-cases/mapper/API/orderIntentToPaymentCart';
 
-export default async (
-    cartWrapperRepository: CartWrapperRepository,
-    apiClient: ClientInterface,
-    payload: any,
-    storeFrontConfig: TStoreFrontConfig,
-) => {
+export default async (apiClient: ClientInterface, payload: any, storeFrontConfig: TStoreFrontConfig) => {
     return await handleVippsPayPaymentUpdateWebhookRequestPayload(payload, {
         handleEvent: async (expressCheckout: any) => {
             const cartId = expressCheckout.orderId;
-            const cartWrapper = await cartWrapperRepository.find(cartId);
-            if (!cartWrapper) {
+            const paymentCart = await fetchOrderIntent(cartId, {
+                apiClient,
+            }).then((orderIntent) => orderIntentToPaymentCart(orderIntent));
+            if (!paymentCart) {
                 throw {
                     message: `Cart '${cartId}' does not exist.`,
                     status: 404,
@@ -60,17 +58,13 @@ export default async (
                         customer.email = expressCheckout?.userDetails?.email;
                     }
                     const enrichedCartWrapper = {
-                        ...cartWrapper,
+                        ...paymentCart,
                         customer,
                     };
 
-                    await handlePaymentAuthorized(
-                        cartWrapperRepository,
-                        enrichedCartWrapper,
-                        payment,
-                        apiClient,
-                        storeFrontConfig,
-                    ).catch(console.error);
+                    await handlePaymentAuthorized(enrichedCartWrapper, payment, apiClient, storeFrontConfig).catch(
+                        console.error,
+                    );
                     return payment.state !== 'CREATED'; // if that's different from CREATED we stop polling
                 });
             }

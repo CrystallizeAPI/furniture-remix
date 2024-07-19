@@ -25,6 +25,8 @@ export const action: ActionFunction = async ({ request }: ActionFunctionArgs) =>
     };
 
     return privateJson(
-        await handlePlaceCart(storefront.config, storefront.apiClient, requestContext, { ...body, user }, customer),
+        await handlePlaceCart({ ...body, user }, customer, {
+            apiClient: storefront.apiClient,
+        }),
     );
 };

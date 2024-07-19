@@ -1,6 +1,5 @@
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
-    Cart,
     CartWrapper,
     handleKlarnaInitiatePaymentRequestPayload,
     klarnaInitiatePaymentPayload,
@@ -10,12 +9,12 @@ import { buildLanguageMarketAwareLink } from '../../LanguageAndMarket';
 import { getKlarnaOrderInfos, getKlarnaVariables } from './utils';
 
 export default async (
-    cartWrapper: CartWrapper,
+    cart: CartWrapper,
     context: RequestContext,
     payload: unknown,
     storeFrontConfig: TStoreFrontConfig,
 ) => {
-    const currency = cartWrapper.cart.total.currency.toUpperCase();
+    const currency = cart.cart.total.currency.toUpperCase();
     const { locale, origin } = getKlarnaVariables(currency);
 
     return await handleKlarnaInitiatePaymentRequestPayload(validatePayload(payload, klarnaInitiatePaymentPayload), {
@@ -27,21 +26,22 @@ export default async (
             password: process.env.KLARNA_PASSWORD ?? storeFrontConfig?.configuration?.KLARNA_PASSWORD ?? '',
         },
         fetchCart: async () => {
-            return cartWrapper.cart;
+            return cart.cart;
         },
-        initiatePaymentArguments: (cart: Cart) => {
+        initiatePaymentArguments: () => {
             const orderCartLink = buildLanguageMarketAwareLink(
-                `/order/cart/${cartWrapper.cartId}`,
+                `/order/cart/${cart.cartId}`,
                 context.language,
                 context.market,
             );
 
             const data = {
-                ...getKlarnaOrderInfos(cart),
+                ...getKlarnaOrderInfos(cart.cart),
                 urls: {
                     confirmation: `${context.baseUrl}${orderCartLink}`,
-                    authorization: `${context.baseUrl}/api/webhook/payment/klarna/${cartWrapper.cartId}`,
+                    authorization: `${context.baseUrl}/api/webhook/payment/klarna/${cart.cartId}`,
                 },
+                amount: cart.cart.total.gross * 100,
             };
             return data;
         },

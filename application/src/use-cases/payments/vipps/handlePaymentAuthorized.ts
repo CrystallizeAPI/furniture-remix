@@ -2,16 +2,15 @@ import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
     CartWrapper,
-    CartWrapperRepository,
     VippsAppCredentials,
     VippsReceipt,
     addVippsReceiptOrder,
 } from '@crystallize/node-service-api-request-handlers';
+import { fetchOrderIntent } from '~/use-cases/crystallize/read/fetchOrderIntent';
 import pushOrder from '~/use-cases/crystallize/write/pushOrder';
 import pushVippsAuthorisedOrder from '~/use-cases/crystallize/write/pushVippsAuthorisedOrder';
 
 export default async function (
-    cartWrapperRepository: CartWrapperRepository,
     cartWrapper: CartWrapper,
     payment: any,
     apiClient: ClientInterface,
@@ -40,13 +39,27 @@ export default async function (
         },
     ];
 
-    const orderCreatedConfirmation = await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
-        //@ts-ignore
-        provider: 'custom',
-        custom: {
-            properties,
-        },
+    const orderIntent = await fetchOrderIntent(cartWrapper.cartId, {
+        apiClient,
     });
+    if (!orderIntent) {
+        throw {
+            message: `Order intent for cart ${cartWrapper.cartId} not found`,
+            status: 404,
+        };
+    }
+
+    const orderCreatedConfirmation = await pushOrder(
+        orderIntent,
+        {
+            //@ts-ignore
+            provider: 'custom',
+            custom: {
+                properties,
+            },
+        },
+        { apiClient },
+    );
 
     const credentials: VippsAppCredentials = {
         origin: process.env.VIPPS_ORIGIN ?? storeFrontConfig?.configuration?.VIPPS_ORIGIN ?? '',

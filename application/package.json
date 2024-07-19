@@ -15,8 +15,8 @@
     },
     "dependencies": {
         "@adyen/adyen-web": "^5.36.0",
-        "@crystallize/js-api-client": "^1.12.2",
-        "@crystallize/js-storefrontaware-utils": "^2.0.0",
+        "@crystallize/js-api-client": "^3.0.0",
+        "@crystallize/js-storefrontaware-utils": "^3.0.0",
         "@crystallize/node-service-api-request-handlers": "^4.2.0",
         "@crystallize/reactjs-components": "^2.0.0",
         "@crystallize/reactjs-hooks": "^0.8",
@@ -31,6 +31,7 @@
         "@stripe/react-stripe-js": "^1.16.1",
         "@stripe/stripe-js": "^1.46.0",
         "isbot": "^3.6.5",
+        "json-to-graphql-query": "^2.2.5",
         "jsonwebtoken": "^9",
         "jwt-decode": "^3.1.2",
         "mjml": "^4.13.0",

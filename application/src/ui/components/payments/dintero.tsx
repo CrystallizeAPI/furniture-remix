@@ -83,10 +83,17 @@ export const Dintero: React.FC = () => {
         const initializeDintero = async () => {
             if (!isEmpty()) {
                 try {
-                    await ServiceAPI({
+                    //checking here coz library loads twice and we don't want to place the cart twice
+                    const remoteCart = await ServiceAPI({
                         language: state.language,
                         serviceApiUrl: state.serviceApiUrl,
-                    }).placeCart(cart, customer);
+                    }).fetchCart(cart.cartId);
+                    if (remoteCart.state !== 'placed') {
+                        await ServiceAPI({
+                            language: state.language,
+                            serviceApiUrl: state.serviceApiUrl,
+                        }).placeCart(cart, customer);
+                    }
                 } catch (exception) {
                     console.log(exception);
                 }

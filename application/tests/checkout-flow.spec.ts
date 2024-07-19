@@ -46,15 +46,18 @@ test.beforeAll(async ({ playwright }) => {
         baseURL: process.env.API_URL,
         extraHTTPHeaders: {
             'Content-Type': 'application/json',
-            'X-Crystallize-Access-Token-Id': process.env.PLAYWRIGHT_ACCESS_TOKEN_ID ?? '',
-            'X-Crystallize-Access-Token-Secret': process.env.PLAYWRIGHT_ACCESS_TOKEN_SECRET ?? '',
+            'X-Crystallize-Access-Token-Id': process.env.CRYSTALLIZE_ACCESS_TOKEN_ID ?? '',
+            'X-Crystallize-Access-Token-Secret': process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET ?? '',
         },
     });
 });
 
 test.afterAll(async ({}) => {
     // Clean up order
-    !!orderId && (await apiContext.post('/graphql', { data: getRequestBody(deleteOrderMutation, orderId) }));
+    !!orderId &&
+        (await apiContext.post('/graphql', {
+            data: getRequestBody(deleteOrderMutation, orderId),
+        }));
     // Dispose all responses
     await apiContext.dispose();
 });
@@ -86,8 +89,8 @@ test.describe('Checkout flow', () => {
         // Navigate to the checkout flow
         await page.getByTestId('checkout-button').click();
 
-        await page.waitForResponse(async (response: Response) =>
-            response.url().includes('api/cart') ? response.status() === 200 : false,
+        await page.waitForResponse(
+            async (response: Response) => response.url().includes('api/cart') && response.status() === 200,
         );
 
         // Make sure cartId is present in the local storage
@@ -116,9 +119,9 @@ test.describe('Checkout flow', () => {
         // Navigate to next step - payment
         await page.getByTestId('checkout-next-step-button').click();
 
-        if (!process.env.PLAYWRIGHT_ACCESS_TOKEN_ID) {
-            return;
-        }
+        // if (!process.env.PLAYWRIGHT_ACCESS_TOKEN_ID) {
+        // 	return;
+        // }
 
         // Select the Crystal coin payment method
         await page.getByTestId('crystal-coin-payment-button').click();
@@ -127,7 +130,7 @@ test.describe('Checkout flow', () => {
         await page.getByTestId('order-placed').waitFor({ state: 'visible' });
 
         // Get the order id
-        orderId = await page.getByTestId('guest-order-id"]').textContent();
+        orderId = await page.getByTestId('guest-order-id').textContent();
 
         // Wait until the order appears in the API
         while (retryCount < MAX_RETRY_COUNT) {
@@ -136,7 +139,9 @@ test.describe('Checkout flow', () => {
             await new Promise((r) => setTimeout(r, 300));
 
             // Fetch the order from the API
-            const orderRes = await apiContext.post('/graphql', { data: getRequestBody(orderQuery, orderId) });
+            const orderRes = await apiContext.post('/graphql', {
+                data: getRequestBody(orderQuery, orderId),
+            });
             expect(orderRes.ok()).toBeTruthy();
 
             const order = (await orderRes.json())?.data?.order?.get;
@@ -154,7 +159,11 @@ test.describe('Checkout flow', () => {
                 // Make sure order from the API is the same as the one we have in local storage
                 expect(order).toEqual({
                     cart: [{ sku, quantity }],
-                    customer: { firstName: firstname, lastName: lastname, addresses: [address, address] },
+                    customer: {
+                        firstName: firstname,
+                        lastName: lastname,
+                        addresses: [address, address],
+                    },
                 });
             }
         }

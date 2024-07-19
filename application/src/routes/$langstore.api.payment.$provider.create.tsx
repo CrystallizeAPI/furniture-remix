@@ -1,6 +1,5 @@
 import { ActionFunction, ActionFunctionArgs, json } from '@remix-run/node';
 import { getContext } from '~/use-cases/http/utils';
-import { cartWrapperRepository } from '~/use-cases/services.server';
 import { getStoreFront } from '~/use-cases/storefront.server';
 import { default as initiateKlarnaPayment } from '~/use-cases/payments/klarna/initiatePayment';
 import { default as initiateStripePayment } from '~/use-cases/payments/stripe/initiatePayment';
@@ -10,19 +9,25 @@ import { default as initiateMontonioPayPayment } from '~/use-cases/payments/mont
 import { default as initiateAdyenPayment } from '~/use-cases/payments/adyen/initiatePayment';
 import { default as initiateVippsPayment } from '~/use-cases/payments/vipps/initiatePayment';
 import { default as initiateDinteroPayment } from '~/use-cases/payments/dintero/initiatePayment';
+import { fetchOrderIntent } from '~/use-cases/crystallize/read/fetchOrderIntent';
+import orderIntentToPaymentCart from '~/use-cases/mapper/API/orderIntentToPaymentCart';
 
 export const action: ActionFunction = async ({ request, params }: ActionFunctionArgs) => {
     const requestContext = getContext(request);
     const { secret: storefront } = await getStoreFront(requestContext.host);
     const body = await request.json();
     const cartId = body.cartId as string;
-    const cartWrapper = await cartWrapperRepository.find(cartId);
-    if (!cartWrapper) {
+    const orderIntent = await fetchOrderIntent(cartId, {
+        apiClient: storefront.apiClient,
+    });
+    if (!orderIntent) {
         throw {
-            message: `Cart '${cartId}' does not exist.`,
+            message: `Order intent for cart ${cartId} not found`,
             status: 404,
         };
     }
+
+    const paymentCart = await orderIntentToPaymentCart(orderIntent);
 
     const providers = {
         klarna: initiateKlarnaPayment,
@@ -36,8 +41,8 @@ export const action: ActionFunction = async ({ request, params }: ActionFunction
     };
 
     try {
-        const data = await providers[params.provider as keyof typeof providers](
-            cartWrapper,
+        const data = await (providers[params.provider as keyof typeof providers] as any)(
+            paymentCart,
             requestContext,
             body,
             storefront.config,

@@ -25,8 +25,8 @@ export function useRemoteCart(): RemoteCart {
                 serviceApiUrl: appContextState.serviceApiUrl,
             });
             const cartWrapper = await api.fetchRemoteCart(cart);
-            if (cart.cartId !== cartWrapper.cartId || cart.state !== cartWrapper.state) {
-                setWrappingData(cartWrapper.cartId, cartWrapper.state);
+            if (cart.cartId !== cartWrapper.id || cart.state !== cartWrapper.state) {
+                setWrappingData(cartWrapper.id, cartWrapper.state);
             }
             setState({
                 ...state,

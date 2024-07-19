@@ -1,13 +1,10 @@
 import { ClientInterface } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
-import {
-    CartWrapperRepository,
-    handleQuickPayPaymentUpdateWebhookRequestPayload,
-} from '@crystallize/node-service-api-request-handlers';
+import { handleQuickPayPaymentUpdateWebhookRequestPayload } from '@crystallize/node-service-api-request-handlers';
 import pushOrder from '../../crystallize/write/pushOrder';
+import { fetchOrderIntent } from '~/use-cases/crystallize/read/fetchOrderIntent';
 
 export default async (
-    cartWrapperRepository: CartWrapperRepository,
     apiClient: ClientInterface,
     signature: string,
     payload: any,
@@ -21,10 +18,12 @@ export default async (
             const cartId = event.variables.cartId;
             switch (event.type?.toLowerCase()) {
                 case 'payment':
-                    const cartWrapper = await cartWrapperRepository.find(cartId);
-                    if (!cartWrapper) {
+                    const orderIntent = await fetchOrderIntent(cartId, {
+                        apiClient,
+                    });
+                    if (!orderIntent) {
                         throw {
-                            message: `Cart '${cartId}' does not exist.`,
+                            message: `Order intent for cart ${cartId} not found`,
                             status: 404,
                         };
                     }
@@ -47,13 +46,19 @@ export default async (
                         },
                     ];
 
-                    const orderCreatedConfirmation = await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
-                        //@ts-ignore
-                        provider: 'custom',
-                        custom: {
-                            properties,
+                    const orderCreatedConfirmation = await pushOrder(
+                        orderIntent,
+                        {
+                            //@ts-ignore
+                            provider: 'custom',
+                            custom: {
+                                properties,
+                            },
                         },
-                    });
+                        {
+                            apiClient,
+                        },
+                    );
                     return orderCreatedConfirmation;
             }
         },

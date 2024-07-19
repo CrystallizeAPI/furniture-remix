@@ -18,6 +18,7 @@ process.env.CRYSTALLIZE_ACCESS_TOKEN_SECRET = process.env.PLAYWRIGHT_ACCESS_TOKE
 process.env.CRYSTAL_PAYMENTS = 'coin,card';
 process.env.HTTP_CACHE_SERVICE = 'varnish';
 process.env.JWT_SECRET = 'xXx';
+process.env.API_URL = 'https://pim.crystallize.com';
 
 const config: PlaywrightTestConfig = {
     testDir: './tests',
@@ -56,34 +57,6 @@ const config: PlaywrightTestConfig = {
                 ...devices['Desktop Safari'],
             },
         },
-
-        /* Test against mobile viewports. */
-        // {
-        //   name: 'Mobile Chrome',
-        //   use: {
-        //     ...devices['Pixel 5'],
-        //   },
-        // },
-        // {
-        //   name: 'Mobile Safari',
-        //   use: {
-        //     ...devices['iPhone 12'],
-        //   },
-        // },
-
-        /* Test against branded browsers. */
-        // {
-        //   name: 'Microsoft Edge',
-        //   use: {
-        //     channel: 'msedge',
-        //   },
-        // },
-        // {
-        //   name: 'Google Chrome',
-        //   use: {
-        //     channel: 'chrome',
-        //   },
-        // },
     ],
     // outputDir: 'test-results/',
     webServer: {

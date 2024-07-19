@@ -1,7 +1,5 @@
-import { CartItem } from '@crystallize/node-service-api-request-handlers';
 import displayPriceFor, { DisplayPrice } from '~/use-cases/checkout/pricing';
 import { Price as CrystallizePrice } from '../lib/pricing/pricing-component';
-import { DataMapper } from '~/use-cases/mapper';
 import { useAppContext } from '../app-context/provider';
 import { ProductVariant } from '~/use-cases/contracts/ProductVariant';
 
@@ -36,7 +34,7 @@ export const DiscountedPrice: React.FC<{
     return (
         <div>
             {discountPrice && discountPrice < defaultPrice ? (
-                <div className="flex flex-wrap  flex-col">
+                <div className="flex flex-wrap flex-col">
                     <div className={priceSize[size as keyof typeof priceSize].previous}>
                         <CrystallizePrice currencyCode={currency.code}>{defaultPrice}</CrystallizePrice>
                     </div>
@@ -82,29 +80,57 @@ export const Price: React.FC<{ variant: ProductVariant; size?: string }> = ({ va
 };
 
 export const CartItemPrice: React.FC<{
-    item: CartItem;
-    saving: any;
-    size?: string;
-}> = ({ item, saving, size = 'small' }) => {
-    const mapper = DataMapper();
+    total: number;
+    variantPrice: number;
+    discount?:
+        | {
+              amount: number;
+              percent?: number;
+          }[];
+}> = ({ total, variantPrice, discount }) => {
     const { state, _t } = useAppContext();
+    const {
+        currency: { code: currencyCode },
+    } = state;
+
     return (
-        <>
-            <Price variant={mapper.API.Object.APIProductVariantToProductVariant(item.variant)} size={size} />
-            <div>
-                {_t('total')}:{' '}
-                <CrystallizePrice currencyCode={state.currency.code}>{item.price.gross}</CrystallizePrice>
-                {saving && (
-                    <>
-                        <del className="text-red mx-2">
-                            <CrystallizePrice currencyCode={state.currency.code}>
-                                {item.price.net + saving.amount}
-                            </CrystallizePrice>
-                        </del>
-                        <small>({saving.quantity} for free!)</small>
-                    </>
-                )}
+        <div className="flex flex-col ">
+            {}
+            {discount && discount.length > 0 && (
+                <div className="flex flex-col">
+                    <span className="line-through font-semibold pt-1 text-xs">
+                        <CrystallizePrice currencyCode={currencyCode}>
+                            {total + calculateDiscounts(discount)}
+                        </CrystallizePrice>
+                    </span>
+                    <div className="text-sm text-green2">
+                        <span>{_t('cart.discount')}:</span>
+                        {discount.map((d, index) => (
+                            <div key={index} className="text-sm flex gap-2 items-center">
+                                <CrystallizePrice currencyCode={currencyCode}>{d.amount}</CrystallizePrice>
+                                {d.percent && (
+                                    <div className="text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-medium">
+                                        {d.percent.toFixed(0)}%
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <div className="text-md flex flex-col">
+                <CrystallizePrice currencyCode={currencyCode}>{variantPrice}</CrystallizePrice>
+                <div>
+                    {_t('total')}: <CrystallizePrice currencyCode={currencyCode}>{total}</CrystallizePrice>
+                </div>
             </div>
-        </>
+        </div>
     );
+};
+
+export const calculateDiscounts = (discounts: any) => {
+    return discounts.reduce((memo: number, discount: any) => {
+        return memo + (discount?.amount || 0)!;
+    }, 0);
 };

@@ -2,14 +2,12 @@ import { createClient } from '@crystallize/js-api-client';
 import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
 import {
     CartWrapper,
-    CartWrapperRepository,
     handleVippsPayPaymentUpdateWebhookRequestPayload,
 } from '@crystallize/node-service-api-request-handlers';
 import handlePaymentAuthorized from './handlePaymentAuthorized';
 
 export default async (
-    cartWrapperRepository: CartWrapperRepository,
-    cartWrapper: CartWrapper, // once we actually use the webhook that won't be available, id will be in the payload fetchable by cartWrapperRepository
+    cartWrapper: CartWrapper, // once we actually use the webhook that won't be available, id will be in the payload fetchable by remote cart
     payload: any,
     storeFrontConfig: TStoreFrontConfig,
 ) => {
@@ -24,13 +22,7 @@ export default async (
     return await handleVippsPayPaymentUpdateWebhookRequestPayload(payload, {
         handleEvent: async (payment: any) => {
             if (payment.state === 'AUTHORIZED') {
-                return await handlePaymentAuthorized(
-                    cartWrapperRepository,
-                    cartWrapper,
-                    payment,
-                    apiClient,
-                    storeFrontConfig,
-                );
+                return await handlePaymentAuthorized(cartWrapper, payment, apiClient, storeFrontConfig);
             }
         },
     });

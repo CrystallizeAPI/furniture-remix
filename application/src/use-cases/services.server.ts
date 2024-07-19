@@ -1,11 +1,9 @@
-import { createRepository } from '@crystallize/node-service-api-request-handlers';
 import nodemailer from 'nodemailer';
 import { Mailer } from './contracts/Mailer';
 import { configureStorage } from './storage.server';
 
 export const storage = configureStorage(`${process.env?.STORAGE_DSN}`);
 export const memoryStorage = configureStorage('memory://');
-export const cartWrapperRepository = createRepository(storage);
 
 export function createMailer(dsn: string): Mailer {
     if (dsn.startsWith('sendgrid://')) {

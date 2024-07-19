@@ -1,44 +1,57 @@
-import { ClientInterface } from '@crystallize/js-api-client';
-import { CartWrapper } from '@crystallize/node-service-api-request-handlers';
-import { Voucher } from '../contracts/Voucher';
-import { RequestContext } from '../http/utils';
-import { alterCartBasedOnDiscounts, hydrateCart } from './cart';
-import { v4 as uuidv4 } from 'uuid';
-import { cartWrapperRepository } from '../services.server';
-import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
+import { addSkuItem, ClientInterface, removeCartItem } from '@crystallize/js-api-client';
+import { fetchCart } from '../crystallize/read/fetchCart';
+import { hydrateCart } from '../crystallize/write/editCart';
 
-export default async (
-    storeFrontConfig: TStoreFrontConfig,
-    apiClient: ClientInterface,
-    context: RequestContext,
-    body: any,
-) => {
-    const [cart, voucher] = await hydrateCart(storeFrontConfig, apiClient, context.language, body);
-    return await handleAndSaveCart(cart, body.cartId as string, voucher);
+type Deps = {
+    apiClient: ClientInterface;
 };
 
-export async function handleAndSaveCart(cart: any, providedCartId: string, voucher?: Voucher): Promise<CartWrapper> {
-    let cartId = providedCartId;
-    let cartWrapper: null | CartWrapper = null;
-    let storedCartWrapper: null | CartWrapper = null;
-    if (cartId) {
-        storedCartWrapper = (await cartWrapperRepository.find(cartId)) || null;
-    } else {
-        cartId = uuidv4();
-    }
-    if (!storedCartWrapper) {
-        (cartWrapper = cartWrapperRepository.create(cart, cartId)), { voucher };
-    } else {
-        cartWrapper = { ...storedCartWrapper };
-        cartWrapper.cart = cart;
-        cartWrapper.extra.voucher = voucher;
-    }
+export default async (body: any, { apiClient }: Deps, markets?: string[]) => {
+    const cartId = body?.cartId;
+    const cart = cartId ? await fetchCart(cartId, { apiClient }) : undefined;
 
-    // handle discount
-    cartWrapper = await alterCartBasedOnDiscounts(cartWrapper);
+    const localCartItems = body?.items?.map((item: any) => ({
+        sku: item.sku,
+        quantity: item.quantity,
+    }));
 
-    if (!cartWrapperRepository.save(cartWrapper)) {
-        return storedCartWrapper || cartWrapper;
+    if (!cart || cart?.state === 'placed') {
+        return await hydrateCart(localCartItems, { apiClient }, '', markets);
+    } else {
+        const remoteCartItems = cart.items.map((item) => ({
+            sku: item.variant.sku,
+            quantity: item.quantity,
+        }));
+
+        // compare local and remote cart
+        for (const localItem of localCartItems) {
+            const remoteItem = remoteCartItems.find((item) => item.sku === localItem.sku);
+
+            if (!remoteItem) {
+                // item new in local cart, add
+                await addSkuItem(cartId, localItem.sku, localItem.quantity, {
+                    apiClient,
+                });
+            } else if (localItem.quantity !== remoteItem.quantity) {
+                // item quantity changed, update
+                const quantityDiff = localItem.quantity - remoteItem.quantity;
+                if (quantityDiff > 0) {
+                    await addSkuItem(cartId, localItem.sku, quantityDiff, {
+                        apiClient,
+                    });
+                } else {
+                    await removeCartItem(cartId, localItem.sku, Math.abs(quantityDiff), { apiClient });
+                }
+            }
+        }
+
+        // check and remove items in remote cart that are not in local cart
+        for (const remoteItem of remoteCartItems) {
+            const localItem = localCartItems.find((item: any) => item.sku === remoteItem.sku);
+            if (!localItem) {
+                await removeCartItem(cartId, remoteItem.sku, remoteItem.quantity, { apiClient });
+            }
+        }
+        return await fetchCart(cartId, { apiClient });
     }
-    return cartWrapper;
-}
+};

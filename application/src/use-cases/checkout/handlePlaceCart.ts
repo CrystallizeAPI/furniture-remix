@@ -1,35 +1,41 @@
-import { ClientInterface } from '@crystallize/js-api-client';
-import { Cart, CartWrapper } from '@crystallize/node-service-api-request-handlers';
-import { RequestContext } from '../http/utils';
-import { cartWrapperRepository } from '../services.server';
-import { hydrateCart } from './cart';
-import { handleAndSaveCart } from './handleSaveCart';
-import { TStoreFrontConfig } from '@crystallize/js-storefrontaware-utils';
+import { ClientInterface, placeCart } from '@crystallize/js-api-client';
+import { fetchCart } from '../crystallize/read/fetchCart';
+import { setCartCustomer } from '../crystallize/write/editCart';
+import { EnumType } from 'json-to-graphql-query';
+import { Cart } from '../contracts/RemoteCart';
 
-export default async (
-    storeFrontConfig: TStoreFrontConfig,
-    apiClient: ClientInterface,
-    context: RequestContext,
-    body: any,
-    customer: any,
-) => {
-    const [cart, voucher] = await hydrateCart(storeFrontConfig, apiClient, context.language, body);
-    return await handleAndPlaceCart(cart, customer, body.cartId as string, body.options, voucher);
+type Deps = {
+    apiClient: ClientInterface;
 };
 
-export async function handleAndPlaceCart(
-    cart: Cart,
-    customer: any,
-    providedCartId: string,
-    options?: any,
-    voucher?: any,
-): Promise<CartWrapper> {
-    const cartWrapper = await handleAndSaveCart(cart, providedCartId, voucher);
-    cartWrapper.customer = customer;
-    cartWrapper.extra = {
-        ...cartWrapper.extra,
-        pickupPoint: options?.pickupPoint,
+export default async (body: any, customer: any, { apiClient }: Deps) => {
+    const isGuest = customer?.isGuest || false;
+
+    const cartCustomer = {
+        firstName: customer?.firstname || '',
+        lastName: customer?.lastname || '',
+        identifier: customer?.email || '',
+        addresses: [
+            {
+                type: new EnumType('billing'),
+                email: customer?.email || '',
+                street: customer?.streetAddress || '',
+                country: customer?.country || '',
+                city: customer?.city || '',
+                postalCode: customer?.zipCode || '',
+            },
+        ],
     };
-    cartWrapperRepository.place(cartWrapper);
-    return cartWrapper;
-}
+
+    await setCartCustomer(body?.cartId, cartCustomer, isGuest, {
+        apiClient,
+    });
+
+    const placedCart = await placeCart(body.cartId, { apiClient });
+
+    if (placedCart.id) {
+        return await fetchCart(placedCart.id, { apiClient });
+    }
+
+    return {} as Cart;
+};

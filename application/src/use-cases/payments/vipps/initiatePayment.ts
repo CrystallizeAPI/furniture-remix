@@ -15,9 +15,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { pollingUntil } from '~/use-cases/polling';
 import receivePaymentEvent from '~/use-cases/payments/vipps/receivePaymentEvent';
 
-// when using the webhook we won't need this
-import { cartWrapperRepository } from '~/use-cases/services.server';
-
 export default async (
     cartWrapper: CartWrapper,
     context: RequestContext,
@@ -98,9 +95,7 @@ export default async (
                         if (!payment) {
                             return false;
                         }
-                        await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig).catch(
-                            console.error,
-                        );
+                        await receivePaymentEvent(cartWrapper, payment, storeFrontConfig).catch(console.error);
                         return session.paymentDetails?.state !== 'CREATED'; // if that's different from CREATED we stop polling
                     } catch (error) {
                         console.error(error);
@@ -140,7 +135,7 @@ export default async (
                     if (!payment) {
                         return false;
                     }
-                    await receivePaymentEvent(cartWrapperRepository, cartWrapper, payment, storeFrontConfig);
+                    await receivePaymentEvent(cartWrapper, payment, storeFrontConfig);
                     return payment.state !== 'CREATED'; // if that's different from CREATED we stop polling
                 } catch (error) {
                     console.error(error);

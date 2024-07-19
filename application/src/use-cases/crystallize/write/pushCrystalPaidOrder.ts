@@ -1,25 +1,12 @@
-import { ClientInterface } from '@crystallize/js-api-client';
-import { CartWrapper, CartWrapperRepository } from '@crystallize/node-service-api-request-handlers';
+import { ClientInterface, CreateOrderInputRequest, Order } from '@crystallize/js-api-client';
 import pushOrder from './pushOrder';
 
-export default async (
-    cartWrapperRepository: CartWrapperRepository,
-    apiClient: ClientInterface,
-    cartWrapper: CartWrapper,
-    type: string,
-    card?: any,
-) => {
-    let properties = [
-        {
-            property: 'amount',
-            value: cartWrapper.cart.total.gross.toFixed(2),
-        },
-        {
-            property: 'cartId',
-            value: cartWrapper.cartId,
-        },
-    ];
+type Deps = {
+    apiClient: ClientInterface;
+};
 
+export default async (orderIntent: CreateOrderInputRequest, type: string, { apiClient }: Deps, card?: any) => {
+    const properties = [];
     const isCoin = type === 'coin';
     const isCard = type === 'card';
     if (!isCoin && !isCard) {
@@ -61,11 +48,15 @@ export default async (
         );
     }
 
-    return await pushOrder(cartWrapperRepository, apiClient, cartWrapper, {
-        //@ts-ignore
-        provider: 'custom',
-        custom: {
-            properties,
+    return await pushOrder(
+        orderIntent,
+        {
+            //@ts-ignore
+            provider: 'custom',
+            custom: {
+                properties,
+            },
         },
-    });
+        { apiClient },
+    );
 };

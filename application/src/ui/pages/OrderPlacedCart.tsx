@@ -24,11 +24,11 @@ export default ({ cartId }: { cartId: string }) => {
                     serviceApiUrl: appContextState.serviceApiUrl,
                 }).fetchCart(cartId);
 
-                if (cart?.extra?.orderId) {
+                if (cart?.orderId) {
                     if (cart?.customer?.isGuest === true) {
-                        navigate(path('/order/' + cart.extra.orderId + '?cartId=' + cart.cartId));
+                        navigate(path('/order/' + cart.orderId + '?cartId=' + cart.id));
                     } else {
-                        navigate(path('/order/' + cart.extra.orderId));
+                        navigate(path('/order/' + cart.orderId));
                     }
                 } else {
                     timeout = setTimeout(() => {

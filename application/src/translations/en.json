@@ -42,7 +42,7 @@
     "cart": {
         "yourCart": "Your cart",
         "taxAmount": "Tax Amount",
-        "discount": "Total Savings",
+        "discount": "Savings",
         "toPay": "To pay",
         "empty": "Your cart is empty.",
         "whoaempty": "Woah, nothing in your cart yet",

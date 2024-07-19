@@ -46,7 +46,7 @@ export default ({ isServerSideAuthenticated }: { isServerSideAuthenticated: bool
                     <>
                         <div>
                             {orders &&
-                                orders.map((order: any, index: number) => (
+                                orders.map((order: any) => (
                                     <div key={order.id} className="border-2 border-grey my-5">
                                         <div className="w-full h-30 bg-[#F0F2F2] px-5 py-2 flex flex-wrap justify-between items-center">
                                             <div className="order-item">
@@ -60,8 +60,12 @@ export default ({ isServerSideAuthenticated }: { isServerSideAuthenticated: bool
                                             <div className="order-item">
                                                 <span>Total</span>
                                                 <p className="text-grey6">
-                                                    <Price currencyCode={order.total.currency}>
-                                                        {order.total.gross}
+                                                    <Price
+                                                        currencyCode={
+                                                            order.total?.currency || state.currency.code || 'USD'
+                                                        }
+                                                    >
+                                                        {order.total?.gross}
                                                     </Price>
                                                 </p>
                                             </div>
@@ -86,10 +90,10 @@ export default ({ isServerSideAuthenticated }: { isServerSideAuthenticated: bool
                                                         {/* adding because orders aren't returning currency, will be fixed */}
                                                         <Price
                                                             currencyCode={
-                                                                item.price.currency || state.currency.code || 'USD'
+                                                                item.price?.currency || state.currency.code || 'USD'
                                                             }
                                                         >
-                                                            {item.price.gross}
+                                                            {item.price?.gross}
                                                         </Price>
                                                     </p>
                                                 </div>

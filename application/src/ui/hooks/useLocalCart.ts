@@ -20,7 +20,7 @@ export function useLocalCart() {
     };
 
     const isImmutable = () => {
-        return cart.state === 'placed' || cart.state === 'paid';
+        return cart.state === 'placed';
     };
 
     return {

@@ -6,9 +6,11 @@ export const OrderDisplay: React.FC<{ order: any }> = ({ order }) => {
     return (
         <div className="w-3/4 mx-auto">
             <div className="mt-10">
-                <h1 className="font-bold text-3xl">{_t('order.confirmation')}</h1>
+                <h1 data-testid="order-placed" className="font-bold text-3xl">
+                    {_t('order.confirmation')}
+                </h1>
                 <p className="mt-4">{_t('order.recievedMessage')}</p>
-                <p>
+                <p data-testid="guest-order-id">
                     {_t('order.orderId')}: #{order.id}.
                 </p>
                 <div className="mt-2">

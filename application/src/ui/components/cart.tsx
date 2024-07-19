@@ -8,7 +8,7 @@ import { Image } from '@crystallize/reactjs-components';
 import trashIcon from '~/assets/trashIcon.svg';
 import { Price as CrystallizePrice } from '../lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
-import { CartItemPrice } from './price';
+import { calculateDiscounts, CartItemPrice } from './price';
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
 import { VoucherForm } from './voucher';
 import { Voucher } from '~/use-cases/contracts/Voucher';
@@ -42,31 +42,14 @@ export const Cart: React.FC = () => {
     );
 };
 
-export type DiscountLot = {
-    items: Record<
-        string,
-        {
-            price: number;
-            sku: string;
-            quantity: number;
-        }
-    >;
-    discount: { identifier: string };
-};
-export type Savings = Record<string, { quantity: number; amount: number }>;
-
 export const HydratedCart: React.FC = () => {
     const { remoteCart, loading } = useRemoteCart();
 
     const { isImmutable, isEmpty, add: addToCart, remove: removeFromCart, clone: cartClone } = useLocalCart();
 
-    const { cart, total } = remoteCart?.cart || { cart: null, total: null };
-    const { savings } = remoteCart?.extra?.discounts || {
-        lots: null,
-        savings: null,
-    };
+    const { items, total } = remoteCart || {};
     const { state: contextState, path, _t } = useAppContext();
-    const voucher = remoteCart?.extra?.voucher as Voucher | undefined;
+    //const voucher = remoteCart?.extra?.voucher as Voucher | undefined;
 
     if (isEmpty()) {
         return (
@@ -104,10 +87,9 @@ export const HydratedCart: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-3 min-h-[200px] ">
                     {isImmutable() && <CloneCartBtn />}
-                    {!cart && <OptimisticHydratedCart />}
-                    {cart &&
-                        cart.items.map((item: CartItem, index: number) => {
-                            const saving = savings[item.variant.sku]?.quantity > 0 ? savings[item.variant.sku] : null;
+                    {!items && <OptimisticHydratedCart />}
+                    {items &&
+                        items.map((item: CartItem, index: number) => {
                             return (
                                 <div
                                     key={index}
@@ -115,14 +97,21 @@ export const HydratedCart: React.FC = () => {
                                 >
                                     <div className="flex cart-item gap-3 items-center">
                                         <Image
-                                            {...item.variant.firstImage}
+                                            {...item?.images?.[0]}
                                             sizes="100px"
                                             loading="lazy"
                                             alt={item.variant.name}
                                         />
                                         <div className="flex flex-col">
                                             <p className="text-xl font-semibold w-full">{item.variant.name}</p>
-                                            <CartItemPrice item={item} saving={saving} />
+                                            <CartItemPrice
+                                                discount={item.price?.discounts}
+                                                variantPrice={
+                                                    //@ts-expect-error need to change the type of variantPrice
+                                                    item.variant?.price?.gross
+                                                }
+                                                total={item.price?.gross}
+                                            />
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-[40px] items-center justify-center gap-3">
@@ -163,18 +152,15 @@ export const HydratedCart: React.FC = () => {
                             );
                         })}
                     <div className="flex justify-between gap-5">
-                        <VoucherForm />
+                        <div></div>
+                        {/* <VoucherForm /> */}
                         <div>
                             {total && (
                                 <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
                                     <div className="flex text-grey3 text-sm justify-between w-60">
                                         <p>{_t('cart.discount')}</p>
                                         <CrystallizePrice currencyCode={contextState.currency.code}>
-                                            {total.discounts
-                                                ? total.discounts.reduce((memo: number, discount: any) => {
-                                                      return memo + (discount?.amount || 0)!;
-                                                  }, 0)
-                                                : 0}
+                                            {total.discounts ? calculateDiscounts(total.discounts) : 0}
                                         </CrystallizePrice>
                                     </div>
                                     <div className="flex text-grey3 text-sm justify-between w-60">
@@ -183,12 +169,12 @@ export const HydratedCart: React.FC = () => {
                                             {total.taxAmount}
                                         </CrystallizePrice>
                                     </div>
-                                    {voucher && voucher.code !== '' && (
-                                        <div className="flex text-grey3 text-sm justify-between w-60">
-                                            <p>{_t('cart.voucherCode')}</p>
-                                            <span>{voucher.code}</span>
-                                        </div>
-                                    )}
+                                    {/* {voucher && voucher.code !== "" && (
+										<div className="flex text-grey3 text-sm justify-between w-60">
+											<p>{_t("cart.voucherCode")}</p>
+											<span>{voucher.code}</span>
+										</div>
+									)} */}
                                     <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
                                         <p>{_t('cart.toPay')}</p>
                                         <CrystallizePrice currencyCode={contextState.currency.code}>

@@ -86,6 +86,7 @@ export const hydrateCart = async (
         return cart.hydrate;
     } catch (exception: any) {
         console.error('Failed to update cart', exception.message);
+        throw exception;
     }
 };
 

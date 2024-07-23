@@ -1,5 +1,4 @@
 import { ClientInterface } from '@crystallize/js-api-client';
-import { fetchCart } from '../crystallize/read/fetchCart';
 import { hydrateCart } from '../crystallize/write/editCart';
 
 type Deps = {
@@ -8,7 +7,6 @@ type Deps = {
 
 export default async (body: any, { apiClient }: Deps, markets?: string[]) => {
     const cartId = body?.cartId;
-    const cart = cartId ? await fetchCart(cartId, { apiClient }) : undefined;
 
     const localCartItems = body?.items?.map((item: any) => ({
         sku: item.sku,
@@ -16,10 +14,17 @@ export default async (body: any, { apiClient }: Deps, markets?: string[]) => {
     }));
 
     if (cartId) {
-        return await hydrateCart(localCartItems, { apiClient }, cartId, markets);
+        try {
+            return await hydrateCart(localCartItems, { apiClient }, cartId, markets);
+        } catch (error: any) {
+            if (error.message.includes('placed')) {
+                console.log('Cart has been placed, creating a new one');
+                return await hydrateCart(localCartItems, { apiClient }, undefined, markets);
+            }
+            throw error;
+        }
     }
-
-    if (!cartId || cart?.state === 'placed') {
-        return await hydrateCart(localCartItems, { apiClient }, '', markets);
+    if (!cartId) {
+        return await hydrateCart(localCartItems, { apiClient }, undefined, markets);
     }
 };

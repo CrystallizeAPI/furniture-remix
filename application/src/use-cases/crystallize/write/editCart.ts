@@ -47,6 +47,14 @@ export const hydrateCart = async (
                     variant: {
                         name: true,
                         sku: true,
+                        price: {
+                            net: true,
+                            gross: true,
+                            taxAmount: true,
+                            discounts: {
+                                amount: true,
+                            },
+                        },
                     },
                     price: {
                         net: true,

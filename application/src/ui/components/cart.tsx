@@ -220,6 +220,12 @@ export const OptimisticHydratedCart: React.FC = () => {
                                 <CrystallizePrice currencyCode={contextState.currency.code}>
                                     {item.price}
                                 </CrystallizePrice>
+                                <div>
+                                    {_t('total')}:{' '}
+                                    <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        {item.price * item.quantity}
+                                    </CrystallizePrice>
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-col w-[40px] items-center justify-center gap-3">
@@ -245,20 +251,32 @@ export const OptimisticHydratedCart: React.FC = () => {
                     </div>
                 );
             })}
-            <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
-                <div className="flex text-grey3 text-sm justify-between w-60">
-                    <p>{_t('cart.discount')}</p>
-                    <div className="loader" />
-                </div>
-                <div className="flex text-grey3 text-sm justify-between w-60">
-                    <p>{_t('cart.taxAmount')}</p>
-                    <div className="loader" />
-                </div>
-                <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
-                    <p>{_t('cart.toPay')}</p>
-                    <p>
-                        <CrystallizePrice currencyCode={contextState.currency.code}>{total}</CrystallizePrice>
-                    </p>
+            <div className="flex justify-between gap-5">
+                <div></div>
+                {/* <VoucherForm /> */}
+                <div>
+                    {total && (
+                        <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
+                            <div className="flex text-grey3 text-sm justify-between w-60">
+                                <p>{_t('cart.discount')}</p>
+                                <div className="loader" />
+                            </div>
+                            <div className="flex text-grey3 text-sm justify-between w-60">
+                                <p>{_t('cart.taxAmount')}</p>
+                                <div className="loader" />
+                            </div>
+                            {/* {voucher && voucher.code !== "" && (
+										<div className="flex text-grey3 text-sm justify-between w-60">
+											<p>{_t("cart.voucherCode")}</p>
+											<span>{voucher.code}</span>
+										</div>
+									)} */}
+                            <div className="flex font-bold mt-2 text-lg justify-between w-60 items-end">
+                                <p>{_t('cart.toPay')}</p>
+                                <CrystallizePrice currencyCode={contextState.currency.code}>{total}</CrystallizePrice>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

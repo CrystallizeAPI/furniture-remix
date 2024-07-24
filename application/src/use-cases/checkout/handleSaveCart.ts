@@ -13,18 +13,13 @@ export default async (body: any, { apiClient }: Deps, markets?: string[]) => {
         quantity: item.quantity,
     }));
 
-    if (cartId) {
-        try {
-            return await hydrateCart(localCartItems, { apiClient }, cartId, markets);
-        } catch (error: any) {
-            if (error.message.includes('placed')) {
-                console.log('Cart has been placed, creating a new one');
-                return await hydrateCart(localCartItems, { apiClient }, undefined, markets);
-            }
-            throw error;
+    try {
+        return await hydrateCart(localCartItems, { apiClient }, cartId, markets);
+    } catch (error: any) {
+        if (error.message.includes('placed')) {
+            console.log('Cart has been placed, creating a new one');
+            return await hydrateCart(localCartItems, { apiClient }, undefined, markets);
         }
-    }
-    if (!cartId) {
-        return await hydrateCart(localCartItems, { apiClient }, undefined, markets);
+        throw error;
     }
 };

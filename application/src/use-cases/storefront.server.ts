@@ -5,6 +5,7 @@ import {
     createFilesystemAdapter,
     createMemoryAdapter,
     TStoreFrontConfig,
+    TStoreFront,
 } from '@crystallize/js-storefrontaware-utils';
 import { configureStorage } from './storage.server';
 import {
@@ -19,6 +20,16 @@ import { CreateClientOptions } from '@crystallize/js-api-client';
 const storage = configureStorage(`${process.env?.STORAGE_DSN}`, {
     prefix: 'superfast-',
 });
+
+declare global {
+    var __api_clients: Record<
+        string,
+        {
+            shared: TStoreFront;
+            secret: TStoreFront;
+        }
+    >;
+}
 
 export const getStoreFront = async (hostname: string) => {
     const adapter = (() => {
@@ -98,11 +109,17 @@ export const getStoreFront = async (hostname: string) => {
           }
         : undefined;
 
-    const [shared, secret] = await Promise.all([
-        createStoreFront(adapter, false, createClientOptions),
-        createStoreFront(adapter, true, createClientOptions),
-    ]);
-    return { shared, secret };
+    if (!globalThis.__api_clients) {
+        globalThis.__api_clients = {};
+    }
+    if (!globalThis.__api_clients[hostname]) {
+        const [shared, secret] = await Promise.all([
+            createStoreFront(adapter, false, createClientOptions),
+            createStoreFront(adapter, true, createClientOptions),
+        ]);
+        globalThis.__api_clients[hostname] = { shared, secret };
+    }
+    return globalThis.__api_clients[hostname];
 };
 
 /**

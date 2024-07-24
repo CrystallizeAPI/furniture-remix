@@ -24,15 +24,26 @@ export function useRemoteCart(): RemoteCart {
                 language: appContextState.language,
                 serviceApiUrl: appContextState.serviceApiUrl,
             });
-            const cartWrapper = await api.fetchRemoteCart(cart);
-            if (cart.cartId !== cartWrapper.id || cart.state !== cartWrapper.state) {
-                setWrappingData(cartWrapper.id, cartWrapper.state);
+            let resolvedFrom: string;
+            const updateCartInfo = (cartInfo: any, from: string) => {
+                if (resolvedFrom === 'fetchRemoteCart') {
+                    return;
+                }
+                resolvedFrom = from;
+                if (cart.cartId !== cartInfo.id || cart.state !== cartInfo.state) {
+                    setWrappingData(cartInfo.id, cartInfo.state);
+                }
+                setState({
+                    ...state,
+                    loading: false,
+                    hydratedCart: cartInfo,
+                });
+            };
+
+            if (cart.cartId) {
+                api.fetchCart(cart.cartId).then((info) => updateCartInfo(info, 'fetchCart'));
             }
-            setState({
-                ...state,
-                loading: false,
-                hydratedCart: cartWrapper,
-            });
+            api.fetchRemoteCart(cart).then((info) => updateCartInfo(info, 'fetchRemoteCart'));
         })();
     }, [cart]);
 

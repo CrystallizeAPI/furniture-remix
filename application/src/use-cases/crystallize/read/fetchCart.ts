@@ -29,6 +29,7 @@ export const fetchCart = async (cartId: string, { apiClient }: Deps): Promise<Ca
                         taxAmount: true,
                         discounts: {
                             amount: true,
+                            percent: true,
                         },
                     },
                 },

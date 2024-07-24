@@ -53,6 +53,7 @@ export const hydrateCart = async (
                             taxAmount: true,
                             discounts: {
                                 amount: true,
+                                percent: true,
                             },
                         },
                     },
@@ -62,6 +63,7 @@ export const hydrateCart = async (
                         taxAmount: true,
                         discounts: {
                             amount: true,
+                            percent: true,
                         },
                     },
                     images: {
@@ -77,6 +79,7 @@ export const hydrateCart = async (
                     taxAmount: true,
                     discounts: {
                         amount: true,
+                        percent: true,
                     },
                     currency: true,
                 },

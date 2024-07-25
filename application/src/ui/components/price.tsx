@@ -94,35 +94,36 @@ export const CartItemPrice: React.FC<{
     } = state;
 
     return (
-        <div className="flex flex-col ">
-            {discount && discount.length > 0 && (
-                <div className="flex flex-col">
-                    <span className="line-through font-semibold pt-1 text-xs">
-                        <CrystallizePrice currencyCode={currencyCode}>
-                            {total + calculateDiscounts(discount)}
-                        </CrystallizePrice>
-                    </span>
-                    <div className="text-sm text-green2">
-                        <span>{_t('cart.discount')}:</span>
-                        {discount.map((d, index) => (
-                            <div key={index} className="text-sm flex gap-2 items-center">
-                                <CrystallizePrice currencyCode={currencyCode}>{d.amount}</CrystallizePrice>
-                                {d.percent && (
-                                    <div className="text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-medium">
-                                        {d.percent.toFixed(0)}%
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            <div className="text-md flex flex-col">
+        <div className="flex flex-col">
+            <div className="text-md flex flex-col min-h-[50px]">
                 <CrystallizePrice currencyCode={currencyCode}>{variantPrice}</CrystallizePrice>
                 <div>
                     {_t('total')}: <CrystallizePrice currencyCode={currencyCode}>{total}</CrystallizePrice>
                 </div>
+            </div>
+            <div className="min-h-[50px]">
+                {discount && discount.length > 0 && (
+                    <div className="flex flex-col">
+                        <span className="line-through font-semibold pt-1 text-xs">
+                            <CrystallizePrice currencyCode={currencyCode}>
+                                {total + calculateDiscounts(discount)}
+                            </CrystallizePrice>
+                        </span>
+                        <div className="text-sm text-green2 flex gap-2 items-center">
+                            <span>{_t('cart.discount')}:</span>
+                            {discount.map((d, index) => (
+                                <div key={index} className="text-sm flex gap-2 items-center">
+                                    <CrystallizePrice currencyCode={currencyCode}>{d.amount}</CrystallizePrice>
+                                    {d.percent && (
+                                        <div className="text-sm py-1 px-2 h-[26px] rounded-md bg-[#efefef] font-medium">
+                                            {d.percent.toFixed(0)}%
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -138,15 +139,13 @@ export const CartItemPriceSkeleton: React.FC<{
     } = state;
     return (
         <div className="flex flex-col gap-1">
-            <div className="animate-pulse bg-[#efefef] h-1 w-24 mt-2"></div>
-            <span className="text-green2 text-sm">{_t('cart.discount')}:</span>
-            <div className="animate-pulse bg-[#efefef] h-4 w-24 "></div>
-            <div className="text-md flex flex-col gap-1">
+            <div className="text-md flex flex-col min-h-[50px]">
                 <CrystallizePrice currencyCode={currencyCode}>{price}</CrystallizePrice>
-                <div className="flex items-center gap-2">
+                <div>
                     {_t('total')}: <CrystallizePrice currencyCode={currencyCode}>{price * quantity}</CrystallizePrice>
                 </div>
             </div>
+            <div className="min-h-[50px]"></div>
         </div>
     );
 };

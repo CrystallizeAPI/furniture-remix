@@ -85,7 +85,7 @@ export const HydratedCart: React.FC = () => {
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col gap-3 min-h-[200px] ">
+                <div className="flex flex-col gap-3 min-h-[250px] ">
                     {isImmutable() && <CloneCartBtn />}
                     {!items && <OptimisticHydratedCart />}
                     {items &&
@@ -93,9 +93,9 @@ export const HydratedCart: React.FC = () => {
                             return (
                                 <div
                                     key={index}
-                                    className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg "
+                                    className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg min-h-[200px]"
                                 >
-                                    <div className="flex cart-item gap-3 items-center">
+                                    <div className="flex cart-item gap-3">
                                         <Image
                                             {...item?.images?.[0]}
                                             sizes="100px"
@@ -157,16 +157,16 @@ export const HydratedCart: React.FC = () => {
                         {/* <VoucherForm /> */}
                         <div>
                             {total && (
-                                <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
+                                <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end mb-10">
                                     <div className="flex text-grey3 text-sm justify-between w-60">
                                         <p>{_t('cart.discount')}</p>
-                                        <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        <CrystallizePrice currencyCode={contextState.currency.code} className="h-4">
                                             {total.discounts ? calculateDiscounts(total.discounts) : 0}
                                         </CrystallizePrice>
                                     </div>
                                     <div className="flex text-grey3 text-sm justify-between w-60">
                                         <p>{_t('cart.taxAmount')}</p>
-                                        <CrystallizePrice currencyCode={contextState.currency.code}>
+                                        <CrystallizePrice currencyCode={contextState.currency.code} className="h-4">
                                             {total.taxAmount}
                                         </CrystallizePrice>
                                     </div>
@@ -187,7 +187,8 @@ export const HydratedCart: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-between mt-10">
+
+                <div className="flex justify-between">
                     <button className="bg-grey py-2 px-5 rounded-md text-center font-semibold">
                         <Link to={path('/')}>{_t('back')}</Link>
                     </button>
@@ -213,9 +214,12 @@ export const OptimisticHydratedCart: React.FC = () => {
                 const item = cart.items[sku as keyof typeof cart];
                 total += item.quantity * item.price;
                 return (
-                    <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg">
-                        <div className="flex cart-item gap-3 items-center">
-                            <Image src={item.image} alt={item.name} width={60} height={60} />
+                    <div
+                        key={index}
+                        className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg min-h-[200px]"
+                    >
+                        <div className="flex cart-item gap-3">
+                            <Image src={item.image} alt={item.name} width={60} height={60} loading="lazy" />
                             <div className="flex flex-col">
                                 <p className="text-xl font-semibold w-full">{item.name}</p>
                                 <CartItemPriceSkeleton price={item.price} quantity={item.quantity} />
@@ -249,14 +253,14 @@ export const OptimisticHydratedCart: React.FC = () => {
                 {/* <VoucherForm /> */}
                 <div>
                     {total && (
-                        <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end">
+                        <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end mb-10">
                             <div className="flex text-grey3 text-sm justify-between w-60">
                                 <p>{_t('cart.discount')}</p>
-                                <div className="loader" />
+                                <div className="animate-pulse bg-[#efefef] h-4 w-20 rounded-md" />
                             </div>
                             <div className="flex text-grey3 text-sm justify-between w-60">
                                 <p>{_t('cart.taxAmount')}</p>
-                                <div className="loader" />
+                                <div className="animate-pulse bg-[#efefef]  h-4 w-20 rounded-md" />
                             </div>
                             {/* {voucher && voucher.code !== "" && (
 										<div className="flex text-grey3 text-sm justify-between w-60">

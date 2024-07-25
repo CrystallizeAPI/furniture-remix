@@ -15,7 +15,7 @@ export const CheckoutCart: React.FC = () => {
     const { state: contextState, _t } = useAppContext();
     //const voucher = remoteCart?.extra?.voucher as Voucher | undefined;
     return (
-        <div className="lg:w-2/5 w-full">
+        <div className="lg:w-2/5 w-full py-2">
             <h1 className="font-bold text-2xl mt-10 mb-5">{_t('cart.yourCart')}</h1>
             {!items && <OptimisticHydratedCart />}
             {items &&
@@ -23,11 +23,17 @@ export const CheckoutCart: React.FC = () => {
                     return (
                         <div
                             key={index}
-                            className="mt-2 min-h-[60px] rounded-md flex justify-between bg-grey2 p-2 items-center"
+                            className="mt-2 min-h-[150px] rounded-md flex justify-between bg-grey2 p-2 items-center"
                         >
-                            <div className="flex cart-item gap-3 items-center">
+                            <div className="flex cart-item gap-3">
                                 <div className="img-container img-contain w-[60px] h-[60px]">
-                                    <Image {...item?.images?.[0]} sizes="100px" fallbackAlt={item.variant.name} />
+                                    <Image
+                                        {...item?.images?.[0]}
+                                        sizes="100px"
+                                        fallbackAlt={item.variant.name}
+                                        width={60}
+                                        height={60}
+                                    />
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-md font-regular w-full">
@@ -92,9 +98,9 @@ export const OptimisticHydratedCart: React.FC = () => {
                     return (
                         <div
                             key={index}
-                            className="mt-2 min-h-[60px] rounded-md flex justify-between bg-grey2 p-2 items-center"
+                            className="mt-2 min-h-[150px] rounded-md flex justify-between bg-grey2 p-2 items-center"
                         >
-                            <div className="flex cart-item gap-3 items-center">
+                            <div className="flex cart-item gap-3">
                                 <div className="img-container img-contain w-[60px] h-[60px]">
                                     <Image src={item.image} alt={item.name} width={60} height={60} />
                                 </div>
@@ -111,11 +117,11 @@ export const OptimisticHydratedCart: React.FC = () => {
                 <div className="flex flex-col gap-1  py-4 items-end">
                     <div className="flex text-grey3 text-sm justify-between w-60">
                         <p>{_t('cart.discount')}</p>
-                        <div className="loader" />
+                        <div className="animate-pulse bg-[#efefef]  h-4 w-20 rounded-md" />
                     </div>
                     <div className="flex text-grey3 text-sm justify-between w-60">
                         <p>{_t('cart.taxAmount')}</p>
-                        <div className="loader" />
+                        <div className="animate-pulse bg-[#efefef]  h-4 w-20 rounded-md" />
                     </div>
                     <div className="flex font-bold mt-2 text-lg justify-between w-60">
                         <p>{_t('cart.toPay')}</p>

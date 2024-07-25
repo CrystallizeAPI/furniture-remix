@@ -95,7 +95,6 @@ export const CartItemPrice: React.FC<{
 
     return (
         <div className="flex flex-col ">
-            {}
             {discount && discount.length > 0 && (
                 <div className="flex flex-col">
                     <span className="line-through font-semibold pt-1 text-xs">
@@ -123,6 +122,29 @@ export const CartItemPrice: React.FC<{
                 <CrystallizePrice currencyCode={currencyCode}>{variantPrice}</CrystallizePrice>
                 <div>
                     {_t('total')}: <CrystallizePrice currencyCode={currencyCode}>{total}</CrystallizePrice>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const CartItemPriceSkeleton: React.FC<{
+    price: number;
+    quantity: number;
+}> = ({ price, quantity }) => {
+    const { state, _t } = useAppContext();
+    const {
+        currency: { code: currencyCode },
+    } = state;
+    return (
+        <div className="flex flex-col gap-1">
+            <div className="animate-pulse bg-[#efefef] h-1 w-24 mt-2"></div>
+            <span className="text-green2 text-sm">{_t('cart.discount')}:</span>
+            <div className="animate-pulse bg-[#efefef] h-4 w-24 "></div>
+            <div className="text-md flex flex-col gap-1">
+                <CrystallizePrice currencyCode={currencyCode}>{price}</CrystallizePrice>
+                <div className="flex items-center gap-2">
+                    {_t('total')}: <CrystallizePrice currencyCode={currencyCode}>{price * quantity}</CrystallizePrice>
                 </div>
             </div>
         </div>

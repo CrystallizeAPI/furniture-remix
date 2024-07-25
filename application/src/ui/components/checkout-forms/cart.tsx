@@ -2,7 +2,7 @@ import { useRemoteCart } from '../../hooks/useRemoteCart';
 import { Image } from '@crystallize/reactjs-components';
 import { useAppContext } from '../../app-context/provider';
 import { Price } from '../../lib/pricing/pricing-component';
-import { CartItemPrice } from '../price';
+import { CartItemPrice, CartItemPriceSkeleton } from '../price';
 import { useLocalCart } from '../../hooks/useLocalCart';
 import { Price as CrystallizePrice } from '../../lib/pricing/pricing-component';
 import { ClientOnly } from '@crystallize/reactjs-hooks';
@@ -96,13 +96,13 @@ export const OptimisticHydratedCart: React.FC = () => {
                         >
                             <div className="flex cart-item gap-3 items-center">
                                 <div className="img-container img-contain w-[60px] h-[60px]">
-                                    <Image />
+                                    <Image src={item.image} alt={item.name} width={60} height={60} />
                                 </div>
                                 <div className="flex flex-col">
-                                    <p className="text-md font-regular w-full">{item.name}</p>
-                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {item.price}
-                                    </CrystallizePrice>
+                                    <p className="text-md font-regular w-full">
+                                        {item.name} x {item.quantity}
+                                    </p>
+                                    <CartItemPriceSkeleton price={item.price} quantity={item.quantity} />
                                 </div>
                             </div>
                         </div>

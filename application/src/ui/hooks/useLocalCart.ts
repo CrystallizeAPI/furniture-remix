@@ -53,6 +53,7 @@ export function useLocalCart() {
                 name: string;
                 sku: string;
                 price: number;
+                image: string;
             },
             quantity: number = 1,
         ) => {
@@ -67,6 +68,7 @@ export function useLocalCart() {
                     name: item.name,
                     price: item.price,
                     quantity: quantity,
+                    image: item.image,
                 };
             }
             update(cart);

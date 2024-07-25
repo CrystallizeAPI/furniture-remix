@@ -8,7 +8,7 @@ import { Image } from '@crystallize/reactjs-components';
 import trashIcon from '~/assets/trashIcon.svg';
 import { Price as CrystallizePrice } from '../lib/pricing/pricing-component';
 import { useAppContext } from '../app-context/provider';
-import { calculateDiscounts, CartItemPrice } from './price';
+import { calculateDiscounts, CartItemPrice, CartItemPriceSkeleton } from './price';
 import { CartItem } from '@crystallize/node-service-api-request-handlers';
 import { VoucherForm } from './voucher';
 import { Voucher } from '~/use-cases/contracts/Voucher';
@@ -123,6 +123,7 @@ export const HydratedCart: React.FC = () => {
                                                         sku: item.variant.sku,
                                                         name: item.variant.name!,
                                                         price: item.variant.price!,
+                                                        image: item.images?.[0]?.url || '',
                                                     });
                                                 }}
                                             >
@@ -212,20 +213,12 @@ export const OptimisticHydratedCart: React.FC = () => {
                 const item = cart.items[sku as keyof typeof cart];
                 total += item.quantity * item.price;
                 return (
-                    <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg ">
+                    <div key={index} className="flex justify-between bg-grey2 py-5 pr-10 pl-5 items-center rounded-lg">
                         <div className="flex cart-item gap-3 items-center">
-                            <Image />
+                            <Image src={item.image} alt={item.name} width={60} height={60} />
                             <div className="flex flex-col">
                                 <p className="text-xl font-semibold w-full">{item.name}</p>
-                                <CrystallizePrice currencyCode={contextState.currency.code}>
-                                    {item.price}
-                                </CrystallizePrice>
-                                <div>
-                                    {_t('total')}:{' '}
-                                    <CrystallizePrice currencyCode={contextState.currency.code}>
-                                        {item.price * item.quantity}
-                                    </CrystallizePrice>
-                                </div>
+                                <CartItemPriceSkeleton price={item.price} quantity={item.quantity} />
                             </div>
                         </div>
                         <div className="flex flex-col w-[40px] items-center justify-center gap-3">

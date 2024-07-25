@@ -5,6 +5,7 @@ export type LocalCart = {
             quantity: number;
             price: number;
             sku: string;
+            image: string;
         };
     };
     cartId: string;

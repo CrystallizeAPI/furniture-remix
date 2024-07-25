@@ -74,7 +74,14 @@ export default ({
                             {selectedVariant && (
                                 <div className="">
                                     <Price variant={selectedVariant} />
-                                    <AddToCartBtn pack={[{ variant: selectedVariant, quantity: 1 }]} />
+                                    <AddToCartBtn
+                                        pack={[
+                                            {
+                                                variant: selectedVariant,
+                                                quantity: 1,
+                                            },
+                                        ]}
+                                    />
                                 </div>
                             )}
                             <div className="bg-[#dfdfdf] h-[1px] mt-5" />
@@ -86,7 +93,7 @@ export default ({
                 {product.relatedItems && (
                     <div className="w-full border-t border-[#dfdfdf] pr-6 sm:pr-0">
                         <h2 className="font-bold mt-20 mb-4 text-xl">{_t('relatedProducts')}</h2>
-                        <div className="grid gap-5 grid-cols-2 grid md:grid-cols-4 lg:grid-cols-5 pb-5">
+                        <div className="grid gap-5 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 pb-5">
                             {product.relatedItems.map((item, index) => (
                                 <Product item={item} key={`${item.path}-${index}`} />
                             ))}

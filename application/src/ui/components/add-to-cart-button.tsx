@@ -36,6 +36,7 @@ export const AddToCartBtn: React.FC<{
                         packitem.variant.priceVariants.default.value
                             ? packitem.variant.priceVariants.default.priceFor.price
                             : packitem.variant.priceVariants.default.value,
+                    image: packitem.variant.images?.[0]?.url || '',
                 },
                 packitem.quantity,
             );

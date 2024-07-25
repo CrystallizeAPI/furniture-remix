@@ -78,12 +78,6 @@ export const HydratedCart: React.FC = () => {
             <div className="mt-10 rounded p-10  mx-auto">
                 <div className="flex mb-4 justify-between">
                     <h1 className="font-bold text-2xl">Cart</h1>
-                    {loading && (
-                        <div className="flex items-center">
-                            <span className="pr-2">{_t('loading')}...</span>
-                            <div className="loader" />
-                        </div>
-                    )}
                 </div>
                 <div className="flex flex-col gap-3 min-h-[250px]">
                     {isImmutable() && <CloneCartBtn />}

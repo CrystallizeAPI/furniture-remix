@@ -114,8 +114,14 @@ export const getStoreFront = async (hostname: string) => {
     }
     if (!globalThis.__api_clients[hostname]) {
         const [shared, secret] = await Promise.all([
-            createStoreFront(adapter, false, createClientOptions),
-            createStoreFront(adapter, true, createClientOptions),
+            createStoreFront(adapter, false, {
+                ...createClientOptions,
+                useHttp2: true,
+            }),
+            createStoreFront(adapter, true, {
+                ...createClientOptions,
+                useHttp2: true,
+            }),
         ]);
         globalThis.__api_clients[hostname] = { shared, secret };
     }

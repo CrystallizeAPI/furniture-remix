@@ -6,7 +6,6 @@ import fetchLandingPageToLandingPage from './API/fetchLandingPageToLandingPage';
 import fetchNavigationToTree from './API/fetchNavigationToTree';
 import fetchProductToProduct from './API/fetchProductToProduct';
 import fetchShopToShop from './API/fetchShopToShop';
-import fetchVoucherToVoucher from './API/fetchVoucherToVoucher';
 import fetchMetadataToMeta from './API/fetchMetadataToMeta';
 import searchByTopicProductToProductSlim from './API/searchByTopicProductToProductSlim';
 import searchProductToProductSlim from './API/searchProductToProductSlim';
@@ -40,7 +39,6 @@ export const DataMapper = (context?: DataMapperContext) => {
                 fetchNavigationToTree: fetchNavigationToTree,
                 searchByTopicProductToProductSlim: searchByTopicProductToProductSlim,
                 searchProductToProductSlim: searchProductToProductSlim,
-                fetchVoucherToVoucher: (voucher: any) => fetchVoucherToVoucher(voucher),
                 fetchMetadataToMeta: fetchMetadataToMeta,
             },
             Object: {

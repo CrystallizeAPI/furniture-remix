@@ -16,7 +16,6 @@ import searchOrderBy from './searchOrderBy';
 import searchOrderByPriceRange from './searchOrderByPriceRange';
 import { DataMapper } from '../../mapper';
 import fetchFolderWithChildren from './fetchFolderWithChildren';
-import fetchVoucher from './fetchVoucher';
 import fetchMetadata from './fetchMetadata';
 import fetchShapeIdentifier from './fetchShapeIdentifier';
 
@@ -68,8 +67,6 @@ export const CrystallizeAPI = ({
             fetchFooter(apiClient, path, version, language).then(mapper.API.Call.fetchFooterToFooter),
         fetchMetadata: (path: string) =>
             fetchMetadata(apiClient, path, language).then(mapper.API.Call.fetchMetadataToMeta),
-        fetchVoucher: (code: string) =>
-            fetchVoucher(apiClient, language, version, code).then(mapper.API.Call.fetchVoucherToVoucher),
         fetchPriceRangeAndAttributes: (path: string) => fetchPriceRangeAndAttributes(apiClient, path),
         search: (value: string) => search(apiClient, value, language).then(mapper.API.Call.searchProductToProductSlim),
         searchOrderBy: (path: string, orderBy?: any, filters?: any, attributes?: any) =>

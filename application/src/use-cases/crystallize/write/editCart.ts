@@ -16,6 +16,7 @@ export const hydrateCart = async (
     { apiClient }: Deps,
     cartId?: string,
     markets?: string[],
+    voucherCode?: string,
 ): Promise<Cart | undefined> => {
     const input: Input = {
         items: items,
@@ -26,6 +27,7 @@ export const hydrateCart = async (
                 selectedVariantIdentifier: 'sales',
                 fallbackVariantIdentifiers: ['default'],
                 compareAtVariantIdentifier: 'default',
+                voucherCode,
             },
         },
     };

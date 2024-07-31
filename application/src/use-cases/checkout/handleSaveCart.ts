@@ -13,7 +13,7 @@ export default async (body: any, { apiClient }: Deps, markets?: string[]) => {
         quantity: item.quantity,
     }));
 
-    const voucher = body.extra?.voucher.toUpperCase() || '';
+    const voucher = body.extra?.voucher?.toUpperCase() || '';
 
     try {
         return await hydrateCart(localCartItems, { apiClient }, cartId, markets, voucher);

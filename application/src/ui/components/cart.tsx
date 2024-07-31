@@ -246,7 +246,7 @@ export const OptimisticHydratedCart: React.FC = () => {
             })}
             <div className="flex justify-between gap-5">
                 <div></div>
-                {/* <VoucherForm /> */}
+                <VoucherForm />
                 <div>
                     {total && (
                         <div className="flex flex-col gap-2 border-b-2 border-grey4 py-4 items-end mb-10">

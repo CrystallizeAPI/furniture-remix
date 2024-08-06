@@ -11,4 +11,8 @@ export type Image = {
         url: string;
     }>;
     caption?: RichTextContent;
+    focalPoint?: {
+        x: number;
+        y: number;
+    };
 };

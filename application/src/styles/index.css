@@ -231,12 +231,12 @@
         width: 50%;
     }
 
-    .frntr-grid {
-    }
-
     .frntr-grid .crystallize-grid {
         display: grid;
         gap: 20px;
+    }
+    .frntr-grid .crystallize-grid .img-container {
+        height: 100% !important;
     }
     .splide {
     }
@@ -352,7 +352,6 @@
         margin: 0 0 0 auto;
         border-top-left-radius: 8px;
     }
-
     .img-container-currated figure,
     .img-container-currated picture {
         height: 100% !important;

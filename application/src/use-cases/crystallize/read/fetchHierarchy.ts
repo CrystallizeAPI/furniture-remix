@@ -56,7 +56,12 @@ export default async (apiClient: ClientInterface, path: string, language: string
                                 },
                                 firstImage: {
                                     altText: true,
+                                    focalPoint: {
+                                        x: true,
+                                        y: true,
+                                    },
                                     variants: {
+                                        height: true,
                                         width: true,
                                         url: true,
                                     },

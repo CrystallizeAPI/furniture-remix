@@ -33,7 +33,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                     -{discountPercentage}%
                 </div>
             )}
-            <div className="img-container img-contain img-border border-solid border border-[#dfdfdf] aspect-[3/4] bg-[#fff] rounded-md h-full overflow-hidden grow-1">
+            <div className="bg-[#fff] rounded-md overflow-hidden img-container img-cover h-[300px] aspect-[3/4]">
                 {item.variant.images[0] ? (
                     <Image
                         {...item.variant.images[0]}
@@ -41,11 +41,21 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                         loading="lazy"
                         fallbackAlt={item.name}
                         key={item.name}
+                        style={{
+                            objectPosition: item.variant.images[0].focalPoint
+                                ? `${item.variant.images[0].focalPoint.x * 100}% ${
+                                      item.variant.images[0].focalPoint.y * 100
+                                  }%`
+                                : 'center',
+                            height: '100%',
+                            width: '100%',
+                        }}
                     />
                 ) : (
                     <img src={PlaceholderImg} alt={item.name} width="100" height="100" />
                 )}
             </div>
+
             <div className="pl-1">
                 <p className="text-md line-clamp-2 overflow-hidden">{item.name}</p>
             </div>

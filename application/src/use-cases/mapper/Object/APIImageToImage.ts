@@ -1,7 +1,14 @@
 import { Image as APIImage } from '@crystallize/js-api-client';
 import { Image } from '../../contracts/Image';
 
-export default (images?: APIImage[]): Image[] => {
+type APIImageWithFocalPoint = APIImage & {
+    focalPoint?: {
+        x: number;
+        y: number;
+    };
+};
+
+export default (images?: APIImageWithFocalPoint[]): Image[] => {
     return (
         images?.map((image) => {
             return {
@@ -18,6 +25,7 @@ export default (images?: APIImage[]): Image[] => {
                         };
                     }) || [],
                 caption: image.caption || {},
+                focalPoint: image?.focalPoint,
             };
         }) || []
     );

@@ -521,8 +521,6 @@ query ($language: String!, $path: String!, $version: VersionLabel, $marketIdenti
                         number
                         unit
                       }
-
-                      
                       ... on ItemRelationsContent {
                         items {
                           name

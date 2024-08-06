@@ -316,6 +316,10 @@ query ($language: String!, $path: String!, $version: VersionLabel, $marketIdenti
                                 images {
                                     url
                                     altText
+                                    focalPoint {
+                                        x
+                                        y
+                                    }
                                     variants {
                                       url
                                       width

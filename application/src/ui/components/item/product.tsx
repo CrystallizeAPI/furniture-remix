@@ -35,7 +35,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                     -{discountPercentage}%
                 </div>
             )}
-            <div className="focal-point-container bg-[#fff] rounded-md overflow-hidden h-[300px] aspect-[3/4]">
+            <div className="focal-point-container bg-[#fff] rounded-md overflow-hidden h-[300px] aspect-[3/4] relative">
                 {item.variant.images[0] ? (
                     <Image
                         {...item.variant.images[0]}

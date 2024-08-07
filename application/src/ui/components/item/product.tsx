@@ -21,6 +21,8 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
     );
     const attributesKeys = Object.keys(item.variant.attributes ?? {});
 
+    const focalPoint = item.variant.images[0]?.focalPoint;
+
     return (
         <Link
             to={path(item.path)}
@@ -33,7 +35,7 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                     -{discountPercentage}%
                 </div>
             )}
-            <div className="bg-[#fff] rounded-md overflow-hidden img-container img-cover h-[300px] aspect-[3/4]">
+            <div className="focal-point-container bg-[#fff] rounded-md overflow-hidden h-[300px] aspect-[3/4]">
                 {item.variant.images[0] ? (
                     <Image
                         {...item.variant.images[0]}
@@ -42,13 +44,8 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
                         fallbackAlt={item.name}
                         key={item.name}
                         style={{
-                            objectPosition: item.variant.images[0].focalPoint
-                                ? `${item.variant.images[0].focalPoint.x * 100}% ${
-                                      item.variant.images[0].focalPoint.y * 100
-                                  }%`
-                                : 'center',
-                            height: '100%',
-                            width: '100%',
+                            '--crop-focus-x': focalPoint ? focalPoint.x : 0.5,
+                            '--crop-focus-y': focalPoint ? focalPoint.y : 0.5,
                         }}
                     />
                 ) : (

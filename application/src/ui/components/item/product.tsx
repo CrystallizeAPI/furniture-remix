@@ -23,9 +23,11 @@ export const Product: React.FC<{ item: ProductSlim }> = ({ item }) => {
 
     const focalPoint = item.variant.images[0]?.focalPoint;
 
+    const skuPath = item.variant.sku ? `?sku=${item.variant.sku}` : '';
+
     return (
         <Link
-            to={path(item.path)}
+            to={path(`${item.path}${skuPath}`)}
             data-testid="product-link"
             prefetch="intent"
             className="grid grid-rows-[1fr_minmax(25px_50px)_40px] place-items-stretch w-full min-h-full justify-stretch items-stretch relative product-link"
